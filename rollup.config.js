@@ -5,7 +5,6 @@ import svelte from 'rollup-plugin-svelte';
 import babel from 'rollup-plugin-babel';
 import { terser } from 'rollup-plugin-terser';
 import sveltePreprocess from 'svelte-preprocess';
-
 import config from 'sapper/config/rollup.js';
 import pkg from './package.json';
 
@@ -13,9 +12,7 @@ const mode = process.env.NODE_ENV;
 const dev = mode === 'development';
 const legacy = !!process.env.SAPPER_LEGACY_BUILD;
 
-const onwarn = (warning, onwarn) =>
-  (warning.code === 'CIRCULAR_DEPENDENCY' && /[/\\]@sapper[/\\]/.test(warning.message)) ||
-  onwarn(warning);
+const onwarn = (warning, onwarn) => (warning.code === 'CIRCULAR_DEPENDENCY' && /[/\\]@sapper[/\\]/.test(warning.message)) || onwarn(warning);
 const dedupe = importee => importee === 'svelte' || importee.startsWith('svelte/');
 
 const preprocess = sveltePreprocess({
@@ -32,10 +29,10 @@ export default {
         'process.env.NODE_ENV': JSON.stringify(mode)
       }),
       svelte({
-        preprocess,
         dev,
         hydratable: true,
-        emitCss: true
+        emitCss: true,
+        preprocess
       }),
       resolve({
         browser: true,
@@ -43,34 +40,26 @@ export default {
       }),
       commonjs(),
 
-      legacy &&
-        babel({
-          extensions: ['.js', '.mjs', '.html', '.svelte'],
-          runtimeHelpers: true,
-          exclude: ['node_modules/@babel/**'],
-          presets: [
-            [
-              '@babel/preset-env',
-              {
-                targets: '> 0.25%, not dead'
-              }
-            ]
-          ],
-          plugins: [
-            '@babel/plugin-syntax-dynamic-import',
-            [
-              '@babel/plugin-transform-runtime',
-              {
-                useESModules: true
-              }
-            ]
-          ]
-        }),
+      legacy && babel({
+        extensions: ['.js', '.mjs', '.html', '.svelte'],
+        runtimeHelpers: true,
+        exclude: ['node_modules/@babel/**'],
+        presets: [
+          ['@babel/preset-env', {
+            targets: '> 0.25%, not dead'
+          }]
+        ],
+        plugins: [
+          '@babel/plugin-syntax-dynamic-import',
+          ['@babel/plugin-transform-runtime', {
+            useESModules: true
+          }]
+        ]
+      }),
 
-      !dev &&
-        terser({
-          module: true
-        })
+      !dev && terser({
+        module: true
+      })
     ],
 
     onwarn
@@ -85,9 +74,9 @@ export default {
         'process.env.NODE_ENV': JSON.stringify(mode)
       }),
       svelte({
-        preprocess,
         generate: 'ssr',
-        dev
+        dev,
+        preprocess
       }),
       resolve({
         dedupe

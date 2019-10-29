@@ -1,5 +1,4 @@
 <script>
-	import CssReset from './CssReset.svelte';
 </script>
 
 <style global>
@@ -17,6 +16,11 @@
 
 	html {
 		font-size: 62.5%; /* 1rem = 10px */
+		box-sizing: border-box;
+
+		* {
+			box-sizing: inherit;
+		}
 	}
 
 	body {
@@ -29,11 +33,8 @@
 		color: red;
 	}
 
-	p {
-
-	}
+	p {}
 </style>
 
 <span>
-	<CssReset />
 </span>

@@ -3,10 +3,10 @@
   "description": "TODO",
   "version": "0.0.1",
   "scripts": {
-    "start": "node __sapper__/build",
     "dev": "sapper dev",
     "build": "sapper build --legacy",
     "export": "sapper export --legacy",
+    "start": "node __sapper__/build",
     "cy:run": "cypress run",
     "cy:open": "cypress open",
     "test": "run-p --race dev cy:run"
@@ -29,7 +29,8 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
     "npm-run-all": "^4.1.5",
-    "postcss": "^7.0.17",
+    "postcss": "^7.0.21",
+    "postcss-load-config": "^2.1.0",
     "postcss-nested": "^4.1.2",
     "postcss-preset-env": "^6.7.0",
     "prettier": "1.18.2",
@@ -42,6 +43,6 @@
     "rollup-plugin-terser": "^4.0.4",
     "sapper": "^0.27.0",
     "svelte": "^3.0.0",
-    "svelte-preprocess": "^2.15.1"
+    "svelte-preprocess": "^3.2.0"
   }
 }
