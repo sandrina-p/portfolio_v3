@@ -1,15 +1,16 @@
 <script>
 import Container from './Container.svelte';
-import ProfileAscii from './ProfileAscii.svelte';
+// import ProfileAscii from './ProfileAscii.svelte';
 </script>
 
 <style>
-/* NOTE/BUG: Svelte currently doesn't support passing down CSS classes
-https://github.com/sveltejs/svelte/issues/2870#issuecomment-511251023 */
-:global(.introContainer) {
-    display: flex;
-    align-items: center;
-    min-height: var(--full-vh);
+.intro {
+  display: flex;
+  padding-left: 10rem;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  border: 5px solid red;
 }
 
 .title {
@@ -32,21 +33,21 @@ strong {
 }
 </style>
 
-<Container class="introContainer">
+<div class="intro">
   <div>
     <h1 class="title">
-      Hey,
-      <br/>nice to meet you!
+      Oh,
+      <br/>hello there!
     </h1>
-    <p class="text">Let me introduce you to a <strong>web lover</strong>
-      <br/> who helps turn ideas into accessible experiences.
+    <p class="text">Let me introduce you to somone who
+      <br/>helps turn ideas into accessible experiences.
     </p>
     <p class="text">
       Her name is <strong>Sandrina</strong>
-      <br/> and she’s a <strong>UX Developer</strong>
+      <br/> and she’s a <strong>Frontend Developer</strong>
     </p>
 
     <span>And I’m her cyber-alter-ego, 008080.</span>
   </div>
-  <ProfileAscii />
-</Container>
+  <!-- <ProfileAscii /> -->
+</div>
