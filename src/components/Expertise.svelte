@@ -4,9 +4,15 @@
 <style>
 .container {
   display: flex;
+  align-items: center;
+
+  h2, h3 {
+    font-size: 10rem;
+  }
 
   > * {
-    width: 50vw;
+    width: 100vw;
+    border: 1px solid yellow;
   }
 }
 </style>

@@ -1,18 +1,8 @@
 <script>
-	import UiFoundations from '../components/UiFoundations.svelte';
-
-	// import Nav from '../components/Nav.svelte';
-
-	// export let segment;
+  import UiFoundations from '../components/UiFoundations.svelte';
 </script>
 
 <UiFoundations />
-
-<!-- <Nav {segment}/> -->
-
 <main>
-	<slot></slot>
+  <slot />
 </main>
-
-<style>
-</style>

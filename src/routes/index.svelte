@@ -1,55 +1,70 @@
 <script>
-	import { onMount, afterUpdate } from 'svelte';
-	import Intro from '../components/Intro.svelte';
-	import Values from '../components/Expertise.svelte';
-	import Nav from '../components/Nav.svelte';
+  import { onMount, afterUpdate } from 'svelte';
+  import Intro from '../components/Intro.svelte';
+  import Values from '../components/Expertise.svelte';
+  import Nav from '../components/Nav.svelte';
 
-	let elDoc;
-	let translateX = 0;
-	let elHorizon;
+  let translateX = 0;
+  let elHorizon;
+  let elHorizonAfter;
+  let marginTop = '100vh';
 
-	onMount(() => {
-		console.log('hum', elHorizon.offsetWidth);
-		elDoc = document.documentElement
-		document.body.style.height = `${elHorizon.offsetWidth}px`;
-
-		document.addEventListener('scroll', () => {
-			translateX = elDoc.scrollTop
-		})
-	});
-
-	afterUpdate(() => {
-		console.log('the component just updated', elHorizon);
-	});
+  onMount(() => {
+    // OPTIMIZE: Recalculate these values on resize.
+    const horizonWidth = elHorizon.offsetWidth;
+    const screenHeight = window.innerHeight;
+    const screenWidth = window.innerWidth;
+    marginTop = `${horizonWidth - (screenWidth - screenHeight)}px`;
+    document.addEventListener('scroll', () => {
+      translateX = window.scrollY;
+    });
+  });
 </script>
 
 <style>
-.panel {
-	position: fixed;
-	top: 0; left: 0;
-	display: grid; /* make it grow horizontally */
-	width: 100vw;
-	height: 100vh;
-	overflow: hidden;
-	border: 5px solid blue;
-}
+  .panel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: grid; /* make it grow horizontally */
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+  }
 
-.horizon {
-	display: flex;
-}
+  .horizon {
+    display: flex;
+  }
+
+  .horizonAfter {
+    position: relative;
+    margin-top: 100vh;
+  }
+
+  .sketch {
+    height: 80vh;
+    border: 2px solid green;
+    font-size: 15rem;
+    padding: 10vw;
+  }
 </style>
 
 <svelte:head>
-	<title>Sandrina Pereira - UX Developer</title>
+  <title>Sandrina Pereira - UX Developer</title>
 </svelte:head>
 
 <div class="panel">
-	<div class="horizon"
-		bind:this={elHorizon}
-		style="transform: translateX(-{translateX}px)">
-		<Intro />
-		<Values />
-	</div>
+  <div class="horizon" bind:this={elHorizon} style="transform: translateX(-{translateX}px)">
+    <Intro />
+    <Values />
+  </div>
+</div>
+<div class="horizonAfter" style="margin-top: {marginTop}">
+  <div class="sketch">Share Ideas</div>
+  <div class="sketch">Push Pixels Around</div>
+  <div class="sketch">Superpowers</div>
+  <div class="sketch">You came so far...</div>
+  <div class="sketch">That's all for now! [Chat]</div>
 </div>
 <Nav />
 
