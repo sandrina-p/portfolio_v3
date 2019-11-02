@@ -10,6 +10,8 @@
     --primary_1: #fb6177;
     --font-M: 1.6rem;
     --font-L: 1.8rem;
+    --font-heading_1: 8rem;
+    --font-heading_2: 5rem;
     --spacer-S: 0.8rem;
     --spacer-M: 1.6rem;
     --spacer-L: 3.2rem;
@@ -46,6 +48,11 @@
     overflow: hidden;
     clip: rect(0, 0, 0, 0);
     border: 0;
+  }
+
+  .f-mono {
+    font-family: 'PFDin', monospace;
+    line-height: 1.2;
   }
 </style>
 
