@@ -8,6 +8,7 @@ Here's a list of my learnings while building this website.
 - Svelte converts wild cards to .classes `.container > *` outputs `.container > .child`
 - Question: When should export a variable? Docs don't explain it... Edit: export is a variable??
 - Use dynamic + static classes: `class="icon {svg}"`
+- You don't need to worry about extra updates with useless setState() as in React. (ex: Values s3 title)
 
 ## Javascript
 

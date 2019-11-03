@@ -1,25 +1,40 @@
 <script>
-  import { onMount } from 'svelte';
-  let s3Title;
+  import { onMount, afterUpdate } from 'svelte';
+  const sectionsCount = 4;
+  let s3Y = 0;
 
   onMount(() => {
-    setTimeout(() => {
-      window.scroll(0, 3500); // easier debug
-    }, 250);
-    console.log(s3Title);
-
-    /*
-    // TODO - animate title using scroll, scroll/s3
-    - s3 position: values.width / sectionsCount * 3
-    - use translateX(10px) as it scrolls
-    - stop translateX when outside of viewport.
-    - custom IO... shrug
-    */
+    // if desktop
     listenForS3();
+
+    setTimeout(() => {
+      window.scroll(0, 3000); // easier debug
+    }, 250);
+  });
+
+  afterUpdate(() => {
+    console.log('update');
   });
 
   function listenForS3() {
-    console.log('hum');
+    const sectionsWidth = window.innerWidth * 4;
+    const width = 600;
+    // // start animation at middle of screen
+    const startPosition = window.innerWidth * 2.5 + width / 3;
+    const Ylimit = 85 * 2;
+
+    document.addEventListener('scroll', () => {
+      const scrollY = window.scrollY;
+      const translate = scrollY - startPosition;
+
+      if (translate >= 0 && translate <= Ylimit) {
+        s3Y = translate / 2;
+      } else if (translate < 0) {
+        s3Y = 0;
+      } else if (translate > Ylimit) {
+        s3Y = Ylimit / 2;
+      }
+    });
   }
 </script>
 
@@ -85,8 +100,33 @@
       transform: translateY(-50%);
 
       &-part {
+        position: relative;
         display: block;
         background-color: var(--bg);
+
+        &:first-child {
+          &::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background-color: var(--primary_1);
+          }
+        }
+
+        &:last-child {
+          &::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background-color: var(--primary_1);
+          }
+        }
       }
     }
 
@@ -115,9 +155,9 @@
     </p>
   </div>
   <div class="s3">
-    <h3 class="f-mono subtitle s3-title" bind:this={s3Title}>
-      <span class="s3-title-part">Ask how,</span>
-      <span class="s3-title-part">understand why</span>
+    <h3 class="f-mono subtitle s3-title">
+      <span class="s3-title-part" style="transform: translateY(-{s3Y}px)">Ask how,</span>
+      <span class="s3-title-part" style="transform: translateY({s3Y}px)">understand why</span>
     </h3>
     <p class="c-text s3-text">
       You’ll see Sandrina asking a lot of questions around. Wanna create a simple but detailed

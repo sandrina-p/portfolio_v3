@@ -1,5 +1,5 @@
 <script>
-  import { onMount, afterUpdate } from 'svelte';
+  import { onMount } from 'svelte';
   import Intro from '../components/Intro.svelte';
   import Values from '../components/Values.svelte';
   import Nav from '../components/Nav.svelte';
