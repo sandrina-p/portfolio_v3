@@ -8,10 +8,12 @@
     --text_1: #899bb1; /* text over bg with 0.6 opacity and some light... */
     --bg: #0d1722;
     --primary_1: #fb6177;
+    --primary_2: #6e2c35;
     --font-M: 1.6rem;
     --font-L: 1.8rem;
+    --font-XL: 2.6rem;
     --font-heading_1: 8rem;
-    --font-heading_2: 5rem;
+    --font-heading_2: 6rem;
     --spacer-S: 0.8rem;
     --spacer-M: 1.6rem;
     --spacer-L: 3.2rem;

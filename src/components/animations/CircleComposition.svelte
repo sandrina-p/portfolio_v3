@@ -17,7 +17,7 @@
     --fill: rgba(251, 97, 119, 0.07);
     --distance: 45vw;
     position: absolute;
-    top: 50%;
+    top: calc(50% - 7.5vh); /* 7.5vh = half top padding */
     left: 0;
     transform: translate(0, -50%);
     height: var(--size);

@@ -2,7 +2,12 @@
   import { onMount } from 'svelte';
   import Intro from '../components/Intro.svelte';
   import Values from '../components/Values.svelte';
+  import Words from '../components/Words.svelte';
+  import Tools from '../components/Tools.svelte';
+  import Journey from '../components/Journey.svelte';
+  import Footer from '../components/Footer.svelte';
   import Nav from '../components/Nav.svelte';
+  import { getInLimit } from '../utils';
 
   let translateX = 0;
   let elHorizon;
@@ -14,9 +19,12 @@
     const horizonWidth = elHorizon.offsetWidth;
     const screenHeight = window.innerHeight;
     const screenWidth = window.innerWidth;
-    marginTop = `${horizonWidth - (screenWidth - screenHeight)}px`;
+    // OPTIMIZE: review these calcs...
+    const maxScroll = horizonWidth - (screenWidth - screenHeight);
+    const maxScroll2 = maxScroll + (screenWidth - screenHeight);
+    marginTop = `${maxScroll + screenHeight}px`; // OPTIMIZE - define a marginTop from SS
     document.addEventListener('scroll', () => {
-      translateX = window.scrollY;
+      translateX = getInLimit(window.scrollY, 0, maxScroll2);
     });
   });
 </script>
@@ -40,13 +48,6 @@
     position: relative;
     margin-top: 100vh;
   }
-
-  .sketch {
-    height: 80vh;
-    border: 2px solid green;
-    font-size: 15rem;
-    padding: 10vw;
-  }
 </style>
 
 <svelte:head>
@@ -60,11 +61,10 @@
   </div>
 </div>
 <div class="horizonAfter" style="margin-top: {marginTop}">
-  <div class="sketch">Share Ideas</div>
-  <div class="sketch">Push Pixels Around</div>
-  <div class="sketch">Superpowers</div>
-  <div class="sketch">You came so far...</div>
-  <div class="sketch">That's all for now! [Chat]</div>
+  <Words />
+  <Tools />
+  <Journey />
+  <Footer />
 </div>
 <Nav />
 
