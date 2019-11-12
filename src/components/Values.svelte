@@ -1,29 +1,26 @@
 <script>
   import { onMount, afterUpdate } from 'svelte';
   import { getInLimit } from '../utils';
+  import { _window, onResponsiveChange } from '../stores/responsive.js';
+
+  let isMounted = false;
   let elContainer = null;
+
+  // ::: S3 related stuff...
   let s3Y = 0;
+  const s3Width = 600; // TODO - get from DOM.
+  const S3io = 1.5; // because it's the 2nd element
+  const Ylimit = 85 * 2;
+  // start animation at middle of the screen
+  $: s3StartPosition = isMounted ? $_window.innerWidth * S3io + s3Width / 3 : 0;
 
   onMount(() => {
-    listenForS3();
+    isMounted = true;
   });
 
-  function listenForS3() {
-    const s3Width = 600;
-    // const horizonWidth = elContainer.offsetWidth;
-    const io = 1.5; // because it's the 2nd element
-    // start animation at middle of the screen
-    const startPosition = window.innerWidth * io + s3Width / 3;
-    const Ylimit = 85 * 2;
-
-    document.addEventListener('scroll', () => {
-      const scrollY = window.scrollY;
-      const translate = scrollY - startPosition;
-      const tooSmall = translate < 0;
-      const tooBig = translate > Ylimit;
-
-      s3Y = getInLimit(translate / 2, 0, Ylimit / 2);
-    });
+  function verifyS3Ask() {
+    const translate = window.scrollY - s3StartPosition;
+    s3Y = getInLimit(translate / 2, 0, Ylimit / 2);
   }
 </script>
 
@@ -194,6 +191,7 @@
   }
 </style>
 
+<svelte:window on:scroll={verifyS3Ask} />
 <section class="container" aria-label="Values" bind:this={elContainer}>
   <!-- <div class="s1">
     <h2 class="f-mono title">

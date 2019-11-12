@@ -2,42 +2,42 @@
   import { onMount, afterUpdate } from 'svelte';
   import tools from '../data/tools';
   import { getInLimit } from '../utils';
+  import { _window, onResponsiveChange } from '../stores/responsive.js';
+
   const reducedMotion = false; // TODO this
   const noGravity = true; // TODO this
-  let tabSelected = '1';
 
+  let tabSelected = '1';
   let elHeading;
-  let wHeight;
   let headingStyle;
-  let isHidden = !reducedMotion;
+  let isVisible = false;
 
   onMount(() => {
-    wHeight = window.innerHeight;
     setTimeout(() => {
-      // TODO calculate this after marginTop
-      window.scroll(0, 9250); // easier debug
+      window.scroll(0, 9000); // easier debug
+
+      // TODO only do this after marginTop on index.svelte
       !reducedMotion && initHeadingAnimation();
     }, 250);
   });
 
-  afterUpdate(() => {
-    console.log('fez update...');
-  });
-
   function initHeadingAnimation() {
+    const wHeight = $_window.innerHeight;
+
     // Note: Add w.scrollY to make sure it's okay even when the page starts already scrolled.
-    const fromTop = elHeading.getBoundingClientRect().top + window.scrollY;
-    // const limit = wHeight / 1.8;
+    const fromTop = elHeading.getBoundingClientRect().top + $_window.scrollY;
+    // const limit = wHeight / 1.8; //  - V1
     const limit = wHeight / 2; // - V2
     const limitNeg = wHeight * -1;
 
-    function handleHeading() {
+    function verifyAnimations() {
       const closeToTop = wHeight - (fromTop - window.scrollY);
       const translate = limit - (fromTop - window.scrollY);
       const perc = closeToTop / limit;
       const scale = getInLimit(perc, 0, 1).toFixed(2);
-      isHidden = scale !== '1.00';
+      isVisible = scale === '1.00';
 
+      // // - V1
       // headingStyle = `
       //   opacity: ${scale};
       //   transform:
@@ -54,21 +54,22 @@
       `;
     }
 
-    const callback = (entries, observer) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          window.addEventListener('scroll', handleHeading);
-        } else {
-          window.removeEventListener('scroll', handleHeading);
-        }
-      });
+    const watchHeading = ([entry]) => {
+      if (entry.isIntersecting) {
+        window.addEventListener('scroll', verifyAnimations);
+      } else {
+        window.removeEventListener('scroll', verifyAnimations);
+      }
     };
 
-    const observer = new IntersectionObserver(callback, {
+    const observer = new IntersectionObserver(watchHeading, {
       rootMargin: '0px',
       threshold: 0,
     });
+
     observer.observe(elHeading);
+
+    verifyAnimations();
   }
 
   function updateList(id) {
@@ -94,47 +95,17 @@
       letter-spacing: 0.05em;
       color: var(--bg);
       text-shadow: -1px -1px 0 var(--primary_1), 1px -1px 0 var(--primary_1),
-        -1px 1px 0 var(--primary_1), 1px 1px 0 var(--primary_1), var(--glow, 0 0 0.3em #e64c5d5e);
+        -1px 1px 0 var(--primary_1), 1px 1px 0 var(--primary_1), var(--glow, 0 0 0 transparent);
       transform-origin: 50% -200%; /* - V2 */
-      transform-origin: 50% 0%;
+      transform-origin: 50% 0%; /* - V1 */
+
+      .uAppear & {
+        --glow: 0 0 0.3em #e64c5d5e;
+      }
     }
   }
 
-  /* -- Animations related to .heading appearing */
-  .headingPart,
-  .tabs,
-  .tools {
-    transition: opacity 400ms ease-in;
-
-    .isHidden & {
-      transition: opacity 150ms ease-in;
-      opacity: 0;
-    }
-  }
-
-  .headingGlow {
-    .isHidden & {
-      --glow: 0 0 0 transparent;
-    }
-  }
-
-  .tabs {
-    transition-delay: 150ms;
-
-    .isHidden & {
-      transition-delay: 0ms;
-    }
-  }
-
-  .tools {
-    transition-delay: 250ms;
-
-    .isHidden & {
-      transition-delay: 0ms;
-    }
-  }
-
-  /* -- Tools */
+  /* -- Tools -- */
   .main {
     max-width: 70rem;
     margin: 0 auto;
@@ -181,30 +152,26 @@
       opacity: 0.5;
       padding-left: calc(var(--spacer-M) + var(--spacer-S));
       transition: opacity 250ms ease;
+      animation: blink 15s infinite ease;
 
       &.isActive {
         opacity: 1;
+        animation: none;
       }
 
       &Text {
         display: inline-block;
         transform: scale(0);
         transform-origin: 0 50%;
-        transition: transform 250ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        transition: transform 250ms ease-out;
 
         .isActive & {
+          transition-timing-function: var(--bounce);
           transform: scale(1);
         }
       }
 
       .noGravity & {
-        &.isActive {
-          .pointRotate {
-            /* it's bigger, so make it slower */
-            animation-duration: 30s;
-          }
-        }
-
         @for $i from 1 to 24 {
           &:nth-child($i) {
             .pointOrbite {
@@ -221,7 +188,16 @@
               @if $reversed == 1 {
                 animation-direction: reverse;
               }
+            }
+
+            &, /* blink animation */
+            .pointRotate {
               animation-delay: calc(1ms * random(-40000, 0));
+            }
+
+            .toolsItemText,
+            .pointStar {
+              transition-delay: calc(1ms * random(0, 250));
             }
           }
         }
@@ -300,27 +276,6 @@
           transform: translate(16rem, -18rem);
         }
       }
-
-      @keyframes orbite {
-        0% {
-          transform: rotate(-45deg);
-        }
-        100% {
-          transform: rotate(45deg);
-        }
-      }
-
-      @keyframes rotate {
-        0% {
-          transform: rotate(0deg) scale(0.7);
-        }
-        50% {
-          transform: rotate(180deg) scale(1);
-        }
-        100% {
-          transform: rotate(360deg) scale(0.7);
-        }
-      }
     }
   }
 
@@ -345,9 +300,9 @@
     }
 
     &Rotate {
-      animation: rotate 15s infinite linear;
+      animation: rotate 25s infinite linear;
 
-      .isHidden & {
+      :not(.uAppear) & {
         animation-play-state: pause;
       }
     }
@@ -358,19 +313,57 @@
       transition: transform 250ms ease;
 
       .isActive & {
+        transition-timing-function: var(--bounce);
         transform: scale(1);
       }
     }
   }
+
+  @keyframes orbite {
+    0% {
+      transform: rotate(-45deg);
+    }
+    100% {
+      transform: rotate(45deg);
+    }
+  }
+
+  @keyframes rotate {
+    0% {
+      transform: rotate(0deg) scale(0.7);
+    }
+    50% {
+      transform: rotate(180deg) scale(1);
+    }
+    100% {
+      transform: rotate(360deg) scale(0.7);
+    }
+  }
+
+  @keyframes blink {
+    0% {
+      opacity: 0.5;
+    }
+    2% {
+      opacity: 0.2;
+    }
+    4% {
+      opacity: 1;
+    }
+    6%,
+    100% {
+      opacity: 0.5;
+    }
+  }
 </style>
 
-<section class="wrapper" class:isHidden>
+<section class="wrapper" class:uAppear={isVisible} class:uAppearSoon={!isVisible}>
   <h2 class="f-mono heading">
-    <span class="headingPart">Get to know her</span>
+    <span class="headingPart uAppear-0">Get to know her</span>
     <span class="headingGlow" bind:this={elHeading} style={headingStyle}>Superpowers</span>
   </h2>
   <div class="main">
-    <div class="tabs" role="tablist" aria-label="Type of tools">
+    <div class="tabs uAppear-1" role="tablist" aria-label="Type of tools">
       {#each Object.keys(tools.lists) as id}
         <button
           class="f-mono tabsItem"
@@ -381,7 +374,7 @@
         </button>
       {/each}
     </div>
-    <div class="tools" class:noGravity role="tabpanel">
+    <div class="tools uAppear-2" class:noGravity role="tabpanel">
       {#each tools.tools as { name, list }}
         <div class="toolsItem" class:isActive={list.includes(tabSelected)}>
           <span class="pointOrbite">

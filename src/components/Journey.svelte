@@ -25,8 +25,8 @@
     color: var(--text_0);
 
     strong {
-      /* box-shadow: 0.2em 0 0 var(--primary_2), -0.2em 0 0 var(--primary_2);
-      background-color: var(--primary_2); */
+      /* box-shadow: 0.2em 0 0 var(--primary_1b), -0.2em 0 0 var(--primary_1b);
+      background-color: var(--primary_1b); */
       box-decoration-break: clone; /* make it work on FF */
     }
   }

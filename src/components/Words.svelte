@@ -1,5 +1,41 @@
 <script>
+  import { onMount } from 'svelte';
   import words from '../data/words.js';
+
+  const colorTypes = {
+    article: 'var(--primary_1)',
+    talk: 'var(--primary_2)',
+    zine: 'var(--primary_3_darker)',
+    default: 'var(--primary_4)',
+  };
+  let elWrapper;
+  let isExpanded = false;
+  let isVisible = false;
+  $: cards = isExpanded ? words : words.slice(0, 4);
+
+  onMount(() => {
+    setTimeout(() => {
+      // window.scroll(0, 8600); // easier debug
+      initAnimation();
+    }, 250);
+  });
+
+  function initAnimation() {
+    const watchContainer = ([entry]) => {
+      isVisible = entry.isIntersecting;
+    };
+
+    const observer = new IntersectionObserver(watchContainer, {
+      rootMargin: '-50%',
+      threshold: 0,
+    });
+
+    observer.observe(elWrapper);
+  }
+
+  function toggleCards() {
+    isExpanded = !isExpanded;
+  }
 </script>
 
 <style>
@@ -26,21 +62,66 @@
     }
   }
 
-  .group {
-    display: flex;
-    flex-wrap: wrap;
-    margin-top: calc(var(--spacer-M) * 5);
+  .card {
+    &List {
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: var(--spacer-XL);
+    }
 
     &Item {
-      width: 50%;
-      margin-bottom: var(--spacer-XL);
+      --gutter: var(--spacer-M);
+
+      position: relative;
+      color: var(--text_invert);
+      width: calc(50% - var(--gutter));
+      margin-bottom: var(--spacer-L);
+      padding: var(--spacer-L);
+      transition: transform 75ms ease-out;
 
       &:nth-child(2n + 1) {
-        padding-right: var(--spacer-XL);
+        margin-right: var(--gutter);
       }
 
       &:nth-child(2n) {
-        padding-left: var(--spacer-XL);
+        margin-left: var(--gutter);
+      }
+
+      &::before,
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+      }
+
+      &::before {
+        background-color: var(--bg-invert);
+      }
+
+      &::after {
+        z-index: -2;
+        box-sizing: border-box;
+        border: 1px solid var(--place-color);
+        transition: transform 75ms ease-in-out;
+      }
+
+      &:hover,
+      &:focus-within {
+        transform: translate(1rem, -1rem);
+
+        &,
+        &::after {
+          transition-timing-function: ease-in-out;
+          transition-duration: 250ms; /* TODO speed scale */
+        }
+
+        &::after {
+          transform: translate(-1rem, 1rem);
+        }
       }
     }
   }
@@ -48,26 +129,59 @@
   .title {
     font-size: var(--font-XL);
     line-height: 1.4;
+    text-transform: capitalize;
   }
 
   .place {
+    &List {
+    }
+
     &Item {
       margin-top: var(--spacer-M);
       font-size: var(--font-L);
     }
 
     &Link {
+      position: relative;
       display: inline-flex;
       align-items: center;
-      color: var(--text_0);
+      color: inherit;
+      border-bottom: 1.5px dashed var(--place-color);
       text-decoration: none;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -0.1em;
+        width: calc(100% + 0.2em);
+        height: 100%;
+        background: var(--place-color);
+        z-index: -1;
+        opacity: 0.2;
+        border: 0 solid var(--bg-invert);
+        box-sizing: border-box;
+        border-width: 0.2em 0 0.2em 0;
+        transform: scale(0, 1);
+        transition: transform 75ms ease-out;
+        transform-origin: 0 0;
+      }
+
+      &:hover,
+      &:focus {
+        outline: none;
+
+        &::before {
+          transition-duration: 250ms; /* TODO speed scale */
+          transform: scale(1);
+        }
+      }
     }
 
-    &Icon {
-      width: 2rem;
-      height: 2rem;
-      fill: var(--text_1);
-      margin-right: var(--spacer-S);
+    &Type {
+      font-weight: 600;
+      text-transform: capitalize;
+      color: var(--place-color);
     }
   }
 
@@ -81,24 +195,30 @@
   }
 </style>
 
-<section class="wrapper">
-  <h2 class="f-mono heading">
-    <span class="headingShadow">When in the vibe</span>
-    She enjoys to share ideas
+<section
+  class="wrapper"
+  class:uAppear={isVisible}
+  class:uAppearSoon={!isVisible}
+  bind:this={elWrapper}>
+  <h2 class="f-mono heading uAppear-0">
+    <!-- <span class="headingShadow">When in the vibe</span> -->
+    She enjoys to
+    <span class="f-led" data-text="share" style="--led-color: var(--primary_1)">share</span>
+    ideas
   </h2>
 
-  <div class="group">
-    {#each words as { title, places }}
-      <article class="groupItem">
-        <h3 class="title">{title}</h3>
-        <ul>
-          {#each places as { svg, title, link }}
-            <li class="placeItem">
-              <a href={link} class="placeLink">
-                <svg aria-hidden="true" class="placeIcon {svg}">
-                  <use xlink:href="#{svg}" />
-                </svg>
-                {title}
+  <div class="cardList">
+    {#each cards as { title, places }, index}
+      <article
+        class="cardItem uAppear-{index + 1}"
+        style="--place-color: {colorTypes[places[0].type] || colorTypes.default}">
+        <h3 class="f-mono title">{title}</h3>
+        <ul class="placeList">
+          {#each places as { type, where, link }}
+            <li class="placeItem" style="--place-color: {colorTypes[type] || colorTypes.default}">
+              <a href={link} class="placeLink" target="blank">
+                <span class="placeType">{type}</span>
+                <span>&nbsp;— {where}</span>
               </a>
             </li>
           {/each}
@@ -106,5 +226,5 @@
       </article>
     {/each}
   </div>
-  <button class="f-mono cta">Explore all of them</button>
+  <button class="f-mono cta" on:click={toggleCards}>{isExpanded ? 'Hide' : 'Explore all'}</button>
 </section>

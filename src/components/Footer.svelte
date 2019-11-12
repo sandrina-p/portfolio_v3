@@ -11,6 +11,7 @@
 
 <style>
   .wrapper {
+    position: relative;
     padding: 0 var(--spacer-M);
     min-height: 100vh;
     overflow: hidden;
@@ -21,11 +22,11 @@
     z-index: -1;
     top: 0;
     left: 0;
-    background-color: var(--primary_2);
+    background-color: var(--primary_1b);
     width: 200vw;
     height: 200vh;
-    transform: rotate(15deg);
-    transform-origin: 0 0;
+    transform: rotate(6deg);
+    transform-origin: 0 50vw;
   }
 
   .container {
@@ -54,9 +55,9 @@
 </style>
 
 <section class="wrapper">
+  <!-- TODO: turn into a pseudo-element -->
+  <div class="pattern" />
   <div class="container">
-    <!-- TODO: turn into a pseudo-element -->
-    <div class="pattern" />
     <div class="info">
       <h2 class="f-mono heading">
         Well,
