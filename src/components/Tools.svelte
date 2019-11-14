@@ -2,11 +2,16 @@
   import { onMount, afterUpdate } from 'svelte';
   import tools from '../data/tools';
   import { getInLimit } from '../utils';
-  import { _window, onResponsiveChange } from '../stores/responsive.js';
+  import { _window } from '../stores/responsive.js';
 
   const reducedMotion = false; // TODO this
   const noGravity = true; // TODO this
-
+  const colorTypes = {
+    '1': 'var(--primary_1)',
+    '2': 'var(--primary_2)',
+    '3': 'var(--primary_3_darker)',
+    '4': 'var(--primary_4)',
+  };
   let tabSelected = '1';
   let elHeading;
   let headingStyle;
@@ -14,7 +19,7 @@
 
   onMount(() => {
     setTimeout(() => {
-      window.scroll(0, 9000); // easier debug
+      window.scroll(0, 12000); // easier debug
 
       // TODO only do this after marginTop on index.svelte
       !reducedMotion && initHeadingAnimation();
@@ -23,12 +28,9 @@
 
   function initHeadingAnimation() {
     const wHeight = $_window.innerHeight;
-
-    // Note: Add w.scrollY to make sure it's okay even when the page starts already scrolled.
-    const fromTop = elHeading.getBoundingClientRect().top + $_window.scrollY;
-    // const limit = wHeight / 1.8; //  - V1
-    const limit = wHeight / 2; // - V2
+    const limit = wHeight / 2;
     const limitNeg = wHeight * -1;
+    let fromTop;
 
     function verifyAnimations() {
       const closeToTop = wHeight - (fromTop - window.scrollY);
@@ -37,15 +39,6 @@
       const scale = getInLimit(perc, 0, 1).toFixed(2);
       isVisible = scale === '1.00';
 
-      // // - V1
-      // headingStyle = `
-      //   opacity: ${scale};
-      //   transform:
-      //     scale(${scale})
-      //     translateY(${getInLimit((1 / scale) * translate, -100000, 0).toFixed(2)}px);
-      // `;
-
-      // - V2
       headingStyle = `
         opacity: ${scale};
         transform:
@@ -56,6 +49,9 @@
 
     const watchHeading = ([entry]) => {
       if (entry.isIntersecting) {
+        // Note1: Add w.scrollY to make sure it's okay even when the page starts already scrolled.
+        // Note2: Update fromTop to avoid bugs when the DOM changes - ex: All articles were expanded
+        fromTop = entry.boundingClientRect.top + window.scrollY;
         window.addEventListener('scroll', verifyAnimations);
       } else {
         window.removeEventListener('scroll', verifyAnimations);
@@ -84,23 +80,38 @@
   }
 
   .heading {
+    position: relative;
     font-size: var(--font-heading_2);
     margin-top: var(--spacer-L);
     text-align: center;
 
-    &Glow {
+    &Part {
       display: block;
+    }
+
+    &Glow {
+      position: relative;
+      display: inline-block;
       font-size: 12rem; /*var(--font-heading_1); */
       text-transform: uppercase;
       letter-spacing: 0.05em;
       color: var(--bg);
-      text-shadow: -1px -1px 0 var(--primary_1), 1px -1px 0 var(--primary_1),
-        -1px 1px 0 var(--primary_1), 1px 1px 0 var(--primary_1), var(--glow, 0 0 0 transparent);
-      transform-origin: 50% -200%; /* - V2 */
-      transform-origin: 50% 0%; /* - V1 */
+      transform-origin: 50% 0%;
+      -webkit-text-stroke: 2px var(--text_0);
 
-      .uAppear & {
-        --glow: 0 0 0.3em #e64c5d5e;
+      &::before {
+        content: 'superpowers';
+        position: absolute;
+        text-shadow: var(--glow, 0 0 0 transparent);
+        z-index: -1;
+        top: 0;
+        left: 0;
+        color: var(--bg);
+        opacity: 0.75;
+
+        .uAppear & {
+          --glow: 0 0 0.3em var(--colorTabSelected);
+        }
       }
     }
   }
@@ -120,19 +131,21 @@
       margin: 0 var(--spacer-M);
       font-size: var(--font-L);
       background-color: transparent;
-      color: inherit;
+      color: var(--text_0);
       border: none;
       cursor: pointer;
 
       &:hover,
       &:focus {
-        /* TODO - better animation */
-        text-decoration: underline;
+        /* TODO - better UI/animation */
+        color: var(--colorType);
       }
 
       &[aria-selected='true'] {
-        color: var(--primary_1);
+        background-color: var(--colorType);
+        color: var(--text_0);
         text-decoration: underline;
+        opacity: 1;
       }
     }
   }
@@ -313,6 +326,7 @@
       transition: transform 250ms ease;
 
       .isActive & {
+        background-color: var(--colorType);
         transition-timing-function: var(--bounce);
         transform: scale(1);
       }
@@ -360,13 +374,19 @@
 <section class="wrapper" class:uAppear={isVisible} class:uAppearSoon={!isVisible}>
   <h2 class="f-mono heading">
     <span class="headingPart uAppear-0">Get to know her</span>
-    <span class="headingGlow" bind:this={elHeading} style={headingStyle}>Superpowers</span>
+    <span
+      class="headingGlow"
+      bind:this={elHeading}
+      style="--colorTabSelected: {colorTypes[tabSelected]}; {headingStyle}}">
+      Superpowers
+    </span>
   </h2>
   <div class="main">
     <div class="tabs uAppear-1" role="tablist" aria-label="Type of tools">
       {#each Object.keys(tools.lists) as id}
         <button
           class="f-mono tabsItem"
+          style="--colorType: {colorTypes[id]}"
           role="tab"
           aria-selected={tabSelected === id}
           on:click={() => updateList(id)}>
@@ -374,17 +394,20 @@
         </button>
       {/each}
     </div>
-    <div class="tools uAppear-2" class:noGravity role="tabpanel">
+    <ul class="tools uAppear-2" class:noGravity role="tabpanel">
       {#each tools.tools as { name, list }}
-        <div class="toolsItem" class:isActive={list.includes(tabSelected)}>
+        <li
+          class="toolsItem"
+          class:isActive={list.includes(tabSelected)}
+          style="--colorType: {list.includes(tabSelected) ? colorTypes[tabSelected] : colorTypes[list[0]]}">
           <span class="pointOrbite">
             <span class="pointRotate">
               <span class="pointStar" />
             </span>
           </span>
           <span class="toolsItemText">{name}</span>
-        </div>
+        </li>
       {/each}
-    </div>
+    </ul>
   </div>
 </section>

@@ -1,4 +1,13 @@
-// ENHANCEMENT: Make this a plugin
+/* 
+
+A "deridable" version of the original "window"
+This is, its values (width, height, etc...) are automatically updated when a resize happens.
+
+## Roadmap:
+- Publish this package!
+- Add options (read below)
+*/
+
 import { readable, writable } from 'svelte/store';
 import debounce from 'lodash/debounce';
 
@@ -21,7 +30,7 @@ export function initResponsive(options) {
    */
 
   if (isCalculated) {
-    console.warn('initResponsive only needs to be called once. Ignored.');
+    console.warn('initResponsive ignored. It only needs to be called once.');
     return false;
   }
   console.log('initResponsive executing...');

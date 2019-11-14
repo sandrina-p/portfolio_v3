@@ -9,12 +9,12 @@
     --text_invert: #1a2e45; /* similar to bg but lighter */
     --bg: #0d1722;
     --bg-invert: var(--text_0);
-    --primary_1: #fb6177;
-    --primary_1b: #6e2c35;
-    --primary_2: #835bfa;
-    --primary_3: #fff5a2;
-    --primary_3_darker: #dfb948;
-    --primary_4: #1abba6;
+    --primary_1: #65bd90; /* #fb6177; */
+    --primary_1b: #2b6145;
+    --primary_2: var(--primary_1); /* #835bfa; */
+    --primary_3: var(--primary_1); /* #fff5a2; */
+    --primary_3_darker: var(--primary_1); /* #dfb948; */
+    --primary_4: var(--primary_1); /* #1abba6; */
     --font-M: 1.6rem;
     --font-L: 1.8rem;
     --font-XL: 2.6rem;
@@ -74,7 +74,7 @@
     &::before {
       content: attr(data-text);
       position: absolute;
-      -webkit-text-stroke: 1px var(--led-color);
+      -webkit-text-stroke: 2px var(--led-color);
       z-index: -1;
       top: 0.05em;
       left: -0.05em;
