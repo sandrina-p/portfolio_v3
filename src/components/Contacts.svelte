@@ -26,14 +26,14 @@
       name: 'Twitter',
       link: '//twitter.com/a_sandrina_p',
       svg: 'twitter',
-      description: 'Where almost everything is shared',
+      description: 'Where ideas are shared',
     },
     {
       name: 'Email',
       link:
         'mailto:a.sandrina.p@gmail.com?subject=Oh, hi there!&body=Hi Sandrina, I just saw your personal website and...',
       svg: 'email',
-      description: 'Waiting for you message...',
+      description: 'Waiting for you message!',
     },
   ];
 
@@ -67,6 +67,7 @@
       baffleDescription.stop();
     }, 200);
   }
+
 </script>
 
 <style>
@@ -133,7 +134,7 @@
   }
 </style>
 
-<div class="container">
+<div class="container {$$props.class}">
   <h2 class="sr-only">Social Networks</h2>
   <span class="title" class:isVisible aria-hidden="true" bind:this={elTitle} />
   <ul class="list">

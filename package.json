@@ -9,7 +9,8 @@
     "start_default": "node __sapper__/build",
     "cy:run": "cypress run",
     "cy:open": "cypress open",
-    "test": "run-p --race dev cy:run"
+    "test": "run-p --race dev cy:run",
+    "ngrok": "/Users/sandrina-p/Documents/git/ngrok http 3000"
   },
   "dependencies": {
     "baffle": "^0.3.6",

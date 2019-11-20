@@ -1,30 +1,38 @@
 <script>
+  import { strCircle } from '../../stores/circle.js';
+
   let circleCount = Array(7);
-  export let isPaused; // bool
+
+  $: state = $strCircle;
+  
+  // const isPaused = state.isPaused;
+  // const style = state.style;
 </script>
 
 <style>
   .container {
-    --size: 25rem;
+    --size: 20rem;
     --speed: 4.5s;
     --delay: 150ms;
-    --delay-1stframe: 1850ms;
+    --delay-1stframe: -1000ms;
     --ease: cubic-bezier(0.48, 0, 0.48, 1);
     --scaleStart: 0.8;
     --scaleEnd: 1;
     --rotate: 30deg;
     --rotatePivot: 2deg;
-    --fill: rgba(251, 97, 119, 0.07);
-    --distance: 45vw;
-    position: absolute;
-    top: calc(50% - 7.5vh); /* 7.5vh = half top padding */
-    left: 0;
-    transform: translate(0, -50%);
+    --fill: var(--primary_1alpha);
+    --scrollY: 0px; /* to be manipulated by JS */
+    --distance: calc(50vw - (var(--size) * 1.5));
     height: var(--size);
+    width: var(--size);
+    
+    transform: translateX(var(--scrollY));
+    transition: opacity 250ms ease-in;
 
     &.isPaused {
       .circle {
         animation-play-state: paused;
+        opacity: 0;
       }
     }
   }
@@ -43,6 +51,7 @@
   /* Svelte BUG: @for and &: dont work together */
   @for $i from 1 to 10 {
     .circle:nth-child($i) {
+      /* make the animation start in the middle from the end */
       animation-delay: calc((var(--speed) * -1) - (-$i * var(--delay)) - var(--delay-1stframe));
       $dash: 0;
       $gap: 0;
@@ -73,10 +82,10 @@
   }
 </style>
 
-<div class="container" class:isPaused>
+<div class="container" class:isPaused={state.isPaused} style={state.style}>
   {#each circleCount as circle}
     <svg viewbox="0 0 100 100" class="circle">
-      <circle cx="50" cy="50" r="40" />
+      <circle cx="50" cy="50" r="49" />
     </svg>
   {/each}
 </div>

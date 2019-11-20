@@ -19,7 +19,7 @@
 
   onMount(() => {
     setTimeout(() => {
-      window.scroll(0, 12000); // easier debug
+      // window.scroll(0, 12000); // easier debug
 
       // TODO only do this after marginTop on index.svelte
       !reducedMotion && initHeadingAnimation();
@@ -77,6 +77,7 @@
   .wrapper {
     padding: var(--spacer-XL) var(--spacer-M) var(--spacer-XL); /* REVIEW */
     min-height: 100vh;
+    overflow: hidden;
   }
 
   .heading {
@@ -92,7 +93,7 @@
     &Glow {
       position: relative;
       display: inline-block;
-      font-size: 12rem; /*var(--font-heading_1); */
+      font-size: 16rem; /*var(--font-heading_1); */
       text-transform: uppercase;
       letter-spacing: 0.05em;
       color: var(--bg);
@@ -125,6 +126,7 @@
   .tabs {
     text-align: center;
     margin: var(--spacer-L) 0;
+    margin-top: 20rem;
 
     &Item {
       display: inline-block;
@@ -134,6 +136,7 @@
       color: var(--text_0);
       border: none;
       cursor: pointer;
+      text-decoration: underline;
 
       &:hover,
       &:focus {
@@ -143,9 +146,9 @@
 
       &[aria-selected='true'] {
         background-color: var(--colorType);
-        color: var(--text_0);
-        text-decoration: underline;
+        color: var(--text_invert);
         opacity: 1;
+        text-decoration: none;
       }
     }
   }
@@ -157,6 +160,8 @@
     height: 28rem; /* static list content */
     flex-direction: column;
     margin-top: var(--spacer-XL);
+    transform: scale(1.4); /* TODO small screens */
+    transform-origin: 50% 0;
 
     &Item {
       position: relative;
@@ -170,6 +175,7 @@
       &.isActive {
         opacity: 1;
         animation: none;
+        /* animation-name: blinkStrong; */
       }
 
       &Text {
@@ -324,6 +330,7 @@
       background-color: var(--text_0);
       transform: scale(0.5);
       transition: transform 250ms ease;
+      cursor: zoom-in;
 
       .isActive & {
         background-color: var(--colorType);
@@ -334,40 +341,29 @@
   }
 
   @keyframes orbite {
-    0% {
-      transform: rotate(-45deg);
-    }
-    100% {
-      transform: rotate(45deg);
-    }
+    0% { transform: rotate(-45deg); }
+    100% { transform: rotate(45deg); }
   }
 
   @keyframes rotate {
-    0% {
-      transform: rotate(0deg) scale(0.7);
-    }
-    50% {
-      transform: rotate(180deg) scale(1);
-    }
-    100% {
-      transform: rotate(360deg) scale(0.7);
-    }
+    0% { transform: rotate(0deg) scale(0.7); }
+    50% { transform: rotate(180deg) scale(1); }
+    100% { transform: rotate(360deg) scale(0.7); }
   }
 
   @keyframes blink {
-    0% {
-      opacity: 0.5;
-    }
-    2% {
-      opacity: 0.2;
-    }
-    4% {
-      opacity: 1;
-    }
-    6%,
-    100% {
-      opacity: 0.5;
-    }
+    0% { opacity: 0.5; }
+    2% { opacity: 0.2; }
+    4% { opacity: 1; }
+    6%, 100% { opacity: 0.5; }
+  }
+
+  @keyframes blinkStrong {
+    0% { opacity: 1; }
+    1% { opacity: 0.5; }
+    2% { opacity: 1; }
+    3% { opacity: 0.2; }
+    4%, 100% { opacity: 1; }
   }
 </style>
 
@@ -382,7 +378,24 @@
     </span>
   </h2>
   <div class="main">
-    <div class="tabs uAppear-1" role="tablist" aria-label="Type of tools">
+    <ul class="tools uAppear-1" class:noGravity role="tabpanel">
+      {#each tools.tools as { name, list }}
+        <li
+          class="toolsItem"
+          class:isActive={list.includes(tabSelected)}
+          aria-hidden={!list.includes(tabSelected)}
+          on:click={() => !list.includes(tabSelected) ? updateList(list[0]) : true}
+          style="--colorType: {list.includes(tabSelected) ? colorTypes[tabSelected] : colorTypes[list[0]]}">
+          <span class="pointOrbite">
+            <span class="pointRotate">
+              <span class="pointStar" />
+            </span>
+          </span>
+          <span class="toolsItemText">{name}</span>
+        </li>
+      {/each}
+    </ul>
+    <div class="tabs uAppear-2" role="tablist" aria-label="Type of tools">
       {#each Object.keys(tools.lists) as id}
         <button
           class="f-mono tabsItem"
@@ -394,20 +407,5 @@
         </button>
       {/each}
     </div>
-    <ul class="tools uAppear-2" class:noGravity role="tabpanel">
-      {#each tools.tools as { name, list }}
-        <li
-          class="toolsItem"
-          class:isActive={list.includes(tabSelected)}
-          style="--colorType: {list.includes(tabSelected) ? colorTypes[tabSelected] : colorTypes[list[0]]}">
-          <span class="pointOrbite">
-            <span class="pointRotate">
-              <span class="pointStar" />
-            </span>
-          </span>
-          <span class="toolsItemText">{name}</span>
-        </li>
-      {/each}
-    </ul>
   </div>
 </section>

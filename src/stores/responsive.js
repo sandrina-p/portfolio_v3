@@ -11,9 +11,10 @@ This is, its values (width, height, etc...) are automatically updated when a res
 import { readable, writable } from 'svelte/store';
 import debounce from 'lodash/debounce';
 
-let isCalculated = false;
+let privateIsCalculated = false;
 const debounceResize = debounce(handleResize, 100);
 const _window = writable(null);
+const isCalculated = writable(false);
 
 let onResponsiveChangeCb = () => true;
 const onResponsiveChange = fn => (onResponsiveChangeCb = fn);
@@ -29,13 +30,14 @@ export function initResponsive(options) {
    * initial: a default initial breakpoint for SSR: 'md'
    */
 
-  if (isCalculated) {
+  if (privateIsCalculated) {
     console.warn('initResponsive ignored. It only needs to be called once.');
     return false;
   }
   console.log('initResponsive executing...');
 
-  isCalculated = true;
+  privateIsCalculated = true;
+  isCalculated.update(() => true);
 
   _window.update(() => window);
   window.addEventListener('resize', debounceResize);

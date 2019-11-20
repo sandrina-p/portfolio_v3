@@ -5,12 +5,13 @@
 <style global>
   :root {
     --text_0: #efefef;
-    --text_1: #899bb1; /* text over bg with 0.6 opacity and some light... */
+    --text_1: #b7c2cf; /* text over bg with 0.6 opacity and some light... */
     --text_invert: #1a2e45; /* similar to bg but lighter */
     --bg: #0d1722;
     --bg-invert: var(--text_0);
     --primary_1: #65bd90; /* #fb6177; */
     --primary_1b: #2b6145;
+    --primary_1alpha: #65bd9017;
     --primary_2: var(--primary_1); /* #835bfa; */
     --primary_3: var(--primary_1); /* #fff5a2; */
     --primary_3_darker: var(--primary_1); /* #dfb948; */
@@ -139,6 +140,16 @@
         transition-delay: 800ms;
       }
     }
+  }
+
+  @keyframes laserOn {
+    0%, 85% {opacity: 0;}
+    87% {opacity: 1;}
+    88% {opacity: 0;}
+    89% {opacity: 1;}
+    92% {opacity: 0;}
+    91% {opacity: 1;}
+    90%, 100% {opacity: 1;}
   }
 </style>
 

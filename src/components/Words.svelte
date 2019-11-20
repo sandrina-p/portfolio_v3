@@ -34,7 +34,7 @@
     baffleLed = baffle(elLed).set({ characters: '+-•~!=*' });
 
     setTimeout(() => {
-      // window.scroll(0, 8600); // easier debug
+      // window.scroll(0, 7000); // easier debug
       initAnimation();
     }, 250);
   });
@@ -53,6 +53,7 @@
 
       if (awayFromVieport) {
         Object.keys(isVisibleList).forEach((item, index) => (isVisibleList[item] = false));
+        isExpanded = false;
         window.removeEventListener('scroll', watchCardsWhenScrollingToTheTop);
       }
     }
@@ -60,7 +61,9 @@
     function setBaffleLed(isActive) {
       const options = ['sharing', 'writing', 'talking'];
       const colors = [colorTypes.default, colorTypes.article, colorTypes.talk];
+      
       if (isActive) {
+        clearInterval(ledInterval);
         ledInterval = window.setInterval(baffleIt, 2500);
       } else {
         clearInterval(ledInterval);
@@ -175,7 +178,7 @@
 
   .heading {
     position: relative;
-    font-size: var(--font-heading_2);
+    font-size: var(--font-heading_1);
     line-height: 1.4;
 
     &Shadow {

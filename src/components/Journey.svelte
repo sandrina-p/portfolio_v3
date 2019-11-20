@@ -9,6 +9,7 @@
     margin: 0 auto;
     padding: var(--spacer-XL) var(--spacer-M);
     min-height: 100vh;
+    margin-top: 50vh;
   }
 
   .heading {
@@ -18,11 +19,11 @@
   }
 
   .text {
-    max-width: 51rem;
+    max-width: 65rem;
     margin: 0 auto;
-    font-size: var(--font-L);
+    font-size: var(--font-XL);
     line-height: 1.5;
-    color: var(--text_0);
+    color: var(--text_1);
 
     strong {
       /* box-shadow: 0.2em 0 0 var(--primary_1b), -0.2em 0 0 var(--primary_1b);

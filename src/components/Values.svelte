@@ -2,6 +2,8 @@
   import { onMount, afterUpdate } from 'svelte';
   import { getInLimit } from '../utils';
   import { _window, onResponsiveChange } from '../stores/responsive.js';
+  import { updateDabox } from '../stores/dabox.js';
+  import { updateCircle } from '../stores/circle.js';
 
   let isMounted = false;
   let elContainer = null;
@@ -12,15 +14,52 @@
   const S3io = 1.5; // because it's the 2nd element
   const Ylimit = 85 * 2;
   // start animation at middle of the screen
-  $: s3StartPosition = isMounted ? $_window.innerWidth * S3io + s3Width / 3 : 0;
+  $: s3StartPosition = isMounted ? $_window.innerWidth * S3io + s3Width : 0;
 
   onMount(() => {
     isMounted = true;
   });
 
-  function verifyS3Ask() {
-    const translate = window.scrollY - s3StartPosition;
-    s3Y = getInLimit(translate / 2, 0, Ylimit / 2);
+  function letsGetStarted() {
+    // All the magic related to values happens here.
+    // 🐻 with me, it's going to be a funny ride!
+
+    // const translate = window.scrollY - s3StartPosition;
+    // s3Y = getInLimit(translate / 2, 0, Ylimit / 2);
+
+    // 1º - Metamorphose the initial circle into a square (dabox)
+    // -    P.S. me doing this part: https://i.imgur.com/3uyRWGJ.jpg
+   
+    // - 1.a Static values
+    const scrollRatio = 2.5; // changes progression based on scroll. (ex: it needs to scroll 25px to change 10px)
+    const size = 200 // --size TODO - get real.
+    const scaleStart = 0.8 // --scaleStart // TODO - get real.
+    const halfSize = size/2
+    const distanceCircle = $_window.innerWidth/2 - size*1.5 // --distance - TODO get real.
+
+    const scrollY = window.scrollY - halfSize; // substract halfSize so the circle gets in the middle of the screen.
+    const progress = distanceCircle - scrollY/scrollRatio;
+    const newDistance = getInLimit(progress, 0, distanceCircle);
+    const offLimit = distanceCircle*scrollRatio
+    const offsetY = getInLimit(scrollY, 0, offLimit);
+    const scaleStartAdjusted = scaleStart + (0.2 - (newDistance * 0.2 / distanceCircle));
+    const daboxProgress = getInLimit(progress*-1/50, 0, 1);
+
+    updateCircle({
+      style: `
+        --scrollY: ${offsetY}px;
+        --distance: ${newDistance}px;
+        --scaleStart: ${scaleStartAdjusted}
+      `,
+      isPaused: newDistance === 0,
+    })
+    updateDabox({
+      isActive: newDistance === 0,
+      progress: daboxProgress,
+    })
+
+    // 2º - dabox is on stage now... Let's give it shape and text.
+    
   }
 </script>
 
@@ -56,9 +95,11 @@
   }
 
   .s1 {
+    opacity: 0;
   }
 
   .s2 {
+    opacity: 0;
     position: relative;
 
     &-title {
@@ -191,15 +232,13 @@
   }
 </style>
 
-<svelte:window on:scroll={verifyS3Ask} />
+<svelte:window on:scroll={letsGetStarted} />
 <section class="container" aria-label="Values" bind:this={elContainer}>
-  <!-- <div class="s1">
+  <div class="s1">
     <h2 class="f-mono title">
-      From day to day,
-      <br />
-      here’s what defines her...
+      x
     </h2>
-  </div> -->
+  </div>
   <div class="s2">
     <h3 class="f-mono subtitle s2-title">
       <span class="s2-pattern" />
