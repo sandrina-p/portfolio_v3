@@ -26,13 +26,13 @@
     height: var(--size);
     width: var(--size);
     
-    transform: translateX(var(--scrollY));
-    transition: opacity 250ms ease-in;
+    transform: translateX(calc(var(--scrollY, 0px) - 50%));
 
     &.isPaused {
+      visibility: hidden;
+
       .circle {
         animation-play-state: paused;
-        opacity: 0;
       }
     }
   }

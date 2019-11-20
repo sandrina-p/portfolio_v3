@@ -93,7 +93,7 @@
     &Glow {
       position: relative;
       display: inline-block;
-      font-size: 16rem; /*var(--font-heading_1); */
+      font-size: 12rem; /*var(--font-heading_1); */
       text-transform: uppercase;
       letter-spacing: 0.05em;
       color: var(--bg);

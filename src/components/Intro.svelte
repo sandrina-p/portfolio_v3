@@ -14,6 +14,7 @@
     height: 100vh;
     flex-shrink: 0;
     align-items: center;
+    background: var(--bg);
   }
 
   .content {
@@ -42,7 +43,7 @@
   }
 
   .text {
-    font-size: 2.5rem;
+    font-size: 2.1rem;
     line-height: 1.5;
     max-width: calc(2.5rem * 19);
     opacity: 0;
@@ -63,6 +64,7 @@
     position: relative;
     opacity: 0;
     animation: laserOn 750ms steps(9) forwards calc(100ms + 70ms * 12);
+    z-index: 1; /* To be above Values intro */
   }
 </style>
 

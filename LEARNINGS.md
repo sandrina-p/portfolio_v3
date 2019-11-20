@@ -13,6 +13,7 @@ Here's a list of my learnings while building this website.
 - Question: How to conditionally add attr/events on an element? ??
 - Passing props down isn't trivial at all... [Workaround](https://github.com/sveltejs/svelte/issues/2870#issuecomment-529200474)
 - Create a storeFactory to prevent useless updates (storeFactory)
+- Functions can be reactive too (as variables!)
 
 ## Javascript
 

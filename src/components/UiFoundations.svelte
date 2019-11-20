@@ -28,15 +28,16 @@
     --bounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
 
-  @font-face {
+  /* @font-face {
     font-family: 'PFDin', 'monospace';
     src: url('fonts/PFDin_Mono_Bold.ttf') format('truetype');
-  }
+  } */
 
   html {
     font-size: 62.5%; /* 1rem = 10px */
     box-sizing: border-box;
-    font-family: 'PT Sans', sans-serif;
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 300;
 
     * {
       box-sizing: inherit;
@@ -63,8 +64,9 @@
   /** CSS UTILITIES - Font related **/
 
   .f-mono {
-    font-family: 'PFDin', monospace;
+    font-family: 'Libre Baskerville', serif;
     line-height: 1.2;
+    font-weight: 600;
   }
 
   /* The outline offseted effect */
