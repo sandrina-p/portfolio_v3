@@ -80,10 +80,9 @@
   }
   
   // NOTE: I'm not sure if this is genius or just a *really* bad practice.
-  // So basically this self-executes everytime currentSection changes.
+  // ----  So basically this self-executes everytime currentSection changes.
   $: reactiveStuffBAMM = {
     doIt: (sectionName) => {
-      console.log('Updating dabox based on', sectionName)
       daboxText = sectionName;
       updateDabox({
         width: valuesData[sectionName].width,
@@ -92,12 +91,14 @@
     }
   }.doIt(currentSection)
 
+  let styleAskClip = ''
+
   onMount(() => {
     isMounted = true;
     watchSections();
   });
 
-  function handleHetamorphose() {
+  function handleMetamorphose() {
     // Metamorphose the initial circle into a square (dabox)
     // 🐻 with me, it's going to be a fun ride!
     // -    P.S. me doing this part: https://i.imgur.com/3uyRWGJ.jpg
@@ -130,11 +131,27 @@
     })
   }
 
+
   function watchSections() {
+    let scrollPivot;
+    let currentEntry;
+
+    function handleAskClipping() {
+      console.log('scrolling ask clip...')
+      const { left, width } = currentEntry.boundingClientRect;
+      const windowWidth = left;
+      const limit = width + 2 // just for pixel-sanity-check.
+      const needsToScroll = windowWidth / 2;
+      
+      const fromMiddle = window.scrollY - scrollPivot - needsToScroll;
+
+      styleAskClip = `--clipx: ${getInLimit(fromMiddle, 0, limit)}px;`
+    }
+
     const watchHeading = (entries) => {
       entries.forEach(entry => {
         const section = entry.target.getAttribute('data-section');
-        const status = getIOstatus(entry)  
+        const status = getIOstatus(entry);
         const performReactionBasedOnStatus = {
           enterLeft: () => {
             currentSection = section
@@ -149,6 +166,19 @@
             currentSection = sections[sections.indexOf(section) - 1]
           },
         }[status]()
+
+        if(section === 'ASK') {          
+          if (['enterLeft', 'enterRight'].includes(status)) {
+            currentEntry = entry;
+            scrollPivot = status === 'enterRight'
+              ? window.scrollY
+              : window.scrollY - entry.rootBounds.width - entry.boundingClientRect.width;
+            window.addEventListener('scroll', handleAskClipping);
+          } else {
+            console.log('should remove...')
+            window.removeEventListener('scroll', handleAskClipping);
+          }
+        }
       })
     };
 
@@ -247,7 +277,7 @@
     line-height: 1.5;
     color: var(--bg);
     z-index: 1;
-    outline: 1px dashed #aaa;
+    /* outline: 1px dashed #aaa; */
     opacity: 0;
     pointer-events: none;
     transition: opacity 50ms 0ms ease-out;
@@ -288,7 +318,7 @@
       content: '';
       position: absolute;
       top: 15vh;
-      left: 10vw;
+      left: 50vw;
       width: 30vw;
       height: 1px;
       background: var(--text_1);
@@ -298,7 +328,7 @@
       content: '';
       position: absolute;
       bottom: 30vh;
-      right: 50vw;
+      left: 5vw;
       width: 25vw;
       height: 1px;
       background: var(--text_1);
@@ -315,19 +345,20 @@
   .sAsk {
     .title {
       position: relative;
-      --clipx-first: 0; /* Here's the secret behind the title masks! */
-      --clipx-last: 0;
+      line-height: 1;
+      display: flex;
+      flex-direction: column;
 
-      &-part:first-child {
-        clip-path: polygon(var(--clipx-first) 0, 100% 0, 100% 100%, var(--clipx-first), 100%)
-      }
+      &-part {
+        &:first-child {
+          clip-path: polygon(var(--clipx) 0, 100% 0, 100% 100%, var(--clipx) 100%);
+        }
 
-      &-part:last-child {
-        position: absolute;
-        left: 0;
-        top: 0;
-        white-space: nowrap;
-        clip-path: polygon(var(--clipx-last) 0, 100% 0, 100% 100%, var(--clipx-last), 100%)
+        &:last-child {
+          clip-path: polygon(0 0, var(--clipx) 0, var(--clipx) 100%, 0 100%);
+          margin-top: -1em;
+          color: var(--primary_1);
+        }
       }
     }
 
@@ -336,8 +367,7 @@
     }
   }
 
-  .sWolf,
-  .sPeople {
+  .sWolf, .sPeople {
     .sBox {
       padding: var(--spacer-XL) var(--spacer-L);
     }
@@ -350,13 +380,13 @@
   }
 </style>
 
-<svelte:window on:scroll={handleHetamorphose} />
+<svelte:window on:scroll={handleMetamorphose} />
 <section class="container" style="--textTranslateX: {scrollY}px">
   <h2 class="sr-only">Values</h2>
   <div class="dabox" class:isActive={$strDabox.isActive} style={daboxStyle} />
   <div class="section sMorph" style={morphStyle}></div>
   
-  <!-- JSX I miss you... lame having to write this multiple times -->
+  <!-- JSX I miss you... so lame having to write this multiple times -->
   <div class="section sDots">
     <h3 class="f-mono title" data-section="DOTS" bind:this={elDots}>
       Let's connect the dots
@@ -372,7 +402,7 @@
   </div>
 
   <div class="section sAsk">
-    <h3 class="f-mono title" data-section="ASK" bind:this={elAsk}>
+    <h3 class="f-mono title" data-section="ASK" bind:this={elAsk} style={styleAskClip}>
       <span class="title-part">Ask why</span>
       <span class="title-part">Understand how</span>
     </h3>
