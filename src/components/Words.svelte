@@ -79,7 +79,7 @@
           .start()
           .text(currentText => nextLedText)
           .reveal(500);
-        ledColor = 'var(--bg)';
+        ledColor = 'var(--bg_0)';
         setTimeout(() => {
           ledText = nextLedText;
           ledColor = colors[nextIndex];
@@ -212,7 +212,7 @@
       --gutter: var(--spacer-M);
       --transition: transform 75ms ease-out;
       position: relative;
-      color: var(--text_invert);
+      color: var(--text_0);
       width: calc(50% - var(--gutter));
       margin-bottom: var(--spacer-L);
       padding: var(--spacer-L);
@@ -278,7 +278,7 @@
       }
 
       &::after {
-        background-color: var(--bg-invert);
+        background-color: var(--bg_1);
         opacity: 1;
         transition: opacity 400ms ease-in var(--appear-delay);
 
@@ -342,7 +342,7 @@
         height: 100%;
         background: var(--place-color);
         opacity: 0.2;
-        border: 0 solid var(--bg-invert);
+        border: 0 solid var(--bg_0);
         box-sizing: border-box;
         border-width: 0.2em 0 0.2em 0;
         transform: scale(0, 1);

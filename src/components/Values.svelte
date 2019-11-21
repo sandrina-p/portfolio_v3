@@ -5,47 +5,19 @@
   import { strDabox, updateDabox } from '../stores/dabox.js';
   import { updateCircle } from '../stores/circle.js';
 
-  let isMounted = false;
-  let elDots;
-  let elAsk;
-  let elWolf;
-  let elPeople;
-  let scrollY;
-
-  // ::: Morphose - circle -> dabox
-  const size = 200;   // TODO - get real CSS Variables form circle.
-  const scaleStart = 0.8;
-  $: distance = isMounted && $_window.innerWidth/2 - size*1.5;
-  const morphRatio = 2.5; // morphose progression based on scroll. (ex: it needs to scroll 25px to change 10px)
-  
-  $: offLimit = distance * morphRatio;
-  $: morphStyle = isMounted && `width: ${offLimit + size}px`; // REFINE this value... should match the beg of sDots
-  $: daboxStyle = $strDabox.progress ?
-    `
-      --radius: ${50 - $strDabox.progress*50}%;
-      --opacity: ${1 - $strDabox.progress};
-      --translateX: ${scrollY}px;
-      ${$strDabox.width ? `--width:${$strDabox.width};` : ''}
-      ${$strDabox.height ? `--height:${$strDabox.height};` : ''}
-    ` : '';
-  
-  let daboxText;
-
-  // ::: Values
-  const sections = ['INTRO', 'DOTS', 'ASK', 'WOLF', 'PEOPLE', 'FINALLE']
-  let currentSection = 'INTRO';
+  const sections = ['INTRO', 'DOTS', 'ASK', 'WOLF', 'PEOPLE', 'FINALLE'];
   const valuesData = {
     // NOTE: The texts are static, so let's take advantage of that
     // and save ms from useless getBoundingClientRect, shall we?
     INTRO: {
       text: '',
-      width: '',
-      height: ''
+      width: '20rem', /* same as circle */
+      height: '20rem',
     },
     DOTS: {
       text: ["Combining both design and development processes is one of Sandrina’s expertises. She loves to work closely with the design team to define and implement exciting experiences."],
-      width: '37.5rem',
-      height: '18.4rem'
+      width: '48rem',
+      height: '21rem',
     },
     ASK: {
       text: [
@@ -53,24 +25,24 @@
         "Let’s understand the problem first.",
         "Only then we can make wise decisions taken with true care.",
       ],
-      width: '33rem',
-      height: '33rem'
+      width: '39rem',
+      height: '30rem',
     },
     WOLF: {
       text: [
         "If you wanna go quickly, Sandrina can make it happen. As a fast paced worker with a high quality bar, she can be the lone wolf when needed.",
         "However, if you wanna go far, ask her to join your wolves pack and let’s go together, as a team.",
       ],
-      width: '26rem',
-      height: '43rem',
+      width: '32rem',
+      height: '44rem',
     },
     PEOPLE: {
       text: [
         "At the end, it doesn’t matter if all the best practices are followed, all the code is reused and each pixel is perfectly aligned, if there isn’t a human connection between the people who create a product.",
         "The technology is only the starting point. The passion behind a team it’s the fuel to create a memorable experience to everyone.",
       ],
-      width: '40rem',
-      height: '40rem',
+      width: '54rem',
+      height: '27rem',
     },
     FINALLE: {
       text: '',
@@ -79,49 +51,76 @@
     }
   }
   
-  // NOTE: I'm not sure if this is genius or just a *really* bad practice.
-  // ----  So basically this self-executes everytime currentSection changes.
-  $: reactiveStuffBAMM = {
-    doIt: (sectionName) => {
-      daboxText = sectionName;
-      updateDabox({
-        width: valuesData[sectionName].width,
-        height: valuesData[sectionName].height,
-      })
-    }
-  }.doIt(currentSection)
+  let currentSection = 'INTRO';
+  
+  let elDots;
+  let elAsk;
+  let elWolf;
+  let elPeople;
 
-  let styleAskClip = ''
+  let isMounted = false;
+  let scrollY = 0;
 
+  // ::: Morphose - circle -> dabox
+  const size = 200;   // TODO - get real CSS Variables form circle.
+  const scaleStart = 0.8;
+  $: distance = isMounted && $_window.innerWidth/2 - size*1.5;
+ 
+  const morphCircleRatio = 2; // circle progression based on scroll. (ex: it needs to scroll 25px to change 10px)
+  const morphBoxRatio = 150; // nr of pixels needed to scroll to change border-radius from circle to square.
+  let isMorphing = true;
+
+  $: offLimit = isMounted && $_window.innerWidth/4 + (distance * morphCircleRatio) + morphBoxRatio;
+  $: morphStyle = isMounted && `width: ${offLimit + size}px`; // REFINE this value... should match the beginits of sDots
+
+  $: daboxStyle = `
+    ${$strDabox.progress ? `
+      --radius: ${50 - $strDabox.progress*50}%;
+      --opacity: ${1 - $strDabox.progress};
+    ` : ''}
+    --width: var(--width-${currentSection});
+    --height: var(--height-${currentSection});
+  `;
+  
+  const styleContainer = Object.keys(valuesData).reduce((styles, section) => (
+    styles += `--width-${section}: ${valuesData[section].width}; --height-${section}: ${valuesData[section].height};`
+  ), '')
+  
+  let styleClip = {} // a list of clipping for each section
+  
   onMount(() => {
     isMounted = true;
-    watchSections();
+    observeSections();
   });
 
   function handleMetamorphose() {
     // Metamorphose the initial circle into a square (dabox)
     // 🐻 with me, it's going to be a fun ride!
-    // -    P.S. me doing this part: https://i.imgur.com/3uyRWGJ.jpg
+    // -  P.S. me doing this part: https://i.imgur.com/3uyRWGJ.jpg
     
     scrollY = window.scrollY;
-
-    const threshold = size * 3;
-    if (scrollY > offLimit + threshold) {
+    const progress = distance - scrollY/morphCircleRatio;
+    const morphProgress = progress*-1/morphBoxRatio;
+    
+    if (morphProgress > 1 && $strDabox.progress === 1) {
       // metamorphose is completed, there's no point in calculating more stuff.... 
+      isMorphing = false;
       return false;
     }
-
+    
+    const daboxProgress = getInLimit(morphProgress, 0, 1);
     const offsetY = getInLimit(scrollY, 0, offLimit);
-    const progress = distance - scrollY/morphRatio;
     const newDistance = getInLimit(progress, 0, distance);
     const scaleStartAdjusted = scaleStart + (0.2 - (newDistance * 0.2 / distance));
-    const daboxProgress = getInLimit(progress*-1/50, 0, 1);
+
+
+    isMorphing = true;
 
     updateCircle({
       style: `
         --scrollY: ${offsetY}px;
         --distance: ${newDistance}px;
-        --scaleStart: ${scaleStartAdjusted}
+        --scaleStart: ${scaleStartAdjusted};
       `,
       isPaused: newDistance === 0,
     })
@@ -131,58 +130,64 @@
     })
   }
 
+  function updateSection(name) {
+    currentSection = name;
+  }
 
-  function watchSections() {
-    let scrollPivot;
-    let currentEntry;
+  function observeSections() {
+    const headingsToClip = ['ASK', 'WOLF', 'PEOPLE'];
+    const clipArgs = {}; // A list of args to be passed to handles, based on the section
+    const clipHandles = headingsToClip.reduce((handles, section) => ({
+      ...handles,
+      [section]: () => handleClipping(clipArgs[section]),
+    }), {});
 
-    function handleAskClipping() {
-      console.log('scrolling ask clip...')
-      const { left, width } = currentEntry.boundingClientRect;
-      const windowWidth = left;
-      const limit = width + 2 // just for pixel-sanity-check.
-      const needsToScroll = windowWidth / 2;
-      
-      const fromMiddle = window.scrollY - scrollPivot - needsToScroll;
-
-      styleAskClip = `--clipx: ${getInLimit(fromMiddle, 0, limit)}px;`
+    const getNextSection = {
+      enterLeft: (sectionName) => sectionName,
+      enterRight: (sectionName) => sectionName,
+      leaveLeft: (sectionName) => sections[sections.indexOf(sectionName) + 1],
+      leaveRight: (sectionName) => sections[sections.indexOf(sectionName) - 1],
     }
 
-    const watchHeading = (entries) => {
-      entries.forEach(entry => {
-        const section = entry.target.getAttribute('data-section');
-        const status = getIOstatus(entry);
-        const performReactionBasedOnStatus = {
-          enterLeft: () => {
-            currentSection = section
-          },
-          enterRight: () => {
-            currentSection = section
-          },
-          leaveLeft: () => {
-            currentSection = sections[sections.indexOf(section) + 1]
-          },
-          leaveRight: () => {
-            currentSection = sections[sections.indexOf(section) - 1]
-          },
-        }[status]()
+    function handleClipping({ section, entry, scrollPivot }) {
+      console.log('clipping', section, '...');
+      const clipLimit = entry.boundingClientRect.width + 1; // just for pixel-sanity-check
+      const needsToScroll = $_window.innerWidth / 2;
+      const awayFromMiddle = window.scrollY - scrollPivot - needsToScroll;
 
-        if(section === 'ASK') {          
-          if (['enterLeft', 'enterRight'].includes(status)) {
-            currentEntry = entry;
-            scrollPivot = status === 'enterRight'
-              ? window.scrollY
-              : window.scrollY - entry.rootBounds.width - entry.boundingClientRect.width;
-            window.addEventListener('scroll', handleAskClipping);
-          } else {
-            console.log('should remove...')
-            window.removeEventListener('scroll', handleAskClipping);
-          }
+      styleClip[section] = `--clipx: ${getInLimit(awayFromMiddle, 0, clipLimit)}px;`;
+    }
+
+    function verifyClippingStatus (section, status, entry) {
+      if (['enterLeft', 'enterRight'].includes(status)) {
+        clipArgs[section] = {
+          section: section,
+          entry,
+          scrollPivot: status === 'enterRight'
+            ? window.scrollY
+            : window.scrollY - entry.rootBounds.width - entry.boundingClientRect.width,
+        }
+        window.addEventListener('scroll', clipHandles[section]);
+      } else {
+        window.removeEventListener('scroll', clipHandles[section]);
+      }
+    }
+    
+    const watchSections = (entries) => {
+      entries.forEach(entry => {
+        const status = getIOstatus(entry);
+        const section = entry.target.getAttribute('data-section');
+        const newSection = getNextSection[status](section);
+
+        updateSection(newSection);
+
+        if(headingsToClip.includes(section)) {   
+          verifyClippingStatus(section, status, entry);     
         }
       })
     };
 
-    const observer = new IntersectionObserver(watchHeading, {
+    const observer = new IntersectionObserver(watchSections, {
       rootMargin: '0px',
       threshold: 0
     });
@@ -192,11 +197,10 @@
     observer.observe(elWolf);
     observer.observe(elPeople);
 
-
     setTimeout(() => {
-      // BUG - workaround first IO intersection
-      currentSection = 'INTRO'
-    }, 250)
+      // BUG - overrides initial intersections
+      updateSection('INTRO')
+    }, 500)
   }
 
   $: getBoxClass = (sectionName) => {
@@ -217,33 +221,43 @@
     position: fixed;
     top: 50vh;
     left: 50vw;
-    width: var(--width, 20rem); /* same as circle */
-    height: var(--height, 20rem);
-    background: var(--text_0); /* TODO - better color */
-    border: 2px solid white;
+    width: var(--width, 1rem);
+    height: var(--height, 1rem);
     display: flex;
     justify-content: center;
     align-items: center;
     opacity: 0;
-    transition-delay: 0ms;
     border-radius: var(--radius, 50%);
-    color: var(--bg);
-    transform: translate(calc(var(--translateX, 0px) - 50%), -50%);
-    z-index: 1;
+    transform: translate(calc(var(--scrollY) - 50%), -50%);
     transition: width 400ms ease-in-out, height 400ms ease-in-out;
+    z-index: 1;
+
+    &.isMorphing {
+      border: 2px solid var(--bg_1);
+    }
 
     &.isActive {
       opacity: 1;
     }
 
-    &::after {
+    &::before, &::after {
       content: '';
       position: absolute;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: #295047;
       border-radius: var(--radius, 50%);
-      opacity: var(--opacity, 1);
+    }
+
+    &::before {
+      transition: transform 300ms;
+      will-change: transform; 
+      background: var(--bg_1);
+      transform: skew(calc(var(--scrollSpeed) * -0.2deg), 0deg);
+    }
+
+    &::after {
+      background: var(--morph_total);
+      opacity: var(--opacity);
     }
   }
 
@@ -265,36 +279,34 @@
 
   .sBox {
     position: fixed;
-    width: var(--width);
-    height: var(--height);
     top: 50vh;
     left: 50vw;
-    transform: translate(calc(var(--textTranslateX, 0px) - 50%), -50%);
+    transform: translate(calc(var(--scrollY) - 50%), -50%);
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: var(--text-L);
     line-height: 1.5;
-    color: var(--bg);
     z-index: 1;
     /* outline: 1px dashed #aaa; */
     opacity: 0;
     pointer-events: none;
-    transition: opacity 50ms 0ms ease-out;
+    transition: opacity 150ms 0ms ease-out;
+    padding: var(--spacer-XL);
     
     &.isActive {
       opacity: 1;
-      transition: opacity 300ms 350ms ease-in;
+      transition: opacity 600ms 350ms cubic-bezier(.19,1,.22,1);
       pointer-events: auto;
     }
 
     &-text {
       display: block;
       transform: translateY(2rem);
-      transition: transform 350ms 0ms ease-out;
+      transition: transform 150ms 0ms ease-out;
 
       .isActive & {
-        transition: transform 350ms 350ms cubic-bezier(.19,1,.22,1);
+        transition: transform 600ms 350ms cubic-bezier(.19,1,.22,1);
         transform: translateY(0);
       }
 
@@ -338,7 +350,8 @@
 
   .sDots {
     .sBox {
-      padding: var(--spacer-L);
+      width: var(--width-DOTS);
+      height: var(--height-DOTS);
     }
   }
 
@@ -350,12 +363,16 @@
       flex-direction: column;
 
       &-part {
+        display: block;
+
         &:first-child {
-          clip-path: polygon(var(--clipx) 0, 100% 0, 100% 100%, var(--clipx) 100%);
+          /* NOTE: 150% is a safe value to avoid cutted char that pass the baseline
+            (ex: in "you" the "y" would get cut on the bottom) */
+          clip-path: polygon(var(--clipx) 0, 100% 0, 100% 150%, var(--clipx) 150%);
         }
 
         &:last-child {
-          clip-path: polygon(0 0, var(--clipx) 0, var(--clipx) 100%, 0 100%);
+          clip-path: polygon(0 0, var(--clipx) 0, var(--clipx) 150%, 0 150%);
           margin-top: -1em;
           color: var(--primary_1);
         }
@@ -363,27 +380,80 @@
     }
 
     .sBox {
-      padding: var(--spacer-XL) var(--spacer-L);
+      width: var(--width-ASK);
+      height: var(--height-ASK);
     }
   }
 
-  .sWolf, .sPeople {
+  .sWolf {
+    .title {
+      height: var(--height-WOLF);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      line-height: 1;
+      display: flex;
+      flex-direction: column;
+
+      &-part {
+        display: block;
+
+        &:first-child {
+          clip-path: polygon(var(--clipx) 0, 100% 0, 100% 150%, var(--clipx) 150%);
+        }
+
+        &:last-child {
+          clip-path: polygon(0 0, var(--clipx) 0, var(--clipx) 150%, 0 150%);
+          color: var(--primary_1);
+          margin-bottom: 0.2em; /* so it gets totally covered by the white box */
+        }
+      }
+    }
+
     .sBox {
-      padding: var(--spacer-XL) var(--spacer-L);
+      width: var(--width-WOLF);
+      height: var(--height-WOLF);
     }
   }
 
-  .finalle {
-    width: 200vw;
-    height: 100vh;
-    /* background: var(--primary_1); */
+  .sPeople {
+    .title {
+      &-part {
+        position: relative;
+        display: block;
+        color: var(--primary_1);
+
+        &:first-child {
+          z-index: 2; /* to be above dabox */
+        }
+
+        &:last-child {
+          clip-path: polygon(0 0, var(--clipx) 0, var(--clipx) 100%, 0 100%);
+          color: var(--text_1);
+        }
+      }
+    }
+      
+    .sBox {
+      width: var(--width-PEOPLE);
+      height: var(--height-PEOPLE);
+    }
+  }
+
+  .sFinalle {
   }
 </style>
 
+<!-- REVIEW: Does scroll inclue passive: true ? -->
 <svelte:window on:scroll={handleMetamorphose} />
-<section class="container" style="--textTranslateX: {scrollY}px">
+
+<section class="container" style='{styleContainer} {currentSection === 'INTRO' ? '--scrollSpeed: 0;' : ''}'>
   <h2 class="sr-only">Values</h2>
-  <div class="dabox" class:isActive={$strDabox.isActive} style={daboxStyle} />
+  
+  <div class="dabox" class:isActive={$strDabox.isActive} class:isMorphing style={daboxStyle}>
+  </div>
+
   <div class="section sMorph" style={morphStyle}></div>
   
   <!-- JSX I miss you... so lame having to write this multiple times -->
@@ -391,8 +461,7 @@
     <h3 class="f-mono title" data-section="DOTS" bind:this={elDots}>
       Let's connect the dots
     </h3>
-    <p class="sBox {getBoxClass('DOTS')}"
-      style="--width:{valuesData.DOTS.width}; --height:{valuesData.DOTS.height};">
+    <p class="sBox {getBoxClass('DOTS')}">
       <span class="sBox-text">
         {#each valuesData.DOTS.text as paragraph }
           <span class="sBox-text-par">{paragraph}</span>
@@ -402,12 +471,11 @@
   </div>
 
   <div class="section sAsk">
-    <h3 class="f-mono title" data-section="ASK" bind:this={elAsk} style={styleAskClip}>
+    <h3 class="f-mono title" data-section="ASK" bind:this={elAsk} style={styleClip.ASK}>
       <span class="title-part">Ask why</span>
       <span class="title-part">Understand how</span>
     </h3>
-    <p class="sBox {getBoxClass('ASK')}"
-      style="--width:{valuesData.ASK.width}; --height:{valuesData.ASK.height};">
+    <p class="sBox {getBoxClass('ASK')}">
       <span class="sBox-text">
         {#each valuesData.ASK.text as paragraph }
           <span class="sBox-text-par">{paragraph}</span>
@@ -415,13 +483,13 @@
       </span>
     </p>
   </div>
+
   <div class="section sWolf">
-    <h3 class="f-mono title" data-section="WOLF" bind:this={elWolf}>
-      <span class="title-part">From a lone wolf</span>
-      <span class="title-part">to a team player</span>
+    <h3 class="f-mono title" data-section="WOLF" bind:this={elWolf} style={styleClip.WOLF}>
+      <span class="title-part">From a<br/>lone wolf</span>
+      <span class="title-part">to a<br/>team player</span>
     </h3>
-    <p class="sBox {getBoxClass('WOLF')}"
-      style="--width:{valuesData.WOLF.width}; --height:{valuesData.WOLF.height};">
+    <p class="sBox {getBoxClass('WOLF')}">
       <span class="sBox-text">
         {#each valuesData.WOLF.text as paragraph }
           <span class="sBox-text-par">{paragraph}</span>
@@ -429,13 +497,13 @@
       </span>
     </p>
   </div>
+
   <div class="section sPeople">
-    <h3 class="f-mono title" data-section="PEOPLE" bind:this={elPeople}>
+    <h3 class="f-mono title" data-section="PEOPLE" bind:this={elPeople} style={styleClip.PEOPLE}>
       <span class="title-part">People come</span>
       <span class="title-part">before code</span>
     </h3>
-    <p class="sBox {getBoxClass('PEOPLE')}"
-      style="--width:{valuesData.PEOPLE.width}; --height:{valuesData.PEOPLE.height};">
+    <p class="sBox {getBoxClass('PEOPLE')}">
       <span class="sBox-text">
         {#each valuesData.PEOPLE.text as paragraph }
           <span class="sBox-text-par">{paragraph}</span>
@@ -443,5 +511,6 @@
       </span>
     </p>
   </div>
-  <div class="section finalle" />
+
+  <div class="section sFinalle">TO BE CONTINUED... 👩‍💻</div>
 </section>

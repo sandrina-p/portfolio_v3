@@ -14,13 +14,13 @@
     --size: 20rem;
     --speed: 4.5s;
     --delay: 150ms;
-    --delay-1stframe: -1000ms;
+    --delay-1stframe: 500ms;
     --ease: cubic-bezier(0.48, 0, 0.48, 1);
     --scaleStart: 0.8;
     --scaleEnd: 1;
     --rotate: 30deg;
     --rotatePivot: 2deg;
-    --fill: var(--primary_1alpha);
+    --fill: var(--morph_color);
     --scrollY: 0px; /* to be manipulated by JS */
     --distance: calc(50vw - (var(--size) * 1.5));
     height: var(--size);
@@ -42,7 +42,7 @@
     top: 0;
     left: 0;
     width: var(--size);
-    stroke: white;
+    stroke: var(--bg_1);
     stroke-width: 1;
     fill: var(--fill);
     animation: circleMove var(--speed) var(--ease) infinite alternate-reverse;

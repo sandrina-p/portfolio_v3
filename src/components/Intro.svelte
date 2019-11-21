@@ -2,7 +2,6 @@
   import Contacts from './Contacts.svelte';
   import CircleComposition from './animations/CircleComposition.svelte';
 
-  let circleCount = Array(10);
   const intro = 'Oh, hi there!';
 </script>
 
@@ -14,7 +13,7 @@
     height: 100vh;
     flex-shrink: 0;
     align-items: center;
-    background: var(--bg);
+    background: var(--bg_0);
   }
 
   .content {
@@ -27,15 +26,19 @@
 
     span {
       opacity: 0;
-      animation: laserOn 500ms steps(9) forwards;
+      animation: laserOn 500ms steps(8) forwards;
 
       /* 13 chars */
       @for $i from 1 to 13 {
         &:nth-of-type($i) {
-          animation-delay: calc(100ms + 70ms * $i);
-
           @if $i == 4 {
             display: block; /* linebreak */
+          }
+
+          @if $i < 4 {
+            animation-delay: calc(200ms + 50ms * $i);
+          } @else {
+            animation-delay: calc(600ms + 50ms * $i);
           }
         }
       }
@@ -45,26 +48,26 @@
   .text {
     font-size: 2.1rem;
     line-height: 1.5;
-    max-width: calc(2.5rem * 19);
+    max-width: 45rem;
     opacity: 0;
-    animation: laserOn 750ms steps(9) forwards calc(500ms + 70ms * 14);
+    animation: laserOn 750ms calc(600ms + 50ms * 13) steps(8) forwards;
 
     &:nth-of-type(2) {
-      margin-top: var(--spacer-L);
-      max-width: calc(2.5rem * 14);
+      margin-top: var(--spacer-M);
+      max-width: 32rem;
     }
   }
 
   :global(.g-intro-contacts) {
     opacity: 0;
-    animation: laserOn 750ms steps(9) forwards calc(500ms + 70ms * 17);
+    animation: laserOn 750ms calc(600ms + 50ms * 14) steps(8) forwards;
   }
 
   .animation {
     position: relative;
     opacity: 0;
-    animation: laserOn 750ms steps(9) forwards calc(100ms + 70ms * 12);
-    z-index: 1; /* To be above Values intro */
+    animation: fadeIn 1000ms calc(600ms + 50ms * 13) forwards;
+    z-index: 1; /* To be above values */
   }
 </style>
 
@@ -75,11 +78,8 @@
         <span>{char}</span>
       {/each}
     </h1>
-    <p class="text">
-      Let me introduce you to someone who helps to turn ideas into accessible experiences.
-    </p>
+    <p class="text">Let me introduce you to someone who helps to turn ideas into accessible experiences.</p>
     <p class="text">Her name is Sandrina Pereira and she’s a frontend developer.</p>
-
     <Contacts class="g-intro-contacts" />
   </div>
   <div class="animation">

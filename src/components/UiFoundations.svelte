@@ -4,14 +4,16 @@
 
 <style global>
   :root {
-    --text_0: #efefef;
-    --text_1: #b7c2cf; /* text over bg with 0.6 opacity and some light... */
-    --text_invert: #1a2e45; /* similar to bg but lighter */
-    --bg: #0d1722;
+    --text_0: #343434; /*#efefef */;
+    --text_1: #898989; /* #b7c2cf; /* text over bg with 0.6 opacity and some light... */
+    --text_invert: #d6d6d6; /* similar to bg but lighter */
+    --bg_0: #e9e9e9; /* #0d1722;*/
+    --bg_1: #fbfbfb; /* #000000; */
     --bg-invert: var(--text_0);
-    --primary_1: #65bd90; /* #fb6177; */
+    --primary_1: #59b9a3; /* #fb6177; */
     --primary_1b: #2b6145;
-    --primary_1alpha: #65bd9017;
+    --morph_color: rgba(101,189,144,0.09);
+    --morph_total: #b4d5c4; /* visual effect when all circles are overlapping */
     --primary_2: var(--primary_1); /* #835bfa; */
     --primary_3: var(--primary_1); /* #fff5a2; */
     --primary_3_darker: var(--primary_1); /* #dfb948; */
@@ -45,7 +47,7 @@
   }
 
   body {
-    background: var(--bg);
+    background: var(--bg_0);
     color: var(--text_0);
     font-size: var(--font-M);
   }
@@ -79,9 +81,9 @@
       position: absolute;
       -webkit-text-stroke: 2px var(--led-color);
       z-index: -1;
-      top: 0.05em;
-      left: -0.05em;
-      color: var(--bg);
+      top: 0.03em;
+      left: -0.03em;
+      color: var(--bg_0);
     }
   }
 
@@ -146,12 +148,16 @@
 
   @keyframes laserOn {
     0%, 85% {opacity: 0;}
-    87% {opacity: 1;}
-    88% {opacity: 0;}
-    89% {opacity: 1;}
-    92% {opacity: 0;}
-    91% {opacity: 1;}
-    90%, 100% {opacity: 1;}
+    87% {opacity: 0.8;}
+    88% {opacity: 0.1;}
+    89% {opacity: 0.8;}
+    92% {opacity: 0.2;}
+    94%, 100% {opacity: 1;}
+  }
+
+  @keyframes fadeIn {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
   }
 </style>
 

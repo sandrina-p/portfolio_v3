@@ -12,21 +12,34 @@
 
   let isMounted = false;
   let translateX = 0;
+  let scrollY = 0;
+  let scrollSpeedLastY = 0;
+  let scrollSpeed = 0;
   let elHorizon;
 
   $: innerHeight = isMounted ? $_window.innerHeight : 0;
   $: innerWidth = isMounted ? $_window.innerWidth : 0;
   $: maxScroll = isMounted ? elHorizon.offsetWidth - (innerWidth - innerHeight) : 0;
-  $: maxScroll2 = isMounted ? maxScroll + (innerWidth - innerHeight) : 0;
   $: marginTop = isMounted ? `${maxScroll + innerHeight}px` : '100vh'; // OPTIMIZE - find a more realistic value from SS;
 
   onMount(() => {
     initResponsive();
+    scrollY = window.scrollY;
     isMounted = true;
+    
+    checkScrollSpeed();
+    window.addEventListener('scroll', handleScroll);
   });
 
-  function handleHorizon() {
-    translateX = getInLimit(window.scrollY, 0, maxScroll2);
+  function checkScrollSpeed() {
+    scrollSpeed = scrollSpeedLastY - scrollY;
+    scrollSpeedLastY = scrollY;
+
+    requestAnimationFrame(checkScrollSpeed);
+  }
+
+  function handleScroll() {
+    scrollY = window.scrollY;
   }
 </script>
 
@@ -43,6 +56,7 @@
 
   .horizon {
     display: flex;
+    transform: translateX(calc(var(--scrollY) * -1));
   }
 
   .horizonAfter {
@@ -55,10 +69,8 @@
   <title>Sandrina Pereira - UX Developer</title>
 </svelte:head>
 
-<svelte:window on:scroll={handleHorizon} />
-
-<div class="panel">
-  <div class="horizon" bind:this={elHorizon} style="transform: translateX(-{translateX}px)">
+<div class="panel" style="--scrollY: {scrollY}px; --scrollSpeed: {scrollSpeed};">
+  <div class="horizon" bind:this={elHorizon}>
     <Intro />
     <Values />
   </div>

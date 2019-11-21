@@ -31,3 +31,32 @@ export function getIOstatus(entry) {
     }
   }
 }
+
+// Based on https://stackoverflow.com/a/22599173/4737729
+export const checkScrollSpeed = (function(settings) {
+  settings = settings || {};
+
+  let lastPos;
+  let newPos;
+  let timer;
+  let speed;
+  let delay = settings.delay || 50; // in "ms" (higher means lower fidelity )
+
+  function clear() {
+    lastPos = null;
+    speed = 0;
+  }
+
+  clear();
+
+  return function() {
+    newPos = window.scrollY;
+    if (lastPos != null) {
+      speed = newPos - lastPos;
+    }
+    lastPos = newPos;
+    clearTimeout(timer);
+    timer = setTimeout(clear, delay);
+    return speed;
+  };
+})();

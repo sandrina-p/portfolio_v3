@@ -95,8 +95,9 @@
       display: inline-block;
       font-size: 12rem; /*var(--font-heading_1); */
       text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--bg);
+      /* letter-spacing: 0.05em; */
+      color: var(--bg_0);
+      font-weight: 600;
       transform-origin: 50% 0%;
       -webkit-text-stroke: 2px var(--text_0);
 
@@ -107,7 +108,7 @@
         z-index: -1;
         top: 0;
         left: 0;
-        color: var(--bg);
+        color: var(--bg_0);
         opacity: 0.75;
 
         .uAppear & {
@@ -368,8 +369,8 @@
 </style>
 
 <section class="wrapper" class:uAppear={isVisible} class:uAppearSoon={!isVisible}>
-  <h2 class="f-mono heading">
-    <span class="headingPart uAppear-0">Get to know her</span>
+  <h2 class="heading">
+    <span class="f-mono headingPart uAppear-0">Get to know her</span>
     <span
       class="headingGlow"
       bind:this={elHeading}
