@@ -1,12 +1,11 @@
 <script>
+  import { onMount } from 'svelte'
   import { strCircle } from '../../stores/circle.js';
 
   let circleCount = Array(7);
 
   $: state = $strCircle;
   
-  // const isPaused = state.isPaused;
-  // const style = state.style;
 </script>
 
 <style>
@@ -24,9 +23,13 @@
     --scrollY: 0px; /* to be manipulated by JS */
     --distance: calc(50vw - (var(--size) * 1.5));
     height: var(--size);
-    width: var(--size);
-    
-    transform: translateX(calc(var(--scrollY, 0px) - 50%));
+    width: var(--distance); /* for shitty browsers, the animation distance is based on the width */
+    transform: translateX(calc(var(--scrollY, 0px) - calc(var(--size) / 2)));
+
+    :global(.jsFF) &,
+    :global(.jsChrome) & {
+      width: var(--size);
+    }
 
     &.isPaused {
       visibility: hidden;
@@ -45,7 +48,15 @@
     stroke: var(--bg_1);
     stroke-width: 1;
     fill: var(--fill);
-    animation: circleMove var(--speed) var(--ease) infinite alternate-reverse;
+    animation: circleMoveExpensiveAndBoring var(--speed) var(--ease) infinite alternate-reverse;
+  
+    :global(.jsChrome) & {
+      animation-name: circleMoveExpensive;
+    }
+
+    :global(.jsFF) & {
+      animation-name: circleMoveWow;
+    }
   }
 
   /* Svelte BUG: @for and &: dont work together */
@@ -69,16 +80,38 @@
     }
   }
 
-  @keyframes circleMove {
+  @keyframes circleMoveWow {
     from {
-      transform: translateX(0) scale(var(--scaleStart)) rotate(calc(0deg + var(--rotatePivot)));
-      filter: drop-shadow(3px 0px 0px rgba(#900, 0.5));
+      transform: translateX(0)
+        scale(var(--scaleStart))
+        rotate(calc(0deg + var(--rotatePivot)));
     }
     to {
-      transform: translateX(var(--distance)) scale(var(--scaleEnd))
+      transform: translateX(var(--distance))
+        scale(var(--scaleEnd))
         rotate(calc(var(--rotate) + var(--rotatePivot)));
-      filter: drop-shadow(1px 0px 0px rgba(#900, 0.8));
     }
+  }
+
+  @keyframes circleMoveExpensive {
+    from {
+      transform: translateX(0)
+        scale(var(--scaleStart))
+        rotate(calc(0deg + var(--rotatePivot)));
+      color: #000; /* force repaint */
+    }
+    to {
+      transform: translateX(var(--distance))
+        scale(var(--scaleEnd))
+        rotate(calc(var(--rotate) + var(--rotatePivot)));
+      color: #001; /* force repaint */
+    }
+  }
+
+  /* At least it moves, based on parent width! */
+  @keyframes circleMoveExpensiveAndBoring {
+    from { margin-left: 0; }
+    to { margin-left: 100%; }
   }
 </style>
 

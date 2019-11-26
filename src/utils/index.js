@@ -32,31 +32,15 @@ export function getIOstatus(entry) {
   }
 }
 
-// Based on https://stackoverflow.com/a/22599173/4737729
-export const checkScrollSpeed = (function(settings) {
-  settings = settings || {};
-
-  let lastPos;
-  let newPos;
-  let timer;
-  let speed;
-  let delay = settings.delay || 50; // in "ms" (higher means lower fidelity )
-
-  function clear() {
-    lastPos = null;
-    speed = 0;
-  }
-
-  clear();
-
-  return function() {
-    newPos = window.scrollY;
-    if (lastPos != null) {
-      speed = newPos - lastPos;
-    }
-    lastPos = newPos;
-    clearTimeout(timer);
-    timer = setTimeout(clear, delay);
-    return speed;
+export function getBrowsers() {
+  const browsers = {
+    jsChrome: /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor),
+    jsSafari: !!navigator.userAgent.match(/Version\/[\d\.]+.*Safari/),
+    jsIOS: /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream,
+    jsFF: !!navigator.userAgent.match(/firefox/i),
   };
-})();
+
+  return Object.keys(browsers).reduce((classes, browser) => {
+    return browsers[browser] ? `${classes} ${browser}` : classes;
+  }, '');
+}

@@ -7,13 +7,13 @@
     --text_0: #343434; /*#efefef */;
     --text_1: #898989; /* #b7c2cf; /* text over bg with 0.6 opacity and some light... */
     --text_invert: #d6d6d6; /* similar to bg but lighter */
-    --bg_0: #e9e9e9; /* #0d1722;*/
-    --bg_1: #fbfbfb; /* #000000; */
+    --bg_0: #f4f4f4; /* #0d1722;*/
+    --bg_1: #fff; /* #000000; */
     --bg-invert: var(--text_0);
     --primary_1: #59b9a3; /* #fb6177; */
     --primary_1b: #2b6145;
     --morph_color: rgba(101,189,144,0.09);
-    --morph_total: #b4d5c4; /* visual effect when all circles are overlapping */
+    --morph_total: #bbdccd; /* visual effect when all circles are overlapping */
     --primary_2: var(--primary_1); /* #835bfa; */
     --primary_3: var(--primary_1); /* #fff5a2; */
     --primary_3_darker: var(--primary_1); /* #dfb948; */

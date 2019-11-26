@@ -7,7 +7,7 @@
   import Journey from '../components/Journey.svelte';
   import Footer from '../components/Footer.svelte';
   import Nav from '../components/Nav.svelte';
-  import { getInLimit } from '../utils';
+  import { getInLimit, getBrowsers } from '../utils';
   import { _window, initResponsive } from '../stores/responsive.js';
 
   let isMounted = false;
@@ -16,6 +16,7 @@
   let scrollSpeedLastY = 0;
   let scrollSpeed = 0;
   let elHorizon;
+  let browserClasses = '';
 
   $: innerHeight = isMounted ? $_window.innerHeight : 0;
   $: innerWidth = isMounted ? $_window.innerWidth : 0;
@@ -24,9 +25,9 @@
 
   onMount(() => {
     initResponsive();
+    browserClasses = getBrowsers();
     scrollY = window.scrollY;
     isMounted = true;
-    
     checkScrollSpeed();
     window.addEventListener('scroll', handleScroll);
   });
@@ -68,8 +69,7 @@
 <svelte:head>
   <title>Sandrina Pereira - UX Developer</title>
 </svelte:head>
-
-<div class="panel" style="--scrollY: {scrollY}px; --scrollSpeed: {scrollSpeed};">
+<div class="panel {browserClasses}" style="--scrollY: {scrollY}px; --scrollSpeed: {scrollSpeed};">
   <div class="horizon" bind:this={elHorizon}>
     <Intro />
     <Values />
