@@ -19,9 +19,9 @@
   }
 
   .text {
-    max-width: 65rem;
+    max-width: 50rem;
     margin: 0 auto;
-    font-size: var(--font-XL);
+    font-size: var(--font-L);
     line-height: 1.5;
     color: var(--text_1);
 

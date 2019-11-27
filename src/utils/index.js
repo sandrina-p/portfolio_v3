@@ -17,6 +17,7 @@ export function getIOstatus(entry) {
   const { boundingClientRect, intersectionRect, rootBounds, isIntersecting } = entry;
   const { height, width } = rootBounds;
 
+  // TODO - intersect top/bottom
   if (isIntersecting) {
     if (intersectionRect.left < threshold) {
       return 'enterLeft';

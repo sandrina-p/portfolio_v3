@@ -23,7 +23,7 @@
     z-index: -1;
     top: 0;
     left: 0;
-    background-color: var(--primary_1b);
+    background-color: var(--bg_1);
     width: 200vw;
     height: 200vh;
     transform: rotate(6deg);

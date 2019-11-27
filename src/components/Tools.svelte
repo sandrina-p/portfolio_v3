@@ -78,30 +78,38 @@
     padding: var(--spacer-XL) var(--spacer-M) var(--spacer-XL); /* REVIEW */
     min-height: 100vh;
     overflow: hidden;
+    padding-top: 100vh;
+    transition: background 250ms ease-in-out;
+
+    &.uAppear {
+      background-color: #1b1b1b;
+    }
   }
 
   .heading {
     position: relative;
-    font-size: var(--font-heading_2);
+    font-size: var(--font-XL);
     margin-top: var(--spacer-L);
     text-align: center;
+    line-height: 0.8;
 
-    &Part {
+    &Kicker {
       display: block;
+      color: var(--text_1);
     }
 
-    &Glow {
+    &Main {
       position: relative;
-      display: inline-block;
-      font-size: 12rem; /*var(--font-heading_1); */
-      text-transform: uppercase;
+      display: block;
+      font-size: 12rem; /* var(--font-heading_1);
+      /* text-transform: uppercase; */
       /* letter-spacing: 0.05em; */
-      color: var(--bg_0);
-      font-weight: 600;
+      color: transparent;
+      /* font-weight: 600; */
       transform-origin: 50% 0%;
-      -webkit-text-stroke: 2px var(--text_0);
+      -webkit-text-stroke: 2px rgb(100, 100, 100);
 
-      &::before {
+      /* &::before {
         content: 'superpowers';
         position: absolute;
         text-shadow: var(--glow, 0 0 0 transparent);
@@ -114,7 +122,7 @@
         .uAppear & {
           --glow: 0 0 0.3em var(--colorTabSelected);
         }
-      }
+      } */
     }
   }
 
@@ -127,14 +135,14 @@
   .tabs {
     text-align: center;
     margin: var(--spacer-L) 0;
-    margin-top: 20rem;
+    margin-top: var(--spacer-XL);
 
     &Item {
       display: inline-block;
       margin: 0 var(--spacer-M);
       font-size: var(--font-L);
       background-color: transparent;
-      color: var(--text_0);
+      color: var(--text_invert);
       border: none;
       cursor: pointer;
       text-decoration: underline;
@@ -161,7 +169,6 @@
     height: 28rem; /* static list content */
     flex-direction: column;
     margin-top: var(--spacer-XL);
-    transform: scale(1.4); /* TODO small screens */
     transform-origin: 50% 0;
 
     &Item {
@@ -184,6 +191,7 @@
         transform: scale(0);
         transform-origin: 0 50%;
         transition: transform 250ms ease-out;
+        color: var(--text_invert);
 
         .isActive & {
           transition-timing-function: var(--bounce);
@@ -328,10 +336,11 @@
     }
 
     &Star {
-      background-color: var(--text_0);
+      background-color: var(--text_invert);
       transform: scale(0.5);
       transition: transform 250ms ease;
       cursor: zoom-in;
+      border-radius: 0.4rem;
 
       .isActive & {
         background-color: var(--colorType);
@@ -369,13 +378,14 @@
 </style>
 
 <section class="wrapper" class:uAppear={isVisible} class:uAppearSoon={!isVisible}>
-  <h2 class="heading">
-    <span class="f-mono headingPart uAppear-0">Get to know her</span>
-    <span
-      class="headingGlow"
+  <h2 class="heading f-mono">
+    <span class="headingKicker"
       bind:this={elHeading}
-      style="--colorTabSelected: {colorTypes[tabSelected]}; {headingStyle}}">
-      Superpowers
+      style="--colorTabSelected: {colorTypes[tabSelected]}; {headingStyle}"
+      >Get to know her</span>
+    <span
+      class="headingMain uAppear-0">
+      superpowers
     </span>
   </h2>
   <div class="main">

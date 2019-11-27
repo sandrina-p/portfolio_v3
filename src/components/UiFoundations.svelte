@@ -14,10 +14,10 @@
     --primary_1b: #2b6145;
     --morph_color: rgba(101,189,144,0.09);
     --morph_total: #bbdccd; /* visual effect when all circles are overlapping */
-    --primary_2: var(--primary_1); /* #835bfa; */
-    --primary_3: var(--primary_1); /* #fff5a2; */
-    --primary_3_darker: var(--primary_1); /* #dfb948; */
-    --primary_4: var(--primary_1); /* #1abba6; */
+    --primary_2: #835bfa;
+    --primary_3: #fff5a2;
+    --primary_3_darker: #dfb948;
+    --primary_4: #f08e8e;
     --font-M: 1.6rem;
     --font-L: 1.8rem;
     --font-XL: 2.6rem;
@@ -142,6 +142,41 @@
     &-6 {
       .uAppear & {
         transition-delay: 800ms;
+      }
+    }
+  }
+
+  .u-link {
+    position: relative;
+    border-bottom: 1.5px dashed var(--primary_1);
+    color: var(--text_0);
+    text-decoration: none;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -0.1em;
+      width: calc(100% + 0.2em);
+      height: 100%;
+      background: var(--primary_1);
+      opacity: 0.2;
+      border: 0 solid var(--bg_0);
+      box-sizing: border-box;
+      border-width: 0.2em 0 0.2em 0;
+      transform: scale(0, 1);
+      transition: transform 75ms ease-out;
+      transform-origin: 0 0;
+      z-index: -1;
+    }
+
+    &:hover,
+    &:focus {
+      outline: none;
+
+      &::before {
+        transition-duration: 250ms; /* TODO speed scale */
+        transform: scale(1);
       }
     }
   }

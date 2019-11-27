@@ -16,16 +16,6 @@ export default [
     ],
   },
   {
-    title: 'Learning hash tables with drawings',
-    places: [
-      {
-        type: 'zine',
-        where: 'Dev.io',
-        link: 'https://dev.to/a_sandrina_p/learning-hash-tables-with-drawings-99o',
-      },
-    ],
-  },
-  {
     title: 'Bringing a healthy code review mindset to your team',
     places: [
       {
@@ -41,15 +31,25 @@ export default [
     ],
   },
   {
-    title: 'Making the web more accessible',
+    title: 'Learning hash tables with drawings',
     places: [
       {
-        type: 'training',
-        where: 'Get in touch!',
-        link: 'TODO-email',
+        type: 'zine',
+        where: 'Dev.io',
+        link: 'https://dev.to/a_sandrina_p/learning-hash-tables-with-drawings-99o',
       },
     ],
   },
+  // {
+  //   title: 'Making the web more accessible',
+  //   places: [
+  //     {
+  //       type: 'training',
+  //       where: 'Get in touch!',
+  //       link: 'TODO-email',
+  //     },
+  //   ],
+  // },
   {
     title: 'Using Custom Properties to Wrangle Variations in Keyframe Animations ',
     places: [
@@ -61,26 +61,26 @@ export default [
       },
     ],
   },
-  {
-    title: 'React Context cheatsheet',
-    places: [
-      {
-        type: 'article',
-        where: 'Dev.io',
-        link: 'https://dev.to/a_sandrina_p/react-context-cheatsheet-18n4',
-      },
-    ],
-  },
-  {
-    title: 'Testing React apps with Jest and Enzyme',
-    places: [
-      {
-        type: 'training',
-        where: 'Get in touch!',
-        link: 'TODO-email',
-      },
-    ],
-  },
+  // {
+  //   title: 'React Context cheatsheet',
+  //   places: [
+  //     {
+  //       type: 'article',
+  //       where: 'Dev.io',
+  //       link: 'https://dev.to/a_sandrina_p/react-context-cheatsheet-18n4',
+  //     },
+  //   ],
+  // },
+  // {
+  //   title: 'Testing React apps with Jest and Enzyme',
+  //   places: [
+  //     {
+  //       type: 'training',
+  //       where: 'Get in touch!',
+  //       link: 'TODO-email',
+  //     },
+  //   ],
+  // },
   {
     title: 'I’ve spoken at JSConf and so can you!',
     places: [
@@ -107,15 +107,15 @@ export default [
       },
     ],
   },
-  {
-    title: 'The web is awesome and everyone should be able to read it',
-    places: [
-      {
-        type: 'article',
-        where: 'Medium',
-        link:
-          'https://medium.com/@a_sandrina_p/the-web-is-awesome-and-everyone-should-be-able-to-read-it-b0b0926ad420',
-      },
-    ],
-  },
+  // {
+  //   title: 'The web is awesome and everyone should be able to read it',
+  //   places: [
+  //     {
+  //       type: 'article',
+  //       where: 'Medium',
+  //       link:
+  //         'https://medium.com/@a_sandrina_p/the-web-is-awesome-and-everyone-should-be-able-to-read-it-b0b0926ad420',
+  //     },
+  //   ],
+  // },
 ];

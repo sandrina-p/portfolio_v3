@@ -1,9 +1,11 @@
 <script>
-  import { onMount, afterUpdate } from 'svelte';
+  import { afterUpdate } from 'svelte';
   import { getInLimit, getIOstatus } from '../utils';
   import { _window, onResponsiveChange } from '../stores/responsive.js';
   import { strDabox, updateDabox } from '../stores/dabox.js';
   import { updateCircle } from '../stores/circle.js';
+  import { updateGeneral } from '../stores/general.js';
+  import { strGeneral } from '../stores/general.js';
 
   const sections = ['INTRO', 'DOTS', 'ASK', 'WOLF', 'PEOPLE', 'FINALLE'];
   const valuesData = {
@@ -46,8 +48,8 @@
     },
     FINALLE: {
       text: '',
-      width: '1rem',
-      height: '1rem',
+      width: '0',
+      height: '0',
     }
   }
   
@@ -58,20 +60,22 @@
   let elWolf;
   let elPeople;
 
-  let isMounted = false;
+  let isReady = false; /* wait for Intro animations */
   let scrollY = 0;
 
-  // ::: Morphose - circle -> dabox
-  const size = 200;   // TODO - get real CSS Variables form circle.
+  // ::: Morphose - a circle to a square (dabox)
+  // TODO - Maybe this section shouldn't be here...
+  // It's only logic, I was between Intro and Values
+  const size = 200; // TODO - get real CSS Variables form circle
   const scaleStart = 0.8;
-  $: distance = isMounted && $_window.innerWidth/2 - size*1.5;
+  $: distance = isReady && $_window.innerWidth/2 - size*1.5;
  
   const morphCircleRatio = 2; // circle progression based on scroll. (ex: it needs to scroll 25px to change 10px)
-  const morphBoxRatio = 150; // nr of pixels needed to scroll to change border-radius from circle to square.
+  const morphBoxRatio = 150; // nr of scrolled pixels needed to change border-radius from circle to square
   let isMorphing = true;
 
-  $: offLimit = isMounted && $_window.innerWidth/4 + (distance * morphCircleRatio) + morphBoxRatio;
-  $: morphStyle = isMounted && `width: ${offLimit + size}px`; // REFINE this value... should match the beginits of sDots
+  $: offLimit = isReady && $_window.innerWidth/4 + (distance * morphCircleRatio) + morphBoxRatio;
+  $: morphStyle = isReady && `width: ${offLimit + size}px`; // REFINE this value... should match the beginits of sDots
 
   $: daboxStyle = `
     ${$strDabox.progress ? `
@@ -88,9 +92,11 @@
   
   let styleClip = {} // a list of clipping for each section
   
-  onMount(() => {
-    isMounted = true;
-    observeSections();
+  afterUpdate(() => {
+    if(!isReady && $strGeneral.isReady) {
+      isReady = true;
+      observeSections();
+    }
   });
 
   function handleMetamorphose() {
@@ -132,6 +138,10 @@
 
   function updateSection(name) {
     currentSection = name;
+
+    updateGeneral({
+      valuesIsDone: name === 'FINALLE'
+    })
   }
 
   function observeSections() {
@@ -141,13 +151,13 @@
       ...handles,
       [section]: () => handleClipping(clipArgs[section]),
     }), {});
-
     const getNextSection = {
       enterLeft: (sectionName) => sectionName,
       enterRight: (sectionName) => sectionName,
       leaveLeft: (sectionName) => sections[sections.indexOf(sectionName) + 1],
       leaveRight: (sectionName) => sections[sections.indexOf(sectionName) - 1],
     }
+    let isFirstTime = true;  // Prevent initial IO callback to take effect - https://stackoverflow.com/a/47855484/4737729
 
     function handleClipping({ section, entry, scrollPivot }) {
       console.log('clipping', section, '...');
@@ -173,11 +183,16 @@
       }
     }
     
-    const watchSections = (entries) => {
+    const watchSection = (entries) => {
+      if(isFirstTime) {        
+        isFirstTime = false;
+        return false;
+      }
       entries.forEach(entry => {
         const status = getIOstatus(entry);
         const section = entry.target.getAttribute('data-section');
         const newSection = getNextSection[status](section);
+        console.log('intersecting', section)
 
         updateSection(newSection);
 
@@ -187,7 +202,7 @@
       })
     };
 
-    const observer = new IntersectionObserver(watchSections, {
+    const observer = new IntersectionObserver(watchSection, {
       rootMargin: '0px',
       threshold: 0
     });
@@ -196,11 +211,6 @@
     observer.observe(elAsk);
     observer.observe(elWolf);
     observer.observe(elPeople);
-
-    setTimeout(() => {
-      // BUG - overrides initial intersections
-      updateSection('INTRO')
-    }, 500)
   }
 
   $: getBoxClass = (sectionName) => {
@@ -273,7 +283,7 @@
   }
 
   .title {
-    font-size: var(--font-heading_1);
+    font-size: var(--font-heading_2);
     margin-right: 75vw; /* white space is everything */
   }
 
@@ -418,7 +428,11 @@
   }
 
   .sPeople {
+    min-width: auto;
+
     .title {
+      margin-right: 0; /* so Words can come right away */
+
       &-part {
         position: relative;
         display: block;
@@ -442,6 +456,7 @@
   }
 
   .sFinalle {
+    outline: 1px solid red;
   }
 </style>
 
@@ -512,5 +527,6 @@
     </p>
   </div>
 
-  <div class="section sFinalle">TO BE CONTINUED... 👩‍💻</div>
+  <!-- <div class="section sFinalle">TO BE CONTINUED... 👩‍💻</div>
+  <div class="section sFinalle">ONE MORE... 👩‍💻</div> -->
 </section>

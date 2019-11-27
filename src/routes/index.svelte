@@ -1,5 +1,5 @@
 <script>
-  import { onMount } from 'svelte';
+  import { onMount, afterUpdate } from 'svelte';
   import Intro from '../components/Intro.svelte';
   import Values from '../components/Values.svelte';
   import Words from '../components/Words.svelte';
@@ -9,34 +9,52 @@
   import Nav from '../components/Nav.svelte';
   import { getInLimit, getBrowsers } from '../utils';
   import { _window, initResponsive } from '../stores/responsive.js';
+  import { strGeneral } from '../stores/general.js';
 
-  let isMounted = false;
-  let translateX = 0;
   let scrollY = 0;
-  let scrollSpeedLastY = 0;
-  let scrollSpeed = 0;
+  let scrollSpeedCached = 0;
+  let scrollSpeedCurrent = 0;
   let elHorizon;
   let browserClasses = '';
+  let isReady = false;
+  let checkSpeed = true;
 
-  $: innerHeight = isMounted ? $_window.innerHeight : 0;
-  $: innerWidth = isMounted ? $_window.innerWidth : 0;
-  $: maxScroll = isMounted ? elHorizon.offsetWidth - (innerWidth - innerHeight) : 0;
-  $: marginTop = isMounted ? `${maxScroll + innerHeight}px` : '100vh'; // OPTIMIZE - find a more realistic value from SS;
+  $: innerHeight =  isReady ? $_window.innerHeight : 0;
+  $: innerWidth =  isReady ? $_window.innerWidth : 0;
+  $: marginTop = isReady ? `${innerWidth + elHorizon.offsetWidth + innerHeight/2}px` : '100vh';
 
   onMount(() => {
     initResponsive();
-    browserClasses = getBrowsers();
-    scrollY = window.scrollY;
-    isMounted = true;
-    checkScrollSpeed();
+    browserClasses = getBrowsers();    
+    monitorizeScrollSpeed();
     window.addEventListener('scroll', handleScroll);
   });
 
-  function checkScrollSpeed() {
-    scrollSpeed = scrollSpeedLastY - scrollY;
-    scrollSpeedLastY = scrollY;
+  afterUpdate(() => {
+    if(!isReady && $strGeneral.isReady) {
+      // https://github.com/sveltejs/svelte/issues/3105
+      isReady = true;
+      document.body.classList.add('jsGoOn');
+    }
 
-    requestAnimationFrame(checkScrollSpeed);
+    if($strGeneral.valuesIsDone) {
+      checkSpeed = false;
+      scrollSpeedCurrent = 0;
+    }
+    
+    if(!checkSpeed && !$strGeneral.valuesIsDone) {
+      checkSpeed = true;
+      monitorizeScrollSpeed();
+    };
+  });
+
+  function monitorizeScrollSpeed() {
+    scrollSpeedCurrent = scrollSpeedCached - scrollY;
+    scrollSpeedCached = scrollY;
+
+    if(checkSpeed) {
+      requestAnimationFrame(monitorizeScrollSpeed);
+    }
   }
 
   function handleScroll() {
@@ -61,21 +79,27 @@
   }
 
   .horizonAfter {
-    position: relative;
-    margin-top: 100vh;
+    position: fixed;
+    margin-top: var(--marginTop, '100vh');
+
+    :global(.jsGoOn) & {
+      position: relative;
+    }
   }
 </style>
 
 <svelte:head>
   <title>Sandrina Pereira - UX Developer</title>
 </svelte:head>
-<div class="panel {browserClasses}" style="--scrollY: {scrollY}px; --scrollSpeed: {scrollSpeed};">
+
+<div class="panel {browserClasses}"
+  style="--scrollY: {scrollY}px; --scrollSpeed: {scrollSpeedCurrent};">
   <div class="horizon" bind:this={elHorizon}>
     <Intro />
     <Values />
   </div>
 </div>
-<div class="horizonAfter" style="margin-top: {marginTop}">
+<div class="horizonAfter" style="--marginTop: {marginTop}">
   <Words />
   <Tools />
   <Journey />

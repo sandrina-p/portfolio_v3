@@ -1,8 +1,18 @@
 <script>
+  import { onMount } from 'svelte';
+  import { updateGeneral } from '../stores/general.js';
   import Contacts from './Contacts.svelte';
   import CircleComposition from './animations/CircleComposition.svelte';
 
   const intro = 'Oh, hi there!';
+
+  onMount(() => {
+    setTimeout(() => {
+      updateGeneral({
+        isReady: true,
+      })
+    }, 2000) // approximately the end of CSS intro animations.
+  })
 </script>
 
 <style>
