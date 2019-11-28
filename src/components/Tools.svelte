@@ -13,17 +13,18 @@
     '4': 'var(--primary_4)',
   };
   let tabSelected = '1';
+  let interactedWith = { '1': true };
   let elHeading;
   let headingStyle;
   let isVisible = false;
 
   onMount(() => {
     setTimeout(() => {
-      // window.scroll(0, 12000); // easier debug
+      window.scroll(0, 7500); // easier debug
 
       // TODO only do this after marginTop on index.svelte
       !reducedMotion && initHeadingAnimation();
-    }, 250);
+    }, 2500);
   });
 
   function initHeadingAnimation() {
@@ -33,8 +34,10 @@
     let fromTop;
 
     function verifyAnimations() {
-      const closeToTop = wHeight - (fromTop - window.scrollY);
-      const translate = limit - (fromTop - window.scrollY);
+      const scrollY = window.scrollY;
+      const offset = wHeight / 4; 
+      const closeToTop = wHeight - (fromTop - window.scrollY + offset);
+      const translate = limit - (fromTop - window.scrollY + offset);
       const perc = closeToTop / limit;
       const scale = getInLimit(perc, 0, 1).toFixed(2);
       isVisible = scale === '1.00';
@@ -50,7 +53,6 @@
     const watchHeading = ([entry]) => {
       if (entry.isIntersecting) {
         // Note1: Add w.scrollY to make sure it's okay even when the page starts already scrolled.
-        // Note2: Update fromTop to avoid bugs when the DOM changes - ex: All articles were expanded
         fromTop = entry.boundingClientRect.top + window.scrollY;
         window.addEventListener('scroll', verifyAnimations);
       } else {
@@ -69,7 +71,13 @@
   }
 
   function updateList(id) {
+    interactedWith[id] = true
     tabSelected = id;
+  }
+
+  function showExtraBtn(id) {
+    /* EASTER-EGG - show "made me" when all 3 lists are viewed */
+    return id !== '4' || Object.keys(interactedWith).length >= 3
   }
 </script>
 
@@ -78,8 +86,8 @@
     padding: var(--spacer-XL) var(--spacer-M) var(--spacer-XL); /* REVIEW */
     min-height: 100vh;
     overflow: hidden;
-    padding-top: 100vh;
-    transition: background 250ms ease-in-out;
+    padding: 50vh 0;
+    transition: background-color 150ms ease-out;
 
     &.uAppear {
       background-color: #1b1b1b;
@@ -91,7 +99,6 @@
     font-size: var(--font-XL);
     margin-top: var(--spacer-L);
     text-align: center;
-    line-height: 0.8;
 
     &Kicker {
       display: block;
@@ -107,7 +114,8 @@
       color: transparent;
       /* font-weight: 600; */
       transform-origin: 50% 0%;
-      -webkit-text-stroke: 2px rgb(100, 100, 100);
+      -webkit-text-stroke: 1px #616161; /* TODO this color */
+      will-change: transform;
 
       /* &::before {
         content: 'superpowers';
@@ -128,42 +136,56 @@
 
   /* -- Tools -- */
   .main {
-    max-width: 70rem;
+    max-width: 90rem;
     margin: 0 auto;
+    position: relative;
+    display: flex;
+    justify-content: center;
   }
 
-  .tabs {
-    text-align: center;
-    margin: var(--spacer-L) 0;
-    margin-top: var(--spacer-XL);
+  .tab {
+    &List {
+      text-align: center;
+      margin: var(--spacer-L) 0;
+      margin-top: var(--spacer-XL);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 1; /* to be above tools */
+    }
 
     &Item {
       display: inline-block;
-      margin: 0 var(--spacer-M);
       font-size: var(--font-L);
-      background-color: transparent;
-      color: var(--text_invert);
       border: none;
       cursor: pointer;
-      text-decoration: underline;
+      color: var(--text_1);
+      padding: 1rem 2rem;
+      margin-bottom: 3rem;
+      background: transparent;
+      border: 2px dashed;
+      width: 14rem;
+      opacity: 1;
+      border-radius: 4px; /* REVIEW borders */
+      position: relative;
 
       &:hover,
       &:focus {
-        /* TODO - better UI/animation */
+        opacity: 0.7;
         color: var(--colorType);
       }
 
       &[aria-selected='true'] {
-        background-color: var(--colorType);
-        color: var(--text_invert);
-        opacity: 1;
-        text-decoration: none;
+        color: var(--colorType);
       }
     }
   }
 
   .tools {
-    position: relative;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
     height: 28rem; /* static list content */
@@ -231,78 +253,30 @@
         }
 
         /* Handmade coordinates for each item */
-        &:nth-child(1) {
-          transform: translate(18rem, 6rem);
-        }
-        &:nth-child(2) {
-          transform: translate(3rem, 2rem);
-        }
-        &:nth-child(3) {
-          transform: translate(-5rem, -6rem);
-        }
-        &:nth-child(4) {
-          transform: translate(0rem, 1rem);
-        }
-        &:nth-child(5) {
-          transform: translate(-7rem, 1rem);
-        }
-        &:nth-child(6) {
-          transform: translate(12rem, 1rem);
-        }
-        &:nth-child(7) {
-          transform: translate(-2rem, 3rem);
-        }
-        &:nth-child(8) {
-          transform: translate(8rem, 2rem);
-        }
-        &:nth-child(9) {
-          transform: translate(1rem, 8rem);
-        }
-        &:nth-child(10) {
-          transform: translate(-10rem, -2rem);
-        }
-        &:nth-child(11) {
-          transform: translate(-1rem, 11rem);
-        }
-        &:nth-child(12) {
-          transform: translate(36rem, 11rem);
-        }
-        &:nth-child(13) {
-          transform: translate(13rem, -1rem);
-        }
-        &:nth-child(14) {
-          transform: translate(12rem, 7rem);
-        }
-        &:nth-child(15) {
-          transform: translate(16rem, -1rem);
-        }
-        &:nth-child(16) {
-          transform: translate(1rem, 2rem);
-        }
-        &:nth-child(17) {
-          transform: translate(2rem, 1rem);
-        }
-        &:nth-child(18) {
-          transform: translate(20rem, 8rem);
-        }
-        &:nth-child(19) {
-          transform: translate(-7rem, -1rem);
-        }
-        &:nth-child(20) {
-          transform: translate(5rem, 0rem);
-        }
-        &:nth-child(21) {
-          transform: translate(-18rem, -14rem);
-        }
-        &:nth-child(22) {
-          transform: translate(7rem, 0rem);
-        }
-        &:nth-child(23) {
-          transform: translate(2rem, 6rem);
-        }
-        &:nth-child(24) {
-          transform: translate(16rem, -18rem);
-        }
+        &:nth-child(1) { transform: translate(11rem, 19rem); }
+        &:nth-child(2) { transform: translate(5rem, 1rem); }
+        &:nth-child(3) { transform: translate(-5rem, -6rem); }
+        &:nth-child(4) { transform: translate(0rem, 1rem); }
+        &:nth-child(5) { transform: translate(-7rem, 1rem); }
+        &:nth-child(6) { transform: translate(15rem, -15rem); }
+        &:nth-child(7) { transform: translate(1rem, 5rem); }
+        &:nth-child(8) { transform: translate(16rem, 2rem); }
+        &:nth-child(9) { transform: translate(-4rem, 9rem); }
+        &:nth-child(10) { transform: translate(-7rem, -2rem); }
+        &:nth-child(11) { transform: translate(43rem, -8rem); }
+        &:nth-child(12) { transform: translate(43rem, 10rem); }
+        &:nth-child(13) { transform: translate(-14rem, 0rem); }
+        &:nth-child(14) { transform: translate(-32rem, 1rem); }
+        &:nth-child(15) { transform: translate(29rem, -8rem); }
+        &:nth-child(16) { transform: translate(-2rem, 2rem); }
+        &:nth-child(17) { transform: translate(2rem, -1rem); }
+        &:nth-child(18) { transform: translate(20rem, 8rem); }
+        &:nth-child(19) { transform: translate(3rem, 10rem); }
+        &:nth-child(20) { transform: translate(-5rem, -4rem); }
+        &:nth-child(21) { transform: translate(-4rem, 8rem); }
+        &:nth-child(22) { transform: translate(10rem, -9rem); }
+        &:nth-child(23) { transform: translate(2rem, 6rem); }
+        &:nth-child(24) { transform: translate(16rem, -18rem); }
       }
     }
   }
@@ -378,17 +352,27 @@
 </style>
 
 <section class="wrapper" class:uAppear={isVisible} class:uAppearSoon={!isVisible}>
-  <h2 class="heading f-mono">
-    <span class="headingKicker"
-      bind:this={elHeading}
-      style="--colorTabSelected: {colorTypes[tabSelected]}; {headingStyle}"
-      >Get to know her</span>
-    <span
-      class="headingMain uAppear-0">
+  <h2 class="heading f-mono" style="--colorTabSelected: {colorTypes[tabSelected]};">
+    <span class="sr-only">Get to know her</span>
+    <span class="headingMain" bind:this={elHeading} style={headingStyle}>
       superpowers
     </span>
   </h2>
   <div class="main">
+    <div class="tabList uAppear-2" role="tablist" aria-label="Type of tools">
+      {#each Object.keys(tools.lists) as id}
+        {#if showExtraBtn(id)}
+          <button
+            class="tabItem"
+            style="--colorType: {colorTypes[id]}"
+            role="tab"
+            aria-selected={tabSelected === id}
+            on:click={() => updateList(id)}>
+            {tools.lists[id]}
+          </button>
+        {/if}
+      {/each}
+    </div>
     <ul class="tools uAppear-1" class:noGravity role="tabpanel">
       {#each tools.tools as { name, list }}
         <li
@@ -406,17 +390,5 @@
         </li>
       {/each}
     </ul>
-    <div class="tabs uAppear-2" role="tablist" aria-label="Type of tools">
-      {#each Object.keys(tools.lists) as id}
-        <button
-          class="f-mono tabsItem"
-          style="--colorType: {colorTypes[id]}"
-          role="tab"
-          aria-selected={tabSelected === id}
-          on:click={() => updateList(id)}>
-          {tools.lists[id]}
-        </button>
-      {/each}
-    </div>
   </div>
 </section>

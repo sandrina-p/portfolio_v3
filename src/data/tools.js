@@ -1,9 +1,9 @@
 export default {
   lists: {
-    '1': 'rocking at',
-    '2': 'had fun with',
-    '3': 'curious about',
-    '4': 'made me with',
+    '1': 'rocking',
+    '2': 'had fun',
+    '3': 'curious',
+    '4': 'made me',
   },
   tools: [
     {
@@ -30,17 +30,17 @@ export default {
       name: 'Git',
       list: ['1'],
     },
-    {
-      name: 'Gulp',
-      list: ['2'],
-    },
+    // {
+    //   name: 'Gulp',
+    //   list: ['2'],
+    // },
     {
       name: 'Jest',
       list: ['1'],
     },
     {
       name: 'Netlify',
-      list: ['4'],
+      list: ['2', '4'],
     },
     {
       name: 'NodeJS',
