@@ -8,7 +8,7 @@ export default {
   tools: [
     {
       name: 'Accessibility',
-      list: ['1'],
+      list: ['1', '4'],
     },
     {
       name: 'CSS-in-JS',
@@ -24,16 +24,12 @@ export default {
     },
     {
       name: 'Figma',
-      list: ['2'],
+      list: ['2', '4'],
     },
     {
       name: 'Git',
       list: ['1'],
     },
-    // {
-    //   name: 'Gulp',
-    //   list: ['2'],
-    // },
     {
       name: 'Jest',
       list: ['1'],
@@ -105,6 +101,10 @@ export default {
       name: "I'm on Github!",
       list: ['4'],
       link: '#TODO',
+    },
+    {
+      name: 'Gulp',
+      list: ['2'],
     },
   ],
 };

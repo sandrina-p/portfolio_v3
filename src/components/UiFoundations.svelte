@@ -109,39 +109,15 @@
     }
 
     /* OPTIMIZE - Use variables instead! */
-    &-1 {
+    &-0 {
       .uAppear & {
-        transition-delay: 150ms;
-      }
-    }
-
-    &-2 {
-      .uAppear & {
-        transition-delay: 300ms;
+        transition-delay: 100ms;
       }
     }
 
     &-3 {
       .uAppear & {
-        transition-delay: 450ms;
-      }
-    }
-
-    &-4 {
-      .uAppear & {
-        transition-delay: 600ms;
-      }
-    }
-
-    &-5 {
-      .uAppear & {
-        transition-delay: 750ms;
-      }
-    }
-
-    &-6 {
-      .uAppear & {
-        transition-delay: 800ms;
+        transition-delay: 200ms;
       }
     }
   }

@@ -1,5 +1,5 @@
 <script>
-  import { afterUpdate } from 'svelte';
+  import { onMount, afterUpdate } from 'svelte';
   import { getInLimit, getIOstatus } from '../utils';
   import { _window, onResponsiveChange } from '../stores/responsive.js';
   import { strDabox, updateDabox } from '../stores/dabox.js';
@@ -17,7 +17,7 @@
       height: '20rem',
     },
     DOTS: {
-      text: ["Combining both design and development processes is one of Sandrina’s expertises. She loves to work closely with the design team to define and implement exciting experiences."],
+      text: ["Combining both design and development processes is one of Sandrina’s expertises. She loves to <strong>work closely with the design team</strong> to define and implement exciting experiences."],
       width: '48rem',
       height: '21rem',
     },
@@ -32,16 +32,16 @@
     },
     WOLF: {
       text: [
-        "If you wanna go quickly, Sandrina can make it happen. As a fast paced worker with a high quality bar, she can be the lone wolf when needed.",
-        "However, if you wanna go far, ask her to join your wolves pack and let’s go together, as a team.",
+        "If you wanna go quickly, Sandrina can make it happen. As a fast paced worker with a <strong>high quality bar</strong>, she can be the lone wolf when needed.",
+        "However, if you wanna go far, <a href='#TODO'>ask her to join</a> your wolves pack and let’s go together, as a team.",
       ],
-      width: '32rem',
+      width: '30.8rem',
       height: '44rem',
     },
     PEOPLE: {
       text: [
-        "At the end, it doesn’t matter if all the best practices are followed, all the code is reused and each pixel is perfectly aligned, if there isn’t a human connection between the people who create a product.",
-        "The technology is only the starting point. The passion behind a team it’s the fuel to create a memorable experience to everyone.",
+        "At the end the best practices were followed, all the code was reused and each pixel is perfectly aligned. But <strong>it doesn't matters if there isn’t a human connection</strong> between the people who create a product.",
+        // "The technology is only the starting point. The passion behind a team is the fuel to create a memorable experience to everyone.",
       ],
       width: '54rem',
       height: '27rem',
@@ -60,7 +60,7 @@
   let elWolf;
   let elPeople;
 
-  let isReady = false; /* wait for Intro animations */
+  let isMount = false; /* wait for Intro animations */
   let scrollY = 0;
 
   // ::: Morphose - a circle to a square (dabox)
@@ -68,14 +68,14 @@
   // It's only logic, I was between Intro and Values
   const size = 200; // TODO - get real CSS Variables form circle
   const scaleStart = 0.8;
-  $: distance = isReady && $_window.innerWidth/2 - size*1.5;
+  $: distance = isMount && $_window.innerWidth/2 - size*1.5;
  
   const morphCircleRatio = 2; // circle progression based on scroll. (ex: it needs to scroll 25px to change 10px)
   const morphBoxRatio = 150; // nr of scrolled pixels needed to change border-radius from circle to square
   let isMorphing = true;
 
-  $: offLimit = isReady && $_window.innerWidth/4 + (distance * morphCircleRatio) + morphBoxRatio;
-  $: morphStyle = isReady && `width: ${offLimit + size}px`; // REFINE this value... should match the beginits of sDots
+  $: offLimit = isMount && $_window.innerWidth/2 + (distance * morphCircleRatio) + morphBoxRatio;
+  $: morphStyle = isMount && `width: ${offLimit + size}px`; // REFINE this value... should match the beginits of sDots
 
   $: daboxStyle = `
     ${$strDabox.progress ? `
@@ -92,12 +92,25 @@
   
   let styleClip = {} // a list of clipping for each section
   
-  afterUpdate(() => {
-    if(!isReady && $strGeneral.isReady) {
-      isReady = true;
-      observeSections();
-    }
-  });
+  onMount(() => {
+    isMount = true;
+
+    updateValuesPivot()
+    observeSections();
+  })
+
+  onResponsiveChange(() => {
+    updateValuesPivot();
+  })
+
+  function updateValuesPivot() {
+    // WORKAROUND: The parent (.horizon) has a smaller width than this component.
+    // Dunno why, that's why instead we get the position of the last element (elPeople).
+    const { left, width } = elPeople.getBoundingClientRect();
+    updateGeneral({
+      valuesPivotX: Math.round(left + width)
+    })
+  }
 
   function handleMetamorphose() {
     // Metamorphose the initial circle into a square (dabox)
@@ -329,6 +342,10 @@
         display: block;
         margin-bottom: var(--spacer-M);
       }
+
+      :global(strong) { /* Svelte BUG - this exists, but it's dynamic. Use global to persist */
+        font-weight: 600; /* TODO - this */
+      }
     }
   }
 
@@ -479,7 +496,7 @@
     <p class="sBox {getBoxClass('DOTS')}">
       <span class="sBox-text">
         {#each valuesData.DOTS.text as paragraph }
-          <span class="sBox-text-par">{paragraph}</span>
+          <span class="sBox-text-par">{@html paragraph}</span>
         {/each}
       </span>
     </p>
@@ -493,7 +510,7 @@
     <p class="sBox {getBoxClass('ASK')}">
       <span class="sBox-text">
         {#each valuesData.ASK.text as paragraph }
-          <span class="sBox-text-par">{paragraph}</span>
+          <span class="sBox-text-par">{@html paragraph}</span>
         {/each}
       </span>
     </p>
@@ -507,7 +524,7 @@
     <p class="sBox {getBoxClass('WOLF')}">
       <span class="sBox-text">
         {#each valuesData.WOLF.text as paragraph }
-          <span class="sBox-text-par">{paragraph}</span>
+          <span class="sBox-text-par">{@html paragraph}</span>
         {/each}
       </span>
     </p>
@@ -521,7 +538,7 @@
     <p class="sBox {getBoxClass('PEOPLE')}">
       <span class="sBox-text">
         {#each valuesData.PEOPLE.text as paragraph }
-          <span class="sBox-text-par">{paragraph}</span>
+          <span class="sBox-text-par">{@html paragraph}</span>
         {/each}
       </span>
     </p>

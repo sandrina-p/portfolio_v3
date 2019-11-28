@@ -11,6 +11,8 @@ export function getInLimit(value, min, max) {
   }
 }
 
+// TODO - merge getIOstatus with getIOstatusVertial
+
 export function getIOstatus(entry) {
   const threshold = 5; // sometimes edge isn't exactly 0 when triggered.
 
@@ -29,6 +31,27 @@ export function getIOstatus(entry) {
       return 'leaveLeft';
     } else {
       return 'leaveRight';
+    }
+  }
+}
+
+export function getIOstatusVertical(entry) {
+  const threshold = 5; // sometimes edge isn't exactly 0 when triggered.
+
+  const { boundingClientRect, intersectionRect, rootBounds, isIntersecting } = entry;
+  const { height, width } = rootBounds;
+
+  if (isIntersecting) {
+    if (boundingClientRect.top < threshold) {
+      return 'enterTop';
+    } else {
+      return 'enterBottom';
+    }
+  } else {
+    if (boundingClientRect.top < threshold) {
+      return 'leaveTop';
+    } else {
+      return 'leaveBottom';
     }
   }
 }

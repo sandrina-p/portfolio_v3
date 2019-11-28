@@ -5,12 +5,14 @@ export default [
       {
         type: 'article',
         where: 'Smashing Magazine',
+        svg: 'smash',
         link:
           'https://www.smashingmagazine.com/2019/10/frontend-developers-empower-designers-work/',
       },
       {
         type: 'zine',
-        where: 'Github todo',
+        where: 'Dev - Printable',
+        svg: 'dev',
         link: 'https://github.com/sandrina-p/sketching',
       },
     ],
@@ -21,11 +23,13 @@ export default [
       {
         type: 'article',
         where: 'Smashing Magazine',
+        svg: 'smash',
         link: 'https://www.smashingmagazine.com/2019/06/bringing-healthy-code-review-mindset/',
       },
       {
         type: 'talk',
         where: 'RuhrJS 2019',
+        svg: 'video',
         link: 'https://www.youtube.com/watch?v=oT5g6LYVnqk',
       },
     ],
@@ -35,7 +39,8 @@ export default [
     places: [
       {
         type: 'zine',
-        where: 'Dev.io',
+        where: 'Dev - Printable',
+        svg: 'dev',
         link: 'https://dev.to/a_sandrina_p/learning-hash-tables-with-drawings-99o',
       },
     ],
@@ -56,6 +61,7 @@ export default [
       {
         type: 'article',
         where: 'CSS-Tricks',
+        svg: 'css',
         link:
           'https://css-tricks.com/using-custom-properties-to-wrangle-variations-in-keyframe-animations/',
       },
@@ -87,6 +93,7 @@ export default [
       {
         type: 'article',
         where: 'Medium',
+        svg: 'medium',
         link: 'https://medium.com/@a_sandrina_p/ive-spoken-at-jsconf-and-so-can-you-a9d92c1439a6',
       },
     ],
@@ -97,11 +104,13 @@ export default [
       {
         type: 'talk',
         where: 'JSConf Budapest 2017',
+        svg: 'video',
         link: 'https://www.youtube.com/watch?v=UUl0BZgjm3o&t=563s',
       },
       {
         type: 'article',
         where: 'Medium',
+        svg: 'medium',
         link:
           'https://medium.com/@a_sandrina_p/powerup-your-css-mixins-by-writing-them-with-javascript-825b41728a55',
       },

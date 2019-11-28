@@ -14,6 +14,7 @@ Here's a list of my learnings while building this website.
 - Passing props down isn't trivial at all... [Workaround](https://github.com/sveltejs/svelte/issues/2870#issuecomment-529200474)
 - Create a storeFactory to prevent useless updates (storeFactory)
 - Functions can be reactive too (as variables!)
+- BUG: Svelte removes classes when they are added through `@html` (ex: Values.svelte -> .sBox strong).
 
 ## Javascript
 

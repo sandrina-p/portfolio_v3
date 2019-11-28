@@ -15,7 +15,7 @@
     padding: 0 var(--spacer-M);
     min-height: 100vh;
     overflow: hidden;
-    margin-top: 50vh;
+    margin-top: 25vh;
   }
 
   .pattern {

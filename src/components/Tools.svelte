@@ -3,6 +3,7 @@
   import tools from '../data/tools';
   import { getInLimit } from '../utils';
   import { _window } from '../stores/responsive.js';
+  import { strGeneral } from '../stores/general.js';
 
   const reducedMotion = false; // TODO this
   const noGravity = true; // TODO this
@@ -16,18 +17,23 @@
   let interactedWith = { '1': true };
   let elHeading;
   let headingStyle;
+  let getReady = false;
   let isVisible = false;
 
   onMount(() => {
-    setTimeout(() => {
-      window.scroll(0, 7500); // easier debug
-
-      // TODO only do this after marginTop on index.svelte
-      !reducedMotion && initHeadingAnimation();
-    }, 2500);
+    // setTimeout(() => {
+    //   window.scroll(0, 7500); // easier debug
+    // }, 2500);
   });
 
-  function initHeadingAnimation() {
+  afterUpdate(() => {
+    if(!getReady && $strGeneral.valuesIsDone) {
+      getReady = true;
+      initAnimation();
+    }
+  })
+
+  function initAnimation() {
     const wHeight = $_window.innerHeight;
     const limit = wHeight / 2;
     const limitNeg = wHeight * -1;
@@ -60,10 +66,7 @@
       }
     };
 
-    const observer = new IntersectionObserver(watchHeading, {
-      rootMargin: '0px',
-      threshold: 0,
-    });
+    const observer = new IntersectionObserver(watchHeading);
 
     observer.observe(elHeading);
 
@@ -86,11 +89,12 @@
     padding: var(--spacer-XL) var(--spacer-M) var(--spacer-XL); /* REVIEW */
     min-height: 100vh;
     overflow: hidden;
-    padding: 50vh 0;
+    padding: 50vh 0 25vh;
     transition: background-color 150ms ease-out;
 
     &.uAppear {
-      background-color: #1b1b1b;
+      transition: background-color 400ms cubic-bezier(.19,1,.22,1);
+      background-color: #1b1b1b; /* TODO this color */
     }
   }
 
@@ -168,7 +172,9 @@
       opacity: 1;
       border-radius: 4px; /* REVIEW borders */
       position: relative;
-
+      transform: scale(0);
+      animation: wow 500ms cubic-bezier(0.280, 0.670, 0.000, 1.290) forwards;
+     
       &:hover,
       &:focus {
         opacity: 0.7;
@@ -178,6 +184,11 @@
       &[aria-selected='true'] {
         color: var(--colorType);
       }
+    }
+
+    @keyframes wow {
+      0% { transform: scale(0); }
+      100% { transform: scale(1); }
     }
   }
 
@@ -253,30 +264,30 @@
         }
 
         /* Handmade coordinates for each item */
-        &:nth-child(1) { transform: translate(11rem, 19rem); }
+        &:nth-child(1) { transform: translate(12rem, 19rem); }
         &:nth-child(2) { transform: translate(5rem, 1rem); }
         &:nth-child(3) { transform: translate(-5rem, -6rem); }
         &:nth-child(4) { transform: translate(0rem, 1rem); }
         &:nth-child(5) { transform: translate(-7rem, 1rem); }
         &:nth-child(6) { transform: translate(15rem, -15rem); }
         &:nth-child(7) { transform: translate(1rem, 5rem); }
-        &:nth-child(8) { transform: translate(16rem, 2rem); }
+        &:nth-child(8) { transform: translate(24rem, 2rem); }
         &:nth-child(9) { transform: translate(-4rem, 9rem); }
         &:nth-child(10) { transform: translate(-7rem, -2rem); }
         &:nth-child(11) { transform: translate(43rem, -8rem); }
-        &:nth-child(12) { transform: translate(43rem, 10rem); }
+        &:nth-child(12) { transform: translate(47rem, 10rem); }
         &:nth-child(13) { transform: translate(-14rem, 0rem); }
         &:nth-child(14) { transform: translate(-32rem, 1rem); }
         &:nth-child(15) { transform: translate(29rem, -8rem); }
-        &:nth-child(16) { transform: translate(-2rem, 2rem); }
+        &:nth-child(16) { visibility: hidden; transform: translate(-2rem, 2rem); } /* SEO */
         &:nth-child(17) { transform: translate(2rem, -1rem); }
-        &:nth-child(18) { transform: translate(20rem, 8rem); }
-        &:nth-child(19) { transform: translate(3rem, 10rem); }
+        &:nth-child(18) { transform: translate(26rem, 8rem); }
+        &:nth-child(19) { transform: translate(5rem, 9rem); }
         &:nth-child(20) { transform: translate(-5rem, -4rem); }
         &:nth-child(21) { transform: translate(-4rem, 8rem); }
-        &:nth-child(22) { transform: translate(10rem, -9rem); }
+        &:nth-child(22) { transform: translate(13rem, -9rem); }
         &:nth-child(23) { transform: translate(2rem, 6rem); }
-        &:nth-child(24) { transform: translate(16rem, -18rem); }
+        &:nth-child(24) { visibility: hidden; transform: translate(16rem, -18rem); } /* GULP */
       }
     }
   }
@@ -359,7 +370,7 @@
     </span>
   </h2>
   <div class="main">
-    <div class="tabList uAppear-2" role="tablist" aria-label="Type of tools">
+    <div class="tabList uAppear-0" role="tablist" aria-label="Type of tools">
       {#each Object.keys(tools.lists) as id}
         {#if showExtraBtn(id)}
           <button
@@ -373,14 +384,14 @@
         {/if}
       {/each}
     </div>
-    <ul class="tools uAppear-1" class:noGravity role="tabpanel">
+    <ul class="tools uAppear-3" class:noGravity role="tabpanel">
       {#each tools.tools as { name, list }}
         <li
           class="toolsItem"
           class:isActive={list.includes(tabSelected)}
           aria-hidden={!list.includes(tabSelected)}
           on:click={() => !list.includes(tabSelected) ? updateList(list[0]) : true}
-          style="--colorType: {list.includes(tabSelected) ? colorTypes[tabSelected] : colorTypes[list[0]]}">
+          style="--colorType: {colorTypes[list[0]]}">
           <span class="pointOrbite">
             <span class="pointRotate">
               <span class="pointStar" />

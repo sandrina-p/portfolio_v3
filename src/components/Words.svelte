@@ -3,8 +3,9 @@
   import words from '../data/words.js';
   import { _window } from '../stores/responsive.js';
   import { strGeneral } from '../stores/general.js';
-  import { getInLimit, getIOstatus } from '../utils';
-  
+  import { getInLimit, getIOstatusVertical } from '../utils';
+  import baffle from 'baffle';
+
   const colorTypes = {
     article: 'var(--primary_1)',
     talk: 'var(--primary_2)',
@@ -17,9 +18,11 @@
   let elCards = [];
   let cardsProgress = [];
 
+  let baffleLed;
   let ledText = 'sharing';
   let ledInterval;
   let ledColor = colorTypes.default;
+  let elCardList;
 
   onMount(() => {
     setTimeout(() => {
@@ -28,38 +31,70 @@
   });
 
   afterUpdate(() => {
-    isOnStage = $strGeneral.valuesIsDone;
-
     if(!isOnStage && $strGeneral.valuesIsDone) {
-      ledInterval = window.setInterval(baffleIt, 2500);
+      isOnStage = true;
+      // ledInterval = window.setInterval(baffleIt, 2500);
     }
 
     if(isOnStage && !$strGeneral.valuesIsDone) {
-      clearInterval(ledInterval);
+      isOnStage = false;
     }
 
     if(isFirstTimeOnStage && $strGeneral.valuesIsDone) {
       isFirstTimeOnStage = false;
       initAnimation();
-
-      ledInterval = window.setInterval(baffleIt, 2500);
     }
   })
 
   function baffleIt() {
+    console.log('baffling words...')
     const options = ['sharing', 'writing', 'talking'];
     const colors = ['var(--primary_4)', 'var(--primary_1)', 'var(--primary_2)'];
     const index = options.indexOf(ledText);
     const nextIndex = options[index + 1] ? index + 1 : 0;
+    const nextLedText = options[nextIndex];
     
-    ledColor = colors[nextIndex];
-    ledText = options[nextIndex];
+
+    // ledColor = colors[nextIndex];
+    // ledText = options[nextIndex];
+
+    baffleLed
+      .start()
+      .text(currentText => nextLedText)
+      .reveal(500);
+    ledColor = 'var(--bg_0)';
+    setTimeout(() => {
+      ledText = nextLedText;
+      ledColor = colors[nextIndex];
+    }, 250);
   }
 
   function initAnimation() {
     const cardArgs = []; // A list of args to be passed to handles, based on the card
 
+    baffleLed = baffle(elLed).set({ characters: '+-•~!=*' });
+
+    function updateCardArgs (cardId, entry) {
+      if (entry.isIntersecting) {
+        if(!cardArgs[cardId]) {
+          cardArgs[cardId] = {
+            index: cardId,
+            entry,
+            // only works if 1st time is from the bottom - 99.99% of the times.
+            scrollPivot: window.scrollY - (entry.rootBounds.height - entry.boundingClientRect.top), // to be precise when scrolling quickly
+          }
+        } else {
+          cardArgs[cardId].ignore = false;
+        }
+      } else {
+        if(cardArgs[cardId]) {
+          cardArgs[cardId].ignore = true;
+        }
+      }
+    }
+
     function handleScroll() {
+      console.log('Scrolling through Words...')
       const scrollY = window.scrollY;
       const middle = $_window.innerHeight/2;
       cardArgs.forEach(args => {
@@ -70,45 +105,35 @@
       })
     }
 
-    function verifyCardStatus (cardIndex, status, entry) {
-      if (status === 'enterRight') {
-        // Uff... this only works if the first time intesecting is from the bottom.
-        // TODO - verifyCardStatus needs to support enter|leave top/bottom
-        if(!cardArgs[cardIndex]) {
-          cardArgs[cardIndex] = {
-            index: cardIndex,
-            entry,
-            scrollPivot: window.scrollY
-          }
-        } else {
-          cardArgs[cardIndex].ignore = false;
-        }
-      } else {
-        if(cardArgs[cardIndex]) {
-          cardArgs[cardIndex].ignore = true;
-        }
-      }
-    }
-
     function watchCard(entries) {
       entries.forEach(entry => {
-        const status = getIOstatus(entry);
-        const cardIndex = entry.target.getAttribute('data-io');
+        const cardId = entry.target.getAttribute('data-io');
 
-        verifyCardStatus(cardIndex, status, entry);  
+        updateCardArgs(cardId, entry); 
       })
     }
 
-    window.addEventListener('scroll', handleScroll);
+    function watchList([entry]) {
+      const status = getIOstatusVertical(entry);
+      console.log('ss', status)
 
-    const observer = new IntersectionObserver(watchCard, {
-      rootMargin: '0px',
-    });
+      clearInterval(ledInterval);
+      window.removeEventListener('scroll', handleScroll);
+      
+      if(entry.isIntersecting) {
+        ledInterval = window.setInterval(baffleIt, 2500);
+        window.addEventListener('scroll', handleScroll);
+      }
+    }
+
+    const observerList = new IntersectionObserver(watchList, { rootMargin: '0px' });
+    const observerCards = new IntersectionObserver(watchCard, { rootMargin: '0px' });
+
+    observerList.observe(elCardList)
 
     elCards.forEach(elCard => {
-      observer.observe(elCard);
+      observerCards.observe(elCard);
     })
-
   }
 
 
@@ -170,7 +195,7 @@
     &List {
       display: flex;
       flex-wrap: wrap;
-      padding-top: 150vh;
+      padding-top: 75vh;
     }
 
     &Item {
@@ -213,7 +238,7 @@
         content: '';
         z-index: -2;
         box-sizing: border-box;
-        border: 2px dashed var(--place-color);
+        border: 2px dashed var(--primary_1); /* var(--place-color); */
         opacity: 0.6;
         transform: skew(var(--skew));
         transition: transform 75ms ease-out;
@@ -246,6 +271,11 @@
 
     &Item {
       font-size: var(--font-L);
+      display: inline-flex;
+      flex-direction: column;
+      align-items: flex-start;
+      line-height: 1.4;
+
 
       &:not(:last-child) {
         margin-bottom: var(--spacer-M);
@@ -254,12 +284,10 @@
 
     &Link {
       position: relative;
-      display: inline-flex;
-      flex-direction: column;
-      align-items: flex-start;
-      line-height: 1.4;
       color: inherit;
       text-decoration: none;
+      display: flex;
+      align-items: center;
 
       &:hover,
       &:focus {
@@ -270,21 +298,27 @@
           transform: scale(1);
         }
       }
-
-      &Inner {
-        position: relative;
-        z-index: 1;
-      }
     }
 
     &Type {
       font-weight: 600;
       text-transform: capitalize;
-      color: var(--place-color);
+      color: var(--text_0);
+      /* color: var(--place-color); */
+    }
+
+    &Icon {
+      width: 1.8rem;
+      height: 1.8rem;
+      fill: var(--text_1);
+      margin-right: var(--spacer-S);
+      opacity: 0.8;
     }
 
     &Where {
-      border-bottom: 1.5px dashed var(--place-color);
+      position: relative;
+      border-bottom: 1.5px dashed var(--primary_1); /* var(--place-color); */
+      z-index: 0;
 
       &::before {
         content: '';
@@ -293,7 +327,7 @@
         left: -0.1em;
         width: calc(100% + 0.2em);
         height: 100%;
-        background: var(--place-color);
+        background: var(--primary_1); /* var(--place-color); */
         opacity: 0.2;
         border: 0 solid var(--bg_0);
         box-sizing: border-box;
@@ -301,7 +335,7 @@
         transform: scale(0, 1);
         transition: transform 75ms ease-out;
         transform-origin: 0 0;
-        z-index: 0;
+        z-index: -1; /* bellow the text */
       }
     }
   }
@@ -315,12 +349,13 @@
 <section class="wrapper" class:isOnStage>
   <h2 class="f-mono heading" data-io="heading">
     She has been
-    <span bind:this={elLed} class="f-led heading-part" data-text={ledText} style="--led-color: {ledColor}">
+    <!-- f-led  -->
+    <span bind:this={elLed} class="heading-part" data-text={ledText} style="--led-color: {ledColor}">
       {ledText}
     </span>
   </h2>
 
-  <ul class="cardList">
+  <ul class="cardList" bind:this={elCardList}>
     {#each words as { title, places }, index}
       <li
         class="cardItem"
@@ -334,11 +369,14 @@
         <div class="cardItemInner">
           <h3 class="f-mono title">{title}</h3>
           <ul class="placeList">
-            {#each places as { type, where, link }}
+            {#each places as { type, where, link, svg }}
               <li class="placeItem" style="--place-color: {colorTypes[type] || colorTypes.default}">
-                <a href={link} class="placeLink" target="blank">
-                  <span class="placeLinkInner placeType">{type}</span>
-                  <span class="placeLinkInner placeWhere">{where}</span>
+                <span class="placeType">{type}</span>
+                <a href={link} class="placeLink">
+                  <svg aria-hidden="true" class="placeIcon {svg}">
+                    <use xlink:href="#{svg}" />
+                  </svg>
+                  <span class="placeWhere">{where}</span>
                 </a>
               </li>
             {/each}

@@ -7,6 +7,7 @@
   import Journey from '../components/Journey.svelte';
   import Footer from '../components/Footer.svelte';
   import Nav from '../components/Nav.svelte';
+  import SvgSprite from '../components/SvgSprite.svelte';
   import { getInLimit, getBrowsers } from '../utils';
   import { _window, initResponsive } from '../stores/responsive.js';
   import { strGeneral } from '../stores/general.js';
@@ -19,9 +20,8 @@
   let isReady = false;
   let checkSpeed = true;
 
-  $: innerHeight =  isReady ? $_window.innerHeight : 0;
   $: innerWidth =  isReady ? $_window.innerWidth : 0;
-  $: marginTop = isReady ? `${innerWidth + elHorizon.offsetWidth + innerHeight/2}px` : '100vh';
+  $: horizonLimit = isReady ? `${innerWidth + $strGeneral.valuesPivotX + innerWidth/2}px` : '100vh';
 
   onMount(() => {
     initResponsive();
@@ -32,8 +32,8 @@
 
   afterUpdate(() => {
     if(!isReady && $strGeneral.isReady) {
-      // https://github.com/sveltejs/svelte/issues/3105
       isReady = true;
+      // https://github.com/sveltejs/svelte/issues/3105
       document.body.classList.add('jsGoOn');
     }
 
@@ -99,10 +99,11 @@
     <Values />
   </div>
 </div>
-<div class="horizonAfter" style="--marginTop: {marginTop}">
+<div class="horizonAfter" style="--marginTop: {horizonLimit}">
   <Words />
   <Tools />
   <Journey />
   <Footer />
 </div>
+<SvgSprite />
 <Nav />
