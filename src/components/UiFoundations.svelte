@@ -9,7 +9,7 @@
     --text_invert: #d6d6d6; /* similar to bg but lighter */
     --bg_0: #f4f4f4; /* #0d1722;*/
     --bg_1: #fff; /* #000000; */
-    --bg-invert: var(--text_0);
+    --bg_invert: #1b1b1b;
     --primary_1: #59b9a3; /* #fb6177; */
     --primary_1b: #2b6145;
     --morph_color: rgba(101,189,144,0.09);
@@ -18,11 +18,13 @@
     --primary_3: #fff5a2;
     --primary_3_darker: #dfb948;
     --primary_4: #f08e8e;
+    --font-M: 1.4rem;
     --font-M: 1.6rem;
     --font-L: 1.8rem;
     --font-XL: 2.6rem;
     --font-heading_1: 8rem;
     --font-heading_2: 6rem;
+    --font-heading_3: 5rem;
     --spacer-S: 0.8rem;
     --spacer-M: 1.6rem;
     --spacer-L: 3.2rem;

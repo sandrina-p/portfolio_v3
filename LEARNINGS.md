@@ -23,7 +23,8 @@ Here's a list of my learnings while building this website.
 ## CSS
 
 - Horizontal content: Use grid as parent and flex as child. it will grow horizontally forever.
-- Place multiples texts in the same line without position absolute.
+- Place multiples texts in the same line without position absolute using -1em.
+- TIL: `position:sticky` doesn't work when the parent has `overflow:hidden` 
 
 ## VSCode
 

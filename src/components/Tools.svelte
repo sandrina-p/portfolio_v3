@@ -89,12 +89,12 @@
     padding: var(--spacer-XL) var(--spacer-M) var(--spacer-XL); /* REVIEW */
     min-height: 100vh;
     overflow: hidden;
-    padding: 50vh 0 25vh;
+    padding: 50vh 0;
     transition: background-color 150ms ease-out;
 
     &.uAppear {
       transition: background-color 400ms cubic-bezier(.19,1,.22,1);
-      background-color: #1b1b1b; /* TODO this color */
+      background-color: var(--bg_invert);
     }
   }
 
@@ -112,29 +112,11 @@
     &Main {
       position: relative;
       display: block;
-      font-size: 12rem; /* var(--font-heading_1);
-      /* text-transform: uppercase; */
-      /* letter-spacing: 0.05em; */
+      font-size: 12rem; /* var(--font-heading_1); */
       color: transparent;
-      /* font-weight: 600; */
       transform-origin: 50% 0%;
-      -webkit-text-stroke: 1px #616161; /* TODO this color */
+      -webkit-text-stroke: 1px var(--text_1);
       will-change: transform;
-
-      /* &::before {
-        content: 'superpowers';
-        position: absolute;
-        text-shadow: var(--glow, 0 0 0 transparent);
-        z-index: -1;
-        top: 0;
-        left: 0;
-        color: var(--bg_0);
-        opacity: 0.75;
-
-        .uAppear & {
-          --glow: 0 0 0.3em var(--colorTabSelected);
-        }
-      } */
     }
   }
 
@@ -144,7 +126,9 @@
     margin: 0 auto;
     position: relative;
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
   }
 
   .tab {
@@ -286,8 +270,7 @@
         &:nth-child(20) { transform: translate(-5rem, -4rem); }
         &:nth-child(21) { transform: translate(-4rem, 8rem); }
         &:nth-child(22) { transform: translate(13rem, -9rem); }
-        &:nth-child(23) { transform: translate(2rem, 6rem); }
-        &:nth-child(24) { visibility: hidden; transform: translate(16rem, -18rem); } /* GULP */
+        &:nth-child(23) { visibility: hidden; transform: translate(2rem, 6rem); } /* GULP */
       }
     }
   }
@@ -333,6 +316,11 @@
         transform: scale(1);
       }
     }
+  }
+
+  .footer {
+    color: var(--text_invert);
+    margin-top: var(--spacer-XL);
   }
 
   @keyframes orbite {
@@ -401,5 +389,9 @@
         </li>
       {/each}
     </ul>
+    <div class="footer">
+      <p>See them in action on <a href='#TODO'>Codepen</a> and <a href='#TODO'>Github</a></p>
+      <p>Hey, I'm on <a href="#TODO">Github</a>!</p>
+    </div>
   </div>
 </section>

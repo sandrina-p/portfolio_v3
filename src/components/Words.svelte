@@ -301,10 +301,9 @@
     }
 
     &Type {
-      font-weight: 600;
       text-transform: capitalize;
-      color: var(--text_0);
-      /* color: var(--place-color); */
+      color: var(--text_1);
+      font-size: var(--font-M);
     }
 
     &Icon {

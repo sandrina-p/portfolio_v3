@@ -1,80 +1,135 @@
 <script>
   import { onMount } from 'svelte';
-  import words from '../data/words.js';
+  import { _window } from '../stores/responsive.js';
+  import { getInLimit } from '../utils';
 
-  // onMount(() => {
-  //   setTimeout(() => {
-  //     window.scroll(0, 11000); // easier debug
-  //   }, 250);
-  // });
+  let elFooter;
+  let scrollPivot;
+  let progress = 0;
+  let rx = 200;
+  let isOnStage;
+  let height = 10000;
+  let scale1 = 0;
+  let scale2 = 0;
+  let scale3 = 0;
+  // $: isActive = progress === 1;
+
+  onMount(() => {
+    setTimeout(() => {
+      // TODO - only when reaching tools
+      initAnimations()
+    }, 3000);
+  });
+
+  function initAnimations() {
+    let isIncreasing = true;
+    let prevRXMode = 0;
+
+    function handleScroll() {
+      console.log('scrolling footer...');
+      const scrollY = window.scrollY;
+      const scrollYpivot = scrollY - scrollPivot;
+      const goal = $_window.innerHeight/2;
+      const percentage = getInLimit(((scrollYpivot) / goal), 0, 1);
+      progress = percentage;
+      // height += 100;
+      scale1 = Math.abs((100 - scrollYpivot*0.2%200) * 0.01);
+      scale2 = Math.abs((100 - (scrollYpivot-100)*0.2%200) * 0.01);
+      scale3 = Math.abs((100 - (scrollYpivot-200)*0.2%200) * 0.01);
+    }
+
+    const watchFooter = ([{ isIntersecting, boundingClientRect, rootBounds }]) => {
+      if (isIntersecting) {
+        isOnStage = true;
+        scrollPivot = window.scrollY - (rootBounds.height - boundingClientRect.top),        
+        window.addEventListener('scroll', handleScroll, { passive: true });
+      } else {
+        window.removeEventListener('scroll', handleScroll);
+      }
+    };
+
+    const observer = new IntersectionObserver(watchFooter);
+
+    observer.observe(elFooter);
+  }
+
 </script>
-
 <style>
-  .wrapper {
+  .footer {
     position: relative;
     padding: 0 var(--spacer-M);
-    min-height: 100vh;
+    min-height: 200vh;
     overflow: hidden;
-    margin-top: 25vh;
+
+    &.isOnStage {
+      .canvas {
+        display: block;
+        animation: rotate 50s linear infinite;
+      }
+    }
   }
 
-  .pattern {
+  .canvas {
+    position: fixed;
+    top: 50vh;
+    left: 50vw;
+    width: 20rem;
+    height: 20rem;
+    display: none;
+    transform-origin: 50% 50%;
+  }
+
+  .figure {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-origin: 50% 50%;
+    transform: scale(calc((var(--progress) * 1)));
+  }
+
+  .svg {
     position: absolute;
-    z-index: -1;
     top: 0;
     left: 0;
-    background-color: var(--bg_1);
-    width: 200vw;
-    height: 200vh;
-    transform: rotate(6deg);
-    transform-origin: 0 50vw;
-  }
+    width: 100%;
+    height: 100%;
+    transform-origin: 50% 50%;
+    transform: scale(calc((var(--scale) * 1)));
+    transition: transform 500ms ease-out;
 
-  .container {
-    position: relative;
-    display: flex;
-    max-width: 100rem;
-    margin: 0 auto;
-    padding-top: 15vw;
-  }
-
-  .heading {
-    padding: var(--spacer-XL) 0;
-    font-size: 5rem; /*var(--font-heading_2);*/
-  }
-
-  .text {
-    max-width: 50rem;
-    font-size: var(--font-L);
-    line-height: 1.5;
-    color: var(--text_0);
-
-    a {
-      color: inherit;
+    &Rect {
+      fill: var(--morph_color);
+      stroke: var(--bg_1);
+      stroke-width: 2px;
+      stroke-dasharray: 10px 10px; 
     }
+  }
+
+  @keyframes rotate {
+    from { transform: translate(-50%, -50%) rotate(0deg) }
+    to { transform: translate(-50%, -50%) rotate(360deg) }
   }
 </style>
 
-<section class="wrapper">
-  <!-- TODO: turn into a pseudo-element -->
-  <div class="pattern" />
-  <div class="container">
-    <div class="info">
-      <h2 class="f-mono heading">
-        Well,
-        <br />
-        that’s all for now!
-      </h2>
-      <p class="text">
-        I'm not allowed to share more info about Sandrina.
-        <br />
-        <br />
-        But by all means, don't be shy and
-        <a href="todo">go say hello.</a>
-        <br />
-        She is very nice, specially if you are a web lover too.
-      </p>
+<footer class="footer" class:isOnStage bind:this={elFooter}
+  style="--progress: {progress}; height: {height}px;">
+  <div class="canvas">
+    <div class="figure">
+      <svg class="svg"
+        style="--scale: {scale1};"
+        viewBox="0 0 201 201" xmlns="http://www.w3.org/2000/svg">
+        <rect class="svgRect" x="1.13721" y="1.55859" width="198" height="198" rx={rx} />
+      </svg>
+      <svg class="svg"
+        style="--scale: {scale2};"
+        viewBox="0 0 201 201" xmlns="http://www.w3.org/2000/svg">
+        <rect class="svgRect" x="1.13721" y="1.55859" width="198" height="198" rx={rx} />
+      </svg>
+      <svg class="svg"
+        style="--scale: {scale3};"
+        viewBox="0 0 201 201" xmlns="http://www.w3.org/2000/svg">
+        <rect class="svgRect" x="1.13721" y="1.55859" width="198" height="198" rx={rx} />
+      </svg>
     </div>
-    <div>[Chat on the way...]</div>
   </div>
-</section>
+</footer>

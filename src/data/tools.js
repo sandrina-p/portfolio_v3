@@ -98,11 +98,6 @@ export default {
       list: ['3'],
     },
     {
-      name: "I'm on Github!",
-      list: ['4'],
-      link: '#TODO',
-    },
-    {
       name: 'Gulp',
       list: ['2'],
     },
