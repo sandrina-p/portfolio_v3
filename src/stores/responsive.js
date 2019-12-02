@@ -16,12 +16,12 @@ const debounceResize = debounce(handleResize, 100);
 const _window = writable(null);
 const isCalculated = writable(false);
 
-let onResponsiveChangeCb = () => true;
-const onResponsiveChange = fn => (onResponsiveChangeCb = fn);
+let afterResponsiveUpdateCb = () => true;
+const afterResponsiveUpdate = fn => (afterResponsiveUpdateCb = fn);
 
 function handleResize() {
   _window.update(() => window);
-  onResponsiveChangeCb();
+  afterResponsiveUpdateCb();
 }
 
 export function initResponsive(options) {
@@ -52,7 +52,7 @@ export {
   */
   _window,
   /* A callback to be runned on resize, *after* _window update. */
-  onResponsiveChange,
+  afterResponsiveUpdate,
 
   /* ROADMAP:
     mediaIs, // current bp (breakpoint) (md, lg, etc...),

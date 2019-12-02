@@ -26,6 +26,10 @@ Here's a list of my learnings while building this website.
 - Place multiples texts in the same line without position absolute using -1em.
 - TIL: `position:sticky` doesn't work when the parent has `overflow:hidden` 
 
+## Accessibility
+- `aria-current` to a link to mark it as [the current page link](https://tink.uk/using-the-aria-current-attribute/).
+- smooth scrolling when clicking a#tag - we need to handle the focus-changing ourselves because we are override the default scroll behavior.
+
 ## VSCode
 
 - Finally did the switch from Atom to VSCode because of lack of Svelte syntax support...

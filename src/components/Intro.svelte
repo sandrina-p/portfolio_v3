@@ -28,13 +28,14 @@
 
   .content {
     width: calc(50vw - 10rem);
+    margin-bottom: 12vh;
   }
 
   .title {
-    font-size: var(--font-heading_1);
+    font-size: var(--font-heading_2);
     margin-bottom: var(--spacer-L);
 
-    span {
+    &-char {
       opacity: 0;
       animation: laserOn 500ms steps(8) forwards;
 
@@ -56,7 +57,7 @@
   }
 
   .text {
-    font-size: 2.1rem;
+    font-size: 2.1rem; /* var(--font-XL); TODO this */
     line-height: 1.5;
     max-width: 45rem;
     opacity: 0;
@@ -68,11 +69,6 @@
     }
   }
 
-  :global(.g-intro-contacts) {
-    opacity: 0;
-    animation: laserOn 750ms calc(600ms + 50ms * 14) steps(8) forwards;
-  }
-
   .animation {
     position: relative;
     opacity: 0;
@@ -81,16 +77,15 @@
   }
 </style>
 
-<div class="intro">
+<div class="intro" id="intro">
   <div class="content">
     <h1 class="f-mono title">
       {#each intro.split('') as char}
-        <span>{char}</span>
+        <span class="title-char">{char}</span>
       {/each}
     </h1>
     <p class="text">Let me introduce you to someone who helps to turn ideas into accessible experiences.</p>
     <p class="text">Her name is Sandrina Pereira and she’s a frontend developer.</p>
-    <Contacts class="g-intro-contacts" />
   </div>
   <div class="animation">
     <CircleComposition />

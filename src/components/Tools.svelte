@@ -3,7 +3,7 @@
   import tools from '../data/tools';
   import { getInLimit } from '../utils';
   import { _window } from '../stores/responsive.js';
-  import { strGeneral } from '../stores/general.js';
+  import { strGeneral, afterGeneralUpdate } from '../stores/general.js';
 
   const reducedMotion = false; // TODO this
   const noGravity = true; // TODO this
@@ -17,48 +17,53 @@
   let interactedWith = { '1': true };
   let elHeading;
   let headingStyle;
-  let getReady = false;
   let isVisible = false;
+  let wHeight;
+  let limit;
+  let limitNeg;
+  let fromTop;
 
-  onMount(() => {
-    // setTimeout(() => {
-    //   window.scroll(0, 7500); // easier debug
-    // }, 2500);
-  });
 
-  afterUpdate(() => {
-    if(!getReady && $strGeneral.valuesIsDone) {
-      getReady = true;
+  afterGeneralUpdate((prevState, state) => {
+    const prevPageSection = prevState.pageCurrentSection;
+    const pageSection = state.pageCurrentSection;
+    
+    if(!prevState.isReady && state.isReady) {
       initAnimation();
     }
-  })
+
+    if (prevPageSection !== pageSection && pageSection === 'skills') {
+      verifyAnimations();
+    }
+  });
+
+  function verifyAnimations() {
+    // CONTINUE HERE - FIGURE OUT SUPERPOWERS PRECISE ANIMATION AFTER NAV CLICK
+    console.log('updating superpowers...')
+    const scrollY = window.scrollY;
+    const offset = wHeight / 4; 
+    const closeToTop = wHeight - (fromTop - scrollY + offset);
+    const translate = limit - (fromTop - scrollY + offset);
+    const perc = closeToTop / limit;
+    const scale = getInLimit(perc, 0, 1).toFixed(2);
+    isVisible = scale === '1.00';
+
+    headingStyle = `
+      opacity: ${scale};
+      transform:
+        scale(${scale})
+        translateY(${getInLimit(translate, limitNeg, 0).toFixed(2)}px);
+    `;
+  }
 
   function initAnimation() {
-    const wHeight = $_window.innerHeight;
-    const limit = wHeight / 2;
-    const limitNeg = wHeight * -1;
-    let fromTop;
-
-    function verifyAnimations() {
-      const scrollY = window.scrollY;
-      const offset = wHeight / 4; 
-      const closeToTop = wHeight - (fromTop - window.scrollY + offset);
-      const translate = limit - (fromTop - window.scrollY + offset);
-      const perc = closeToTop / limit;
-      const scale = getInLimit(perc, 0, 1).toFixed(2);
-      isVisible = scale === '1.00';
-
-      headingStyle = `
-        opacity: ${scale};
-        transform:
-          scale(${scale})
-          translateY(${getInLimit(translate, limitNeg, 0).toFixed(2)}px);
-      `;
-    }
+    wHeight = $_window.innerHeight;
+    limit = wHeight / 2;
+    limitNeg = wHeight * -1;
 
     const watchHeading = ([entry]) => {
       if (entry.isIntersecting) {
-        // Note1: Add w.scrollY to make sure it's okay even when the page starts already scrolled.
+        // TODO - convert this to scrollPivot
         fromTop = entry.boundingClientRect.top + window.scrollY;
         window.addEventListener('scroll', verifyAnimations);
       } else {
@@ -165,7 +170,7 @@
         color: var(--colorType);
       }
 
-      &[aria-selected='true'] {
+      &[aria-selected="true"] {
         color: var(--colorType);
       }
     }
@@ -350,7 +355,7 @@
   }
 </style>
 
-<section class="wrapper" class:uAppear={isVisible} class:uAppearSoon={!isVisible}>
+<section class="wrapper" class:uAppear={isVisible} class:uAppearSoon={!isVisible} id="skills">
   <h2 class="heading f-mono" style="--colorTabSelected: {colorTypes[tabSelected]};">
     <span class="sr-only">Get to know her</span>
     <span class="headingMain" bind:this={elHeading} style={headingStyle}>

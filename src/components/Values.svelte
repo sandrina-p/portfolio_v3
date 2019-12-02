@@ -1,11 +1,10 @@
 <script>
   import { onMount, afterUpdate } from 'svelte';
   import { getInLimit, getIOstatus } from '../utils';
-  import { _window, onResponsiveChange } from '../stores/responsive.js';
+  import { _window, afterResponsiveUpdate } from '../stores/responsive.js';
   import { strDabox, updateDabox } from '../stores/dabox.js';
   import { updateCircle } from '../stores/circle.js';
-  import { updateGeneral } from '../stores/general.js';
-  import { strGeneral } from '../stores/general.js';
+  import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
 
   const sections = ['INTRO', 'DOTS', 'ASK', 'WOLF', 'PEOPLE', 'FINALLE'];
   const valuesData = {
@@ -54,7 +53,8 @@
   }
   
   let currentSection = 'INTRO';
-  
+  let prevPageCurrent = $strGeneral.pageCurrentSection;
+
   let elDots;
   let elAsk;
   let elWolf;
@@ -99,9 +99,26 @@
     observeSections();
   })
 
-  onResponsiveChange(() => {
+  afterResponsiveUpdate(() => {
     updateValuesPivot();
   })
+
+  afterGeneralUpdate((prevState, state) => {
+    const prevPageSection = prevState.pageCurrentSection;
+    const pageSection = state.pageCurrentSection;
+    
+    if (prevPageSection === pageSection) {
+      return false;
+    }
+    // When scroll is immediately, (by clicking on a nav link) Observers aren't triggered
+    // , so we need to updateSection manually.
+    // OPTMIZE: Better variable names: currentSection != pageSection
+    if (pageSection !== 'intro' && currentSection !== 'FINALLE') {
+      updateSection('FINALLE')
+		} else if (isMorphing && currentSection !== 'INTRO') {
+      updateSection('INTRO')
+    }
+  });
 
   function updateValuesPivot() {
     // WORKAROUND: The parent (.horizon) has a smaller width than this component.
@@ -153,7 +170,7 @@
     currentSection = name;
 
     updateGeneral({
-      valuesIsDone: name === 'FINALLE'
+      valuesIsDone: name === 'FINALLE' // TODO GET RID OF THIS
     })
   }
 

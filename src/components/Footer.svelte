@@ -34,8 +34,8 @@
       progress = percentage;
       // height += 100;
       scale1 = Math.abs((100 - scrollYpivot*0.2%200) * 0.01);
-      scale2 = Math.abs((100 - (scrollYpivot-100)*0.2%200) * 0.01);
-      scale3 = Math.abs((100 - (scrollYpivot-200)*0.2%200) * 0.01);
+      scale2 = Math.abs((100 - (scrollYpivot-150)*0.2%200) * 0.01);
+      scale3 = Math.abs((100 - (scrollYpivot-300)*0.2%200) * 0.01);
     }
 
     const watchFooter = ([{ isIntersecting, boundingClientRect, rootBounds }]) => {

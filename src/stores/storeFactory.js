@@ -6,13 +6,16 @@ import { readable, writable } from 'svelte/store';
 export function createStore(initialState = {}) {
   let store = writable(initialState);
   let state;
+  let afterUpdateCb = () => true;
+  const afterUpdate = fn => (afterUpdateCb = fn);
 
   const unsubscribe = store.subscribe(value => {
     state = value;
   });
 
   function update(newState) {
-    const isDifferent = Object.keys(newState).some(key => state[key] !== newState[key]);
+    const prevState = state;
+    const isDifferent = Object.keys(newState).some(key => prevState[key] !== newState[key]);
 
     if (!isDifferent) {
       return;
@@ -22,7 +25,9 @@ export function createStore(initialState = {}) {
       ...state,
       ...newState,
     }));
+
+    afterUpdateCb(prevState, state);
   }
 
-  return [store, update];
+  return [store, update, afterUpdate];
 }

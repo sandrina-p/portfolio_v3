@@ -124,24 +124,20 @@
     }
   }
 
-  .u-link {
+  .u-link,
+  .u-linkInteract {
     position: relative;
-    border-bottom: 1.5px dashed var(--primary_1);
-    color: var(--text_0);
     text-decoration: none;
 
     &::before {
       content: '';
       position: absolute;
-      top: 0;
+      top: 20%;
       left: -0.1em;
       width: calc(100% + 0.2em);
-      height: 100%;
+      height: 60%;
       background: var(--primary_1);
       opacity: 0.2;
-      border: 0 solid var(--bg_0);
-      box-sizing: border-box;
-      border-width: 0.2em 0 0.2em 0;
       transform: scale(0, 1);
       transition: transform 75ms ease-out;
       transform-origin: 0 0;
@@ -157,6 +153,11 @@
         transform: scale(1);
       }
     }
+  }
+
+  .u-link {
+    border-bottom: 1.5px dashed var(--primary_1);
+    color: var(--text_0);
   }
 
   @keyframes laserOn {

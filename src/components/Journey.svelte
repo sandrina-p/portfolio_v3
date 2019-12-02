@@ -11,9 +11,9 @@
 
   onMount(() => {
     setTimeout(() => {
-      window.scroll(0, 8000); // easier debug
+      // window.scroll(0, 8000); // easier debug
       setTimeout(() => {
-        window.scroll(0, 10000); // easier debug
+        // window.scroll(0, 10000); // easier debug
         
         initAnimations() // TODO - only when reaching tools
       }, 300);
@@ -137,7 +137,7 @@
   }
 </style>
 
-<section class="wrapper" style='--progress: {progress}' class:isActive>
+<section class="wrapper" style='--progress: {progress}' class:isActive id="about">
   <h2 class="f-mono heading" bind:this={elHeading}>
     <div class="sliding">
       <div class="slidingRotate">

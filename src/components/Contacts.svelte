@@ -3,9 +3,7 @@
   import baffle from 'baffle';
 
   let elTitle;
-  let elDescription;
   let baffleTitle;
-  let baffleDescription;
   let isVisible;
   let stopBaffle;
 
@@ -39,7 +37,6 @@
 
   onMount(() => {
     baffleTitle = baffle(elTitle).set({ characters: '+-•~!=*' });
-    baffleDescription = baffle(elDescription).set({ characters: '+-•~!=*' });
   });
 
   function doBaffle(title, description) {
@@ -48,39 +45,29 @@
 
     baffleTitle
       .start()
-      .text(currentText => title)
-      .reveal(200, 150);
-
-    baffleDescription
-      .start()
-      .text(currentText => description)
+      .text(currentText => `${title}: ${description}`)
       .reveal(200, 150);
   }
 
   function removeBaffle() {
     baffleTitle.start();
-    baffleDescription.start();
 
     stopBaffle = setTimeout(() => {
       isVisible = false;
       baffleTitle.stop();
-      baffleDescription.stop();
     }, 200);
   }
 
 </script>
 
 <style>
-  .container {
-    margin-top: 3rem;
-  }
-
-  .title,
-  .description {
+  .title {
     display: block;
-    font-size: 1.6rem;
-    height: 1.6rem;
+    font-size: var(--font-M);
+    height: 1em;
     padding-left: 0.25rem;
+    margin-bottom: 0.5rem;
+    color: var(--text_1);
     opacity: 0;
     transition: opacity 50ms;
 
@@ -89,14 +76,6 @@
     }
   }
 
-  .title {
-    margin-bottom: 0.5rem;
-  }
-
-  .description {
-    color: var(--text_1);
-    margin-top: 1.5rem;
-  }
 
   .item {
     display: inline-block;
@@ -108,33 +87,33 @@
   }
 
   .icon {
-    width: 4rem;
-    height: 4rem;
-    fill: var(--primary_1);
+    width: 3rem;
+    height: 3rem;
+    fill: var(--text_1);
 
     &.twitter {
-      width: 4.1rem;
-      height: 4.1rem;
+      width: 3.1rem;
+      height: 3.1rem;
     }
 
     &.codepen {
-      width: 3.9rem;
-      height: 3.9rem;
+      width: 2.9rem;
+      height: 2.9rem;
     }
 
-    &.email {
-      width: 4.6rem;
-      height: 4.6rem;
+    &.email { /* TODO - better icon */
+      width: 3.3rem;
+      height: 3.3rem;
     }
 
     .link:hover &,
     .link:focus & {
-      fill: var(--text_0);
+      fill: var(--primary_1);
     }
   }
 </style>
 
-<div class="container {$$props.class}">
+<div class="{$$props.class}">
   <h2 class="sr-only">Social Networks</h2>
   <span class="title" class:isVisible aria-hidden="true" bind:this={elTitle} />
   <ul class="list">
@@ -156,5 +135,4 @@
       </li>
     {/each}
   </ul>
-  <span class="description" class:isVisible aria-hidden="true" bind:this={elDescription} />
 </div>

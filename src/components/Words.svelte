@@ -24,12 +24,6 @@
   let ledColor = colorTypes.default;
   let elCardList;
 
-  onMount(() => {
-    setTimeout(() => {
-      // window.scroll(0, 7000); // easier debug
-    }, 3000);
-  });
-
   afterUpdate(() => {
     if(!isOnStage && $strGeneral.valuesIsDone) {
       isOnStage = true;
@@ -54,10 +48,6 @@
     const nextIndex = options[index + 1] ? index + 1 : 0;
     const nextLedText = options[nextIndex];
     
-
-    // ledColor = colors[nextIndex];
-    // ledText = options[nextIndex];
-
     baffleLed
       .start()
       .text(currentText => nextLedText)
@@ -81,6 +71,7 @@
             index: cardId,
             entry,
             // only works if 1st time is from the bottom - 99.99% of the times.
+            // UPDATE - TODO / REVIEW - Not anymore... because of navigation, it can be from the top.
             scrollPivot: window.scrollY - (entry.rootBounds.height - entry.boundingClientRect.top), // to be precise when scrolling quickly
           }
         } else {
@@ -105,17 +96,8 @@
       })
     }
 
-    function watchCard(entries) {
-      entries.forEach(entry => {
-        const cardId = entry.target.getAttribute('data-io');
-
-        updateCardArgs(cardId, entry); 
-      })
-    }
-
     function watchList([entry]) {
       const status = getIOstatusVertical(entry);
-      console.log('ss', status)
 
       clearInterval(ledInterval);
       window.removeEventListener('scroll', handleScroll);
@@ -126,8 +108,15 @@
       }
     }
 
-    const observerList = new IntersectionObserver(watchList, { rootMargin: '0px' });
-    const observerCards = new IntersectionObserver(watchCard, { rootMargin: '0px' });
+    function watchCard(entries) {
+      entries.forEach(entry => {
+        const cardId = entry.target.getAttribute('data-io');
+        updateCardArgs(cardId, entry); 
+      })
+    }
+
+    const observerList = new IntersectionObserver(watchList);
+    const observerCards = new IntersectionObserver(watchCard);
 
     observerList.observe(elCardList)
 
@@ -173,7 +162,6 @@
     display: inline-flex;
     flex-direction: column;
     align-items: center;
-    z-index: 1;
 
     opacity: 0;
     transform: translate(-50%, -50%) scale(0);
@@ -345,7 +333,7 @@
   }
 </style>
 
-<section class="wrapper" class:isOnStage>
+<section class="wrapper" class:isOnStage id="words">
   <h2 class="f-mono heading" data-io="heading">
     She has been
     <!-- f-led  -->
