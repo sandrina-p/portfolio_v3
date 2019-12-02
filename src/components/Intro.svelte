@@ -1,16 +1,21 @@
 <script>
   import { onMount } from 'svelte';
-  import { updateGeneral } from '../stores/general.js';
+  import { strGeneral, updateGeneral } from '../stores/general.js';
   import Contacts from './Contacts.svelte';
   import CircleComposition from './animations/CircleComposition.svelte';
 
   const intro = 'Oh, hi there!';
+  let elSection;
 
   onMount(() => {
+    updateGeneral({
+      intro: {
+        el: elSection
+      }
+    })
+
     setTimeout(() => {
-      updateGeneral({
-        isReady: true,
-      })
+      updateGeneral({ isReady: true })
     }, 2000) // approximately the end of CSS intro animations.
   })
 </script>
@@ -77,7 +82,7 @@
   }
 </style>
 
-<div class="intro" id="intro">
+<div class="intro" data-section="intro" bind:this={ elSection }>
   <div class="content">
     <h1 class="f-mono title">
       {#each intro.split('') as char}

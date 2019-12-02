@@ -3,7 +3,7 @@
   import tools from '../data/tools';
   import { getInLimit } from '../utils';
   import { _window } from '../stores/responsive.js';
-  import { strGeneral, afterGeneralUpdate } from '../stores/general.js';
+  import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
 
   const reducedMotion = false; // TODO this
   const noGravity = true; // TODO this
@@ -15,6 +15,7 @@
   };
   let tabSelected = '1';
   let interactedWith = { '1': true };
+  let elContainer;
   let elHeading;
   let headingStyle;
   let isVisible = false;
@@ -23,8 +24,16 @@
   let limitNeg;
   let fromTop;
 
+   onMount(() => {
+    updateGeneral({
+      skills: {
+        el: elContainer,
+      }
+    });
+  });
 
   afterGeneralUpdate((prevState, state) => {
+    console.log('afterGeneralUpdate in tools')
     const prevPageSection = prevState.pageCurrentSection;
     const pageSection = state.pageCurrentSection;
     
@@ -355,7 +364,7 @@
   }
 </style>
 
-<section class="wrapper" class:uAppear={isVisible} class:uAppearSoon={!isVisible} id="skills">
+<section class="wrapper" class:uAppear={isVisible} class:uAppearSoon={!isVisible} bind:this={elContainer}>
   <h2 class="heading f-mono" style="--colorTabSelected: {colorTypes[tabSelected]};">
     <span class="sr-only">Get to know her</span>
     <span class="headingMain" bind:this={elHeading} style={headingStyle}>

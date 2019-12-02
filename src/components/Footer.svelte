@@ -1,6 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import { _window } from '../stores/responsive.js';
+  import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
   import { getInLimit } from '../utils';
 
   let elFooter;

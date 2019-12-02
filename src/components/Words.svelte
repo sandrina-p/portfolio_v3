@@ -2,7 +2,7 @@
   import { onMount, afterUpdate } from 'svelte';
   import words from '../data/words.js';
   import { _window } from '../stores/responsive.js';
-  import { strGeneral } from '../stores/general.js';
+  import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
   import { getInLimit, getIOstatusVertical } from '../utils';
   import baffle from 'baffle';
 
@@ -12,6 +12,7 @@
     zine: 'var(--primary_3_darker)',
     default: 'var(--primary_4)',
   };
+  let elContainer;
   let isOnStage = null;
   let isFirstTimeOnStage = true;
   let elLed = null;
@@ -24,24 +25,32 @@
   let ledColor = colorTypes.default;
   let elCardList;
 
-  afterUpdate(() => {
-    if(!isOnStage && $strGeneral.valuesIsDone) {
+  onMount(() => {
+    updateGeneral({
+      words: {
+        el: elContainer
+      }
+    });
+  });
+
+  afterGeneralUpdate((prevState, state) => {
+    if (!isOnStage && state.pageCurrentSection === 'words') {
       isOnStage = true;
-      // ledInterval = window.setInterval(baffleIt, 2500);
+
+      if (isFirstTimeOnStage) {
+        isFirstTimeOnStage = false;
+        initAnimation();
+      }
     }
 
-    if(isOnStage && !$strGeneral.valuesIsDone) {
+    if (isOnStage && state.pageCurrentSection !== 'words') {
       isOnStage = false;
-    }
-
-    if(isFirstTimeOnStage && $strGeneral.valuesIsDone) {
-      isFirstTimeOnStage = false;
-      initAnimation();
+      clearInterval(ledInterval);
     }
   })
 
   function baffleIt() {
-    console.log('baffling words...')
+    console.log('baffling words...') // TODO REMOVE THIS
     const options = ['sharing', 'writing', 'talking'];
     const colors = ['var(--primary_4)', 'var(--primary_1)', 'var(--primary_2)'];
     const index = options.indexOf(ledText);
@@ -103,7 +112,7 @@
       window.removeEventListener('scroll', handleScroll);
       
       if(entry.isIntersecting) {
-        ledInterval = window.setInterval(baffleIt, 2500);
+        // ledInterval = window.setInterval(baffleIt, 2500);
         window.addEventListener('scroll', handleScroll);
       }
     }
@@ -333,7 +342,7 @@
   }
 </style>
 
-<section class="wrapper" class:isOnStage id="words">
+<section class="wrapper" class:isOnStage id="words" bind:this={elContainer}>
   <h2 class="f-mono heading" data-io="heading">
     She has been
     <!-- f-led  -->

@@ -1,8 +1,10 @@
 <script>
   import { onMount } from 'svelte';
   import { _window } from '../stores/responsive.js';
+  import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
   import { getInLimit } from '../utils';
 
+  let elContainer;
   let elHeading;
   let scrollPivot;
   let progressOffset;
@@ -10,11 +12,15 @@
   $: isActive = progress === 1;
 
   onMount(() => {
+    updateGeneral({
+      about: {
+        el: elContainer,
+      }
+    });
     setTimeout(() => {
       // window.scroll(0, 8000); // easier debug
       setTimeout(() => {
         // window.scroll(0, 10000); // easier debug
-        
         initAnimations() // TODO - only when reaching tools
       }, 300);
     }, 2500);
@@ -137,7 +143,7 @@
   }
 </style>
 
-<section class="wrapper" style='--progress: {progress}' class:isActive id="about">
+<section class="wrapper" style='--progress: {progress}' class:isActive bind:this={elContainer}>
   <h2 class="f-mono heading" bind:this={elHeading}>
     <div class="sliding">
       <div class="slidingRotate">

@@ -6,8 +6,8 @@ import { readable, writable } from 'svelte/store';
 export function createStore(initialState = {}) {
   let store = writable(initialState);
   let state;
-  let afterUpdateCb = () => true;
-  const afterUpdate = fn => (afterUpdateCb = fn);
+  let afterUpdateCb = [];
+  const afterUpdate = fn => afterUpdateCb.push(fn);
 
   const unsubscribe = store.subscribe(value => {
     state = value;
@@ -26,7 +26,9 @@ export function createStore(initialState = {}) {
       ...newState,
     }));
 
-    afterUpdateCb(prevState, state);
+    for (const cb of afterUpdateCb) {
+      cb(prevState, state);
+    }
   }
 
   return [store, update, afterUpdate];

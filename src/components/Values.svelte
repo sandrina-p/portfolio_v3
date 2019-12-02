@@ -6,11 +6,12 @@
   import { updateCircle } from '../stores/circle.js';
   import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
 
-  const sections = ['INTRO', 'DOTS', 'ASK', 'WOLF', 'PEOPLE', 'FINALLE'];
+  // TODO - rename sections to "part" to avoid naming confusition with general.pageSection.
+  const sections = ['MORPH', 'DOTS', 'ASK', 'WOLF', 'PEOPLE', 'FINALLE'];
   const valuesData = {
     // NOTE: The texts are static, so let's take advantage of that
     // and save ms from useless getBoundingClientRect, shall we?
-    INTRO: {
+    MORPH: {
       text: '',
       width: '20rem', /* same as circle */
       height: '20rem',
@@ -52,9 +53,9 @@
     }
   }
   
-  let currentSection = 'INTRO';
-  let prevPageCurrent = $strGeneral.pageCurrentSection;
-
+  let onStage = true;
+  let currentSection = 'MORPH';
+  let elContainer;
   let elDots;
   let elAsk;
   let elWolf;
@@ -94,13 +95,10 @@
   
   onMount(() => {
     isMount = true;
+    window.addEventListener('scroll', verifyMetamorphose, { passive: true });
 
-    updateValuesPivot()
-    observeSections();
-  })
-
-  afterResponsiveUpdate(() => {
     updateValuesPivot();
+    observeSections();
   })
 
   afterGeneralUpdate((prevState, state) => {
@@ -110,26 +108,34 @@
     if (prevPageSection === pageSection) {
       return false;
     }
-    // When scroll is immediately, (by clicking on a nav link) Observers aren't triggered
-    // , so we need to updateSection manually.
-    // OPTMIZE: Better variable names: currentSection != pageSection
-    if (pageSection !== 'intro' && currentSection !== 'FINALLE') {
-      updateSection('FINALLE')
-		} else if (isMorphing && currentSection !== 'INTRO') {
-      updateSection('INTRO')
+    // When scroll is immediately, (by clicking on a nav link) Observers might not
+    // be triggered, so we need to update the section manually.
+    if (pageSection !== 'intro') {
+      currentSection = 'FINALLE';
+    } else if (window.scrollY === 0) { // It means it was triggered by navigation link
+      currentSection = 'MORPH';
+      updateDabox({ isActive: false, progress: 0 });
+      verifyMetamorphose();
     }
   });
 
+  afterResponsiveUpdate(() => {
+    updateValuesPivot();
+  })
+
   function updateValuesPivot() {
-    // WORKAROUND: The parent (.horizon) has a smaller width than this component.
-    // Dunno why, that's why instead we get the position of the last element (elPeople).
+    // BUG: The parent (elContainer) has a smaller width than its content.
+    // Dunno why. So, instead we pass the position of the last element (elPeople).
     const { left, width } = elPeople.getBoundingClientRect();
     updateGeneral({
-      valuesPivotX: Math.round(left + width)
-    })
+      values: {
+        el: elContainer,
+        end: Math.round(left + width),
+      }
+    });
   }
 
-  function handleMetamorphose() {
+  function verifyMetamorphose() {
     // Metamorphose the initial circle into a square (dabox)
     // 🐻 with me, it's going to be a fun ride!
     // -  P.S. me doing this part: https://i.imgur.com/3uyRWGJ.jpg
@@ -149,7 +155,6 @@
     const newDistance = getInLimit(progress, 0, distance);
     const scaleStartAdjusted = scaleStart + (0.2 - (newDistance * 0.2 / distance));
 
-
     isMorphing = true;
 
     updateCircle({
@@ -163,14 +168,6 @@
     updateDabox({
       isActive: newDistance === 0,
       progress: daboxProgress,
-    })
-  }
-
-  function updateSection(name) {
-    currentSection = name;
-
-    updateGeneral({
-      valuesIsDone: name === 'FINALLE' // TODO GET RID OF THIS
     })
   }
 
@@ -219,14 +216,18 @@
         return false;
       }
       entries.forEach(entry => {
+        // TODO - disable observers instead?
+        if (!($strGeneral.pageCurrentSection === 'intro' && window.scrollY !== 0)) {
+          return false;
+        }
+
         const status = getIOstatus(entry);
         const section = entry.target.getAttribute('data-section');
         const newSection = getNextSection[status](section);
-        console.log('intersecting', section)
+        console.log('intersecting from:', section, 'to:', newSection);
 
-        updateSection(newSection);
-
-        if(headingsToClip.includes(section)) {   
+        currentSection = newSection;
+        if (headingsToClip.includes(section)) {   
           verifyClippingStatus(section, status, entry);     
         }
       })
@@ -488,16 +489,9 @@
       height: var(--height-PEOPLE);
     }
   }
-
-  .sFinalle {
-    outline: 1px solid red;
-  }
 </style>
 
-<!-- REVIEW: Does scroll inclue passive: true ? -->
-<svelte:window on:scroll={handleMetamorphose} />
-
-<section class="container" style='{styleContainer} {currentSection === 'INTRO' ? '--scrollSpeed: 0;' : ''}'>
+<section class="container" bind:this={elContainer} style="{styleContainer} {currentSection === 'MORPH' ? '--scrollSpeed: 0;' : ''}">
   <h2 class="sr-only">Values</h2>
   
   <div class="dabox" class:isActive={$strDabox.isActive} class:isMorphing style={daboxStyle}>
@@ -560,7 +554,4 @@
       </span>
     </p>
   </div>
-
-  <!-- <div class="section sFinalle">TO BE CONTINUED... 👩‍💻</div>
-  <div class="section sFinalle">ONE MORE... 👩‍💻</div> -->
 </section>

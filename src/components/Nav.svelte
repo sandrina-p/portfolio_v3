@@ -1,19 +1,22 @@
 <script>
 	import { onMount, afterUpdate } from 'svelte';
 	import Contacts from './Contacts.svelte';
-	import { strGeneral, updateGeneral } from '../stores/general.js';
+	import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
 
-	const pageSections = $strGeneral.pageSections;
 	$: current = $strGeneral.pageCurrentSection;
+	let pageSections = $strGeneral.pageSections;
+	let pageEls;
 	let prevPageCurrent = $strGeneral.pageCurrentSection;
 	let wasSelected = null; // when the link is clicked, activates the transition
 
 	afterUpdate(() => {
-		if(current !== prevPageCurrent) {
+		if(prevPageCurrent !== current) {
 			prevPageCurrent = current;
 			console.log('pageSection changed:', current)
 		}
 	})
+
+	// TODO - CONTINUE HERE -- update pageCurrentSection as we scroll!
 
 	function updatePageSection(e, pageCurrentSection) {
 		e.preventDefault();
@@ -24,11 +27,18 @@
 
 		console.log('pageSection changing to:', pageCurrentSection)
 		
-		const target = document.getElementById(pageCurrentSection);
+		const target = $strGeneral[pageCurrentSection].el;
 		const from = window.scrollY;
 		const to = pageCurrentSection !== 'intro' ? from + target.getBoundingClientRect().top : 0;
 
 		wasSelected = pageCurrentSection;
+		
+		// setTimeout(() => {
+		// 	// In case user didn't click again in a short period of time.
+		// 	if(wasSelected === pageCurrentSection) {
+		// 		wasSelected = null;
+		// 	}
+		// }, 1500);
 
 		setTimeout(() => {
 			// NOTE: Make sure to call scrollTo before updateGeneral,
@@ -51,6 +61,7 @@
 		top: 0;
 		left: 0;
 		height: 100%;
+		z-index: 5; /* above everything */
 	}
 
 	.links {

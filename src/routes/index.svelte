@@ -19,9 +19,10 @@
   let browserClasses = '';
   let isReady = false;
   let checkSpeed = true;
-
-  $: innerWidth =  isReady ? $_window.innerWidth : 0;
-  $: horizonLimit = isReady ? `${innerWidth + $strGeneral.valuesPivotX + innerWidth/2}px` : '100vh';
+  
+  $: horizonWidth =  isReady && $strGeneral.values ? $strGeneral.values.end : 0;
+  $: wWidth =  isReady ? $_window.innerWidth : 0;
+  $: horizonLimit = isReady ? `${wWidth + horizonWidth + wWidth/2}px` : '100vh';
 
   onMount(() => {
     initResponsive();
@@ -37,19 +38,21 @@
       document.body.classList.add('jsGoOn');
     }
 
-    if($strGeneral.valuesIsDone) {
-      checkSpeed = false;
+    if(checkSpeed && $strGeneral.pageCurrentSection !== 'intro') {
       scrollSpeedCurrent = 0;
+      scrollSpeedCached = null; // prevent wrong speed when using nav links.
+      checkSpeed = false;
     }
     
-    if(!checkSpeed && !$strGeneral.valuesIsDone) {
+    if(!checkSpeed && $strGeneral.pageCurrentSection === 'intro') {
+      scrollSpeedCurrent = 0;
       checkSpeed = true;
       monitorizeScrollSpeed();
     };
   });
 
   function monitorizeScrollSpeed() {
-    scrollSpeedCurrent = scrollSpeedCached - scrollY;
+    scrollSpeedCurrent = scrollSpeedCached ? scrollSpeedCached - scrollY : 0;
     scrollSpeedCached = scrollY;
 
     if(checkSpeed) {
@@ -92,6 +95,7 @@
   <title>Sandrina Pereira - UX Developer</title>
 </svelte:head>
 
+<Nav />
 <div class="panel {browserClasses}"
   style="--scrollY: {scrollY}px; --scrollSpeed: {scrollSpeedCurrent};">
   <div class="horizon" bind:this={elHorizon}>
@@ -106,4 +110,3 @@
   <Footer />
 </div>
 <SvgSprite />
-<Nav />
