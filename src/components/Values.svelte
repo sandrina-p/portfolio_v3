@@ -6,8 +6,8 @@
   import { updateCircle } from '../stores/circle.js';
   import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
 
-  // TODO - rename sections to "part" to avoid naming confusition with general.pageSection.
-  const sections = ['MORPH', 'DOTS', 'ASK', 'WOLF', 'PEOPLE', 'FINALLE'];
+  // TODO - rename parts to "part" to avoid naming confusition with general.pagePart.
+  const parts = ['MORPH', 'DOTS', 'ASK', 'WOLF', 'PEOPLE', 'FINALLE'];
   const valuesData = {
     // NOTE: The texts are static, so let's take advantage of that
     // and save ms from useless getBoundingClientRect, shall we?
@@ -54,8 +54,7 @@
   }
   
   let onStage = true;
-  let currentSection = 'MORPH';
-  let elContainer;
+  let currentPart = 'MORPH';
   let elDots;
   let elAsk;
   let elWolf;
@@ -65,7 +64,7 @@
   let scrollY = 0;
 
   // ::: Morphose - a circle to a square (dabox)
-  // TODO - Maybe this section shouldn't be here...
+  // TODO - Maybe this part shouldn't be here...
   // It's only logic, I was between Intro and Values
   const size = 200; // TODO - get real CSS Variables form circle
   const scaleStart = 0.8;
@@ -83,22 +82,21 @@
       --radius: ${50 - $strDabox.progress*50}%;
       --opacity: ${1 - $strDabox.progress};
     ` : ''}
-    --width: var(--width-${currentSection});
-    --height: var(--height-${currentSection});
+    --width: var(--width-${currentPart});
+    --height: var(--height-${currentPart});
   `;
   
-  const styleContainer = Object.keys(valuesData).reduce((styles, section) => (
-    styles += `--width-${section}: ${valuesData[section].width}; --height-${section}: ${valuesData[section].height};`
+  const styleContainer = Object.keys(valuesData).reduce((styles, part) => (
+    styles += `--width-${part}: ${valuesData[part].width}; --height-${part}: ${valuesData[part].height};`
   ), '')
   
-  let styleClip = {} // a list of clipping for each section
+  let styleClip = {} // a list of clipping for each part
   
   onMount(() => {
     isMount = true;
     window.addEventListener('scroll', verifyMetamorphose, { passive: true });
 
-    updateValuesPivot();
-    observeSections();
+    observeParts();
   })
 
   afterGeneralUpdate((prevState, state) => {
@@ -109,31 +107,15 @@
       return false;
     }
     // When scroll is immediately, (by clicking on a nav link) Observers might not
-    // be triggered, so we need to update the section manually.
+    // be triggered, so we need to update the part manually.
     if (pageSection !== 'intro') {
-      currentSection = 'FINALLE';
+      currentPart = 'FINALLE';
     } else if (window.scrollY === 0) { // It means it was triggered by navigation link
-      currentSection = 'MORPH';
+      currentPart = 'MORPH';
       updateDabox({ isActive: false, progress: 0 });
       verifyMetamorphose();
     }
   });
-
-  afterResponsiveUpdate(() => {
-    updateValuesPivot();
-  })
-
-  function updateValuesPivot() {
-    // BUG: The parent (elContainer) has a smaller width than its content.
-    // Dunno why. So, instead we pass the position of the last element (elPeople).
-    const { left, width } = elPeople.getBoundingClientRect();
-    updateGeneral({
-      values: {
-        el: elContainer,
-        end: Math.round(left + width),
-      }
-    });
-  }
 
   function verifyMetamorphose() {
     // Metamorphose the initial circle into a square (dabox)
@@ -171,46 +153,46 @@
     })
   }
 
-  function observeSections() {
+  function observeParts() {
     const headingsToClip = ['ASK', 'WOLF', 'PEOPLE'];
-    const clipArgs = {}; // A list of args to be passed to handles, based on the section
-    const clipHandles = headingsToClip.reduce((handles, section) => ({
+    const clipArgs = {}; // A list of args to be passed to handles, based on the part
+    const clipHandles = headingsToClip.reduce((handles, part) => ({
       ...handles,
-      [section]: () => handleClipping(clipArgs[section]),
+      [part]: () => handleClipping(clipArgs[part]),
     }), {});
-    const getNextSection = {
-      enterLeft: (sectionName) => sectionName,
-      enterRight: (sectionName) => sectionName,
-      leaveLeft: (sectionName) => sections[sections.indexOf(sectionName) + 1],
-      leaveRight: (sectionName) => sections[sections.indexOf(sectionName) - 1],
+    const getNextPart = {
+      enterLeft: (partName) => partName,
+      enterRight: (partName) => partName,
+      leaveLeft: (partName) => parts[parts.indexOf(partName) + 1],
+      leaveRight: (partName) => parts[parts.indexOf(partName) - 1],
     }
     let isFirstTime = true;  // Prevent initial IO callback to take effect - https://stackoverflow.com/a/47855484/4737729
 
-    function handleClipping({ section, entry, scrollPivot }) {
-      console.log('clipping', section, '...');
+    function handleClipping({ part, entry, scrollPivot }) {
+      console.log('clipping', part, '...');
       const clipLimit = entry.boundingClientRect.width + 1; // just for pixel-sanity-check
       const needsToScroll = $_window.innerWidth / 2;
       const awayFromMiddle = window.scrollY - scrollPivot - needsToScroll;
 
-      styleClip[section] = `--clipx: ${getInLimit(awayFromMiddle, 0, clipLimit)}px;`;
+      styleClip[part] = `--clipx: ${getInLimit(awayFromMiddle, 0, clipLimit)}px;`;
     }
 
-    function verifyClippingStatus (section, status, entry) {
+    function verifyClippingStatus (part, status, entry) {
       if (['enterLeft', 'enterRight'].includes(status)) {
-        clipArgs[section] = {
-          section: section,
+        clipArgs[part] = {
+          part: part,
           entry,
           scrollPivot: status === 'enterRight'
             ? window.scrollY
             : window.scrollY - entry.rootBounds.width - entry.boundingClientRect.width,
         }
-        window.addEventListener('scroll', clipHandles[section]);
+        window.addEventListener('scroll', clipHandles[part]);
       } else {
-        window.removeEventListener('scroll', clipHandles[section]);
+        window.removeEventListener('scroll', clipHandles[part]);
       }
     }
     
-    const watchSection = (entries) => {
+    const watchPart = (entries) => {
       if(isFirstTime) {        
         isFirstTime = false;
         return false;
@@ -222,18 +204,18 @@
         }
 
         const status = getIOstatus(entry);
-        const section = entry.target.getAttribute('data-section');
-        const newSection = getNextSection[status](section);
-        console.log('intersecting from:', section, 'to:', newSection);
+        const part = entry.target.getAttribute('data-part');
+        const newPart = getNextPart[status](part);
+        console.log('intersecting from:', part, 'to:', newPart);
 
-        currentSection = newSection;
-        if (headingsToClip.includes(section)) {   
-          verifyClippingStatus(section, status, entry);     
+        currentPart = newPart;
+        if (headingsToClip.includes(part)) {   
+          verifyClippingStatus(part, status, entry);     
         }
       })
     };
 
-    const observer = new IntersectionObserver(watchSection, {
+    const observer = new IntersectionObserver(watchPart, {
       rootMargin: '0px',
       threshold: 0
     });
@@ -244,9 +226,9 @@
     observer.observe(elPeople);
   }
 
-  $: getBoxClass = (sectionName) => {
-    const isActive = sectionName === currentSection ? 'isActive' : '';
-    const isGone = sections.indexOf(sectionName) < sections.indexOf(currentSection) ? 'isGone' : '';
+  $: getBoxClass = (partName) => {
+    const isActive = partName === currentPart ? 'isActive' : '';
+    const isGone = parts.indexOf(partName) < parts.indexOf(currentPart) ? 'isGone' : '';
 
     return `${isActive} ${isGone}`
   }
@@ -302,7 +284,7 @@
     }
   }
 
-  .section {
+  .part {
     position: relative;
     min-width: 100vw;
     height: 100vh;
@@ -491,17 +473,17 @@
   }
 </style>
 
-<section class="container" bind:this={elContainer} style="{styleContainer} {currentSection === 'MORPH' ? '--scrollSpeed: 0;' : ''}">
+<section class="container" style="{styleContainer} {currentPart === 'MORPH' ? '--scrollSpeed: 0;' : ''}">
   <h2 class="sr-only">Values</h2>
   
   <div class="dabox" class:isActive={$strDabox.isActive} class:isMorphing style={daboxStyle}>
   </div>
 
-  <div class="section sMorph" style={morphStyle}></div>
+  <div class="part sMorph" style={morphStyle}></div>
   
   <!-- JSX I miss you... so lame having to write this multiple times -->
-  <div class="section sDots">
-    <h3 class="f-mono title" data-section="DOTS" bind:this={elDots}>
+  <div class="part sDots">
+    <h3 class="f-mono title" data-part="DOTS" bind:this={elDots}>
       Let's connect the dots
     </h3>
     <p class="sBox {getBoxClass('DOTS')}">
@@ -513,8 +495,8 @@
     </p>
   </div>
 
-  <div class="section sAsk">
-    <h3 class="f-mono title" data-section="ASK" bind:this={elAsk} style={styleClip.ASK}>
+  <div class="part sAsk">
+    <h3 class="f-mono title" data-part="ASK" bind:this={elAsk} style={styleClip.ASK}>
       <span class="title-part">Ask why</span>
       <span class="title-part">Understand how</span>
     </h3>
@@ -527,8 +509,8 @@
     </p>
   </div>
 
-  <div class="section sWolf">
-    <h3 class="f-mono title" data-section="WOLF" bind:this={elWolf} style={styleClip.WOLF}>
+  <div class="part sWolf">
+    <h3 class="f-mono title" data-part="WOLF" bind:this={elWolf} style={styleClip.WOLF}>
       <span class="title-part">From a<br/>lone wolf</span>
       <span class="title-part">to a<br/>team player</span>
     </h3>
@@ -541,8 +523,8 @@
     </p>
   </div>
 
-  <div class="section sPeople">
-    <h3 class="f-mono title" data-section="PEOPLE" bind:this={elPeople} style={styleClip.PEOPLE}>
+  <div class="part sPeople" data-section="valuesEnd">
+    <h3 class="f-mono title" data-part="PEOPLE" bind:this={elPeople} style={styleClip.PEOPLE}>
       <span class="title-part">People come</span>
       <span class="title-part">before code</span>
     </h3>

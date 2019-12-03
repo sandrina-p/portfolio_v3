@@ -15,7 +15,6 @@
   };
   let tabSelected = '1';
   let interactedWith = { '1': true };
-  let elContainer;
   let elHeading;
   let headingStyle;
   let isVisible = false;
@@ -24,16 +23,7 @@
   let limitNeg;
   let fromTop;
 
-   onMount(() => {
-    updateGeneral({
-      skills: {
-        el: elContainer,
-      }
-    });
-  });
-
   afterGeneralUpdate((prevState, state) => {
-    console.log('afterGeneralUpdate in tools')
     const prevPageSection = prevState.pageCurrentSection;
     const pageSection = state.pageCurrentSection;
     
@@ -41,13 +31,18 @@
       initAnimation();
     }
 
-    if (prevPageSection !== pageSection && pageSection === 'skills') {
+    if (prevPageSection !== pageSection && pageSection === 'skills') {  
+      updateFromTop();
       verifyAnimations();
     }
   });
 
+  function updateFromTop() {
+    const elTop = elHeading.getBoundingClientRect().top;
+    fromTop = fromTop || elTop + (window.innerHeight - elTop) + window.scrollY;
+  }
+
   function verifyAnimations() {
-    // CONTINUE HERE - FIGURE OUT SUPERPOWERS PRECISE ANIMATION AFTER NAV CLICK
     console.log('updating superpowers...')
     const scrollY = window.scrollY;
     const offset = wHeight / 4; 
@@ -103,7 +98,7 @@
     padding: var(--spacer-XL) var(--spacer-M) var(--spacer-XL); /* REVIEW */
     min-height: 100vh;
     overflow: hidden;
-    padding: 50vh 0;
+    padding-top: 50vh;
     transition: background-color 150ms ease-out;
 
     &.uAppear {
@@ -364,7 +359,7 @@
   }
 </style>
 
-<section class="wrapper" class:uAppear={isVisible} class:uAppearSoon={!isVisible} bind:this={elContainer}>
+<section class="wrapper" class:uAppear={isVisible} class:uAppearSoon={!isVisible} data-section="skills">
   <h2 class="heading f-mono" style="--colorTabSelected: {colorTypes[tabSelected]};">
     <span class="sr-only">Get to know her</span>
     <span class="headingMain" bind:this={elHeading} style={headingStyle}>

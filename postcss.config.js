@@ -7,6 +7,5 @@ module.exports = {
     'postcss-simple-vars': {},
     'postcss-conditionals': {},
     'postcss-calc': {},
-    // TODO: fallback css variables
   },
 };

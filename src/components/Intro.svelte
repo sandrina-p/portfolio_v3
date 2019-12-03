@@ -5,15 +5,8 @@
   import CircleComposition from './animations/CircleComposition.svelte';
 
   const intro = 'Oh, hi there!';
-  let elSection;
 
   onMount(() => {
-    updateGeneral({
-      intro: {
-        el: elSection
-      }
-    })
-
     setTimeout(() => {
       updateGeneral({ isReady: true })
     }, 2000) // approximately the end of CSS intro animations.
@@ -82,7 +75,7 @@
   }
 </style>
 
-<div class="intro" data-section="intro" bind:this={ elSection }>
+<div class="intro">
   <div class="content">
     <h1 class="f-mono title">
       {#each intro.split('') as char}

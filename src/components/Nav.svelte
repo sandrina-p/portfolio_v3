@@ -1,56 +1,48 @@
 <script>
-	import { onMount, afterUpdate } from 'svelte';
+	import { afterUpdate } from 'svelte';
 	import Contacts from './Contacts.svelte';
 	import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
 
 	$: current = $strGeneral.pageCurrentSection;
 	let pageSections = $strGeneral.pageSections;
 	let pageEls;
-	let prevPageCurrent = $strGeneral.pageCurrentSection;
 	let wasSelected = null; // when the link is clicked, activates the transition
 
-	afterUpdate(() => {
-		if(prevPageCurrent !== current) {
-			prevPageCurrent = current;
-			console.log('pageSection changed:', current)
-		}
-	})
+  afterGeneralUpdate((prevState, state) => {
+    const prevPageSection = prevState.pageCurrentSection;
+    const pageSection = state.pageCurrentSection;
 
-	// TODO - CONTINUE HERE -- update pageCurrentSection as we scroll!
+    if (prevPageSection !== pageSection ) {
+			wasSelected = null;
+			console.log('pageSection changed:', pageSection)
+    }
+	});
 
-	function updatePageSection(e, pageCurrentSection) {
+	function goToSection(e, pageSection) {
 		e.preventDefault();
 
-		if (pageCurrentSection === current) {
+		if (pageSection === current) {
 			return false;
 		}
 
-		console.log('pageSection changing to:', pageCurrentSection)
+		console.log('pageSection changing to:', pageSection)
 		
-		const target = $strGeneral[pageCurrentSection].el;
-		const from = window.scrollY;
-		const to = pageCurrentSection !== 'intro' ? from + target.getBoundingClientRect().top : 0;
+		const pivot = pivots.find(p => p.name === pageSection).y;
+		const to = pageSection !== 'intro' ? pivot : 0;
 
-		wasSelected = pageCurrentSection;
+		wasSelected = pageSection;
 		
-		// setTimeout(() => {
-		// 	// In case user didn't click again in a short period of time.
-		// 	if(wasSelected === pageCurrentSection) {
-		// 		wasSelected = null;
-		// 	}
-		// }, 1500);
-
 		setTimeout(() => {
 			// NOTE: Make sure to call scrollTo before updateGeneral,
 			// so all sections read currectly the current scrollY
 			window.scrollTo(0, to);
-			updateGeneral({ pageCurrentSection })
+			updateGeneral({ pageCurrentSection: pageSection })
 			// TODO - handle a11y focus
 		}, 600) // eye picked value, ~ middle of "fancyAnimation"
 
 	}
 
-
+	export let pivots;
 </script>
 
 <style>
@@ -186,7 +178,7 @@
 					<a href="#{name}"
 						class="linksAnchor u-linkInteract"
 						aria-current={current === name}
-						on:click={(e) => updatePageSection(e, name)}>
+						on:click={(e) => goToSection(e, name)}>
 						{name}
 					</a>
 				</li>

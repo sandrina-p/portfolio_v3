@@ -12,7 +12,6 @@
     zine: 'var(--primary_3_darker)',
     default: 'var(--primary_4)',
   };
-  let elContainer;
   let isOnStage = null;
   let isFirstTimeOnStage = true;
   let elLed = null;
@@ -24,14 +23,6 @@
   let ledInterval;
   let ledColor = colorTypes.default;
   let elCardList;
-
-  onMount(() => {
-    updateGeneral({
-      words: {
-        el: elContainer
-      }
-    });
-  });
 
   afterGeneralUpdate((prevState, state) => {
     if (!isOnStage && state.pageCurrentSection === 'words') {
@@ -192,7 +183,7 @@
     &List {
       display: flex;
       flex-wrap: wrap;
-      padding-top: 75vh;
+      padding-top: calc(100vh - 5rem);
     }
 
     &Item {
@@ -342,7 +333,7 @@
   }
 </style>
 
-<section class="wrapper" class:isOnStage id="words" bind:this={elContainer}>
+<section class="wrapper" class:isOnStage id="words" data-section="words">
   <h2 class="f-mono heading" data-io="heading">
     She has been
     <!-- f-led  -->

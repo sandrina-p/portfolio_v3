@@ -4,37 +4,34 @@
   import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
   import { getInLimit } from '../utils';
 
-  let elContainer;
   let elHeading;
   let scrollPivot;
   let progressOffset;
   let progress = 0;
   $: isActive = progress === 1;
 
-  onMount(() => {
-    updateGeneral({
-      about: {
-        el: elContainer,
-      }
-    });
-    setTimeout(() => {
-      // window.scroll(0, 8000); // easier debug
-      setTimeout(() => {
-        // window.scroll(0, 10000); // easier debug
-        initAnimations() // TODO - only when reaching tools
-      }, 300);
-    }, 2500);
-  });
-
-  function initAnimations() {
-    function verifyRotating() {
-      console.log('scrolling journey...');
-
-      const goal = $_window.innerHeight/2;
-      const percentage = getInLimit(((window.scrollY - progressOffset - scrollPivot) / goal), 0, 1);
-      progress = percentage;
+  afterGeneralUpdate((prevState, state) => {
+    const prevPageSection = prevState.pageCurrentSection;
+    const pageSection = state.pageCurrentSection;
+    
+    if(!prevState.isReady && state.isReady) {
+      initAnimations();
     }
 
+    if (prevPageSection !== pageSection && pageSection === 'about') {
+      verifyRotating();
+    }
+  });
+
+  function verifyRotating() {
+    console.log('scrolling journey...');
+
+    const goal = $_window.innerHeight/2;
+    const percentage = getInLimit(((window.scrollY - progressOffset - scrollPivot) / goal), 0, 1);
+    progress = percentage;
+  }
+
+  function initAnimations() {
     const watchSlidding = ([{ isIntersecting, boundingClientRect, rootBounds }]) => {
       if (isIntersecting) {
         scrollPivot = window.scrollY - (rootBounds.height - boundingClientRect.top),
@@ -56,37 +53,29 @@
 <style>
   $headingHeight: 40rem; /* space for text even when rotated */
   $headingWidth: 70rem;
+  $paddingTop: 25vh;
 
   .wrapper {
     position: relative;
+    padding-top: $paddingTop;
     margin-bottom: 50vh;
     --rotate: -4deg;
-  }
-
-  .sliding {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100vw;
-    overflow: hidden; /* to avoid scroll from rotate element */
-    height: $headingHeight;
-
-    &Rotate {
-      position: absolute;
-      background: var(--bg_invert);
-      top: -20rem; /* to cover the bg from the rotate */
-      left: -50vw; /* to make it centered based on 200vw */
-      width: 200vw;
-      height: 100%;
-      transform-origin: 50% 100%;
-      transform: rotate(calc(var(--rotate) * var(--progress)));
-      overflow: hidden;
-    }
   }
 
   .heading {
     position: relative;
     height: $headingHeight;
     font-size: var(--font-heading_3);
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: calc($paddingTop * -1);
+      left: 0;
+      height: $paddingTop;
+      width: 100%;
+      background-color: var(--bg_invert);
+    }
 
     &Slide {
       display: block;
@@ -113,6 +102,26 @@
         transform: translate(-50%, 0) rotate(var(--rotate));
         transition: transform 600ms 300ms cubic-bezier(0,0,.2,1);
       }
+    }
+  }
+
+  .sliding {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100vw;
+    overflow: hidden; /* to avoid scroll from rotate element */
+    height: $headingHeight;
+
+    &Rotate {
+      position: absolute;
+      background: var(--bg_invert);
+      top: -20rem; /* to cover the bg from the rotate */
+      left: -50vw; /* to make it centered based on 200vw */
+      width: 200vw;
+      height: 100%;
+      transform-origin: 50% 100%;
+      transform: rotate(calc(var(--rotate) * var(--progress)));
+      overflow: hidden;
     }
   }
 
@@ -143,7 +152,7 @@
   }
 </style>
 
-<section class="wrapper" style='--progress: {progress}' class:isActive bind:this={elContainer}>
+<section class="wrapper" style='--progress: {progress}' class:isActive data-section="about">
   <h2 class="f-mono heading" bind:this={elHeading}>
     <div class="sliding">
       <div class="slidingRotate">

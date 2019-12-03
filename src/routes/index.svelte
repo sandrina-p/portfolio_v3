@@ -1,5 +1,5 @@
 <script>
-  import { onMount, afterUpdate } from 'svelte';
+  import { onMount, beforeUpdate, afterUpdate } from 'svelte';
   import Intro from '../components/Intro.svelte';
   import Values from '../components/Values.svelte';
   import Words from '../components/Words.svelte';
@@ -10,7 +10,7 @@
   import SvgSprite from '../components/SvgSprite.svelte';
   import { getInLimit, getBrowsers } from '../utils';
   import { _window, initResponsive } from '../stores/responsive.js';
-  import { strGeneral } from '../stores/general.js';
+  import { strGeneral, updateGeneral } from '../stores/general.js';
 
   let scrollY = 0;
   let scrollSpeedCached = 0;
@@ -19,10 +19,9 @@
   let browserClasses = '';
   let isReady = false;
   let checkSpeed = true;
-  
-  $: horizonWidth =  isReady && $strGeneral.values ? $strGeneral.values.end : 0;
-  $: wWidth =  isReady ? $_window.innerWidth : 0;
-  $: horizonLimit = isReady ? `${wWidth + horizonWidth + wWidth/2}px` : '100vh';
+  let horizonAfterOffset = '100vh';
+  let navPivots = [];
+  $: pageCurrentSection = $strGeneral.pageCurrentSection;
 
   onMount(() => {
     initResponsive();
@@ -31,8 +30,9 @@
     window.addEventListener('scroll', handleScroll);
   });
 
-  afterUpdate(() => {
+  beforeUpdate(() => {
     if(!isReady && $strGeneral.isReady) {
+      setNavigationData();
       isReady = true;
       // https://github.com/sveltejs/svelte/issues/3105
       document.body.classList.add('jsGoOn');
@@ -51,6 +51,41 @@
     };
   });
 
+  function setNavigationData() {
+    const wWidth =  $_window.innerWidth;
+    const wHeight = $_window.innerHeight;
+    const valuesWidth = getValuesWidth();
+    const savedHorizonOffset = valuesWidth - wHeight + Math.round(wWidth/2);
+
+		navPivots = $strGeneral.pageSections.map(section => {
+			if (section === 'intro') {
+				return { name: 'intro', y: 0 }
+			}
+
+			if (section === 'words') {
+				// exception: because of sticky effect, words only appear when "values" disappear.
+				return { name: 'words', y: valuesWidth }
+			}
+
+      const sectionTop = document.querySelectorAll(`[data-section="${section}"]`)[0].getBoundingClientRect().top;
+
+      return {
+        name: section,
+        y: Math.round(savedHorizonOffset + sectionTop - wHeight)
+      }
+    });
+    
+    horizonAfterOffset = `${savedHorizonOffset}px`;
+  }
+
+  function getValuesWidth () {
+    // BUG: its parent has a smaller width than its content (Values container).
+    // Dunno why.... so, instead lets get the position of its last children 
+    const { left, width } = document.querySelectorAll('[data-section="valuesEnd"]')[0].getBoundingClientRect();
+    
+    return Math.round(left + width);
+  }
+
   function monitorizeScrollSpeed() {
     scrollSpeedCurrent = scrollSpeedCached ? scrollSpeedCached - scrollY : 0;
     scrollSpeedCached = scrollY;
@@ -61,7 +96,24 @@
   }
 
   function handleScroll() {
-    scrollY = window.scrollY;
+    const currentY = window.scrollY;
+    const isScrollingDown = scrollY < currentY;
+    
+    scrollY = currentY;
+
+    // OPTIMIZE - this should be done on requestAnimation/IdleFrame
+    for (let i = 3; i >= 0; i--) {
+
+      if (currentY < navPivots[i].y) {
+        continue;
+      }
+
+      const newPageCurrentSection = navPivots[i].name;
+      if(newPageCurrentSection !== pageCurrentSection) {
+        updateGeneral({ pageCurrentSection: newPageCurrentSection })
+      }
+      break;
+    }
   }
 </script>
 
@@ -95,7 +147,7 @@
   <title>Sandrina Pereira - UX Developer</title>
 </svelte:head>
 
-<Nav />
+<Nav pivots={navPivots} />
 <div class="panel {browserClasses}"
   style="--scrollY: {scrollY}px; --scrollSpeed: {scrollSpeedCurrent};">
   <div class="horizon" bind:this={elHorizon}>
@@ -103,7 +155,7 @@
     <Values />
   </div>
 </div>
-<div class="horizonAfter" style="--marginTop: {horizonLimit}">
+<div class="horizonAfter" style="--marginTop: {horizonAfterOffset}">
   <Words />
   <Tools />
   <Journey />
