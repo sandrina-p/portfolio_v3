@@ -4,8 +4,8 @@ const [strGeneral, updateGeneral, afterGeneralUpdate] = createStore({
   pageSections: ['intro', 'words', 'skills', 'about'],
   pageCurrentSection: 'intro',
 
-  // A list of sections' last pixel to be used
-  // as anchor point to update pageCurrentSection.
+  // A list of sections with their last pixel
+  // to be used as anchor point to update pageCurrentSection.
   // That way this logic is centralized at Nav.svelte.
   // Each section MUST NOT care about what's next or prev
   // to avoid bugs related with IO callbacks order...

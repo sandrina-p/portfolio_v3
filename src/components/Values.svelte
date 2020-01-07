@@ -5,6 +5,9 @@
   import { strDabox, updateDabox } from '../stores/dabox.js';
   import { updateCircle } from '../stores/circle.js';
   import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
+  import Dots from './animations/Dots.svelte';
+  import Gelly from './animations/Gelly.svelte';
+  import Echo from './animations/Echo.svelte';
 
   // TODO - rename parts to "part" to avoid naming confusition with general.pagePart.
   const parts = ['MORPH', 'DOTS', 'ASK', 'WOLF', 'PEOPLE', 'FINALLE'];
@@ -13,26 +16,28 @@
     // and save ms from useless getBoundingClientRect, shall we?
     MORPH: {
       text: '',
-      width: '20rem', /* same as circle */
+      width: '20rem' /* same as circle */,
       height: '20rem',
     },
     DOTS: {
-      text: ["Combining both design and development processes is one of Sandrina’s expertises. She loves to <strong>work closely with the design team</strong> to define and implement exciting experiences."],
+      text: [
+        'Combining both design and development processes is one of Sandrina’s expertises. She loves to <strong>work closely with the design team</strong> to define and implement exciting experiences.',
+      ],
       width: '48rem',
       height: '21rem',
     },
     ASK: {
       text: [
-        "You’ll see Sandrina asking a lot of questions around. Wanna create a simple but detailed solution?",
-        "Let’s understand the problem first.",
-        "Only then we can make wise decisions taken with true care.",
+        'You’ll see Sandrina asking a lot of questions around. Wanna create a simple but detailed solution?',
+        'Let’s understand the problem first.',
+        'Only then we can make wise decisions taken with true care.',
       ],
       width: '39rem',
       height: '30rem',
     },
     WOLF: {
       text: [
-        "If you wanna go quickly, Sandrina can make it happen. As a fast paced worker with a <strong>high quality bar</strong>, she can be the lone wolf when needed.",
+        'If you wanna go quickly, Sandrina can make it happen. As a fast paced worker with a <strong>high quality bar</strong>, she can be the lone wolf when needed.',
         "However, if you wanna go far, <a href='#TODO'>ask her to join</a> your wolves pack and let’s go together, as a team.",
       ],
       width: '30.8rem',
@@ -50,9 +55,9 @@
       text: '',
       width: '0',
       height: '0',
-    }
-  }
-  
+    },
+  };
+
   let onStage = true;
   let currentPart = 'MORPH';
   let elDots;
@@ -68,41 +73,47 @@
   // It's only logic, I was between Intro and Values
   const size = 200; // TODO - get real CSS Variables form circle
   const scaleStart = 0.8;
-  $: distance = isMount && $_window.innerWidth/2 - size*1.5;
- 
+  $: distance = isMount && $_window.innerWidth / 2 - size * 1.5;
+
   const morphCircleRatio = 2; // circle progression based on scroll. (ex: it needs to scroll 25px to change 10px)
   const morphBoxRatio = 150; // nr of scrolled pixels needed to change border-radius from circle to square
   let isMorphing = true;
 
-  $: offLimit = isMount && $_window.innerWidth/2 + (distance * morphCircleRatio) + morphBoxRatio;
-  $: morphStyle = isMount && `width: ${offLimit + size}px`; // REFINE this value... should match the beginits of sDots
+  $: offLimit = isMount && $_window.innerWidth / 2 + distance * morphCircleRatio + morphBoxRatio;
+  $: morphStyle = isMount && `width: ${(offLimit + size / 2)}px`; // REFINE this value... should match the begin of sDots
 
   $: daboxStyle = `
-    ${$strDabox.progress ? `
-      --radius: ${50 - $strDabox.progress*50}%;
+    ${
+      $strDabox.progress
+        ? `
+      --radius: ${50 - $strDabox.progress * 50}%;
       --opacity: ${1 - $strDabox.progress};
-    ` : ''}
+    `
+        : ''
+    }
     --width: var(--width-${currentPart});
     --height: var(--height-${currentPart});
   `;
-  
-  const styleContainer = Object.keys(valuesData).reduce((styles, part) => (
-    styles += `--width-${part}: ${valuesData[part].width}; --height-${part}: ${valuesData[part].height};`
-  ), '')
-  
-  let styleClip = {} // a list of clipping for each part
-  
+
+  const styleContainer = Object.keys(valuesData).reduce(
+    (styles, part) =>
+      (styles += `--width-${part}: ${valuesData[part].width}; --height-${part}: ${valuesData[part].height};`),
+    ''
+  );
+
+  let styleClip = {}; // a list of clipping for each part
+
   onMount(() => {
     isMount = true;
     window.addEventListener('scroll', verifyMetamorphose, { passive: true });
 
     observeParts();
-  })
+  });
 
   afterGeneralUpdate((prevState, state) => {
     const prevPageSection = prevState.pageCurrentSection;
     const pageSection = state.pageCurrentSection;
-    
+
     if (prevPageSection === pageSection) {
       return false;
     }
@@ -110,7 +121,8 @@
     // be triggered, so we need to update the part manually.
     if (pageSection !== 'intro') {
       currentPart = 'FINALLE';
-    } else if (window.scrollY === 0) { // It means it was triggered by navigation link
+    } else if (window.scrollY === 0) {
+      // It means it was triggered by navigation link
       currentPart = 'MORPH';
       updateDabox({ isActive: false, progress: 0 });
       verifyMetamorphose();
@@ -121,21 +133,21 @@
     // Metamorphose the initial circle into a square (dabox)
     // 🐻 with me, it's going to be a fun ride!
     // -  P.S. me doing this part: https://i.imgur.com/3uyRWGJ.jpg
-    
+
     scrollY = window.scrollY;
-    const progress = distance - scrollY/morphCircleRatio;
-    const morphProgress = progress*-1/morphBoxRatio;
-    
+    const progress = distance - scrollY / morphCircleRatio;
+    const morphProgress = (progress * -1) / morphBoxRatio;
+
     if (morphProgress > 1 && $strDabox.progress === 1) {
-      // metamorphose is completed, there's no point in calculating more stuff.... 
+      // metamorphose is completed, there's no point in calculating more stuff....
       isMorphing = false;
       return false;
     }
-    
+
     const daboxProgress = getInLimit(morphProgress, 0, 1);
     const offsetY = getInLimit(scrollY, 0, offLimit);
     const newDistance = getInLimit(progress, 0, distance);
-    const scaleStartAdjusted = scaleStart + (0.2 - (newDistance * 0.2 / distance));
+    const scaleStartAdjusted = scaleStart + (0.2 - (newDistance * 0.2) / distance);
 
     isMorphing = true;
 
@@ -146,27 +158,30 @@
         --scaleStart: ${scaleStartAdjusted};
       `,
       isPaused: newDistance === 0,
-    })
+    });
     updateDabox({
       isActive: newDistance === 0,
       progress: daboxProgress,
-    })
+    });
   }
 
   function observeParts() {
     const headingsToClip = ['ASK', 'WOLF', 'PEOPLE'];
     const clipArgs = {}; // A list of args to be passed to handles, based on the part
-    const clipHandles = headingsToClip.reduce((handles, part) => ({
-      ...handles,
-      [part]: () => handleClipping(clipArgs[part]),
-    }), {});
+    const clipHandles = headingsToClip.reduce(
+      (handles, part) => ({
+        ...handles,
+        [part]: () => handleClipping(clipArgs[part]),
+      }),
+      {}
+    );
     const getNextPart = {
-      enterLeft: (partName) => partName,
-      enterRight: (partName) => partName,
-      leaveLeft: (partName) => parts[parts.indexOf(partName) + 1],
-      leaveRight: (partName) => parts[parts.indexOf(partName) - 1],
-    }
-    let isFirstTime = true;  // Prevent initial IO callback to take effect - https://stackoverflow.com/a/47855484/4737729
+      enterLeft: partName => partName,
+      enterRight: partName => partName,
+      leaveLeft: partName => parts[parts.indexOf(partName) + 1],
+      leaveRight: partName => parts[parts.indexOf(partName) - 1],
+    };
+    let isFirstTime = true; // Prevent initial IO callback to take effect - https://stackoverflow.com/a/47855484/4737729
 
     function handleClipping({ part, entry, scrollPivot }) {
       console.log('clipping', part, '...');
@@ -177,47 +192,52 @@
       styleClip[part] = `--clipx: ${getInLimit(awayFromMiddle, 0, clipLimit)}px;`;
     }
 
-    function verifyClippingStatus (part, status, entry) {
+    function verifyClippingStatus(part, status, entry) {
+      console.log('ora bem', part, status);
       if (['enterLeft', 'enterRight'].includes(status)) {
         clipArgs[part] = {
           part: part,
           entry,
-          scrollPivot: status === 'enterRight'
-            ? window.scrollY
-            : window.scrollY - entry.rootBounds.width - entry.boundingClientRect.width,
-        }
+          scrollPivot:
+            status === 'enterRight'
+              ? window.scrollY
+              : window.scrollY - entry.rootBounds.width - entry.boundingClientRect.width,
+        };
         window.addEventListener('scroll', clipHandles[part]);
       } else {
         window.removeEventListener('scroll', clipHandles[part]);
       }
     }
-    
-    const watchPart = (entries) => {
-      if(isFirstTime) {        
+
+    const watchPart = entries => {
+      if (isFirstTime) {
         isFirstTime = false;
         return false;
       }
       entries.forEach(entry => {
-        // TODO - disable observers instead?
+        const part = entry.target.getAttribute('data-part');
         if (!($strGeneral.pageCurrentSection === 'intro' && window.scrollY !== 0)) {
+          if (part === 'PEOPLE') {
+            // Passed all values, so let's remove its event.
+            window.removeEventListener('scroll', clipHandles[part]);
+          }
           return false;
         }
 
         const status = getIOstatus(entry);
-        const part = entry.target.getAttribute('data-part');
         const newPart = getNextPart[status](part);
         console.log('intersecting from:', part, 'to:', newPart);
 
         currentPart = newPart;
-        if (headingsToClip.includes(part)) {   
-          verifyClippingStatus(part, status, entry);     
+        if (headingsToClip.includes(part)) {
+          verifyClippingStatus(part, status, entry);
         }
-      })
+      });
     };
 
     const observer = new IntersectionObserver(watchPart, {
       rootMargin: '0px',
-      threshold: 0
+      threshold: 0,
     });
 
     observer.observe(elDots);
@@ -226,12 +246,12 @@
     observer.observe(elPeople);
   }
 
-  $: getBoxClass = (partName) => {
+  $: getBoxClass = partName => {
     const isActive = partName === currentPart ? 'isActive' : '';
     const isGone = parts.indexOf(partName) < parts.indexOf(currentPart) ? 'isGone' : '';
 
-    return `${isActive} ${isGone}`
-  }
+    return `${isActive} ${isGone}`;
+  };
 </script>
 
 <style>
@@ -263,17 +283,20 @@
       opacity: 1;
     }
 
-    &::before, &::after {
+    &::before,
+    &::after {
       content: '';
       position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       border-radius: var(--radius, 50%);
     }
 
     &::before {
       transition: transform 300ms;
-      will-change: transform; 
+      will-change: transform;
       background: var(--bg_1);
       transform: skew(calc(var(--scrollSpeed) * -0.2deg), 0deg);
     }
@@ -316,10 +339,10 @@
     pointer-events: none;
     transition: opacity 150ms 0ms ease-out;
     padding: var(--spacer-XL);
-    
+
     &.isActive {
       opacity: 1;
-      transition: opacity 600ms 350ms cubic-bezier(.19,1,.22,1);
+      transition: opacity 600ms 350ms cubic-bezier(0.19, 1, 0.22, 1);
       pointer-events: auto;
     }
 
@@ -329,7 +352,7 @@
       transition: transform 150ms 0ms ease-out;
 
       .isActive & {
-        transition: transform 600ms 350ms cubic-bezier(.19,1,.22,1);
+        transition: transform 600ms 350ms cubic-bezier(0.19, 1, 0.22, 1);
         transform: translateY(0);
       }
 
@@ -343,7 +366,8 @@
         margin-bottom: var(--spacer-M);
       }
 
-      :global(strong) { /* Svelte BUG - this exists, but it's dynamic. Use global to persist */
+      :global(strong) {
+        /* Svelte BUG - this exists, but it's dynamic. Use global to persist */
         font-weight: 600; /* TODO - this */
       }
     }
@@ -351,29 +375,7 @@
 
   .sMorph {
     min-width: auto;
-
-    /* TODO - add some life to these lines */
-    &::before {
-      content: '';
-      position: absolute;
-      top: 15vh;
-      left: 50vw;
-      width: 30vw;
-      height: 1px;
-      background: var(--text_1);
-    }
-
-    &::after {
-      content: '';
-      position: absolute;
-      bottom: 30vh;
-      left: 5vw;
-      width: 25vw;
-      height: 1px;
-      background: var(--text_1);
-    }
   }
-
 
   .sDots {
     .sBox {
@@ -465,7 +467,7 @@
         }
       }
     }
-      
+
     .sBox {
       width: var(--width-PEOPLE);
       height: var(--height-PEOPLE);
@@ -473,51 +475,70 @@
   }
 </style>
 
-<section class="container" style="{styleContainer} {currentPart === 'MORPH' ? '--scrollSpeed: 0;' : ''}">
+<section
+  class="container"
+  style="{styleContainer}
+  {currentPart === 'MORPH' ? '--scrollSpeed: 0;' : ''}">
   <h2 class="sr-only">Values</h2>
-  
-  <div class="dabox" class:isActive={$strDabox.isActive} class:isMorphing style={daboxStyle}>
+
+  <div class="dabox" class:isActive={$strDabox.isActive} class:isMorphing style={daboxStyle} />
+
+  <div class="part sMorph" style={morphStyle}>
+    <Dots pattern='A' />
   </div>
 
-  <div class="part sMorph" style={morphStyle}></div>
-  
   <!-- JSX I miss you... so lame having to write this multiple times -->
   <div class="part sDots">
-    <h3 class="f-mono title" data-part="DOTS" bind:this={elDots}>
-      Let's connect the dots
-    </h3>
+    <Dots pattern='B' />
+    <h3 class="f-mono title" data-part="DOTS" bind:this={elDots}>Let's connect the dots</h3>
     <p class="sBox {getBoxClass('DOTS')}">
       <span class="sBox-text">
-        {#each valuesData.DOTS.text as paragraph }
-          <span class="sBox-text-par">{@html paragraph}</span>
+        {#each valuesData.DOTS.text as paragraph}
+          <span class="sBox-text-par">
+            {@html paragraph}
+          </span>
         {/each}
       </span>
     </p>
   </div>
 
   <div class="part sAsk">
+    <Gelly />
     <h3 class="f-mono title" data-part="ASK" bind:this={elAsk} style={styleClip.ASK}>
       <span class="title-part">Ask why</span>
       <span class="title-part">Understand how</span>
     </h3>
     <p class="sBox {getBoxClass('ASK')}">
       <span class="sBox-text">
-        {#each valuesData.ASK.text as paragraph }
-          <span class="sBox-text-par">{@html paragraph}</span>
+        {#each valuesData.ASK.text as paragraph}
+          <span class="sBox-text-par">
+            {@html paragraph}
+          </span>
         {/each}
       </span>
     </p>
   </div>
 
   <div class="part sWolf">
+    <Echo />
     <h3 class="f-mono title" data-part="WOLF" bind:this={elWolf} style={styleClip.WOLF}>
-      <span class="title-part">From a<br/>lone wolf</span>
-      <span class="title-part">to a<br/>team player</span>
+      <span class="title-part">
+        From a
+        <br />
+        lone wolf
+      </span>
+      <span class="title-part">
+        to a
+        <br />
+        team player
+      </span>
     </h3>
     <p class="sBox {getBoxClass('WOLF')}">
       <span class="sBox-text">
-        {#each valuesData.WOLF.text as paragraph }
-          <span class="sBox-text-par">{@html paragraph}</span>
+        {#each valuesData.WOLF.text as paragraph}
+          <span class="sBox-text-par">
+            {@html paragraph}
+          </span>
         {/each}
       </span>
     </p>
@@ -530,8 +551,10 @@
     </h3>
     <p class="sBox {getBoxClass('PEOPLE')}">
       <span class="sBox-text">
-        {#each valuesData.PEOPLE.text as paragraph }
-          <span class="sBox-text-par">{@html paragraph}</span>
+        {#each valuesData.PEOPLE.text as paragraph}
+          <span class="sBox-text-par">
+            {@html paragraph}
+          </span>
         {/each}
       </span>
     </p>

@@ -51,8 +51,8 @@ Now with a fresh mind, let's finish this up! Here's a quick recap:
 Well... a bunch of stuff, here and there, but it's okay! I won't list everything because if I did, you would feel overwhelmed and stressed with all of those tiny details missing just to do a "landing page".
 So, instead I'll leave you with a couple of starting points. I'm sure you'll remember the rest as you go.
 
-1. Start by finish the page navigation - The _About/Journey_ section isn't working correctly on nav click.
-2. Add the decorative elements to the Intro. Check Figma, they're there.
-3. By now I'm sure you'll know what to do next better than I do now. Good luck and welcome back!
+- [x] Start by finish the page navigation - The _About/Journey_ section isn't working correctly on nav click.
+- [x] Add the decorative elements to the Intro. Check Figma, they're there.
+- [ ] By now I'm sure you'll know what to do next better than I do now. Good luck and welcome back!
 
 —- Your past self, December 3rd 2019.

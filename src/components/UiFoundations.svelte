@@ -4,18 +4,17 @@
 
 <style global>
   :root {
-    --text_0: #343434; /*#efefef */;
+    --text_0: #343434; /*#efefef */
     --text_1: #898989; /* #b7c2cf; /* text over bg with 0.6 opacity and some light... */
     --text_invert: #d6d6d6; /* similar to bg but lighter */
     --bg_0: #f4f4f4; /* #0d1722;*/
     --bg_1: #fff; /* #000000; */
     --bg_invert: #1b1b1b;
-    --primary_1: #59b9a3; /* #fb6177; */
-    --primary_1b: #2b6145;
-    --morph_color: rgba(101,189,144,0.09);
-    --morph_total: #bbdccd; /* visual effect when all circles are overlapping */
-    --primary_2: #835bfa;
-    --primary_3: #fff5a2;
+    --primary_1: #9072ff; /*#52e9d0; /* #59b9a3; /* #fb6177; */
+    --morph_color: rgba(109, 7, 255, 0.1); /*rgba(101, 189, 144, 0.09);*/
+    --morph_total: #bfa1f8; /* #bbdccd; /* visual effect when all circles are overlapping */
+    --primary_2: #52e9d0; /* #b69dff; */
+    --primary_3: #0a0a09;
     --primary_3_darker: #dfb948;
     --primary_4: #f08e8e;
     --font-M: 1.4rem;
@@ -161,17 +160,35 @@
   }
 
   @keyframes laserOn {
-    0%, 85% {opacity: 0;}
-    87% {opacity: 0.8;}
-    88% {opacity: 0.1;}
-    89% {opacity: 0.8;}
-    92% {opacity: 0.2;}
-    94%, 100% {opacity: 1;}
+    0%,
+    85% {
+      opacity: 0;
+    }
+    87% {
+      opacity: 0.8;
+    }
+    88% {
+      opacity: 0.1;
+    }
+    89% {
+      opacity: 0.8;
+    }
+    92% {
+      opacity: 0.2;
+    }
+    94%,
+    100% {
+      opacity: 1;
+    }
   }
 
   @keyframes fadeIn {
-    0% {opacity: 0;}
-    100% {opacity: 1;}
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
   }
 </style>
 

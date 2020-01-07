@@ -13,30 +13,32 @@
   afterGeneralUpdate((prevState, state) => {
     const prevPageSection = prevState.pageCurrentSection;
     const pageSection = state.pageCurrentSection;
-    
-    if(!prevState.isReady && state.isReady) {
+
+    if (!prevState.isReady && state.isReady) {
       initAnimations();
     }
 
     if (prevPageSection !== pageSection && pageSection === 'about') {
-      verifyRotating();
+      setTimeout(() => {
+        verifyRotating();
+      }, 15); // wait for manual scroll at Nav.svelte
     }
   });
 
   function verifyRotating() {
     console.log('scrolling journey...');
 
-    const goal = $_window.innerHeight/2;
-    const percentage = getInLimit(((window.scrollY - progressOffset - scrollPivot) / goal), 0, 1);
+    const goal = $_window.innerHeight / 2;
+    const percentage = getInLimit((window.scrollY - progressOffset - scrollPivot) / goal, 0, 1);
     progress = percentage;
   }
 
   function initAnimations() {
     const watchSlidding = ([{ isIntersecting, boundingClientRect, rootBounds }]) => {
       if (isIntersecting) {
-        scrollPivot = window.scrollY - (rootBounds.height - boundingClientRect.top),
-        progressOffset = progressOffset || boundingClientRect.height / 2
-        
+        (scrollPivot = window.scrollY - (rootBounds.height - boundingClientRect.top)),
+          (progressOffset = progressOffset || boundingClientRect.height / 2);
+
         window.addEventListener('scroll', verifyRotating, { passive: true });
       } else {
         window.removeEventListener('scroll', verifyRotating);
@@ -47,7 +49,6 @@
 
     observer.observe(elHeading);
   }
-
 </script>
 
 <style>
@@ -93,21 +94,22 @@
       white-space: nowrap;
       top: calc(20rem + 0.2em);
       left: 50%;
-      color: var(--text_1);
+      color: var(--primary_1);
       z-index: -1;
       transform: translate(-50%, -2em) rotate(var(--rotate));
-      transition: transform 300ms 150ms cubic-bezier(0,0,.2,1);
+      transition: transform 300ms 150ms cubic-bezier(0, 0, 0.2, 1);
 
       .isActive & {
         transform: translate(-50%, 0) rotate(var(--rotate));
-        transition: transform 600ms 300ms cubic-bezier(0,0,.2,1);
+        transition: transform 600ms 300ms cubic-bezier(0, 0, 0.2, 1);
       }
     }
   }
 
   .sliding {
     position: absolute;
-    top: 0; left: 0;
+    top: 0;
+    left: 0;
     width: 100vw;
     overflow: hidden; /* to avoid scroll from rotate element */
     height: $headingHeight;
@@ -134,7 +136,7 @@
     opacity: 0;
     transform: translateY(-2rem);
     transition: transform 300ms ease-ine, opacity 300ms ease-ine;
-    transition-timing-function: cubic-bezier(0,0,.2,1);
+    transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
     pointer-events: none;
 
     .isActive & {
@@ -142,9 +144,8 @@
       transform: translateY(0rem);
       pointer-events: auto;
       transition: opacity 600ms 700ms, transform 400ms 500ms;
-      transition-timing-function: cubic-bezier(0,0,.2,1);
+      transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
     }
-
   }
 
   a {
@@ -152,37 +153,39 @@
   }
 </style>
 
-<section class="wrapper" style='--progress: {progress}' class:isActive data-section="about">
+<section class="wrapper" style="--progress: {progress}" class:isActive data-section="about">
   <h2 class="f-mono heading" bind:this={elHeading}>
     <div class="sliding">
       <div class="slidingRotate">
         <span class="headingSlide">
-          Uff, <br /> you came so far...
+          Uff,
+          <br />
+          you came so far...
         </span>
       </div>
     </div>
     <span class="headingFixed">and so did Sandrina!</span>
   </h2>
   <div>
-  <p class="text">
-    During the last year she have been helping to bring a new (open source) idea to life -
-    <a href="TODO">Group Income</a>
-    - a decentralized basic income system for small communities. Before that, she was a Senior UI
-    Engineer at
-    <a href="TODO">Farfetch</a>
-    for a few years.
-    <br />
-    <br />
-    Since her early days, back when she was studying Communication Design, Sandrina always looked
-    for ways to emerge these two fields: design and development. Her meta-goal is still the same:
-    <strong>create human experiences through the digital world.</strong>
-    <br />
-    <br />
-    Currently,
-    <strong>Sandrina is looking for new opportunities</strong>
-    where she can make the difference as a developer who cares not only about the code, but also
-    about the people. Remote friendly or somewhere in North Europe.
-    <a href="TODO">Get in touch!</a>
-  </p>
+    <p class="text">
+      During the last year she have been helping to bring a new (open source) idea to life -
+      <a href="TODO">Group Income</a>
+      - a decentralized basic income system for small communities. Before that, she was a Senior UI
+      Engineer at
+      <a href="TODO">Farfetch</a>
+      for a few years.
+      <br />
+      <br />
+      Since her early days, back when she was studying Communication Design, Sandrina always looked
+      for ways to emerge these two fields: design and development. Her meta-goal is still the same:
+      <strong>create human experiences through the digital world.</strong>
+      <br />
+      <br />
+      Currently,
+      <strong>Sandrina is looking for new opportunities</strong>
+      where she can make the difference as a developer who cares not only about the code, but also
+      about the people. Remote friendly or somewhere in North Europe.
+      <a href="TODO">Get in touch!</a>
+    </p>
   </div>
 </section>

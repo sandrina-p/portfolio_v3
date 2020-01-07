@@ -2,7 +2,7 @@
   import { onMount, afterUpdate } from 'svelte';
   import words from '../data/words.js';
   import { _window } from '../stores/responsive.js';
-  import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
+  import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
   import { getInLimit, getIOstatusVertical } from '../utils';
   import baffle from 'baffle';
 
@@ -23,6 +23,7 @@
   let ledInterval;
   let ledColor = colorTypes.default;
   let elCardList;
+  let init = null;
 
   afterGeneralUpdate((prevState, state) => {
     if (!isOnStage && state.pageCurrentSection === 'words') {
@@ -30,24 +31,29 @@
 
       if (isFirstTimeOnStage) {
         isFirstTimeOnStage = false;
-        initAnimation();
+        init = initAnimation();
       }
+
+      setTimeout(() => {
+        init.verifyCardPostion();
+      }, 15); // wait for manual scroll at Nav.svelte
+      // TODO - centralize all timeouts and add an explanation for each one.
     }
 
     if (isOnStage && state.pageCurrentSection !== 'words') {
       isOnStage = false;
       clearInterval(ledInterval);
     }
-  })
+  });
 
   function baffleIt() {
-    console.log('baffling words...') // TODO REMOVE THIS
+    console.log('baffling words...'); // TODO REMOVE THIS
     const options = ['sharing', 'writing', 'talking'];
     const colors = ['var(--primary_4)', 'var(--primary_1)', 'var(--primary_2)'];
     const index = options.indexOf(ledText);
     const nextIndex = options[index + 1] ? index + 1 : 0;
     const nextLedText = options[nextIndex];
-    
+
     baffleLed
       .start()
       .text(currentText => nextLedText)
@@ -64,67 +70,72 @@
 
     baffleLed = baffle(elLed).set({ characters: '+-•~!=*' });
 
-    function updateCardArgs (cardId, entry) {
+    function updateCardArgs(cardId, entry) {
       if (entry.isIntersecting) {
-        if(!cardArgs[cardId]) {
+        if (!cardArgs[cardId]) {
           cardArgs[cardId] = {
             index: cardId,
             entry,
             // only works if 1st time is from the bottom - 99.99% of the times.
             // UPDATE - TODO / REVIEW - Not anymore... because of navigation, it can be from the top.
             scrollPivot: window.scrollY - (entry.rootBounds.height - entry.boundingClientRect.top), // to be precise when scrolling quickly
-          }
+          };
         } else {
           cardArgs[cardId].ignore = false;
         }
       } else {
-        if(cardArgs[cardId]) {
+        if (cardArgs[cardId]) {
           cardArgs[cardId].ignore = true;
         }
       }
     }
 
-    function handleScroll() {
-      console.log('Scrolling through Words...')
+    function verifyCardPostion() {
+      console.log('Scrolling through words cards...');
       const scrollY = window.scrollY;
-      const middle = $_window.innerHeight/2;
+      const middle = $_window.innerHeight / 2;
       cardArgs.forEach(args => {
-        if(!args.ignore) {
+        if (!args.ignore) {
           const percentage = getInLimit((scrollY - args.scrollPivot) / middle, 0, 1);
           cardsProgress[args.index] = percentage;
         }
-      })
+      });
     }
 
     function watchList([entry]) {
       const status = getIOstatusVertical(entry);
 
       clearInterval(ledInterval);
-      window.removeEventListener('scroll', handleScroll);
-      
-      if(entry.isIntersecting) {
+      window.removeEventListener('scroll', verifyCardPostion);
+
+      if (entry.isIntersecting) {
         // ledInterval = window.setInterval(baffleIt, 2500);
-        window.addEventListener('scroll', handleScroll);
+        window.addEventListener('scroll', verifyCardPostion);
       }
     }
 
     function watchCard(entries) {
       entries.forEach(entry => {
         const cardId = entry.target.getAttribute('data-io');
-        updateCardArgs(cardId, entry); 
-      })
+        updateCardArgs(cardId, entry);
+      });
     }
 
     const observerList = new IntersectionObserver(watchList);
     const observerCards = new IntersectionObserver(watchCard);
 
-    observerList.observe(elCardList)
+    observerList.observe(elCardList); // TODO - disconnect observers?
 
     elCards.forEach(elCard => {
       observerCards.observe(elCard);
-    })
-  }
+    });
 
+    verifyCardPostion();
+
+    return {
+      verifyCardPostion,
+    };
+  }
 
   function getRandom(min, max) {
     min = Math.ceil(min);
@@ -171,7 +182,8 @@
     .isOnStage & {
       opacity: 1;
       transform: translate(-50%, -50%) scale(1);
-      transition: opacity 800ms 150ms cubic-bezier(.19,1,.22,1), transform 800ms 150ms cubic-bezier(.19,1,.22,1);
+      transition: opacity 800ms 150ms cubic-bezier(0.19, 1, 0.22, 1),
+        transform 800ms 150ms cubic-bezier(0.19, 1, 0.22, 1);
     }
 
     &-part {
@@ -198,12 +210,12 @@
 
       &:nth-child(2n + 1) {
         margin-right: calc($headingWidth/2 + var(--spacer-M));
-        transform: translateX(calc($headingWidth/2 - $headingWidth/2 * var(--progress)))
+        transform: translateX(calc($headingWidth/2 - $headingWidth/2 * var(--progress)));
       }
 
       &:nth-child(2n) {
         margin-left: calc($headingWidth/2 + var(--spacer-M));
-        transform: translateX(calc(-$headingWidth/2 + $headingWidth/2 * var(--progress)))
+        transform: translateX(calc(-$headingWidth/2 + $headingWidth/2 * var(--progress)));
       }
 
       &:nth-last-child(2),
@@ -263,7 +275,6 @@
       flex-direction: column;
       align-items: flex-start;
       line-height: 1.4;
-
 
       &:not(:last-child) {
         margin-bottom: var(--spacer-M);
@@ -337,7 +348,11 @@
   <h2 class="f-mono heading" data-io="heading">
     She has been
     <!-- f-led  -->
-    <span bind:this={elLed} class="heading-part" data-text={ledText} style="--led-color: {ledColor}">
+    <span
+      bind:this={elLed}
+      class="heading-part"
+      data-text={ledText}
+      style="--led-color: {ledColor}">
       {ledText}
     </span>
   </h2>
@@ -348,11 +363,8 @@
         class="cardItem"
         bind:this={elCards[index]}
         data-io={index}
-        style="
-          --progress: {cardsProgress[index]};
-          --place-color: {colorTypes[places[0].type] || colorTypes.default};
-          --skew: {getRandomSkew('x')}deg, {getRandomSkew('y')}deg;
-        ">
+        style=" --progress: {cardsProgress[index]}; --place-color: {colorTypes[places[0].type] || colorTypes.default};
+        --skew: {getRandomSkew('x')}deg, {getRandomSkew('y')}deg; ">
         <div class="cardItemInner">
           <h3 class="f-mono title">{title}</h3>
           <ul class="placeList">
@@ -373,6 +385,10 @@
     {/each}
   </ul>
   <div class="footer">
-    More at <a class="u-link" href="https://dev.to/a_sandrina_p">Dev</a> and <a class="u-link" href="https://medium.com/@a_sandrina_p">Medium</a>.
+    More at
+    <a class="u-link" href="https://dev.to/a_sandrina_p">Dev</a>
+    and
+    <a class="u-link" href="https://medium.com/@a_sandrina_p">Medium</a>
+    .
   </div>
 </section>

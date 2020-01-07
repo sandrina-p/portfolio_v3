@@ -1,190 +1,197 @@
 <script>
-	import { afterUpdate } from 'svelte';
-	import Contacts from './Contacts.svelte';
-	import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
+  import { afterUpdate } from 'svelte';
+  import Contacts from './Contacts.svelte';
+  import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
 
-	$: current = $strGeneral.pageCurrentSection;
-	let pageSections = $strGeneral.pageSections;
-	let pageEls;
-	let wasSelected = null; // when the link is clicked, activates the transition
+  $: current = $strGeneral.pageCurrentSection;
+  let pageSections = $strGeneral.pageSections;
+  let pageEls;
+  let wasSelected = null; // when the link is clicked, trigger the fancyBubble
 
   afterGeneralUpdate((prevState, state) => {
     const prevPageSection = prevState.pageCurrentSection;
     const pageSection = state.pageCurrentSection;
 
-    if (prevPageSection !== pageSection ) {
-			wasSelected = null;
-			console.log('pageSection changed:', pageSection)
+    if (prevPageSection !== pageSection) {
+      console.log('pageSection changed:', pageSection);
+      // history.pushState(null, null, `#${pageSection}`); // ANALYZE - Do I want/need this?
+      setTimeout(() => {
+        wasSelected = null;
+      }, 500); // wait for fancyBubble to end
     }
-	});
+  });
 
-	function goToSection(e, pageSection) {
-		e.preventDefault();
+  function goToSection(e, pageSection) {
+    e.preventDefault();
 
-		if (pageSection === current) {
-			return false;
-		}
+    if (pageSection === current) {
+      return false;
+    }
 
-		console.log('pageSection changing to:', pageSection)
-		
-		const pivot = pivots.find(p => p.name === pageSection).y;
-		const to = pageSection !== 'intro' ? pivot : 0;
+    console.log('pageSection changing to:', pageSection);
 
-		wasSelected = pageSection;
-		
-		setTimeout(() => {
-			// NOTE: Make sure to call scrollTo before updateGeneral,
-			// so all sections read currectly the current scrollY
-			window.scrollTo(0, to);
-			updateGeneral({ pageCurrentSection: pageSection })
-			// TODO - handle a11y focus
-		}, 600) // eye picked value, ~ middle of "fancyAnimation"
+    const pivot = pivots.find(p => p.name === pageSection).y;
+    const to = pageSection !== 'intro' ? pivot : 0;
 
-	}
+    wasSelected = pageSection;
 
-	export let pivots;
+    setTimeout(() => {
+      console.log('scrolled by click', Date.now());
+      // NOTE: Make sure to call scrollTo before updateGeneral,
+      // so all sections read currectly the current scrollY
+      window.scrollTo(0, to);
+      updateGeneral({ pageCurrentSection: pageSection });
+      // TODO - handle a11y focus
+    }, 500); // eye picked value, ~ middle of "fancyBubble"
+  }
+
+  export let pivots;
 </script>
 
 <style>
-	$gutter: 2rem;
+  $gutter: 2rem;
 
-	.nav {
-		position: fixed;
-		top: 0;
-		left: 0;
-		height: 100%;
-		z-index: 5; /* above everything */
-	}
+  .nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    z-index: 5; /* above everything */
+  }
 
-	.links {
-		&List {
-			position: absolute;
-			top: $gutter;
-			left: calc($gutter*2);
-			display: flex;
-			margin: 0;
-			padding: 0;
-			font-size: var(--font-M);
-			
-			@media (height > 42em) {
-				flex-direction: column;				
-			}
-		}
+  .links {
+    &List {
+      position: absolute;
+      top: $gutter;
+      left: calc($gutter * 2);
+      display: flex;
+      margin: 0;
+      padding: 0;
+      font-size: var(--font-M);
 
-		&Item {
-			margin: 0;
-			padding: 0;
-			margin: 0 2rem 0 0;
-			padding: 0.5rem 0;
+      @media (height > 42em) {
+        /* TODO review @media */
+        flex-direction: column;
+      }
+    }
 
-			&::before,
-			&::after {
-				content: '';
-				position: absolute;
-				top: -50vw;
-				left: -50vw;
-				width: 200vw;
-				height: 200vw;
-				display: block;
-				border-radius: 50%;
-				transform: scale(0);
-				transform-origin: 25% 25%;
-				box-sizing: border-box;
-				z-index: -1;
-			}
+    &Item {
+      margin: 0;
+      padding: 0;
+      margin: 0 2rem 0 0;
+      padding: 0.5rem 0;
 
-			&::before {
-				background: var(--morph_total);
-			}
+      &::before,
+      &::after {
+        content: '';
+        position: absolute;
+        top: -50vw;
+        left: -50vw;
+        width: 200vw;
+        height: 200vw;
+        display: block;
+        border-radius: 50%;
+        transform: scale(0);
+        transform-origin: 25% 25%;
+        box-sizing: border-box;
+        z-index: -1;
+      }
 
-			&::after {
-				background: var(--bg_1);
-			}
+      &::before {
+        background: var(--morph_total);
+      }
 
-			&.isCurrent {
-				@for $i from 1 to 4 {
-					&:nth-child($i) {
-						~ .decorative {
-							transform: translateY(calc($i * 1.62em));
-						}
-					}
-				}
-			}
+      &::after {
+        background: var(--bg_0);
+      }
 
-			&.wasSelected {
-				&::before,
-				&::after {
-					animation: fancyNavigation 1000ms ease-out;
-				}
+      &.isCurrent {
+        @for $i from 1 to 4 {
+          &:nth-child($i) {
+            ~ .decorative {
+              transform: translateY(calc($i * 1.62em));
+            }
+          }
+        }
+      }
 
-				&::after {
-					animation-duration: 1250ms;
-				}
-			}
-		}
+      &.wasSelected {
+        &::before,
+        &::after {
+          animation: fancyBubble 850ms ease-out;
+        }
 
-		&Anchor {
-			display: inline-block;
-			text-decoration: none;
-			color: var(--text_1);
+        &::after {
+          animation-duration: 1100ms;
+        }
+      }
+    }
 
-			&:hover,
-			&:focus,
-			&[aria-current="true"] {
-				color: var(--primary_1);
-			}
-		}
-	}
+    &Anchor {
+      display: inline-block;
+      text-decoration: none;
+      color: var(--text_1);
 
-	.decorative {
-		position: absolute;
-		left: calc($gutter * -1);
-		top: -0.75em;
-		width: 1.5rem;
-		border-bottom: 1px solid var(--text_0);
-		transition: transform 250ms ease;
-	}
+      &:hover,
+      &:focus,
+      &[aria-current='true'] {
+        color: var(--primary_1);
+      }
+    }
+  }
 
-	:global(.g-contacts) {
-		position: absolute;
-		bottom: $gutter;
-		left: $gutter;
-		width: 100%;
-		white-space: nowrap;
+  .decorative {
+    position: absolute;
+    left: calc($gutter * -1);
+    top: -0.75em;
+    width: 1.5rem;
+    border-bottom: 1px solid var(--text_0);
+    transition: transform 250ms ease;
+  }
+
+  :global(.g-contacts) {
+    position: absolute;
+    bottom: $gutter;
+    left: $gutter;
+    width: 100%;
+    white-space: nowrap;
     opacity: 0;
     animation: laserOn 750ms calc(600ms + 50ms * 14) steps(8) forwards;
   }
 
-	@keyframes fancyNavigation {
-		0% {
-			transform: scale(0);
-		}
-		80% {
-			opacity: 1;
-		}
-		100% {
-			transform: scale(1);
-			opacity: 0;
-		}
-	}
+  @keyframes fancyBubble {
+    0% {
+      transform: scale(0);
+    }
+    75% {
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 0;
+    }
+  }
 </style>
-<nav class="nav">
-		<ul class="linksList">
-			{#each pageSections as name }
-				<li class="linksItem"
-					class:isCurrent={current === name}
-					class:wasSelected={wasSelected === name}
-				>
-					<a href="#{name}"
-						class="linksAnchor u-linkInteract"
-						aria-current={current === name}
-						on:click={(e) => goToSection(e, name)}>
-						{name}
-					</a>
-				</li>
-			{/each}
-			<li class="decorative" aria-hidden="true"></li>
-		</ul>
 
-		<Contacts class="g-contacts" />
+<!-- TODO: Animate this -->
+<nav class="nav">
+  <ul class="linksList">
+    {#each pageSections as name}
+      <li
+        class="linksItem"
+        class:isCurrent={current === name}
+        class:wasSelected={wasSelected === name}>
+        <a
+          href="#{name}"
+          class="linksAnchor u-linkInteract"
+          aria-current={current === name}
+          on:click={e => goToSection(e, name)}>
+          {name}
+        </a>
+      </li>
+    {/each}
+    <li class="decorative" aria-hidden="true" />
+  </ul>
+
+  <Contacts class="g-contacts" />
 </nav>

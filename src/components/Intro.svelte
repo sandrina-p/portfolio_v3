@@ -8,9 +8,9 @@
 
   onMount(() => {
     setTimeout(() => {
-      updateGeneral({ isReady: true })
-    }, 2000) // approximately the end of CSS intro animations.
-  })
+      updateGeneral({ isReady: true });
+    }, 2000); // approximately the end of CSS intro animations.
+  });
 </script>
 
 <style>
@@ -82,7 +82,9 @@
         <span class="title-char">{char}</span>
       {/each}
     </h1>
-    <p class="text">Let me introduce you to someone who helps to turn ideas into accessible experiences.</p>
+    <p class="text">
+      Let me introduce you to someone who helps to turn ideas into accessible experiences.
+    </p>
     <p class="text">Her name is Sandrina Pereira and she’s a frontend developer.</p>
   </div>
   <div class="animation">
