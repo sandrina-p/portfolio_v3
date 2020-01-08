@@ -1,40 +1,41 @@
-Here's a list of my learnings while building this website.
+Here's a list of my learnings while building this website. When I release the website, I'll share some of my learnings with a deeper explanation:
 
-📦 - Candidate for a package release.
-📝 - Candidate for a article.
+- 📦 Candidate for a package release.
+- 📝 Candidate for an article.
+- 🎈 Candidate for quick tip (tweet).
 
 ## Sapper / Svelte
 
 - Add PostCSS with [svelte-preprocess](https://www.npmjs.com/package/svelte-preprocess)
 - Global.css hot-reload doesn't seem to work on Sapper. (Need ref)
-- BUG: Svelte currently [doesn't support passing down CSS classes](https://github.com/sveltejs/svelte/issues/2870#issuecomment-511251023)
+- 🐛 BUG: Svelte currently [doesn't support passing down CSS classes](https://github.com/sveltejs/svelte/issues/2870#issuecomment-511251023)
 - Svelte converts wild cards to .classes `.container > *` outputs `.container > .child`
-- Question: When should export a variable? Docs don't explain it... Edit: export is a variable?? Edit2: Yes, it is. It's the last thing and you can access it before exporting it (odd)
+- ❓Question: When should we export a variable? Docs don't explain it... Edit: export is a variable?? Edit2: Yes, it is. It's the last thing and you can access it before creating/exporting it (odd)
 - Use dynamic + static classes: `class="icon {svg}"`
-- You don't need to worry about extra updates with useless setState() as in React.
+- 🎈You don't need to worry about extra updates with useless setState() as in React.
 - 📦 Create first store! (responsive).
 - ❓Question: How to conditionally add attr/events on an element? ??
-- Passing props down isn't trivial at all... [Workaround](https://github.com/sveltejs/svelte/issues/2870#issuecomment-529200474)
+- 🎈Passing props down isn't trivial at all... [Workaround](https://github.com/sveltejs/svelte/issues/2870#issuecomment-529200474)
 - 📦 Create a storeFactory to prevent useless updates (storeFactory)
-- Functions can be reactive too (as variables!)
+- 🎈Functions can be reactive too (as variables!)
 - 🐛 BUG: Svelte removes written classes when they are added through `@html` (ex: Values.svelte -> .sBox strong).
-- Child components are PureComponents by default!
+- 🎈Child components are PureComponents by default!
 
 ## Javascript
 
 - Prefer using `window.scrollY` over `document.documentElement.scrollTop` to get [window scroll correctly across all browsers](https://stackoverflow.com/questions/20514596/document-documentelement-scrolltop-return-value-differs-in-chrome).
-- 📦 Learned how to detect an IntersectionObserver status (entering / leaving & top/bottom/left/right)
+- 📦 Learned how to detect an IntersectionObserver status - if entering / leaving & what direction (top/bottom/left/right)
 
 ## CSS
 
-- Horizontal content: Use grid as parent and flex as child. it will grow horizontally forever.
-- Place multiples texts in the same line without position absolute using -1em.
-- `position:sticky` doesn't work when the parent has `overflow:hidden`
+- 🎈Horizontal content: Use grid as parent and flex as child. it will grow horizontally forever.
+- 🎈Place consecutive paragraphs in the same line without position absolute using -1em.
+- 🎈 `position:sticky` doesn't work when the parent has `overflow:hidden`
 
 ## Accessibility
 
-- `aria-current` to a link to mark it as [the current page link](https://tink.uk/using-the-aria-current-attribute/).
-- smooth scrolling when clicking a#tag - we need to handle the focus-changing ourselves because we are override the default scroll behavior.
+- 🎈`aria-current` to a link to mark it as [the current page link](https://tink.uk/using-the-aria-current-attribute/).
+- 🎈when using smooth scrolling on a#tag we need to handle the focus-changing ourselves because we are override the default scroll behavior.
 
 ## VSCode
 
