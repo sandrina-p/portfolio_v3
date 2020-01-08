@@ -88,14 +88,14 @@
   }
 
   function showExtraBtn(id) {
-    /* EASTER-EGG - show "made me" when all 3 lists are viewed */
+    /* EASTER_EGG - show "made me" when all 3 lists are viewed */
     return id !== '4' || Object.keys(interactedWith).length >= 3;
   }
 </script>
 
 <style>
   .wrapper {
-    padding: var(--spacer-XL) var(--spacer-M) var(--spacer-XL); /* REVIEW */
+    padding: var(--spacer-XL) var(--spacer-M) var(--spacer-XL);
     min-height: 100vh;
     overflow: hidden;
     padding-top: 50vh;
@@ -163,7 +163,7 @@
       border: 2px dashed;
       width: 14rem;
       opacity: 1;
-      border-radius: 4px; /* REVIEW borders */
+      border-radius: 4px; /* TODO/REVIEW borders */
       position: relative;
       transform: scale(0);
       animation: wow 500ms cubic-bezier(0.28, 0.67, 0, 1.29) forwards;

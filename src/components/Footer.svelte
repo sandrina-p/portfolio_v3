@@ -11,9 +11,9 @@
   let rx = 200;
   let isOnStage;
   let height = 10000;
-  let scale1 = 0;
-  let scale2 = 0;
-  let scale3 = 0;
+  let scale1 = 0.1;
+  let scale2 = 0.1;
+  let scale3 = 0.1;
 
   afterGeneralUpdate((prevState, state) => {
     if (!prevState.isReady && state.isReady) {
@@ -86,7 +86,6 @@
     height: 100%;
     transform-origin: 50% 50%;
     transform: scale(calc((var(--progress) * 1)));
-    will-change: transform;
   }
 
   .svg {
@@ -98,6 +97,7 @@
     transform-origin: 50% 50%;
     transform: scale(calc((var(--scale) * 1)));
     transition: transform 500ms ease-out;
+    will-change: transform;
 
     &Rect {
       fill: var(--morph_color);

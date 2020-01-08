@@ -1,6 +1,7 @@
 # Oh, hi there!
 
 Let me introduce you to someone who helps to turn ideas into accessible experiences.
+
 Her name is Sandrina Pereira and she’s a frontend developer.
 
 ----
@@ -37,3 +38,6 @@ Well... let's say we are 70% done.
 - [ ] Review test coverage
 - [ ] Review Accessibility
 - [ ] Easter Eggs!
+- [ ] Review SEO
+- [ ] Review manifest
+- [ ] Picky analyzis each animation performance

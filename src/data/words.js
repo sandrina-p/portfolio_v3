@@ -35,17 +35,6 @@ export default [
     ],
   },
   {
-    title: 'Learning hash tables with drawings',
-    places: [
-      {
-        type: 'zine',
-        where: 'Dev - Printable',
-        svg: 'dev',
-        link: 'https://dev.to/a_sandrina_p/learning-hash-tables-with-drawings-99o',
-      },
-    ],
-  },
-  {
     title: 'Using Custom Properties to Wrangle Variations in Keyframe Animations',
     places: [
       {
@@ -54,6 +43,17 @@ export default [
         svg: 'css',
         link:
           'https://css-tricks.com/using-custom-properties-to-wrangle-variations-in-keyframe-animations/',
+      },
+    ],
+  },
+  {
+    title: 'Learning hash tables with drawings',
+    places: [
+      {
+        type: 'zine',
+        where: 'Dev - Printable',
+        svg: 'dev',
+        link: 'https://dev.to/a_sandrina_p/learning-hash-tables-with-drawings-99o',
       },
     ],
   },

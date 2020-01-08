@@ -190,6 +190,7 @@
     &List {
       display: flex;
       flex-wrap: wrap;
+      /* align-items: flex-start; */
       padding-top: calc(100vh - 5rem);
     }
 
@@ -199,9 +200,9 @@
       position: relative;
       color: var(--text_0);
       width: calc(50% - ($headingWidth/2) - var(--spacer-M));
-      margin-bottom: var(--spacer-L);
       padding: var(--spacer-L);
       transition: var(--transition);
+      margin-bottom: 3rem;
 
       &:nth-child(2n + 1) {
         margin-right: calc($headingWidth/2 + var(--spacer-M));
@@ -211,10 +212,11 @@
       &:nth-child(2n) {
         margin-left: calc($headingWidth/2 + var(--spacer-M));
         transform: translateX(calc(-$headingWidth/2 + $headingWidth/2 * var(--progress)));
+        /* margin-top: -10rem; */
       }
 
-      &:nth-last-child(2),
-      &:nth-last-child(1) {
+      &:nth-last-child(1),
+      &:nth-last-child(2) {
         margin-bottom: 0;
       }
 
@@ -238,6 +240,7 @@
         transform: skew(var(--skew));
         transition: transform 75ms ease-out;
         animation: skew 300ms ease-out;
+        opacity: 0;
       }
 
       &::after {
