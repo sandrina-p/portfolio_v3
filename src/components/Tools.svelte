@@ -31,12 +31,10 @@
       initAnimation();
     }
 
-    setTimeout(() => {
-      if (prevPageSection !== pageSection && pageSection === 'skills') {
-        updateFromTop();
-        verifyAnimations();
-      }
-    }, 15); // wait for manual scroll at Nav.svelte
+    if (prevPageSection !== pageSection && pageSection === 'skills') {
+      updateFromTop();
+      verifyAnimations();
+    }
   });
 
   function updateFromTop() {
@@ -69,7 +67,7 @@
 
     const watchHeading = ([entry]) => {
       if (entry.isIntersecting) {
-        // TODO - convert this to scrollPivot
+        // OPTIMIZE - convert this to scrollPivot and create package.
         fromTop = entry.boundingClientRect.top + window.scrollY;
         window.addEventListener('scroll', verifyAnimations);
       } else {
@@ -123,7 +121,7 @@
     &Main {
       position: relative;
       display: block;
-      font-size: 12rem; /* var(--font-heading_1); */
+      font-size: var(--font-heading_0);
       color: transparent;
       transform-origin: 50% 0%;
       -webkit-text-stroke: 2px var(--text_1);
@@ -159,8 +157,8 @@
       border: none;
       cursor: pointer;
       color: var(--text_1);
-      padding: 1rem 2rem;
-      margin-bottom: 3rem;
+      padding: var(--spacer-S) var(--spacer-M);
+      margin-bottom: var(--spacer-L);
       background: transparent;
       border: 2px dashed;
       width: 14rem;
@@ -447,7 +445,8 @@
   class="wrapper"
   class:uAppear={isVisible}
   class:uAppearSoon={!isVisible}
-  data-section="skills">
+  data-section="skills"
+  id="skills">
   <h2 class="heading f-mono" style="--colorTabSelected: {colorTypes[tabSelected]};">
     <span class="sr-only">Get to know her</span>
     <span class="headingMain" bind:this={elHeading} style={headingStyle}>superpowers</span>
@@ -487,13 +486,13 @@
     <div class="footer">
       <p>
         See them in action on
-        <a href="#TODO">Codepen</a>
+        <a href="https://codepen.io/sandrina-p" target="_blank">Codepen</a>
         and
-        <a href="#TODO">Github</a>
+        <a href="http://github.com/sandrina-p" target="_blank">Github</a>
       </p>
       <p>
         Hey, I'm on
-        <a href="#TODO">Github</a>
+        <a href="https://github.com/sandrina-p/s008080_2019" target="_blank">Github</a>
         !
       </p>
     </div>

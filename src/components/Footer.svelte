@@ -3,6 +3,7 @@
   import { _window } from '../stores/responsive.js';
   import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
   import { getInLimit } from '../utils';
+  import throttle from 'lodash/throttle';
 
   let elFooter;
   let scrollPivot;
@@ -13,20 +14,19 @@
   let scale1 = 0;
   let scale2 = 0;
   let scale3 = 0;
-  // $: isActive = progress === 1;
 
-  onMount(() => {
-    setTimeout(() => {
-      // TODO - only when reaching tools
+  afterGeneralUpdate((prevState, state) => {
+    if (!prevState.isReady && state.isReady) {
       initAnimations();
-    }, 3000);
+    }
   });
 
   function initAnimations() {
     let isIncreasing = true;
     let prevRXMode = 0;
+    const handleScroll = throttle(handleScrollLol, 16);
 
-    function handleScroll() {
+    function handleScrollLol() {
       console.log('scrolling footer...');
       const scrollY = window.scrollY;
       const scrollYpivot = scrollY - scrollPivot;

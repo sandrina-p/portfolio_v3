@@ -15,6 +15,7 @@
     width: 33vw;
     height: 33vh;
     background: var(--primary_1);
+    box-shadow: inset -27px -31px 29px var(--primary_1_darker);
     opacity: 0.1;
     animation:
       gelly 30s alternate-reverse infinite ease-in-out,

@@ -2,7 +2,8 @@
   import { onMount } from 'svelte';
   import { _window } from '../stores/responsive.js';
   import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
-  import { getInLimit } from '../utils';
+  import { getInLimit, TIMEOUTS } from '../utils';
+  import { EMAIL_URL } from '../data/misc.js';
 
   let elHeading;
   let scrollPivot;
@@ -18,10 +19,8 @@
       initAnimations();
     }
 
-    if (prevPageSection !== pageSection && pageSection === 'about') {
-      setTimeout(() => {
-        verifyRotating();
-      }, 15); // wait for manual scroll at Nav.svelte
+    if (prevPageSection !== pageSection && pageSection === 'journey') {
+      verifyRotating();
     }
   });
 
@@ -36,8 +35,8 @@
   function initAnimations() {
     const watchSlidding = ([{ isIntersecting, boundingClientRect, rootBounds }]) => {
       if (isIntersecting) {
-        (scrollPivot = window.scrollY - (rootBounds.height - boundingClientRect.top)),
-          (progressOffset = progressOffset || boundingClientRect.height / 2);
+        scrollPivot = window.scrollY - (rootBounds.height - boundingClientRect.top);
+        progressOffset = progressOffset || boundingClientRect.height / 2;
 
         window.addEventListener('scroll', verifyRotating, { passive: true });
       } else {
@@ -128,7 +127,7 @@
   }
 
   .text {
-    max-width: 50rem;
+    max-width: 48rem;
     margin: -5rem auto 0;
     font-size: var(--font-L);
     line-height: 1.5;
@@ -146,14 +145,14 @@
       transition: opacity 600ms 700ms, transform 400ms 500ms;
       transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
     }
-  }
 
-  a {
-    color: var(--text_0);
+    .f-bold {
+      color: var(--text_0);
+    }
   }
 </style>
 
-<section class="wrapper" style="--progress: {progress}" class:isActive data-section="about">
+<section class="wrapper" style="--progress: {progress}" class:isActive id="journey" data-section="journey">
   <h2 class="f-mono heading" bind:this={elHeading}>
     <div class="sliding">
       <div class="slidingRotate">
@@ -168,24 +167,24 @@
   </h2>
   <div>
     <p class="text">
-      During the last year she have been helping to bring a new (open source) idea to life -
-      <a href="TODO">Group Income</a>
-      - a decentralized basic income system for small communities. Before that, she was a Senior UI
-      Engineer at
-      <a href="TODO">Farfetch</a>
+      During the last year she has been helping to bring an open source idea to life -
+      <a class="u-link" href="https://github.com/okTurtles/group-income-simple" target="_blank">Group Income</a>.
+      Before that, she was a Senior UI Engineer at
+      <a class="u-link" href="https://www.farfetch.com" target="_blank">Farfetch</a>
       for a few years.
       <br />
       <br />
       Since her early days, back when she was studying Communication Design, Sandrina always looked
       for ways to emerge these two fields: design and development. Her meta-goal is still the same:
-      <strong>create human experiences through the digital world.</strong>
+      <strong class="f-bold">explore human experiences through the web world.</strong>
+      That's why she loves to 
+      <a class="u-link" href="https://codepen.io/sandrina-p" target="_blank">push pixels around</a>.
       <br />
       <br />
       Currently,
-      <strong>Sandrina is looking for new opportunities</strong>
-      where she can make the difference as a developer who cares not only about the code, but also
-      about the people. Remote friendly or somewhere in North Europe.
-      <a href="TODO">Get in touch!</a>
+      <strong class="f-bold">Sandrina is looking for new challenges</strong>.
+      Remote friendly or somewhere in North Europe. If you trully believe you both can rock together, 
+      <a class="u-link" href={ EMAIL_URL }>go talk to her!</a>
     </p>
   </div>
 </section>

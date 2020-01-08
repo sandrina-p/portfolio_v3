@@ -34,10 +34,7 @@
         init = initAnimation();
       }
 
-      setTimeout(() => {
-        init.verifyCardPostion();
-      }, 15); // wait for manual scroll at Nav.svelte
-      // TODO - centralize all timeouts and add an explanation for each one.
+      init.verifyCardPostion();
     }
 
     if (isOnStage && state.pageCurrentSection !== 'words') {
@@ -76,9 +73,7 @@
           cardArgs[cardId] = {
             index: cardId,
             entry,
-            // only works if 1st time is from the bottom - 99.99% of the times.
-            // UPDATE - TODO / REVIEW - Not anymore... because of navigation, it can be from the top.
-            scrollPivot: window.scrollY - (entry.rootBounds.height - entry.boundingClientRect.top), // to be precise when scrolling quickly
+            scrollPivot: window.scrollY - (entry.rootBounds.height - entry.boundingClientRect.top),
           };
         } else {
           cardArgs[cardId].ignore = false;

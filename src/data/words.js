@@ -45,18 +45,8 @@ export default [
       },
     ],
   },
-  // {
-  //   title: 'Making the web more accessible',
-  //   places: [
-  //     {
-  //       type: 'training',
-  //       where: 'Get in touch!',
-  //       link: 'TODO-email',
-  //     },
-  //   ],
-  // },
   {
-    title: 'Using Custom Properties to Wrangle Variations in Keyframe Animations ',
+    title: 'Using Custom Properties to Wrangle Variations in Keyframe Animations',
     places: [
       {
         type: 'article',
@@ -67,26 +57,6 @@ export default [
       },
     ],
   },
-  // {
-  //   title: 'React Context cheatsheet',
-  //   places: [
-  //     {
-  //       type: 'article',
-  //       where: 'Dev.io',
-  //       link: 'https://dev.to/a_sandrina_p/react-context-cheatsheet-18n4',
-  //     },
-  //   ],
-  // },
-  // {
-  //   title: 'Testing React apps with Jest and Enzyme',
-  //   places: [
-  //     {
-  //       type: 'training',
-  //       where: 'Get in touch!',
-  //       link: 'TODO-email',
-  //     },
-  //   ],
-  // },
   {
     title: 'I’ve spoken at JSConf and so can you!',
     places: [
@@ -116,15 +86,4 @@ export default [
       },
     ],
   },
-  // {
-  //   title: 'The web is awesome and everyone should be able to read it',
-  //   places: [
-  //     {
-  //       type: 'article',
-  //       where: 'Medium',
-  //       link:
-  //         'https://medium.com/@a_sandrina_p/the-web-is-awesome-and-everyone-should-be-able-to-read-it-b0b0926ad420',
-  //     },
-  //   ],
-  // },
 ];

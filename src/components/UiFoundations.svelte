@@ -10,31 +10,39 @@
     --bg_0: #f4f4f4; /* #0d1722;*/
     --bg_1: #fff; /* #000000; */
     --bg_invert: #1b1b1b;
+
+    /* put this color at meta theme-color */
     --primary_1: #9072ff; /*#52e9d0; /* #59b9a3; /* #fb6177; */
+    --primary_1_darker: #8c00ff;
     --morph_color: rgba(109, 7, 255, 0.1); /*rgba(101, 189, 144, 0.09);*/
     --morph_total: #bfa1f8; /* #bbdccd; /* visual effect when all circles are overlapping */
     --primary_2: #52e9d0; /* #b69dff; */
     --primary_3: #0a0a09;
     --primary_3_darker: #dfb948;
     --primary_4: #f08e8e;
+
     --font-M: 1.4rem;
     --font-M: 1.6rem;
     --font-L: 1.8rem;
+    --font-L2: 2.1rem;
     --font-XL: 2.6rem;
+    --font-heading_0: 12rem;
     --font-heading_1: 8rem;
     --font-heading_2: 6rem;
     --font-heading_3: 5rem;
+
+    --spacer-XS: 0.4rem;
     --spacer-S: 0.8rem;
     --spacer-M: 1.6rem;
     --spacer-L: 3.2rem;
     --spacer-XL: 6.4rem;
+
     --bounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+     /* --speed_0: 250ms; */ /* REVIEW - speed scale ? */
   }
 
-  /* @font-face {
-    font-family: 'PFDin', 'monospace';
-    src: url('fonts/PFDin_Mono_Bold.ttf') format('truetype');
-  } */
+  /* ************************************ */
 
   html {
     font-size: 62.5%; /* 1rem = 10px */
@@ -69,7 +77,11 @@
   .f-mono {
     font-family: 'Libre Baskerville', serif;
     line-height: 1.2;
-    font-weight: 600;
+    font-weight: 500;
+  }
+
+  .f-bold {
+    font-weight: 500;
   }
 
   /* The outline offseted effect */
@@ -148,14 +160,14 @@
       outline: none;
 
       &::before {
-        transition-duration: 250ms; /* TODO speed scale */
+        transition-duration: 250ms;
         transform: scale(1);
       }
     }
   }
 
   .u-link {
-    border-bottom: 1.5px dashed var(--primary_1);
+    border-bottom: 1px dashed var(--primary_1);
     color: var(--text_0);
   }
 

@@ -1,55 +1,139 @@
 <script>
-  import { afterUpdate } from 'svelte';
+  import { onMount, afterUpdate, createEventDispatcher } from 'svelte';
   import Contacts from './Contacts.svelte';
+  import { _window } from '../stores/responsive.js';
   import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
+  import { TIMEOUTS } from '../utils';
 
-  $: current = $strGeneral.pageCurrentSection;
+  $: currentSection = $strGeneral.pageCurrentSection;
   let pageSections = $strGeneral.pageSections;
-  let pageEls;
+  let navPivots = undefined;
   let wasSelected = null; // when the link is clicked, trigger the fancyBubble
+  let isRICScheduled = false;
+	const dispatch = createEventDispatcher();
+
+  onMount(() => {
+    window.addEventListener('scroll', handleScroll);
+  });
 
   afterGeneralUpdate((prevState, state) => {
+    if (!prevState.isReady && state.isReady) {
+      setNavigationData();
+    }
+
     const prevPageSection = prevState.pageCurrentSection;
     const pageSection = state.pageCurrentSection;
 
     if (prevPageSection !== pageSection) {
       console.log('pageSection changed:', pageSection);
-      // history.pushState(null, null, `#${pageSection}`); // ANALYZE - Do I want/need this?
-      setTimeout(() => {
-        wasSelected = null;
-      }, 500); // wait for fancyBubble to end
+      
+      // Do I want or ** need ** this?
+      // history.pushState(null, null, `#${pageSection}`);
+
+      if(wasSelected) {
+        setTimeout(() => {
+          wasSelected = null;
+        }, TIMEOUTS.NAV_ANIMATING);
+      }
     }
   });
+
+  function handleScroll() {
+    if (isRICScheduled) { return; }
+
+    isRICScheduled = true;
+
+    requestIdleCallback(verifyPageSection, {
+      timeout: 300
+    });
+  }
+
+  function verifyPageSection() {
+    isRICScheduled = false;
+    const currentY = window.scrollY;
+
+    for (let i = 3; i >= 0; i--) {
+      if (currentY < navPivots[i].y) {
+        continue;
+      }
+
+      const newCurrentSection = navPivots[i].name;
+      if (newCurrentSection !== currentSection) {
+        updateGeneral({ pageCurrentSection: newCurrentSection });
+      }
+      break;
+    }
+  }
+
+  function setNavigationData() {
+    const valuesWidth = (() => {
+      // BUG/REVIEW: valuesEnd' parent has a smaller width than its content.
+      // Dunno why.... so, instead lets get the position directly from it.
+      const { left, width } = document
+        .querySelectorAll('[data-section="valuesEnd"]')[0]
+        .getBoundingClientRect();
+
+      return Math.round(left + width);
+    })();
+    const wWidth = $_window.innerWidth;
+    const wHeight = $_window.innerHeight;
+    const savedHorizonOffset = valuesWidth - wHeight + Math.round(wWidth / 2);
+
+    navPivots = $strGeneral.pageSections.map(section => {
+      if (section === 'intro') {
+        return { name: 'intro', y: 0 };
+      }
+
+      // if (section === 'words') {
+      //   // words should only appear when "values" disappear.
+      //   return { name: 'words', y: valuesWidth };
+      // }
+
+      const sectionTop = document
+        .querySelectorAll(`[data-section="${section}"]`)[0]
+        .getBoundingClientRect().top;
+
+      return {
+        name: section,
+        y: Math.round(savedHorizonOffset + sectionTop - wHeight),
+      };
+    });
+
+    dispatch('calculated', {
+			horizonAfterOffset: `${savedHorizonOffset}px`
+		});
+  }
 
   function goToSection(e, pageSection) {
     e.preventDefault();
 
-    if (pageSection === current) {
+    if (pageSection === currentSection) {
       return false;
     }
 
     console.log('pageSection changing to:', pageSection);
 
-    const pivot = pivots.find(p => p.name === pageSection).y;
+    const pivot = navPivots.find(p => p.name === pageSection).y;
     const to = pageSection !== 'intro' ? pivot : 0;
 
     wasSelected = pageSection;
 
     setTimeout(() => {
-      console.log('scrolled by click', Date.now());
+      console.log('scrolled by click');
       // NOTE: Make sure to call scrollTo before updateGeneral,
       // so all sections read currectly the current scrollY
       window.scrollTo(0, to);
-      updateGeneral({ pageCurrentSection: pageSection });
-      // TODO - handle a11y focus
-    }, 500); // eye picked value, ~ middle of "fancyBubble"
-  }
 
-  export let pivots;
+      setTimeout(() => {
+        updateGeneral({ pageCurrentSection: pageSection });
+      }, TIMEOUTS.NAV_SCROLLED);
+
+    }, TIMEOUTS.NAV_ANIMATING);
+  }
 </script>
 
 <style>
-  $gutter: 2rem;
+  $gutter: var(--spacer-M);
 
   .nav {
     position: fixed;
@@ -78,8 +162,8 @@
     &Item {
       margin: 0;
       padding: 0;
-      margin: 0 2rem 0 0;
-      padding: 0.5rem 0;
+      margin: 0 var(--spacer-M) 0 0;
+      padding: var(--spacer-S) 0;
 
       &::before,
       &::after {
@@ -173,25 +257,27 @@
   }
 </style>
 
-<!-- TODO: Animate this -->
-<nav class="nav">
-  <ul class="linksList">
-    {#each pageSections as name}
-      <li
-        class="linksItem"
-        class:isCurrent={current === name}
-        class:wasSelected={wasSelected === name}>
-        <a
-          href="#{name}"
-          class="linksAnchor u-linkInteract"
-          aria-current={current === name}
-          on:click={e => goToSection(e, name)}>
-          {name}
-        </a>
-      </li>
-    {/each}
-    <li class="decorative" aria-hidden="true" />
-  </ul>
+{#if navPivots}
+  <!-- TODO: Animate this -->
+  <nav class="nav">
+    <ul class="linksList">
+      {#each pageSections as name}
+        <li
+          class="linksItem"
+          class:isCurrent={currentSection === name}
+          class:wasSelected={wasSelected === name}>
+          <a
+            href="#{name}"
+            class="linksAnchor u-linkInteract"
+            aria-current={currentSection === name}
+            on:click={e => goToSection(e, name)}>
+            {name}
+          </a>
+        </li>
+      {/each}
+      <li class="decorative" aria-hidden="true" />
+    </ul>
 
-  <Contacts class="g-contacts" />
-</nav>
+    <Contacts class="g-contacts" />
+  </nav>
+{/if}

@@ -1,6 +1,6 @@
 <script>
   import { onMount, afterUpdate } from 'svelte';
-  import { getInLimit, getIOstatus } from '../utils';
+  import { getInLimit, getIOstatusHorizontal } from '../utils';
   import { _window, afterResponsiveUpdate } from '../stores/responsive.js';
   import { strDabox, updateDabox } from '../stores/dabox.js';
   import { updateCircle } from '../stores/circle.js';
@@ -8,70 +8,23 @@
   import Dots from './animations/Dots.svelte';
   import Gelly from './animations/Gelly.svelte';
   import Echo from './animations/Echo.svelte';
+  import valuesData from '../data/values.js';
 
-  // TODO - rename parts to "part" to avoid naming confusition with general.pagePart.
   const parts = ['MORPH', 'DOTS', 'ASK', 'WOLF', 'PEOPLE', 'FINALLE'];
-  const valuesData = {
-    // NOTE: The texts are static, so let's take advantage of that
-    // and save ms from useless getBoundingClientRect, shall we?
-    MORPH: {
-      text: '',
-      width: '20rem' /* same as circle */,
-      height: '20rem',
-    },
-    DOTS: {
-      text: [
-        'Combining both design and development processes is one of Sandrina’s expertises. She loves to <strong>work closely with the design team</strong> to define and implement exciting experiences.',
-      ],
-      width: '48rem',
-      height: '21rem',
-    },
-    ASK: {
-      text: [
-        'You’ll see Sandrina asking a lot of questions around. Wanna create a simple but detailed solution?',
-        'Let’s understand the problem first.',
-        'Only then we can make wise decisions taken with true care.',
-      ],
-      width: '39rem',
-      height: '30rem',
-    },
-    WOLF: {
-      text: [
-        'If you wanna go quickly, Sandrina can make it happen. As a fast paced worker with a <strong>high quality bar</strong>, she can be the lone wolf when needed.',
-        "However, if you wanna go far, <a href='#TODO'>ask her to join</a> your wolves pack and let’s go together, as a team.",
-      ],
-      width: '30.8rem',
-      height: '44rem',
-    },
-    PEOPLE: {
-      text: [
-        "At the end the best practices were followed, all the code was reused and each pixel is perfectly aligned. But <strong>it doesn't matters if there isn’t a human connection</strong> between the people who create a product.",
-        // "The technology is only the starting point. The passion behind a team is the fuel to create a memorable experience to everyone.",
-      ],
-      width: '54rem',
-      height: '27rem',
-    },
-    FINALLE: {
-      text: '',
-      width: '0',
-      height: '0',
-    },
-  };
-
   let onStage = true;
   let currentPart = 'MORPH';
   let elDots;
   let elAsk;
   let elWolf;
   let elPeople;
+  let animations;
 
   let isMount = false; /* wait for Intro animations */
   let scrollY = 0;
 
   // ::: Morphose - a circle to a square (dabox)
-  // TODO - Maybe this part shouldn't be here...
-  // It's only logic, I was between Intro and Values
-  const size = 200; // TODO - get real CSS Variables form circle
+  // REVIEW - Maybe this shouldn't be here it's only logic and between Intro and Values
+  const size = 200; // OPTMIZE - get real CSS Variables form circle
   const scaleStart = 0.8;
   $: distance = isMount && $_window.innerWidth / 2 - size * 1.5;
 
@@ -82,18 +35,13 @@
   $: offLimit = isMount && $_window.innerWidth / 2 + distance * morphCircleRatio + morphBoxRatio;
   $: morphStyle = isMount && `width: ${(offLimit + size / 2)}px`; // REFINE this value... should match the begin of sDots
 
-  $: daboxStyle = `
-    ${
-      $strDabox.progress
-        ? `
-      --radius: ${50 - $strDabox.progress * 50}%;
-      --opacity: ${1 - $strDabox.progress};
-    `
-        : ''
-    }
-    --width: var(--width-${currentPart});
-    --height: var(--height-${currentPart});
-  `;
+  $: daboxStyle =
+    ($strDabox.progress
+      ? `--radius: ${50 - $strDabox.progress * 50}%;` +
+        `--opacity: ${1 - $strDabox.progress};`
+      : '') +
+    `--width: var(--width-${currentPart});` +
+    `--height: var(--height-${currentPart});`;
 
   const styleContainer = Object.keys(valuesData).reduce(
     (styles, part) =>
@@ -107,7 +55,7 @@
     isMount = true;
     window.addEventListener('scroll', verifyMetamorphose, { passive: true });
 
-    observeParts();
+    animations = initAnimations();
   });
 
   afterGeneralUpdate((prevState, state) => {
@@ -117,15 +65,22 @@
     if (prevPageSection === pageSection) {
       return false;
     }
-    // When scroll is immediately, (by clicking on a nav link) Observers might not
-    // be triggered, so we need to update the part manually.
+
     if (pageSection !== 'intro') {
-      currentPart = 'FINALLE';
-    } else if (window.scrollY === 0) {
-      // It means it was triggered by navigation link
+      if(currentPart !== 'FINALLE') {
+        currentPart = 'FINALLE';
+        animations.pause();
+      }
+      return;
+    }
+    
+    if(window.scrollY === 0) { // It means it was triggered by navigation link
       currentPart = 'MORPH';
-      updateDabox({ isActive: false, progress: 0 });
       verifyMetamorphose();
+      animations.continue(true);
+    } else {
+      currentPart = 'PEOPLE';
+      animations.continue(false);
     }
   });
 
@@ -152,11 +107,10 @@
     isMorphing = true;
 
     updateCircle({
-      style: `
-        --scrollY: ${offsetY}px;
-        --distance: ${newDistance}px;
-        --scaleStart: ${scaleStartAdjusted};
-      `,
+      style:
+        `--scrollY: ${offsetY}px;` +
+        `--distance: ${newDistance}px;` +
+        `--scaleStart: ${scaleStartAdjusted};`,
       isPaused: newDistance === 0,
     });
     updateDabox({
@@ -165,7 +119,7 @@
     });
   }
 
-  function observeParts() {
+  function initAnimations() {
     const headingsToClip = ['ASK', 'WOLF', 'PEOPLE'];
     const clipArgs = {}; // A list of args to be passed to handles, based on the part
     const clipHandles = headingsToClip.reduce(
@@ -181,7 +135,10 @@
       leaveLeft: partName => parts[parts.indexOf(partName) + 1],
       leaveRight: partName => parts[parts.indexOf(partName) - 1],
     };
-    let isFirstTime = true; // Prevent initial IO callback to take effect - https://stackoverflow.com/a/47855484/4737729
+    // Prevent initial IO callback to take effect,
+    // so it doesnt show any incorrect dabox text
+    // - https://stackoverflow.com/a/47855484/4737729
+    let isFirstTime = true;
 
     function handleClipping({ part, entry, scrollPivot }) {
       console.log('clipping', part, '...');
@@ -193,7 +150,6 @@
     }
 
     function verifyClippingStatus(part, status, entry) {
-      console.log('ora bem', part, status);
       if (['enterLeft', 'enterRight'].includes(status)) {
         clipArgs[part] = {
           part: part,
@@ -209,22 +165,14 @@
       }
     }
 
-    const watchPart = entries => {
+    function watchPart(entries) {
       if (isFirstTime) {
         isFirstTime = false;
         return false;
       }
       entries.forEach(entry => {
         const part = entry.target.getAttribute('data-part');
-        if (!($strGeneral.pageCurrentSection === 'intro' && window.scrollY !== 0)) {
-          if (part === 'PEOPLE') {
-            // Passed all values, so let's remove its event.
-            window.removeEventListener('scroll', clipHandles[part]);
-          }
-          return false;
-        }
-
-        const status = getIOstatus(entry);
+        const status = getIOstatusHorizontal(entry);
         const newPart = getNextPart[status](part);
         console.log('intersecting from:', part, 'to:', newPart);
 
@@ -240,10 +188,31 @@
       threshold: 0,
     });
 
-    observer.observe(elDots);
-    observer.observe(elAsk);
-    observer.observe(elWolf);
-    observer.observe(elPeople);
+
+    function start(shouldResetFirstTime) {
+      if(shouldResetFirstTime) {
+        isFirstTime = true;
+      }
+
+      observer.observe(elDots);
+      observer.observe(elAsk);
+      observer.observe(elWolf);
+      observer.observe(elPeople);
+    }
+
+    function pause() {
+      observer.disconnect();
+      const lastPart = headingsToClip[headingsToClip.length - 1];
+      console.log('hum', lastPart)
+      window.removeEventListener('scroll', clipHandles[lastPart])
+    }
+
+    start();
+
+    return {
+      continue: start,
+      pause,
+    }
   }
 
   $: getBoxClass = partName => {
@@ -367,8 +336,8 @@
       }
 
       :global(strong) {
-        /* Svelte BUG - this exists, but it's dynamic. Use global to persist */
-        font-weight: 600; /* TODO - this */
+        /* Svelte BUG  - 📝 this exists, but it's dynamic. Use global to persist */
+        font-weight: 500;
       }
     }
   }
@@ -479,6 +448,7 @@
   class="container"
   style="{styleContainer}
   {currentPart === 'MORPH' ? '--scrollSpeed: 0;' : ''}">
+
   <h2 class="sr-only">Values</h2>
 
   <div class="dabox" class:isActive={$strDabox.isActive} class:isMorphing style={daboxStyle} />
@@ -487,7 +457,6 @@
     <Dots pattern='A' />
   </div>
 
-  <!-- JSX I miss you... so lame having to write this multiple times -->
   <div class="part sDots">
     <Dots pattern='B' />
     <h3 class="f-mono title" data-part="DOTS" bind:this={elDots}>Let's connect the dots</h3>

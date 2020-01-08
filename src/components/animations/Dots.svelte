@@ -76,8 +76,8 @@ export let pattern;
   }
 
   @keyframes live {
-    0% { transform: rotate(var(--rotate, 0deg)) translate(0px, 0px) }
-    100% { transform: rotate(var(--rotate, 0deg)) translate(15px, 15px) }
+    0% { transform: rotate(var(--rotate, 0deg)) translate3d(0, 0, 0) }
+    100% { transform: rotate(var(--rotate, 0deg)) translate3d(15px, 15px, 0) }
   }
 </style>
 

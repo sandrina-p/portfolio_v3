@@ -1,6 +1,6 @@
 {
-  "name": "TODO",
-  "description": "TODO",
+  "name": "sandrina-pereira-website",
+  "description": "UX Engineer helping to turn ideas into accessible experiences",
   "version": "0.0.1",
   "scripts": {
     "start": "sapper dev",

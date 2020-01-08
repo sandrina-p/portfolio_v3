@@ -3,13 +3,14 @@
   import { strGeneral, updateGeneral } from '../stores/general.js';
   import Contacts from './Contacts.svelte';
   import CircleComposition from './animations/CircleComposition.svelte';
+  import { TIMEOUTS } from '../utils';
 
   const intro = 'Oh, hi there!';
 
   onMount(() => {
     setTimeout(() => {
       updateGeneral({ isReady: true });
-    }, 2000); // approximately the end of CSS intro animations.
+    }, TIMEOUTS.INTRO_ANIMATED);
   });
 </script>
 
@@ -55,7 +56,7 @@
   }
 
   .text {
-    font-size: 2.1rem; /* var(--font-XL); TODO this */
+    font-size: var(--font-L2);
     line-height: 1.5;
     max-width: 45rem;
     opacity: 0;
@@ -75,9 +76,9 @@
   }
 </style>
 
-<div class="intro">
+<div class="intro" id="intro">
   <div class="content">
-    <h1 class="f-mono title">
+    <h1 class="f-mono title" aria-label={intro}>
       {#each intro.split('') as char}
         <span class="title-char">{char}</span>
       {/each}

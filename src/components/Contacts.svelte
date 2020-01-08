@@ -65,8 +65,8 @@
     display: block;
     font-size: var(--font-M);
     height: 1em;
-    padding-left: 0.25rem;
-    margin-bottom: 0.5rem;
+    padding-left: var(--spacer-XS);
+    margin-bottom: var(--spacer-S);
     color: var(--text_1);
     opacity: 0;
     transition: opacity 50ms;

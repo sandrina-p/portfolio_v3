@@ -1,7 +1,7 @@
 import { createStore } from './storeFactory.js';
 
 const [strGeneral, updateGeneral, afterGeneralUpdate] = createStore({
-  pageSections: ['intro', 'words', 'skills', 'about'],
+  pageSections: ['intro', 'words', 'skills', 'journey'],
   pageCurrentSection: 'intro',
 
   // A list of sections with their last pixel
