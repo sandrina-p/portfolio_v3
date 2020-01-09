@@ -169,6 +169,7 @@
   .u-link {
     border-bottom: 1px dashed var(--primary_1);
     color: var(--text_0);
+    /* font-weight: 500; */
   }
 
   @keyframes laserOn {

@@ -15,6 +15,9 @@
 </script>
 
 <style>
+  $titleChars: 13;
+  $titleTempo: 200ms; 
+
   .intro {
     display: flex;
     padding-left: 10rem;
@@ -37,18 +40,20 @@
     &-char {
       opacity: 0;
       animation: laserOn 500ms steps(8) forwards;
-
-      /* 13 chars */
+  
+      /* 13 $titleChars */
       @for $i from 1 to 13 {
+        $titleTempo: 200ms;
+
         &:nth-of-type($i) {
           @if $i == 4 {
             display: block; /* linebreak */
           }
 
           @if $i < 4 {
-            animation-delay: calc(200ms + 50ms * $i);
+            animation-delay: calc($titleTempo + 50ms * ($i - 1));
           } @else {
-            animation-delay: calc(600ms + 50ms * $i);
+            animation-delay: calc(($titleTempo*2) + 50ms * ($i - 1));
           }
         }
       }
@@ -60,7 +65,7 @@
     line-height: 1.5;
     max-width: 45rem;
     opacity: 0;
-    animation: laserOn 750ms calc(600ms + 50ms * 13) steps(8) forwards;
+    animation: laserOn 750ms calc($titleTempo + 50ms * $titleChars) steps(8) forwards;
 
     &:nth-of-type(2) {
       margin-top: var(--spacer-M);
@@ -71,8 +76,7 @@
   .animation {
     position: relative;
     opacity: 0;
-    animation: fadeIn 1000ms calc(600ms + 50ms * 13) forwards;
-    z-index: 1; /* To be above values */
+    animation: fadeIn 1000ms calc($titleTempo + 50ms * $titleChars) forwards;
   }
 </style>
 
@@ -86,7 +90,7 @@
     <p class="text">
       Let me introduce you to someone who helps to turn ideas into accessible experiences.
     </p>
-    <p class="text">Her name is Sandrina Pereira and she’s a frontend developer.</p>
+    <p class="text">Her name is Sandrina Pereira and she’s a UX Engineer.</p>
   </div>
   <div class="animation">
     <CircleComposition />

@@ -1,5 +1,6 @@
 <script>
 export let pattern;
+export let isActive;
 </script>
 
 <style>
@@ -11,17 +12,35 @@ export let pattern;
     top: 0;
     z-index: 1;
     pointer-events: none;
-
+ 
     &.pattern-A {
       transform: scale(1, -1);
       transform-origin: 50% 50%;
 
       .dot {
-        &:nth-child(1),
         &:nth-child(3),
         &:nth-child(5),
+        &:nth-child(6),
         &:nth-child(7) {
           display: none;
+        }
+
+        &:nth-child(1) {
+          --top: 75%;
+          --left: 0;
+        }
+
+        &:nth-child(2) {
+          --top: 10%;
+          --left: 15%;
+          --size: 1.6rem;
+          box-shadow: 0 0 2px 2px var(--primary_1);
+        }
+
+        &:nth-child(4) {
+          --left: 50%;
+          --top: 60%;
+          --size: 2.4rem;
         }
       }
     }
@@ -37,39 +56,45 @@ export let pattern;
     opacity: var(--opacity, 1);
     background-color: var(--primary_1);
     animation: live 5s alternate-reverse infinite ease-in-out;
+    animation-play-state: paused;
+
+    .dots.isActive & {
+      animation-play-state: running;
+    }
 
     &:nth-child(1) {
-      --size: 1.2rem; --top: 10%; --left: 10%;
-      --rotate: 10deg;
+      --size: 1.2rem; --top: 20%; --left: 0%;
+      --rotate: -180deg;
       animation-delay: -3s;
     }
     &:nth-child(2) {
-      --size: 2.4rem; --top: 7%; --left: 40%; --opacity: 0.8;
+      --size: 2.4rem; --top: 7%; --left: 20%; --opacity: 0.5;
       --rotate: 5deg;
       animation-duration: 3s;
-      border-radius: 40% 60% 46% 54% / 50% 60% 41% 50%; 
+      box-shadow: 0 0 1px 1px var(--primary_1);
     }
     &:nth-child(3) {
-      --size: 0.8rem; --top: 30%; --left: 50%;
+      --size: 0.8rem; --top: 30%; --left: 56%; --opacity: 0.5;
       animation-delay: -1s;
+      box-shadow: 0 0 5px 5px var(--primary_1);
     }
     &:nth-child(4) {
-      --size: 2.4rem; --top: 55%; --left: 60%;
+      --size: 1.2rem; --top: 55%; --left: 30%;
       --rotate: -10deg;
       animation-duration: 4s;
     }
     &:nth-child(5) {
-      --size: 2.4rem; --top: 80%; --left: -5%; --opacity: 0.8;
+      --size: 2.4rem; --top: 80%; --left: -5%; --opacity: 0.7;
       animation-delay: -2s;
-      border-radius: 40% 60% 46% 54% / 50% 60% 41% 50%; 
+      box-shadow: 0 0 3px 3px var(--primary_1);
     }
     &:nth-child(6) {
-      --size: 0.8rem; --top: 75%; --left: 15%; --opacity: 0.6;
+      --size: 0.8rem; --top: 75%; --left: 15%;  --opacity: 0.9;
       --rotate: -5deg;
       animation-duration: 3s;
     }
     &:nth-child(7) {
-      --size: 4rem; --top: 85%; --left: 35%;
+      --size: 2rem; --top: 80%; --left: 46%; --opacity: 0.6;
       --rotate: 20deg;
       animation-delay: -2s;
     }
@@ -81,7 +106,7 @@ export let pattern;
   }
 </style>
 
-<div class={`dots pattern-${pattern}`}>
+<div class={`dots pattern-${pattern}`} class:isActive>
   <div class="dot" />
   <div class="dot" />
   <div class="dot" />

@@ -141,6 +141,7 @@
     left: 0;
     height: 100%;
     z-index: 5; /* above everything */
+    display: none;
   }
 
   .links {
@@ -278,6 +279,7 @@
       <li class="decorative" aria-hidden="true" />
     </ul>
 
-    <Contacts class="g-contacts" />
+    <!-- TODO - where should I place this? -->
+    <!-- <Contacts class="g-contacts" /> -->
   </nav>
 {/if}

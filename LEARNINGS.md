@@ -20,6 +20,7 @@ Here's a list of my learnings while building this website. When I release the we
 - 🎈Functions can be reactive too (as variables!)
 - 🐛 BUG: Svelte removes written classes when they are added through `@html` (ex: Values.svelte -> .sBox strong).
 - 🎈Child components are PureComponents by default!
+- 🎈how to log a reactive variable each time it changes: `$: foo, console.log('value:', foo);` 
 
 ## Javascript
 

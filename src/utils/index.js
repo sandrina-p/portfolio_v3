@@ -1,14 +1,8 @@
 export function getInLimit(value, min, max) {
-  const tooSmall = value < min;
-  const tooBig = value > max;
+  const theValue = Math.max(min, Math.min(value, max));
 
-  if (!tooSmall && !tooBig) {
-    return Number(value.toFixed(3));
-  } else if (tooSmall) {
-    return min;
-  } else if (tooBig) {
-    return max;
-  }
+  // Avoid 3.3333333333 kind of stuff.
+  return Number(theValue.toFixed(3));
 }
 
 export function getIOstatusHorizontal(entry) {

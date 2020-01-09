@@ -1,19 +1,23 @@
 <style>
-  .container {
-    position: absolute;
+  .echos {
+    position: fixed;
+    top: 0; left: 0;
     height: 100vh;
     width: 100%;
-    top: 0; left: 0;
     z-index: -1;
+    transform: translate(var(--scrollY));
     pointer-events: none;
+    display: none; /* TODO - decide this... */
   }
 
   .echo {
     position: absolute;
-    top: 0; left: 0;
+    top: 0;
+    left: calc(50vw - 50vh);
     width: 100vh;
     height: 100vh;
     border-radius: 50%;
+    transform: transform 500ms cubic-bezier(0, 1.63, 0.5, 0.96);
 
     &:nth-child(1) {
       background: linear-gradient(140deg, #ff000008, transparent 71%);
@@ -36,7 +40,7 @@
 
 </style>
 
-<div class="container">
+<div class="echos">
   <div class="echo" />
   <div class="echo" />
   <div class="echo" />

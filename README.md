@@ -26,6 +26,7 @@ yarn start # or npm start
 Well... let's say we are 70% done.
 
 ### UI/UX
+- [x] Short scroll length of initial morph
 - [ ] Finalize animations for Intro (50%)
 - [ ] Review "Skills" section overall UX
 - [ ] Pick a theme
@@ -40,4 +41,4 @@ Well... let's say we are 70% done.
 - [ ] Easter Eggs!
 - [ ] Review SEO
 - [ ] Review manifest
-- [ ] Picky analyzis each animation performance
+- [ ] Do a picky analyzis to each animation performance

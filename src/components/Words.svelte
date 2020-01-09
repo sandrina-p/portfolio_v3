@@ -119,7 +119,8 @@
     const observerList = new IntersectionObserver(watchList);
     const observerCards = new IntersectionObserver(watchCard);
 
-    observerList.observe(elCardList); // TODO - disconnect observers?
+    observerList.observe(elCardList);
+    // OPTMIZE/REVIEW - check all observers, DRY them and disconnect when.
 
     elCards.forEach(elCard => {
       observerCards.observe(elCard);

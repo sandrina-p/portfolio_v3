@@ -11,7 +11,8 @@
   import valuesData from '../data/values.js';
 
   const parts = ['MORPH', 'DOTS', 'ASK', 'WOLF', 'PEOPLE', 'FINALLE'];
-  let onStage = true;
+  $:isOnStage = $strGeneral.isReady && $strGeneral.pageCurrentSection === 'intro';
+  
   let currentPart = 'MORPH';
   let elDots;
   let elAsk;
@@ -24,16 +25,17 @@
 
   // ::: Morphose - a circle to a square (dabox)
   // REVIEW - Maybe this shouldn't be here it's only logic and between Intro and Values
-  const size = 200; // OPTMIZE - get real CSS Variables form circle
+  const size = 200; // OPTMIZE - get real CSS Variables from circle
   const scaleStart = 0.8;
-  $: distance = isMount && $_window.innerWidth / 2 - size * 1.5;
-
-  const morphCircleRatio = 2; // circle progression based on scroll. (ex: it needs to scroll 25px to change 10px)
+  $: wInnerWidthHalf = isMount && $_window.innerWidth / 2;
+  $: distance = isMount && wInnerWidthHalf - (size * 1.5);
+  const morphCircleRatio = 2; // circle progression based on scroll. (it needs to scroll 20px to change 10px)
   const morphBoxRatio = 150; // nr of scrolled pixels needed to change border-radius from circle to square
   let isMorphing = true;
 
-  $: offLimit = isMount && $_window.innerWidth / 2 + distance * morphCircleRatio + morphBoxRatio;
-  $: morphStyle = isMount && `width: ${(offLimit + size / 2)}px`; // REFINE this value... should match the begin of sDots
+  $: offLimit = isMount && wInnerWidthHalf + (distance * morphCircleRatio) + morphBoxRatio;
+  $: morphZone = distance && wInnerWidthHalf + distance + size*2; // size*2 serves as a "gap" to avoid a direct morph from primary to bg when scrolling quickly though it. 
+  $: morphStyle = morphZone && `width: ${morphZone}px`;
 
   $: daboxStyle =
     ($strDabox.progress
@@ -54,7 +56,6 @@
   onMount(() => {
     isMount = true;
     window.addEventListener('scroll', verifyMetamorphose, { passive: true });
-
     animations = initAnimations();
   });
 
@@ -74,7 +75,7 @@
       return;
     }
     
-    if(window.scrollY === 0) { // It means it was triggered by navigation link
+    if(window.scrollY === 0) { // a.k.a triggered by navigation link
       currentPart = 'MORPH';
       verifyMetamorphose();
       animations.continue(true);
@@ -99,22 +100,26 @@
       return false;
     }
 
-    const daboxProgress = getInLimit(morphProgress, 0, 1);
-    const offsetY = getInLimit(scrollY, 0, offLimit);
     const newDistance = getInLimit(progress, 0, distance);
-    const scaleStartAdjusted = scaleStart + (0.2 - (newDistance * 0.2) / distance);
-
+    const isCirclePaused = newDistance === 0;
+    const daboxProgress = getInLimit(morphProgress, 0, 1);
+    const offsetY = getInLimit(scrollY, 0, morphZone);
+    const scaleStartDynamic = scaleStart + (0.2 - (newDistance * 0.2) / distance);
+    
     isMorphing = true;
 
     updateCircle({
-      style:
-        `--scrollY: ${offsetY}px;` +
-        `--distance: ${newDistance}px;` +
-        `--scaleStart: ${scaleStartAdjusted};`,
-      isPaused: newDistance === 0,
+      isPaused: isCirclePaused,
+      ...(isCirclePaused ? {} : {
+          style:
+            `--scrollY: ${offsetY}px;` +
+            `--distance: ${newDistance}px;` +
+            `--scaleStart: ${scaleStartDynamic};`
+        }
+      )
     });
     updateDabox({
-      isActive: newDistance === 0,
+      isActive: isCirclePaused,
       progress: daboxProgress,
     });
   }
@@ -143,7 +148,7 @@
     function handleClipping({ part, entry, scrollPivot }) {
       console.log('clipping', part, '...');
       const clipLimit = entry.boundingClientRect.width + 1; // just for pixel-sanity-check
-      const needsToScroll = $_window.innerWidth / 2;
+      const needsToScroll = wInnerWidthHalf;
       const awayFromMiddle = window.scrollY - scrollPivot - needsToScroll;
 
       styleClip[part] = `--clipx: ${getInLimit(awayFromMiddle, 0, clipLimit)}px;`;
@@ -218,7 +223,6 @@
   $: getBoxClass = partName => {
     const isActive = partName === currentPart ? 'isActive' : '';
     const isGone = parts.indexOf(partName) < parts.indexOf(currentPart) ? 'isGone' : '';
-
     return `${isActive} ${isGone}`;
   };
 </script>
@@ -245,6 +249,7 @@
     z-index: 1;
 
     &.isMorphing {
+      transition: width 50ms ease-out, height 50ms ease-out; /* reduce color glitch when scrolling backward too fast */
       border: 2px solid var(--bg_1);
     }
 
@@ -264,11 +269,30 @@
     }
 
     &::before {
-      transition: transform 300ms;
-      will-change: transform;
+      /* transition: transform 300ms;
+      will-change: transform; */
       background: var(--bg_1);
-      transform: skew(calc(var(--scrollSpeed) * -0.2deg), 0deg);
     }
+
+    /* doesnt work animating a border from static to animation... hmmm */
+    /* &.isGelly::before {
+      animation:
+        gelly 30s alternate-reverse infinite ease-in-out,
+        live 20s alternate-reverse infinite ease-in-out;
+
+      @keyframes gelly {
+        0%, 100% { border-radius: 60% 40% 45% 55% / 55% 45% 50% 60%; } 
+        20% { border-radius: 54% 46% 40% 60% / 43% 57% 40% 65%; } 
+        40% { border-radius: 40% 60% 46% 54% / 50% 60% 41% 50% } 
+        60% { border-radius: 56% 44% 60% 30% / 56% 44% 60% 30% } 
+        80% { border-radius: 46% 54% 35% 75% / 50% 50% 40% 65%; } 
+      }
+
+      @keyframes live {
+        0%, 100% { transform: translate3d(5%, 5%, 0) }
+        50% { transform: translate3d(-5%, -5%, 0) }
+      }
+    } */
 
     &::after {
       background: var(--morph_total);
@@ -292,7 +316,7 @@
     margin-right: 75vw; /* white space is everything */
   }
 
-  .sBox {
+  .pBox {
     position: fixed;
     top: 50vh;
     left: 50vw;
@@ -302,12 +326,15 @@
     align-items: center;
     font-size: var(--text-L);
     line-height: 1.5;
-    z-index: 1;
-    /* outline: 1px dashed #aaa; */
     opacity: 0;
+    z-index: 1;
     pointer-events: none;
-    transition: opacity 150ms 0ms ease-out;
     padding: var(--spacer-XL);
+
+    :global(.jsGoOn) & {
+      /* only apply opacity on client side, to avoid transition (1 to 0) on first render */
+      transition: opacity 150ms 0ms ease-out;
+    }
 
     &.isActive {
       opacity: 1;
@@ -342,18 +369,18 @@
     }
   }
 
-  .sMorph {
+  .pMorph {
     min-width: auto;
   }
 
-  .sDots {
-    .sBox {
+  .pDots {
+    .pBox {
       width: var(--width-DOTS);
       height: var(--height-DOTS);
     }
   }
 
-  .sAsk {
+  .pAsk {
     .title {
       position: relative;
       line-height: 1;
@@ -377,13 +404,13 @@
       }
     }
 
-    .sBox {
+    .pBox {
       width: var(--width-ASK);
       height: var(--height-ASK);
     }
   }
 
-  .sWolf {
+  .pWolf {
     .title {
       height: var(--height-WOLF);
       display: flex;
@@ -391,8 +418,6 @@
       justify-content: space-between;
       position: relative;
       line-height: 1;
-      display: flex;
-      flex-direction: column;
 
       &-part {
         display: block;
@@ -409,13 +434,13 @@
       }
     }
 
-    .sBox {
+    .pBox {
       width: var(--width-WOLF);
       height: var(--height-WOLF);
     }
   }
 
-  .sPeople {
+  .pPeople {
     min-width: auto;
 
     .title {
@@ -428,6 +453,7 @@
 
         &:first-child {
           z-index: 2; /* to be above dabox */
+          margin-top: -16rem;
         }
 
         &:last-child {
@@ -437,7 +463,7 @@
       }
     }
 
-    .sBox {
+    .pBox {
       width: var(--width-PEOPLE);
       height: var(--height-PEOPLE);
     }
@@ -446,24 +472,27 @@
 
 <section
   class="container"
-  style="{styleContainer}
-  {currentPart === 'MORPH' ? '--scrollSpeed: 0;' : ''}">
+  style="{styleContainer} {currentPart === 'MORPH' ? '--scrollSpeed: 0;' : ''}">
 
   <h2 class="sr-only">Values</h2>
 
-  <div class="dabox" class:isActive={$strDabox.isActive} class:isMorphing style={daboxStyle} />
+  <div class="dabox"
+    class:isActive={$strDabox.isActive}
+    class:isMorphing
+    class:isGelly={currentPart === 'ASK' }
+    style={daboxStyle} />
 
-  <div class="part sMorph" style={morphStyle}>
-    <Dots pattern='A' />
+  <div class="part pMorph" style={morphStyle}>
+    <Dots pattern='A' isActive={isOnStage} />
   </div>
 
-  <div class="part sDots">
-    <Dots pattern='B' />
+  <div class="part pDots">
+    <Dots pattern='B' isActive={isOnStage} />
     <h3 class="f-mono title" data-part="DOTS" bind:this={elDots}>Let's connect the dots</h3>
-    <p class="sBox {getBoxClass('DOTS')}">
-      <span class="sBox-text">
+    <p class="pBox {getBoxClass('DOTS')}">
+      <span class="pBox-text">
         {#each valuesData.DOTS.text as paragraph}
-          <span class="sBox-text-par">
+          <span class="pBox-text-par">
             {@html paragraph}
           </span>
         {/each}
@@ -471,16 +500,16 @@
     </p>
   </div>
 
-  <div class="part sAsk">
+  <div class="part pAsk">
     <Gelly />
     <h3 class="f-mono title" data-part="ASK" bind:this={elAsk} style={styleClip.ASK}>
       <span class="title-part">Ask why</span>
       <span class="title-part">Understand how</span>
     </h3>
-    <p class="sBox {getBoxClass('ASK')}">
-      <span class="sBox-text">
+    <p class="pBox {getBoxClass('ASK')}">
+      <span class="pBox-text">
         {#each valuesData.ASK.text as paragraph}
-          <span class="sBox-text-par">
+          <span class="pBox-text-par">
             {@html paragraph}
           </span>
         {/each}
@@ -488,7 +517,7 @@
     </p>
   </div>
 
-  <div class="part sWolf">
+  <div class="part pWolf">
     <Echo />
     <h3 class="f-mono title" data-part="WOLF" bind:this={elWolf} style={styleClip.WOLF}>
       <span class="title-part">
@@ -502,10 +531,10 @@
         team player
       </span>
     </h3>
-    <p class="sBox {getBoxClass('WOLF')}">
-      <span class="sBox-text">
+    <p class="pBox {getBoxClass('WOLF')}">
+      <span class="pBox-text">
         {#each valuesData.WOLF.text as paragraph}
-          <span class="sBox-text-par">
+          <span class="pBox-text-par">
             {@html paragraph}
           </span>
         {/each}
@@ -513,15 +542,15 @@
     </p>
   </div>
 
-  <div class="part sPeople" data-section="valuesEnd">
+  <div class="part pPeople" data-section="valuesEnd">
     <h3 class="f-mono title" data-part="PEOPLE" bind:this={elPeople} style={styleClip.PEOPLE}>
       <span class="title-part">People come</span>
       <span class="title-part">before code</span>
     </h3>
-    <p class="sBox {getBoxClass('PEOPLE')}">
-      <span class="sBox-text">
+    <p class="pBox {getBoxClass('PEOPLE')}">
+      <span class="pBox-text">
         {#each valuesData.PEOPLE.text as paragraph}
-          <span class="sBox-text-par">
+          <span class="pBox-text-par">
             {@html paragraph}
           </span>
         {/each}
