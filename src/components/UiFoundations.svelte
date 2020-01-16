@@ -47,8 +47,10 @@
   html {
     font-size: 62.5%; /* 1rem = 10px */
     box-sizing: border-box;
-    font-family: 'Work Sans', sans-serif;
+    /* font-family: 'Work Sans', sans-serif; */
+    font-family: 'IBM Plex Sans', sans-serif;
     font-weight: 300;
+    letter-spacing: 0.02em; /* visually better IMO */
 
     * {
       box-sizing: inherit;
@@ -75,7 +77,7 @@
   /** CSS UTILITIES - Font related **/
 
   .f-mono {
-    font-family: 'Libre Baskerville', serif;
+    /* font-family: 'Libre Baskerville', serif; */
     line-height: 1.2;
     font-weight: 500;
   }
