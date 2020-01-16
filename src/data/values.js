@@ -10,39 +10,37 @@ export default {
   },
   DOTS: {
     text: [
-      'Combining both design and development processes is one of Sandrina’s expertises. She loves to <strong>work closely with the design team</strong> to define and implement exciting experiences.',
+      'Combining the design and development processes is one of Sandrina’s expertises. She loves to <strong>work closely with the design team</strong> to create stuff that actually works for everyone.',
     ],
     width: '48rem',
     height: '21rem',
   },
   ASK: {
     text: [
-      'You’ll see Sandrina asking a lot of questions around. Wanna create a simple but detailed solution?',
-      'Let’s understand the problem first.',
-      'Only then we can make wise decisions taken with true care.',
+      'You’ll see Sandrina asking the questions you never thought about. Those that will wisper <a class="u-link" target="_blank" href="https://en.wikipedia.org/wiki/Eureka_effect">eureka</a> and lead us to wiser decisions, taken with true care.',
     ],
-    width: '39rem',
-    height: '30rem',
+    width: '32rem',
+    height: '32rem',
   },
   WOLF: {
     text: [
-      'If you wanna go quickly, Sandrina can make it happen. As a fast paced worker with a <strong>high quality bar</strong>, she can be the lone wolf when needed.',
-      `However, if you wanna go far, <a class="u-link" href=${EMAIL_URL}>ask her to join</a> your wolves pack and let’s go together, as a team.`,
+      'If you wanna go quickly, Sandrina can make it happen. As a fast paced learner with a <strong>high quality bar</strong>, she can be the lone wolf when needed.',
+      `But if you wanna go far, <a class="u-link" href=${EMAIL_URL}>ask her to join</a> your wolves pack and let’s go together, as a team.`,
     ],
-    width: '30.2rem',
+    width: '30rem',
     height: '40rem',
   },
   PEOPLE: {
+    // TODO - rename to PROGRESS?
     text: [
-      "At the end the best practices were followed, all the code was reused and each pixel is perfectly aligned. But <strong>it doesn't matters if there isn’t a human connection</strong> between the people who create a product.",
-      // "The technology is only the starting point. The passion behind a team is the fuel to create a memorable experience to everyone.",
+      'Sandrina is in a constant search for disruptive but pragmatic solutions. She goes beyond best practices and perfect pixels. She’s the one who will <strong>strive for innovation</strong> when everyone else is too afraid to change.',
     ],
-    width: '54rem',
-    height: '27rem',
+    width: '64rem',
+    height: '15rem',
   },
   FINALLE: {
     text: '',
-    width: '0',
+    width: '64rem', // same as PEOPLE
     height: '0',
   },
 };

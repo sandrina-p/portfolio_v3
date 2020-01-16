@@ -63,7 +63,7 @@
   .text {
     font-size: var(--font-L2);
     line-height: 1.5;
-    max-width: 45rem;
+    max-width: 44rem;
     opacity: 0;
     animation: laserOn 750ms calc($titleTempo + 50ms * $titleChars) steps(8) forwards;
 

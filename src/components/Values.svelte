@@ -19,6 +19,7 @@
   let elWolf;
   let elPeople;
   let animations;
+  let isOnWolfMax = false; // OPTMIZE this...
 
   let isMount = false; /* wait for Intro animations */
   let scrollY = 0;
@@ -126,7 +127,7 @@
   }
 
   function initAnimations() {
-    const headingsToClip = ['ASK', 'WOLF', 'PEOPLE'];
+    const headingsToClip = ['ASK', 'WOLF'];
     const clipArgs = {}; // A list of args to be passed to handles, based on the part
     const clipHandles = headingsToClip.reduce(
       (handles, part) => ({
@@ -151,6 +152,13 @@
       const clipLimit = entry.boundingClientRect.width + 1; // just for pixel-sanity-check
       const needsToScroll = wInnerWidthHalf;
       const awayFromMiddle = window.scrollY - scrollPivot - needsToScroll;
+
+      if(part === 'WOLF') {
+        // once it passes the middle, it will stay true until the end.
+        isOnWolfMax = isOnWolfMax || awayFromMiddle > 0;
+      } else {
+        isOnWolfMax = false;
+      }
 
       styleClip[part] = `--clipx: ${getInLimit(awayFromMiddle, 0, clipLimit)}px;`;
     }
@@ -445,21 +453,13 @@
     min-width: auto;
 
     .title {
-      margin-right: 0; /* so Words can come right away */
+      margin-right: 0; /* so Words come right away */
+      margin-top: -17rem; 
 
       &-part {
-        position: relative;
-        display: block;
-        color: var(--primary_1);
-
         &:first-child {
+          position: relative;
           z-index: 2; /* to be above dabox */
-          margin-top: -16rem;
-        }
-
-        &:last-child {
-          clip-path: polygon(0 0, var(--clipx) 0, var(--clipx) 100%, 0 100%);
-          color: var(--text_1);
         }
       }
     }
@@ -520,7 +520,12 @@
 
   <div class="part pWolf">
     <Echo
-      activeLevel={ currentPart === 'WOLF' ? 1 : -1 } />
+      activeLevel={
+        currentPart === 'WOLF'
+          ? isOnWolfMax ? 2 : 1
+          : currentPart === 'PEOPLE'
+            ? 3
+            : currentPart === 'FINALLE' ? 4 : -1 } /> <!-- OPTIMIZE: Find a more readable way for this nes-nes-ted ternary -->
     <h3 class="f-mono title" data-part="WOLF" bind:this={elWolf} style={styleClip.WOLF}>
       <span class="title-part">
         From a
@@ -546,8 +551,7 @@
 
   <div class="part pPeople" data-section="valuesEnd">
     <h3 class="f-mono title" data-part="PEOPLE" bind:this={elPeople} style={styleClip.PEOPLE}>
-      <span class="title-part">People come</span>
-      <span class="title-part">before code</span>
+      <span class="title-part">Progress over</span> <span class="title-part">processes</span>
     </h3>
     <p class="pBox {getBoxClass('PEOPLE')}">
       <span class="pBox-text">
