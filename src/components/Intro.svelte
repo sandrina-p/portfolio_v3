@@ -69,7 +69,7 @@
 
     &:nth-of-type(2) {
       margin-top: var(--spacer-M);
-      max-width: 32rem;
+      max-width: 31rem;
     }
   }
 

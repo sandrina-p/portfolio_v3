@@ -21,7 +21,7 @@
     --rotatePivot: 2deg;
     --fill: var(--morph_color);
     --scrollY: 0px; /* to be manipulated by JS */
-    --distance: calc(50vw - (var(--size) * 1.5)); /* TODO - set a fixed width */
+    --distance: 30rem;
     height: var(--size);
     width: var(--distance); /* for shitty browsers, the animation distance is based on the width */
     transform: translateX(calc(var(--scrollY, 0px) - calc(var(--size) / 2)));

@@ -26,9 +26,10 @@
   // ::: Morphose - a circle to a square (dabox)
   // REVIEW - Maybe this shouldn't be here it's only logic and between Intro and Values
   const size = 200; // OPTMIZE - get real CSS Variables from circle
+  const distance = 300;
   const scaleStart = 0.8;
   $: wInnerWidthHalf = isMount && $_window.innerWidth / 2;
-  $: distance = isMount && wInnerWidthHalf - (size * 1.5);
+  // $: distance = isMount && wInnerWidthHalf - (size * 1.5);
   const morphCircleRatio = 2; // circle progression based on scroll. (it needs to scroll 20px to change 10px)
   const morphBoxRatio = 150; // nr of scrolled pixels needed to change border-radius from circle to square
   let isMorphing = true;
@@ -324,7 +325,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: var(--text-L);
+    font-size: var(--font-M);
     line-height: 1.5;
     opacity: 0;
     z-index: 1;
@@ -332,7 +333,7 @@
     padding: var(--spacer-XL);
 
     :global(.jsGoOn) & {
-      /* only apply opacity on client side, to avoid transition (1 to 0) on first render */
+      /* TIL [1] only apply opacity on client side, to avoid transition (1 to 0) on first render */
       transition: opacity 150ms 0ms ease-out;
     }
 
@@ -479,8 +480,8 @@
   <div class="dabox"
     class:isActive={$strDabox.isActive}
     class:isMorphing
-    class:isGelly={currentPart === 'ASK' }
     style={daboxStyle} />
+    <!-- class:isGelly={currentPart === 'ASK' } -->
 
   <div class="part pMorph" style={morphStyle}>
     <Dots pattern='A' isActive={isOnStage} />
@@ -501,7 +502,7 @@
   </div>
 
   <div class="part pAsk">
-    <Gelly />
+    <Gelly isActive={ currentPart === 'ASK' }/>
     <h3 class="f-mono title" data-part="ASK" bind:this={elAsk} style={styleClip.ASK}>
       <span class="title-part">Ask why</span>
       <span class="title-part">Understand how</span>
@@ -518,7 +519,8 @@
   </div>
 
   <div class="part pWolf">
-    <Echo />
+    <Echo
+      activeLevel={ currentPart === 'WOLF' ? 1 : -1 } />
     <h3 class="f-mono title" data-part="WOLF" bind:this={elWolf} style={styleClip.WOLF}>
       <span class="title-part">
         From a

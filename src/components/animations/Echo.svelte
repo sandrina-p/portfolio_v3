@@ -1,3 +1,6 @@
+<script>
+export let activeLevel
+</script>
 <style>
   .echos {
     position: fixed;
@@ -7,41 +10,62 @@
     z-index: -1;
     transform: translate(var(--scrollY));
     pointer-events: none;
-    display: none; /* TODO - decide this... */
   }
 
   .echo {
     position: absolute;
-    top: 0;
-    left: calc(50vw - 50vh);
-    width: 100vh;
-    height: 100vh;
+    top: 25vh;
+    left: calc(50vw - 25vh);
+    width: 50vh;
+    height: 50vh;
     border-radius: 50%;
-    transform: transform 500ms cubic-bezier(0, 1.63, 0.5, 0.96);
+    opacity: 0;
+    animation: live 12s infinite linear;
+    animation-play-state: paused;
+    animation-delay: -5s;
+    z-index: -1;
+
+    :global(.jsGoOn) & {
+      transition: opacity 300ms ease-in;
+    }
+
+    &.isActive {
+      opacity: 1;
+      transition: opacity 800ms 200ms ease-in;
+      animation-play-state: running;
+
+      &:nth-child(1) { transition-delay: 1200ms; }
+      &:nth-child(2) { transition-delay: 400ms; }
+      &:nth-child(3) { transition-delay: 1000ms; }
+    }
 
     &:nth-child(1) {
-      background: linear-gradient(140deg, #ff000008, transparent 71%);
+      --scale: 1.3;
+      background: linear-gradient(0deg, rgba(113, 168, 255, 0.28), transparent 71%);
     }
 
     &:nth-child(2) {
-      transform: scale(0.8);
-      background:
-        linear-gradient(140deg, #ff000008, transparent 71%),
-        radial-gradient(#5800ff36, transparent 70%);
+      --scale: 1.6;
+      animation-direction: reverse;
+      background: linear-gradient(140deg, rgba(0, 16, 255, 0.07), transparent 71%);
     }
 
     &:nth-child(3) {
-      transform: scale(0.6);
-      background:
-        linear-gradient(140deg, #ff000008, transparent 71%),
-        radial-gradient(#5800ff36, transparent 70%);
+      --scale: 1.9;
+      background: linear-gradient(140deg, rgba(255, 0, 0, 0.21), transparent 31%),
+        radial-gradient(circle at top right, rgba(0, 216, 255, 0.07), transparent 70%);
     }
+  }
+
+  @keyframes live {
+    0% { transform: rotate(0deg) scale(var(--scale, 1)) }
+    100% { transform: rotate(360deg) scale(var(--scale, 1)) }
   }
 
 </style>
 
 <div class="echos">
-  <div class="echo" />
-  <div class="echo" />
-  <div class="echo" />
+  <div class="echo" class:isActive={activeLevel > 0} />
+  <div class="echo" class:isActive={activeLevel > 0} /> <!-- TODO THIS -->
+  <div class="echo" class:isActive={activeLevel > 0} />
 </div>

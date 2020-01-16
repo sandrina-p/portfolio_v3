@@ -449,7 +449,7 @@
   id="skills">
   <h2 class="heading f-mono" style="--colorTabSelected: {colorTypes[tabSelected]};">
     <span class="sr-only">Get to know her</span>
-    <span class="headingMain" bind:this={elHeading} style={headingStyle}>superpowers</span>
+    <span class="headingMain" bind:this={elHeading} style={headingStyle}>skills</span>
   </h2>
   <div class="main">
     <div class="tabList uAppear-0" role="tablist" aria-label="Type of tools">

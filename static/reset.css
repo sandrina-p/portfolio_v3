@@ -1,4 +1,4 @@
-  /* @font-face {
+  /* /* @font-face {
     font-family: 'PFDin', 'monospace';
     src: url('fonts/PFDin_Mono_Bold.ttf') format('truetype');
   } */
@@ -24,7 +24,6 @@
     margin: 0;
     padding: 0;
     border: 0;
-    font-size: 100%;
     font: inherit;
     vertical-align: baseline;
   }
@@ -50,4 +49,4 @@
   table {
     border-collapse: collapse;
     border-spacing: 0;
-  }
+  } */
