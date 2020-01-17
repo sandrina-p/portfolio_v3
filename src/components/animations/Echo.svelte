@@ -18,7 +18,7 @@ export let activeLevel
   }
 
   .echo {
-    --from: 3rem;
+    --from: 3rem; /* from bottom effect */
     position: absolute;
     top: 50vh;
     left: 50vw;
@@ -124,14 +124,14 @@ export let activeLevel
       );
 
       &:nth-child(3) {
-        --gut: 3rem; /* hide the last circle edges */
+        --gut: 4rem; /* hide the last circle edges */
       }
     }
 
     .echos.isGone & {
-      --yTop: 50%;
-      --yBottom: 50%;
-      will-change: none;
+      /* --yTop: 50%;
+      --yBottom: 50%; */
+      will-change: unset;
 
       &::after {
         animation-play-state: paused;

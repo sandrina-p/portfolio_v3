@@ -40,7 +40,7 @@ export default {
   },
   FINALLE: {
     text: '',
-    width: '64rem', // same as PEOPLE
-    height: '0',
+    width: '100vw',
+    height: '100vh',
   },
 };

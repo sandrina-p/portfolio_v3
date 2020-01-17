@@ -7,12 +7,13 @@
     --text_0: #343434; /*#efefef */
     --text_1: #898989; /* #b7c2cf; /* text over bg with 0.6 opacity and some light... */
     --text_invert: #d6d6d6; /* similar to bg but lighter */
-    --bg_0: #f4f4f4; /* #0d1722;*/
+    --bg_0: #f8f3ef; /* #f4f4f4; /* #0d1722;*/
     --bg_1: #fff; /* #000000; */
     --bg_invert: #1b1b1b;
 
     /* put this color at meta theme-color */
-    --primary_1: #9072ff; /*#52e9d0; /* #59b9a3; /* #fb6177; */
+    --primary_1_lighter: #e9e1f8; /* #9072ff; /*#52e9d0; /* #59b9a3; /* #fb6177; */
+    --primary_1: #9b78de; /* #9072ff; /*#52e9d0; /* #59b9a3; /* #fb6177; */
     --primary_1_darker: #8c00ff;
     --morph_color: rgba(109, 7, 255, 0.1); /*rgba(101, 189, 144, 0.09);*/
     --morph_total: #bfa1f8; /* #bbdccd; /* visual effect when all circles are overlapping */
@@ -21,7 +22,7 @@
     --primary_3_darker: #dfb948;
     --primary_4: #f08e8e;
 
-    --font-M: 1.4rem;
+    --font-S: 1.4rem;
     --font-M: 1.6rem;
     --font-L: 1.8rem;
     --font-L2: 2.1rem;

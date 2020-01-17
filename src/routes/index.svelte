@@ -2,7 +2,7 @@
   import { onMount, beforeUpdate, afterUpdate } from 'svelte';
   import Intro from '../components/Intro.svelte';
   import Values from '../components/Values.svelte';
-  import Words from '../components/Words.svelte';
+  import Words from '../components/WordsB.svelte';
   import Tools from '../components/Tools.svelte';
   import Journey from '../components/Journey.svelte';
   import Footer from '../components/Footer.svelte';
@@ -81,7 +81,7 @@
 
   .horizonAfter {
     position: fixed;
-    margin-top: var(--marginTop, '100vh');
+    margin-top: var(--marginTop, 100vh);
 
     :global(.jsGoOn) & {
       position: relative;
