@@ -10,20 +10,26 @@ export let activeLevel
     z-index: -1;
     transform: translate(var(--scrollY));
     pointer-events: none;
+
+    /* TODO/NOTE: make this come from parent/props */
+    --shape1S: var(--width-PEOPLE);
+    --shape2W: var(--width-PEOPLE);
+    --shape2H: var(--height-PEOPLE);
   }
 
   .echo {
     position: absolute;
     top: 50vh;
     left: 50vw;
-    width: 50vh; /* REVIEW this size... should be pixel perfect */
-    height: 50vh;
+    width: var(--shape1S); /* OPTIMIZE - Make this 2x smaller and adjust size */
+    height: var(--shape1S);
     transform: scale(var(--scale, 1)) translate(-50%, -50%);
     transform-origin: 0 0;
     overflow: hidden;
     border-radius: 50%;
     opacity: 0;
     z-index: -1;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
 
     :global(.jsGoOn) & {
       transition: opacity 300ms ease-in;
@@ -35,8 +41,8 @@ export let activeLevel
       position: absolute;
       top: 50%;
       left: 50%;
-      width: calc(var(--width-PEOPLE) + 2rem); /* to match correctly on isRect morph */
-      height: calc(var(--width-PEOPLE) + 2rem);
+      width: 100%;
+      height: 100%;
       transform: rotate(0deg) translate(-50%, -50%);
       transform-origin: 0 0;
       animation: live 15s infinite linear;
@@ -51,17 +57,17 @@ export let activeLevel
       opacity: 1;
       transition:
         opacity 800ms var(--delayOpacity, 500ms) ease-in,
-        /* get ready to turn into .isRect */
-        width 400ms 1ms ease-in-out,
-        height 400ms 1ms ease-in-out,
-        transform 400ms 1ms ease-in-out,
-        border-radius 400ms 1ms ease-in-out;
+        /* get ready to next phase .isRect */
+        border-radius 50ms 1ms ease-in-out,
+        transform 450ms 1ms ease-in-out,
+        clip-path 450ms 1ms ease-in-out;
 
-        &:nth-child(1) { --delayOpacity: 500ms }
+      will-change: clip-path;
 
-        /* a small delay to "popup effect" - TODO grow effect. */
-        &:nth-child(2) { --delayOpacity: 1ms }
-        &:nth-child(3) { --delayOpacity: 500ms }
+      &:nth-child(1) { --delayOpacity: 500ms }
+      /* a small delay to "popup effect" - TODO grow effect. */
+      &:nth-child(2) { --delayOpacity: 1ms }
+      &:nth-child(3) { --delayOpacity: 500ms }
 
       &::after {
         animation-play-state: running;
@@ -69,36 +75,48 @@ export let activeLevel
     }
 
     &:nth-child(1) {
-      --scale: 1.3;
+      --scale: 0.85;
       &::after {
-        background: linear-gradient(70deg, rgba(113, 168, 255, 0.28), transparent 71%);
+        background: linear-gradient(70deg, rgba(113, 168, 255, 0.28), rgba(255, 255, 255, 0) 71%);
       }
     }
 
     &:nth-child(2) {
-      --scale: 1.6;
+      --scale: 1;
       &::after {
         animation-direction: reverse;
-        background: linear-gradient(200deg, rgba(0, 16, 255, 0.07), transparent 71%);
+        background: linear-gradient(200deg, rgba(0, 16, 255, 0.07), rgba(255, 255, 255, 0) 71%);
         
       }
     }
 
     &:nth-child(3) {
-      --scale: 1.9;
+      --scale: 1.2;
       &::after {
-        background: linear-gradient(-10deg, rgba(255, 0, 0, 0.21), transparent 38%),
-          radial-gradient(circle at top right, rgba(0, 216, 255, 0.07), transparent 70%);
+        background: linear-gradient(136deg, rgba(255, 0, 0, 0.21), rgba(255, 255, 255, 0) 30%),
+          radial-gradient(circle at top right, rgba(0, 216, 255, 0.07), rgba(255, 255, 255, 0) 70%);
       }
     }
 
     .echos.isRect & {
-      width: calc(var(--width-PEOPLE) + 1rem);
-      /* TODO/NOTE: --width/--height could be agnostic, but let's move on... */
-      height: calc(var(--height-PEOPLE) + 1rem);
+      transition:
+        transform 450ms ease-in-out,
+        clip-path 450ms ease-in-out,
+        border-radius 450ms 200ms ease-in-out;
 
       border-radius: 0;
-      --scale: 1;
+      --scale: 1.02, 1.08;
+    	--xLeft: calc((100% - var(--shape2W)) / 2);
+      --yTop: calc((100% - var(--shape2H)) / 2);
+      --xRight: calc(var(--shape2W) + ((100% - var(--shape2W)) / 2));
+      --yBottom: calc(var(--shape2H) + ((100% - var(--shape2H)) / 2));
+
+      clip-path: polygon(
+        var(--xLeft) var(--yTop),
+        var(--xRight) var(--yTop),
+        var(--xRight) var(--yBottom),
+        var(--xLeft) var(--yBottom)
+      );
 
       &::after {
         animation-play-state: paused;
@@ -106,7 +124,9 @@ export let activeLevel
     }
 
     .echos.isGone & {
-      height: 0;
+      --yTop: 50%;
+      --yBottom: 50%;
+      will-change: none;
     }
   }
 

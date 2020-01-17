@@ -17,10 +17,10 @@ export default {
   },
   ASK: {
     text: [
-      'You’ll see Sandrina asking the questions you never thought about. Those that will wisper <a class="u-link" target="_blank" href="https://en.wikipedia.org/wiki/Eureka_effect">eureka</a> and lead us to wiser decisions, taken with true care.',
+      'You’ll see Sandrina asking the questions you never thought about. Those that will wisper <a class="u-link" target="_blank" href="https://en.wikipedia.org/wiki/Eureka_effect">eureka</a> and lead us to <strong>wiser decisions</strong>, taken with true care.',
     ],
-    width: '32rem',
-    height: '32rem',
+    width: '30rem',
+    height: '30rem',
   },
   WOLF: {
     text: [

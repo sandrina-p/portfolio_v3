@@ -33,6 +33,7 @@ Here's a list of my learnings while building this website. When I release the we
 - 🎈Horizontal content: Use grid as parent and flex as child. it will grow horizontally forever.
 - 🎈Place consecutive paragraphs in the same line without position absolute using -1em.
 - 🎈 `position:sticky` doesn't work when the parent has `overflow:hidden`
+- 🎈🐛 `transparent` on Safari means rgba(0, 0, 0, 0) instead of rgba(255, 255, 255, 0). If you do `linear-gradient(red, transparent)` it will go from red to black transparent.
 
 ## Accessibility
 
