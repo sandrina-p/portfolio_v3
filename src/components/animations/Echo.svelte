@@ -18,12 +18,13 @@ export let activeLevel
   }
 
   .echo {
+    --from: 3rem;
     position: absolute;
     top: 50vh;
     left: 50vw;
     width: var(--shape1S); /* OPTIMIZE - Make this 2x smaller and adjust size */
     height: var(--shape1S);
-    transform: scale(var(--scale, 1)) translate(-50%, -50%);
+    transform: scale(var(--scale, 1)) translate(-50%, calc(-50% + var(--from)));
     transform-origin: 0 0;
     overflow: hidden;
     border-radius: 50%;
@@ -32,7 +33,7 @@ export let activeLevel
     clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
 
     :global(.jsGoOn) & {
-      transition: opacity 300ms ease-in;
+      transition: opacity 300ms var(--delayOpacity) ease-out, transform 300ms var(--delayOpacity) ease-out;
     }
 
     &::after { /* the gradient itself, as a mask */
@@ -49,25 +50,26 @@ export let activeLevel
       animation-play-state: paused;  
     }
 
-    /* &:nth-child(1) { --delayOpacity: 200ms }
-    &:nth-child(2) { --delayOpacity: 100ms }
-    &:nth-child(3) { --delayOpacity: 0ms } */
+    &:nth-child(1) { --delayOpacity: 400ms }
+    &:nth-child(2) { --delayOpacity: 200ms }
+    &:nth-child(3) { --delayOpacity: 0ms }
 
     &.isActive {
       opacity: 1;
+      --from: 0rem;
       transition:
-        opacity 800ms var(--delayOpacity, 500ms) ease-in,
+        opacity 700ms var(--delayOpacity) ease-in,
         /* get ready to next phase .isRect */
         border-radius 50ms 1ms ease-in-out,
-        transform 450ms 1ms ease-in-out,
+        transform 1000ms var(--delayOpacity) cubic-bezier(0.19, 1, 0.22, 1),
         clip-path 450ms 1ms ease-in-out;
 
       will-change: clip-path;
 
-      &:nth-child(1) { --delayOpacity: 500ms }
+      &:nth-child(1) { --delayOpacity: 250ms }
       /* a small delay to "popup effect" - TODO grow effect. */
       &:nth-child(2) { --delayOpacity: 1ms }
-      &:nth-child(3) { --delayOpacity: 500ms }
+      &:nth-child(3) { --delayOpacity: 250ms }
 
       &::after {
         animation-play-state: running;
@@ -100,15 +102,18 @@ export let activeLevel
 
     .echos.isRect & {
       transition:
-        transform 450ms ease-in-out,
+        /* transform 450ms ease-in-out, */
         clip-path 450ms ease-in-out,
         border-radius 450ms 200ms ease-in-out;
 
+      /* --scale: 1.02, 1.08; */
+
       border-radius: 0;
-      --scale: 1.02, 1.08;
-    	--xLeft: calc((100% - var(--shape2W)) / 2);
+
+      --gut: 0rem; 
+    	--xLeft: calc((100% - var(--shape2W)) / 2 + var(--gut));
       --yTop: calc((100% - var(--shape2H)) / 2);
-      --xRight: calc(var(--shape2W) + ((100% - var(--shape2W)) / 2));
+      --xRight: calc(var(--shape2W) + ((100% - var(--shape2W)) / 2) - var(--gut));
       --yBottom: calc(var(--shape2H) + ((100% - var(--shape2H)) / 2));
 
       clip-path: polygon(
@@ -118,8 +123,8 @@ export let activeLevel
         var(--xLeft) var(--yBottom)
       );
 
-      &::after {
-        animation-play-state: paused;
+      &:nth-child(3) {
+        --gut: 3rem; /* hide the last circle edges */
       }
     }
 
@@ -127,6 +132,10 @@ export let activeLevel
       --yTop: 50%;
       --yBottom: 50%;
       will-change: none;
+
+      &::after {
+        animation-play-state: paused;
+      }
     }
   }
 

@@ -254,6 +254,7 @@
     opacity: 0;
     border-radius: var(--radius, 50%);
     transform: translate(calc(var(--scrollY) - 50%), -50%);
+    /* TODO - speed up this when going to FINALLE */
     transition: width 400ms ease-in-out, height 400ms ease-in-out;
     z-index: 1;
 
