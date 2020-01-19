@@ -2,41 +2,41 @@
   import { onMount, afterUpdate } from 'svelte';
   import baffle from 'baffle';
 
-  let elTitle;
+  let elDescr;
   let baffleTitle;
   let isVisible;
   let stopBaffle;
 
   let contacts = [
     {
-      name: 'Dev.to',
-      link: '//dev.to/a_sandrina_p',
+      name: 'dev.to',
+      link: 'http://dev.to/a_sandrina_p',
       svg: 'dev',
-      description: 'The web is not only about code',
+      description: 'development is more than code',
     },
     {
-      name: 'Codepen',
-      link: '//codepen.io/sandrina-p',
+      name: 'codepen',
+      link: 'http://codepen.io/sandrina-p',
       svg: 'codepen',
-      description: 'Because coding without fun is just boring',
+      description: 'coding without fun is just boring',
     },
     {
-      name: 'Twitter',
-      link: '//twitter.com/a_sandrina_p',
+      name: 'twitter',
+      link: 'http://twitter.com/a_sandrina_p',
       svg: 'twitter',
-      description: 'Where ideas are shared',
+      description: 'where ideas are shared',
     },
     {
-      name: 'Email',
+      name: 'email',
       link:
         'mailto:a.sandrina.p@gmail.com?subject=Oh, hi there!&body=Hi Sandrina, I just saw your personal website and...',
       svg: 'email',
-      description: 'Waiting for you message!',
+      description: 'old, but gold!',
     },
   ];
 
   onMount(() => {
-    baffleTitle = baffle(elTitle).set({ characters: '+-•~!=*' });
+    baffleTitle = baffle(elDescr).set({ characters: '+-•~!=*' });
   });
 
   function doBaffle(title, description) {
@@ -61,12 +61,12 @@
 </script>
 
 <style>
-  .title {
+  .text {
     display: block;
     font-size: var(--font-M);
     height: 1em;
-    padding-left: var(--spacer-XS);
-    margin-bottom: var(--spacer-S);
+    /* padding-left: var(--spacer-XS); */
+    margin-top: var(--spacer-S);
     color: var(--text_1);
     opacity: 0;
     transition: opacity 50ms;
@@ -114,14 +114,12 @@
 </style>
 
 <div class="{$$props.class}">
-  <h2 class="sr-only">Social Networks</h2>
-  <span class="title" class:isVisible aria-hidden="true" bind:this={elTitle} />
+  <h3 class="sr-only">Social Networks</h3>
   <ul class="list">
     {#each contacts as { name, link, svg, description }, i}
       <li class="item">
         <a
           href={link}
-          target="_blank"
           aria-label="{name}: {description}"
           class="link"
           on:mouseenter={() => doBaffle(name, description)}
@@ -135,4 +133,5 @@
       </li>
     {/each}
   </ul>
+  <span class="text" class:isVisible aria-hidden="true" bind:this={elDescr} />
 </div>

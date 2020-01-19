@@ -200,6 +200,7 @@
     flex-direction: column;
     margin-top: var(--spacer-XL);
     transform-origin: 50% 0;
+    line-height: 1;
 
     &Item {
       position: relative;

@@ -4,147 +4,316 @@
   import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
   import { getInLimit } from '../utils';
   import throttle from 'lodash/throttle';
+  import Contacts from './ContactsClean.svelte';
+
+  $: wHeight = $_window && $_window.innerHeight;
+  $: wWidth = $_window && $_window.innerWidth;
+  const figSize = 200; /* OPTMIZE - access DOM */
 
   let elFooter;
-  let scrollPivot;
+  let elCard;
+  let footerHeight = null;
+  let isCardOnView = false;
   let progress = 0;
-  let rx = 200;
-  let isOnStage;
-  let height = 10000;
-  let scale1 = 0.1;
-  let scale2 = 0.1;
-  let scale3 = 0.1;
+  let cardInitialScale;
+  let titleProgress;
+  let cardProgress;
+  let isVisible;
+  let scale1;
+  let scale2;
+  let scale3;
 
   afterGeneralUpdate((prevState, state) => {
     if (!prevState.isReady && state.isReady) {
-      initAnimations();
-    }
+      setTimeout(()=> window.scrollTo(0, 10500), 0)
+      initAnimation();
+    }    
   });
 
-  function initAnimations() {
-    let isIncreasing = true;
-    let prevRXMode = 0;
+  function initAnimation() {
     const handleScroll = throttle(handleScrollLol, 16);
+    const figHalf = figSize / 2;
+    let titleGoal;
+    let titleScrollPivot;
+    let cardGoal;
+    let cardScrollPivot;
+    let cardWidthHalf;
+    let cardHeightHalf;
 
     function handleScrollLol() {
-      console.log('scrolling footer...');
       const scrollY = window.scrollY;
-      const scrollYpivot = scrollY - scrollPivot;
-      const goal = $_window.innerHeight / 2;
-      const percentage = getInLimit(scrollYpivot / goal, 0, 1);
+      const scrollYpivot = scrollY - titleScrollPivot;
+      const percentage = getInLimit(scrollYpivot / titleGoal, 0, 1);
+
       progress = percentage;
-      const figSize = 200;
-      scale1 = Math.abs((figSize / 2 - ((scrollYpivot * 0.2) % figSize)) * 0.01);
-      scale2 = Math.abs((figSize / 2 - (((scrollYpivot - 150) * 0.2) % figSize)) * 0.01);
-      scale3 = Math.abs((figSize / 2 - (((scrollYpivot - 300) * 0.2) % figSize)) * 0.01);
+      isVisible = progress >= 1;
+      titleProgress = wWidth - wWidth * progress + 'px';
+
+      scale1 = Math.abs((figHalf - ((scrollYpivot * 0.2) % figSize)) * 0.01);
+      scale2 = Math.abs((figHalf - (((scrollYpivot - 150) * 0.2) % figSize)) * 0.01);
+      scale3 = Math.abs((figHalf - (((scrollYpivot - 300) * 0.2) % figSize)) * 0.01);
+
+      if (isCardOnView) {
+        const cardScrollYpivot = scrollY - cardScrollPivot;
+        const cardPercentage = getInLimit(cardScrollYpivot / cardGoal, 0, 1);
+        cardProgress = cardInitialScale - ((cardInitialScale - 1) * cardPercentage);
+      }
+
+      // Create illusion of infinite scroll 🔮
+      // You may run a lot but you'll always be close to home.
+      if(scrollYpivot > footerHeight - figSize) {
+        window.scrollTo(0, titleScrollPivot + titleGoal);
+      }
     }
 
     const watchFooter = ([{ isIntersecting, boundingClientRect, rootBounds }]) => {
+      const wHeightHalf = wHeight/2;
+      cardWidthHalf = cardWidthHalf || elCard.offsetWidth / 2;
+      cardHeightHalf = cardHeightHalf || elCard.offsetHeight / 2;
+      cardGoal = cardGoal || wHeightHalf + cardHeightHalf;
+      cardInitialScale = cardInitialScale || wWidth / elCard.offsetWidth;
+
+      titleGoal = titleGoal || wHeightHalf + wWidth / 2 + cardWidthHalf;
+
       if (isIntersecting) {
-        isOnStage = true;
-        (scrollPivot = window.scrollY - (rootBounds.height - boundingClientRect.top)),
-          window.addEventListener('scroll', handleScroll, { passive: true });
+        footerHeight = titleGoal + figSize * 12;
+        titleScrollPivot = window.scrollY - (rootBounds.height - boundingClientRect.top);
+        window.addEventListener('scroll', handleScroll, { passive: true });
       } else {
         window.removeEventListener('scroll', handleScroll);
       }
     };
 
-    const observer = new IntersectionObserver(watchFooter);
+    const watchCard = ([{ isIntersecting, boundingClientRect, rootBounds }]) => {
+      isCardOnView = isIntersecting;
+      cardScrollPivot = isIntersecting && window.scrollY - (rootBounds.height - boundingClientRect.top);
+    };
 
-    observer.observe(elFooter);
+    const observerFooter = new IntersectionObserver(watchFooter);
+    const observerCard = new IntersectionObserver(watchCard);
+
+    observerFooter.observe(elFooter);
+    observerCard.observe(elCard);
   }
 </script>
 
 <style>
+  $cardW: 70rem; /* static content luxuries */
+  $cardH: 30rem;
+
   .footer {
     position: relative;
     padding: 0 var(--spacer-M);
     min-height: 200vh;
-    overflow: hidden;
+    /* padding-top: 25vh; */
+    /* overflow: hidden; */
+    background-color: var(--bg_0);
+  }
 
-    &.isOnStage {
-      .canvas {
-        display: block;
-        animation: rotate 50s linear infinite;
+  .title,
+  .card {
+    position: sticky;
+    top: 50vh;
+  }
+
+  .title {
+    font-size: var(--font-heading_3);
+    line-height: 1em;
+    margin-left: calc(50vw - ($cardW/2));
+    transform: translate(var(--titleProgress, 100vw), calc($cardH/-2 - 0.6em));
+    z-index: 2; /* above card */
+    margin-bottom: -2em; /* fake position: absolute, 2em = 2 lines */
+
+    &-part {
+      display: block;
+
+      &:first-child {
+        transform-origin: 0 100%;
+        transform: translateY(0);
+        transition: transform 150ms ease-out;
+
+        .isVisible & {
+          transform: translateY(-1em) scale(0.5);
+          transition:
+            transform 1000ms cubic-bezier(0.19, 1, 0.22, 1);
+        }
+      }
+
+      &:last-child {
+        color: var(--primary_1);
+        opacity: 0;
+        transform: translateY(0);
+        transition: transform 150ms ease-out;
+
+        .isVisible & {
+          opacity: 1;
+          transform: translateY(-1em);
+          transition:
+            opacity 1000ms cubic-bezier(0.0, 0.0, 0.2, 1),
+            transform 1000ms cubic-bezier(0.19, 1, 0.22, 1);
+        }
       }
     }
   }
 
-  .canvas {
-    position: fixed;
-    top: 50vh;
-    left: 50vw;
-    width: 20rem;
-    height: 20rem;
-    display: none;
-    transform-origin: 50% 50%;
+  .card {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    width: $cardW;
+    height: $cardH;
+    padding: var(--spacer-L);
+    background-color: var(--bg_1);
+    margin: calc(50vw + ($cardW/2)) auto 0;
+    transform: translateY(calc($cardH/-2));
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--bg_1);
+      z-index: -1; /* be bellow text */
+      transform: scale(var(--cardProgress)); 
+      transform-origin: 50% 0;
+    }
+
+    &Child {
+      &:nth-child(1) {
+        flex-basis: 50%;
+        margin-right: var(--spacer-M);
+      }
+
+      &:nth-child(2) {
+        flex-grow: 1;
+        text-align: center;
+      }
+    }
   }
 
-  .figure {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    transform-origin: 50% 50%;
-    transform: scale(calc((var(--progress) * 1)));
+  .cardChild,
+  .credits {
+    opacity: 0;
+    transform: translateY(2rem);
+    transition: opacity 150ms ease-out, transform 150ms ease-out;
+
+    .isVisible & {
+      opacity: 1;
+      transform: translateY(0);
+      transition:
+        opacity 1000ms cubic-bezier(0.0, 0.0, 0.2, 1),
+        transform 1000ms cubic-bezier(0.19, 1, 0.22, 1);
+    }
   }
 
-  .svg {
+  .text {
+    font-size: var(--font-L);
+    margin-bottom: var(--spacer-M);
+
+    &Line {
+      display: block;
+    }
+  }
+
+  .credits {
     position: absolute;
-    top: 0;
+    bottom: -2em;
     left: 0;
     width: 100%;
-    height: 100%;
-    transform-origin: 50% 50%;
-    transform: scale(calc((var(--scale) * 1)));
-    transition: transform 500ms ease-out;
-    will-change: transform;
+    text-align: center;
+    z-index: -2;
+    transform: translateY(-2rem);
+    color: var(--text_1);
+    font-size: var(--font-S);
 
-    &Rect {
-      fill: var(--morph_color);
-      stroke: var(--bg_1);
-      stroke-width: 2px;
-      stroke-dasharray: 10px 10px;
+    .isVisible & {
+      transition-delay: 500ms;
+    }
+  }
+
+  .thing {
+    display: inline-block;
+    width: 20rem;
+    height: 20rem;
+    animation: rotate 50s linear infinite;
+    animation-play-state: paused;
+
+    .isVisible & {
+      animation-play-state: running;
+    }
+
+    &Itself {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform-origin: 50% 50%;
+      transform: scale(var(--thingSize));
+    }
+
+    &Svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      transform-origin: 50% 50%;
+      transform: scale(calc((var(--scale) * 1)));
+      transition: transform 500ms ease-out;
+      will-change: transform;
+
+      &Rect {
+        fill: var(--morph_color);
+        stroke: var(--bg_1);
+        stroke-width: 2px;
+        stroke-dasharray: 10px 15px;
+      }
     }
   }
 
   @keyframes rotate {
-    from {
-      transform: translate(-50%, -50%) rotate(0deg);
-    }
-    to {
-      transform: translate(-50%, -50%) rotate(360deg);
-    }
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
   }
 </style>
 
 <footer
   class="footer"
-  class:isOnStage
+  class:isVisible
   bind:this={elFooter}
-  style="--progress: {progress}; height: {height}px;">
-  <div class="canvas">
-    <div class="figure">
-      <svg
-        class="svg"
-        style="--scale: {scale1};"
-        viewBox="0 0 201 201"
-        xmlns="http://www.w3.org/2000/svg">
-        <rect class="svgRect" x="1.13721" y="1.55859" width="198" height="198" {rx} />
-      </svg>
-      <svg
-        class="svg"
-        style="--scale: {scale2};"
-        viewBox="0 0 201 201"
-        xmlns="http://www.w3.org/2000/svg">
-        <rect class="svgRect" x="1.13721" y="1.55859" width="198" height="198" {rx} />
-      </svg>
-      <svg
-        class="svg"
-        style="--scale: {scale3};"
-        viewBox="0 0 201 201"
-        xmlns="http://www.w3.org/2000/svg">
-        <rect class="svgRect" x="1.13721" y="1.55859" width="198" height="198" {rx} />
-      </svg>
+  style="height: {footerHeight}px; --thingSize: {progress}; --titleProgress: {titleProgress}; --cardProgress: {cardProgress};">
+ 
+  <h3 class="title f-mono">
+    <span class="title-part">Well...</span>
+    <span class="title-part">That's all for now!</span>
+  </h3>
+
+  <div class="card" bind:this={ elCard }>
+    <div class="cardChild">
+      <p class="text">Fell free to <a href="#TODO" class="u-link">say hi</a>!</p>
+      <p class="text">
+        <span class="textLine">It's easy to find Sandrina around</span>
+        <span class="textLine">specially if you are a web lover too.</span>
+      </p>
+      <Contacts />
     </div>
+
+    <div class="cardChild" aria-hidden="true">
+      <div class="thing">
+        <div class="thingItself">
+          {#each [scale1, scale2, scale3] as scale}
+            <svg class="thingSvg"
+              style="--scale: {scale};"
+              viewBox="0 0 201 201"
+              xmlns="http://www.w3.org/2000/svg">
+              <rect class="thingSvgRect" x="1.13721" y="1.55859" width="198" height="198" rx={figSize} />
+            </svg>
+          {/each}
+        </div>
+      </div>
+    </div>
+    <!-- REVIEW THIS -->
+    <p class="credits">Curious about me? Here's my <a href="#TODO" class="u-link">source code</a>.</p>
   </div>
 </footer>

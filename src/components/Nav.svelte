@@ -1,6 +1,5 @@
 <script>
   import { onMount, afterUpdate, createEventDispatcher } from 'svelte';
-  import Contacts from './Contacts.svelte';
   import { _window } from '../stores/responsive.js';
   import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
   import { TIMEOUTS } from '../utils';
@@ -278,8 +277,5 @@
       {/each}
       <li class="decorative" aria-hidden="true" />
     </ul>
-
-    <!-- TODO - where should I place this? -->
-    <!-- <Contacts class="g-contacts" /> -->
   </nav>
 {/if}

@@ -47,21 +47,21 @@
 
   html {
     font-size: 62.5%; /* 1rem = 10px */
-    box-sizing: border-box;
-    /* font-family: 'Work Sans', sans-serif; */
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-weight: 300;
-    letter-spacing: 0.02em; /* visually better IMO */
-
-    * {
-      box-sizing: inherit;
-    }
   }
 
   body {
     background: var(--bg_0);
     color: var(--text_0);
     font-size: var(--font-M);
+    line-height: 1.4;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 300;
+    letter-spacing: 0.02em; /* visually better */
+    box-sizing: border-box;
+    
+    * {
+      box-sizing: inherit;
+    }
   }
 
   .sr-only {

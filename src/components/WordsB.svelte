@@ -28,10 +28,6 @@
   let init = null;
 
   afterGeneralUpdate((prevState, state) => {
-    if (!prevState.isReady && state.isReady) {
-      setTimeout(()=> window.scrollTo(0, 8250), 0)
-    }
-    
     if (!isOnStage && state.pageCurrentSection === 'words') {
       isOnStage = true;
 
@@ -398,7 +394,7 @@
               {#each places as { type, where, link, svg }}
                 <li class="placeItem" style="--place-color: {colorTypes[type] || colorTypes.default}">
                   <span class="placeType">{type}</span>
-                  <a href={link} class="placeLink">
+                  <a href={link} target="_blank" class="placeLink">
                     <svg aria-hidden="true" class="placeIcon {svg}">
                       <use xlink:href="#{svg}" />
                     </svg>

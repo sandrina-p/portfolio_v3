@@ -58,8 +58,9 @@
   .wrapper {
     position: relative;
     padding-top: $paddingTop;
-    margin-bottom: 50vh;
+    /* padding-bottom: 25vh; */
     --rotate: -4deg;
+    background-color: var(--bg_0);
   }
 
   .heading {
@@ -94,7 +95,6 @@
       top: calc(20rem + 0.2em);
       left: 50%;
       color: var(--primary_1);
-      z-index: -1;
       transform: translate(-50%, -2em) rotate(var(--rotate));
       transition: transform 300ms 150ms cubic-bezier(0, 0, 0.2, 1);
 
@@ -123,6 +123,7 @@
       transform-origin: 50% 100%;
       transform: rotate(calc(var(--rotate) * var(--progress)));
       overflow: hidden;
+      z-index: 1; /* above "and so did Sandrina" */
     }
   }
 
