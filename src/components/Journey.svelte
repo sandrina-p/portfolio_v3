@@ -7,8 +7,11 @@
 
   let elHeading;
   let scrollPivot;
-  let progressOffset;
+  let progressOffset = 0;
   let progress = 0;
+  let isOnStage = false;
+  let animation;
+
   $: isActive = progress === 1;
 
   afterGeneralUpdate((prevState, state) => {
@@ -16,37 +19,40 @@
     const pageSection = state.pageCurrentSection;
 
     if (!prevState.isReady && state.isReady) {
-      initAnimations();
+      animation = initAnimations();
     }
 
     if (prevPageSection !== pageSection && pageSection === 'journey') {
-      verifyRotating();
+      animation.verify();
     }
   });
 
-  function verifyRotating() {
-    console.log('scrolling journey...');
-
-    const goal = $_window.innerHeight / 2;
-    const percentage = getInLimit((window.scrollY - progressOffset - scrollPivot) / goal, 0, 1);
-    progress = percentage;
-  }
-
   function initAnimations() {
-    const watchSlidding = ([{ isIntersecting, boundingClientRect, rootBounds }]) => {
-      if (isIntersecting) {
-        scrollPivot = window.scrollY - (rootBounds.height - boundingClientRect.top);
-        progressOffset = progressOffset || boundingClientRect.height / 2;
+    function handleScroll() {
+      console.log('scrolling journey...');
+      const goal = $_window.innerHeight / 2;
+      const percentage = getInLimit((window.scrollY - progressOffset - scrollPivot) / goal, 0, 1);
+      progress = percentage;
+    }
 
-        window.addEventListener('scroll', verifyRotating, { passive: true });
+    const watchSlidding = ([{ isIntersecting, boundingClientRect, rootBounds }]) => {
+      scrollPivot = window.scrollY - (rootBounds.height - boundingClientRect.top);
+      progressOffset = progressOffset || boundingClientRect.height / 2;
+      
+      if (isIntersecting) {
+        window.addEventListener('scroll', handleScroll, { passive: true });
       } else {
-        window.removeEventListener('scroll', verifyRotating);
+        window.removeEventListener('scroll', handleScroll);
       }
     };
 
     const observer = new IntersectionObserver(watchSlidding);
 
     observer.observe(elHeading);
+
+    return {
+      verify: handleScroll
+    }
   }
 </script>
 
@@ -96,11 +102,11 @@
       left: 50%;
       color: var(--primary_1);
       transform: translate(-50%, -2em) rotate(var(--rotate));
-      transition: transform 300ms 150ms cubic-bezier(0, 0, 0.2, 1);
+      transition: transform 300ms cubic-bezier(0, 0, 0.2, 1);
 
       .isActive & {
         transform: translate(-50%, 0) rotate(var(--rotate));
-        transition: transform 600ms 300ms cubic-bezier(0, 0, 0.2, 1);
+        transition: transform 600ms cubic-bezier(0, 0, 0.2, 1);
       }
     }
   }
@@ -151,10 +157,17 @@
       color: var(--text_0);
     }
   }
+
+  .p:not(:last-child) {
+    margin-bottom: var(--spacer-L);
+  }
 </style>
 
-<section class="wrapper" style="--progress: {progress}" class:isActive id="journey" data-section="journey">
-  <h2 class="f-mono heading" bind:this={elHeading}>
+<section class="wrapper"
+  class:isActive
+  style="--progress: {progress}"
+  id="journey">
+  <h2 class="f-mono heading" aria-label="Uff, you came so far..." bind:this={elHeading}>
     <div class="sliding">
       <div class="slidingRotate">
         <span class="headingSlide">
@@ -166,26 +179,25 @@
     </div>
     <span class="headingFixed">and so did Sandrina!</span>
   </h2>
-  <div>
-    <p class="text">
+  <div class="text">
+    <p class="p">
       During the last year she has been helping to bring an open source idea to life -
       <a class="u-link" href="https://github.com/okTurtles/group-income-simple" target="_blank">Group Income</a>.
       Before that, she was a Senior UI Engineer at
       <a class="u-link" href="https://www.farfetch.com" target="_blank">Farfetch</a>
       for a few years.
-      <br />
-      <br />
+    </p>
+    <p class="p">
       Since her early days, back when she was studying Communication Design, Sandrina always looked
       for ways to emerge these two fields: design and development. Her meta-goal is still the same:
       <strong class="f-bold">explore human experiences through the web world.</strong>
       That's why she loves to 
       <a class="u-link" href="https://codepen.io/sandrina-p" target="_blank">push pixels around</a>.
-      <br />
-      <br />
+    </p>
+    <p class="p">
       Currently,
-      <strong class="f-bold">Sandrina is looking for new challenges</strong>.
-      Remote friendly or somewhere in North Europe. If you trully believe you both can rock together, 
-      <a class="u-link" href={ EMAIL_URL }>go talk to her!</a>
+      <strong class="f-bold">Sandrina is looking for new remote challenges</strong>.
+      If you trully believe you both can rock together, <a class="u-link" href={ EMAIL_URL }>go talk to her!</a>
     </p>
   </div>
 </section>

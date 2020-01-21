@@ -1,11 +1,9 @@
-<script>
-
-</script>
+<script></script>
 
 <style global>
   :root {
     --text_0: #343434; /*#efefef */
-    --text_1: #898989; /* #b7c2cf; /* text over bg with 0.6 opacity and some light... */
+    --text_1: #757575; /* #b7c2cf; /* text over bg with 0.6 opacity and some light... */
     --text_invert: #d6d6d6; /* similar to bg but lighter */
     --bg_0: #f8f3ef; /* #f4f4f4; /* #0d1722;*/
     --bg_1: #fff; /* #000000; */
@@ -141,20 +139,22 @@
   .u-link,
   .u-linkInteract {
     position: relative;
-    text-decoration: none;
+    white-space: nowrap;
+    color: var(--text_0);
+    z-index: 0; /* so before gets behind but visible */
 
     &::before {
       content: '';
       position: absolute;
-      top: 20%;
+      bottom: 0.05em;
       left: -0.1em;
       width: calc(100% + 0.2em);
-      height: 60%;
+      height: 1.2em;
       background: var(--primary_1);
       opacity: 0.2;
-      transform: scale(0, 1);
+      transform: scale(1, 0);
       transition: transform 75ms ease-out;
-      transform-origin: 0 0;
+      transform-origin: 0 100%;
       z-index: -1;
     }
 
@@ -163,16 +163,35 @@
       outline: none;
 
       &::before {
-        transition-duration: 250ms;
-        transform: scale(1);
+        transition-duration: 250ms ease-in-out;
+        transform: scale(1, 1);
       }
+    }
+
+    &:focus::before {
+      opacity: 0.4;
+    }
+
+    &.invert {
+      color: var(--text_invert);
+    }
+  }
+
+  .u-linkInteract {
+    text-decoration: none;
+
+    &[aria-current='true']::before {
+      transform: scale(1, 0.3);
     }
   }
 
   .u-link {
-    border-bottom: 1px dashed var(--primary_1);
-    color: var(--text_0);
-    /* font-weight: 500; */
+    text-decoration: underline;
+    text-decoration-color: var(--primary_1);
+
+    &::before {
+      transform: scale(1, 0.3);
+    }
   }
 
   @keyframes laserOn {

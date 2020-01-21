@@ -1,3 +1,5 @@
+import { SITE_REPO } from './misc.js';
+
 export default {
   lists: {
     '1': 'rocking',
@@ -36,7 +38,7 @@ export default {
     },
     {
       name: 'Netlify',
-      list: ['2', '4'],
+      list: ['4'],
     },
     {
       name: 'NodeJS',
@@ -44,7 +46,7 @@ export default {
     },
     {
       name: 'Parcel',
-      list: ['2', '4'],
+      list: ['4'],
     },
     {
       name: 'PostCSS',
@@ -88,7 +90,6 @@ export default {
       name: 'VueJS',
       list: ['2'],
     },
-
     {
       name: 'Webpack',
       list: ['2'],
@@ -100,6 +101,11 @@ export default {
     {
       name: 'Gulp',
       list: ['2'],
+    },
+    {
+      name: `I'm on Github!`,
+      list: ['4'],
+      url: SITE_REPO,
     },
   ],
 };

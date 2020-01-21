@@ -36,7 +36,7 @@
   let isMorphing = true;
 
   $: offLimit = isMount && wInnerWidthHalf + (distance * morphCircleRatio) + morphBoxRatio;
-  $: morphZone = distance && wInnerWidthHalf + distance + size*2; // size*2 serves as a "gap" to avoid a direct morph from primary to bg when scrolling quickly though it. 
+  $: morphZone = distance && wInnerWidthHalf + distance + size; // size serves as a "gap" to avoid a direct morph from primary to bg when scrolling quickly though it. 
   $: morphStyle = morphZone && `width: ${morphZone}px`;
 
   $: daboxStyle =
@@ -69,6 +69,7 @@
       return false;
     }
 
+    // Pause animations in case user scrolled beyond intro
     if (pageSection !== 'intro') {
       if(currentPart !== 'FINALLE') {
         currentPart = 'FINALLE';
@@ -217,7 +218,6 @@
     function pause() {
       observer.disconnect();
       const lastPart = headingsToClip[headingsToClip.length - 1];
-      console.log('hum', lastPart)
       window.removeEventListener('scroll', clipHandles[lastPart])
     }
 
@@ -550,7 +550,7 @@
     </p>
   </div>
 
-  <div class="part pPeople" data-section="valuesEnd">
+  <div class="part pPeople" id="nav_valuesEnd">
     <h3 class="f-mono title" data-part="PEOPLE" bind:this={elPeople} style={styleClip.PEOPLE}>
       <span class="title-part">Progress over</span> <span class="title-part">processes</span>
     </h3>

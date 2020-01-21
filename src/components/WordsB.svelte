@@ -28,110 +28,107 @@
   let init = null;
 
   afterGeneralUpdate((prevState, state) => {
-    if (!isOnStage && state.pageCurrentSection === 'words') {
+    // REVIEW - Should move this index logic to general store?
+    const thisSectionIndex = state.pageSections.indexOf('words');
+    const currentSectionIndex = state.pageSections.indexOf(state.pageCurrentSection);
+    
+    if (!isOnStage && currentSectionIndex >= thisSectionIndex) {
+      // OPTIMIZE - better placement of section on viewport
       isOnStage = true;
-
-    if (isFirstTimeOnStage) {
-      // isFirstTimeOnStage = false;
-      // init = initAnimation();
     }
 
-      // init.verifyCardPostion();
-    }
-
-    if (isOnStage && state.pageCurrentSection !== 'words') {
+    if (isOnStage && currentSectionIndex < thisSectionIndex) {
       isOnStage = false;
-      // clearInterval(ledInterval);
     }
   });
 
-  function baffleIt() {
-    console.log('baffling words...'); // TODO REMOVE THIS
-    const index = options.indexOf(ledText);
-    const nextIndex = options[index + 1] ? index + 1 : 0;
-    const nextLedText = options[nextIndex];
+  // function baffleIt() {
+  //   console.log('baffling words...'); // TODO REVIEW THIS
+  //   const index = options.indexOf(ledText);
+  //   const nextIndex = options[index + 1] ? index + 1 : 0;
+  //   const nextLedText = options[nextIndex];
 
-    baffleLed
-      .start()
-      .text(currentText => nextLedText)
-      .reveal(500);
-    ledColor = 'var(--bg_0)';
-    setTimeout(() => {
-      ledText = nextLedText;
-      ledColor = colors[nextIndex];
-    }, 250);
-  }
+  //   baffleLed
+  //     .start()
+  //     .text(currentText => nextLedText)
+  //     .reveal(500);
+  //   ledColor = 'var(--bg_0)';
+  //   setTimeout(() => {
+  //     ledText = nextLedText;
+  //     ledColor = colors[nextIndex];
+  //   }, 250);
+  // }
 
-  function initAnimation() {
-    const cardArgs = []; // A list of args to be passed to handles, based on the card
+  // function initAnimation() {
+  //   const cardArgs = []; // A list of args to be passed to handles, based on the card
 
-    baffleLed = baffle(elLed).set({ characters: '+-•~!=*' });
+  //   baffleLed = baffle(elLed).set({ characters: '+-•~!=*' });
 
-    function updateCardArgs(cardId, entry) {
-      if (entry.isIntersecting) {
-        if (!cardArgs[cardId]) {
-          cardArgs[cardId] = {
-            index: cardId,
-            entry,
-            scrollPivot: window.scrollY - (entry.rootBounds.height - entry.boundingClientRect.top),
-          };
-        } else {
-          cardArgs[cardId].ignore = false;
-        }
-      } else {
-        if (cardArgs[cardId]) {
-          cardArgs[cardId].ignore = true;
-        }
-      }
-    }
+  //   function updateCardArgs(cardId, entry) {
+  //     if (entry.isIntersecting) {
+  //       if (!cardArgs[cardId]) {
+  //         cardArgs[cardId] = {
+  //           index: cardId,
+  //           entry,
+  //           scrollPivot: window.scrollY - (entry.rootBounds.height - entry.boundingClientRect.top),
+  //         };
+  //       } else {
+  //         cardArgs[cardId].ignore = false;
+  //       }
+  //     } else {
+  //       if (cardArgs[cardId]) {
+  //         cardArgs[cardId].ignore = true;
+  //       }
+  //     }
+  //   }
 
-    function verifyCardPostion() {
-      console.log('Scrolling through words cards...');
-      const scrollY = window.scrollY;
-      const middle = $_window.innerHeight / 2;
-      cardArgs.forEach(args => {
-        if (!args.ignore) {
-          const percentage = getInLimit((scrollY - args.scrollPivot) / middle, 0, 1);
-          cardsProgress[args.index] = percentage;
-        }
-      });
-    }
+  //   function verifyCardPostion() {
+  //     console.log('Scrolling through words cards...');
+  //     const scrollY = window.scrollY;
+  //     const middle = $_window.innerHeight / 2;
+  //     cardArgs.forEach(args => {
+  //       if (!args.ignore) {
+  //         const percentage = getInLimit((scrollY - args.scrollPivot) / middle, 0, 1);
+  //         cardsProgress[args.index] = percentage;
+  //       }
+  //     });
+  //   }
 
-    function watchList([entry]) {
-      const status = getIOstatusVertical(entry);
+  //   function watchList([entry]) {
+  //     const status = getIOstatusVertical(entry);
 
-      clearInterval(ledInterval);
-      window.removeEventListener('scroll', verifyCardPostion);
+  //     clearInterval(ledInterval);
+  //     window.removeEventListener('scroll', verifyCardPostion);
 
-      if (entry.isIntersecting) {
-        // ledInterval = window.setInterval(baffleIt, 2500);
-        window.addEventListener('scroll', verifyCardPostion);
-      }
-    }
+  //     if (entry.isIntersecting) {
+  //       // ledInterval = window.setInterval(baffleIt, 2500);
+  //       window.addEventListener('scroll', verifyCardPostion);
+  //     }
+  //   }
 
-    function watchCard(entries) {
-      entries.forEach(entry => {
-        const cardId = entry.target.getAttribute('data-io');
-        updateCardArgs(cardId, entry);
-      });
-    }
+  //   function watchCard(entries) {
+  //     entries.forEach(entry => {
+  //       const cardId = entry.target.getAttribute('data-io');
+  //       updateCardArgs(cardId, entry);
+  //     });
+  //   }
 
-    const observerList = new IntersectionObserver(watchList);
-    const observerCards = new IntersectionObserver(watchCard);
+  //   const observerList = new IntersectionObserver(watchList);
+  //   const observerCards = new IntersectionObserver(watchCard);
 
-    observerList.observe(elCardList);
-    // OPTMIZE/REVIEW - check all observers, DRY them and disconnect when.
+  //   observerList.observe(elCardList);
+  //   // OPTMIZE/REVIEW - check all observers, DRY them and disconnect when.
 
-    elCards.forEach(elCard => {
-      observerCards.observe(elCard);
-    });
+  //   elCards.forEach(elCard => {
+  //     observerCards.observe(elCard);
+  //   });
 
-    verifyCardPostion();
+  //   verifyCardPostion();
 
-    return {
-      verifyCardPostion,
-    };
-  }
+  //   return {
+  //     verifyCardPostion,
+  //   };
+  // }
 
   // function getRandom(min, max) {
   //   min = Math.ceil(min);
@@ -191,8 +188,8 @@
 
   .content {
     position: relative;
-    padding-top: 50vh;
-    padding-bottom: 33vh; /* REVIEW */
+    padding-top: 55vh;
+    padding-bottom: 0;
     background-color: var(--bg_0);
   }
 
@@ -234,11 +231,14 @@
     &Item {
       position: relative;
       padding: var(--spacer-M);
-      margin-bottom: 1.5rem;
       background-color: var(--bg_1);
       display: flex;
       align-items: baseline;
       width: 90rem;
+
+      &:not(:last-child) {
+        margin-bottom: 1.5rem;
+      }
 
       opacity: 0;
       transition: opacity 150ms 0ms ease-out, transform 150ms ease-out;
@@ -332,33 +332,8 @@
     &Icon {
       width: 1.8rem;
       height: 1.8rem;
-      fill: var(--text_1);
       margin-right: var(--spacer-S);
       opacity: 0.8;
-    }
-
-    &Where {
-      position: relative;
-      border-bottom: 1px dashed var(--primary_1); /* var(--place-color); */
-      z-index: 0;
-
-      &::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -0.1em;
-        width: calc(100% + 0.2em);
-        height: 100%;
-        background: var(--primary_1); /* var(--place-color); */
-        opacity: 0.2;
-        border: 0 solid var(--bg_0);
-        box-sizing: border-box;
-        border-width: 0.2em 0 0.2em 0;
-        transform: scale(0, 1);
-        transition: transform 75ms ease-out;
-        transform-origin: 0 0;
-        z-index: -1; /* bellow the text */
-      }
     }
   }
 
@@ -368,7 +343,11 @@
   }
 </style>
 
-<section class="wrapper" class:isOnStage id="words" data-section="words">
+<section class="wrapper"
+  class:isOnStage
+  id="words"
+  data-section="words"
+  data-section-offset="25">
   <div class="content">
     <header class="header">
       <h2 class="f-mono headerTitle" data-io="heading" aria-label="She has been sharing">
@@ -394,12 +373,12 @@
               {#each places as { type, where, link, svg }}
                 <li class="placeItem" style="--place-color: {colorTypes[type] || colorTypes.default}">
                   <span class="placeType">{type}</span>
-                  <a href={link} target="_blank" class="placeLink">
+                  <div class="placeLink">
                     <svg aria-hidden="true" class="placeIcon {svg}">
                       <use xlink:href="#{svg}" />
                     </svg>
-                    <span class="placeWhere">{where}</span>
-                  </a>
+                    <a href={link} class="u-link" aria-label="">{where}</a>
+                  </div>
                 </li>
               {/each}
             </ul>

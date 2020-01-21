@@ -4,6 +4,7 @@
   import { getInLimit } from '../utils';
   import { _window } from '../stores/responsive.js';
   import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
+  import { GITHUB_URL, CODEPEN_URL, SITE_REPO } from '../data/misc.js';
 
   const reducedMotion = false; // TODO this
   const noGravity = true; // TODO this
@@ -15,19 +16,32 @@
   };
   let tabSelected = '1';
   let interactedWith = { '1': true };
-  let elHeading;
-  let headingStyle;
+  let elTitle;
+  let titleStyle;
   let isVisible = false;
   let wHeight;
   let limit;
   let limitNeg;
   let fromTop;
+  let isOnStage;
+  let progressN = 0;
+  let progressY = 0;
 
   afterGeneralUpdate((prevState, state) => {
     const prevPageSection = prevState.pageCurrentSection;
     const pageSection = state.pageCurrentSection;
 
-    if (!prevState.isReady && state.isReady) {
+    // REVIEW - Should move this index logic to general store?
+    const prevSectionIndex = state.pageSections.indexOf('words');
+    const currentSectionIndex = state.pageSections.indexOf(state.pageCurrentSection);
+    
+    // if (!prevState.isReady && state.isReady) {
+    //   setTimeout(()=> window.scrollTo(0, 8500), 0)
+    // }
+
+    if (!isOnStage && currentSectionIndex >= prevSectionIndex) {
+      isOnStage = true;
+      // The "scale" effect should start before 
       initAnimation();
     }
 
@@ -37,27 +51,21 @@
     }
   });
 
-  function updateFromTop() {
-    const elTop = elHeading.getBoundingClientRect().top;
-    fromTop = fromTop || elTop + (window.innerHeight - elTop) + window.scrollY;
+  function updateFromTop(elTop = elTitle.getBoundingClientRect().top) {
+    fromTop = fromTop || elTop + window.scrollY;
   }
 
   function verifyAnimations() {
-    console.log('updating superpowers...');
+    console.log('scrolling skills...');
     const scrollY = window.scrollY;
     const offset = wHeight / 4;
     const closeToTop = wHeight - (fromTop - scrollY + offset);
     const translate = limit - (fromTop - scrollY + offset);
     const perc = closeToTop / limit;
-    const scale = getInLimit(perc, 0, 1).toFixed(2);
-    isVisible = scale === '1.00';
 
-    headingStyle = `
-      opacity: ${scale};
-      transform:
-        scale(${scale})
-        translateY(${getInLimit(translate, limitNeg, 0).toFixed(2)}px);
-    `;
+    progressN = getInLimit(perc, 0, 1);
+    progressY = `${getInLimit(translate, limitNeg, 0)}px`
+    isVisible = progressN === 1;
   }
 
   function initAnimation() {
@@ -65,20 +73,22 @@
     limit = wHeight / 2;
     limitNeg = wHeight * -1;
 
-    const watchHeading = ([entry]) => {
+    const watchTitle = ([entry]) => {
       if (entry.isIntersecting) {
         // OPTIMIZE - convert this to scrollPivot and create package.
-        fromTop = entry.boundingClientRect.top + window.scrollY;
+        updateFromTop(entry.boundingClientRect.top)
         window.addEventListener('scroll', verifyAnimations);
       } else {
         window.removeEventListener('scroll', verifyAnimations);
       }
     };
 
-    const observer = new IntersectionObserver(watchHeading);
+    const observer = new IntersectionObserver(watchTitle);
 
-    observer.observe(elHeading);
+    // OPTIMIZE - disconnect
+    observer.observe(elTitle);
 
+    updateFromTop();
     verifyAnimations();
   }
 
@@ -95,37 +105,40 @@
 
 <style>
   .wrapper {
-    padding: var(--spacer-XL) var(--spacer-M) var(--spacer-XL);
     min-height: 100vh;
     overflow: hidden;
-    padding-top: 50vh;
-    transition: background-color 150ms ease-out;
+    padding-top: 33vh;
+    padding-bottom: 33vh;
+    background-color: var(--bg_0);
+    transition: background-color 400ms cubic-bezier(0.19, 1, 0.22, 1);
 
     &.uAppear {
-      transition: background-color 400ms cubic-bezier(0.19, 1, 0.22, 1);
       background-color: var(--bg_invert);
     }
   }
 
-  .heading {
+  .header {
     position: relative;
-    font-size: var(--font-XL);
     margin-top: var(--spacer-L);
     text-align: center;
 
-    &Kicker {
-      display: block;
-      color: var(--text_1);
-    }
-
-    &Main {
+    &Title {
       position: relative;
       display: block;
       font-size: var(--font-heading_0);
       color: transparent;
       transform-origin: 50% 0%;
       -webkit-text-stroke: 2px var(--text_1);
-      will-change: transform;
+      opacity: var(--progressN, 0);
+      transform:
+        scale(var(--progressN))
+        translateY(var(--progressY));
+      will-change: transform; /* OPTMIZE THIS */
+
+    }
+
+    &Desc {
+      color: var(--text_invert);
     }
   }
 
@@ -174,7 +187,7 @@
         color: var(--colorType);
       }
 
-      &[aria-selected='true'] {
+      &[aria-pressed='true'] {
         color: var(--colorType);
       }
     }
@@ -230,7 +243,7 @@
         }
       }
 
-      .noGravity & {
+      .noGravity & { /* TODO later... */
         @for $i from 1 to 24 {
           &:nth-child($i) {
             .pointOrbite {
@@ -263,7 +276,7 @@
 
         /* Handmade coordinates for each item */
         &:nth-child(1) {
-          transform: translate(12rem, 19rem);
+          transform: translate(3rem, 23rem);
         }
         &:nth-child(2) {
           transform: translate(5rem, 1rem);
@@ -276,18 +289,19 @@
         }
         &:nth-child(5) {
           transform: translate(-7rem, 1rem);
+          visibility: hidden; /* Figma */
         }
         &:nth-child(6) {
           transform: translate(15rem, -15rem);
         }
         &:nth-child(7) {
-          transform: translate(1rem, 5rem);
+          transform: translate(17rem, -7rem);
         }
         &:nth-child(8) {
           transform: translate(24rem, 2rem);
         }
         &:nth-child(9) {
-          transform: translate(-4rem, 9rem);
+          transform: translate(-4rem, 8rem);
         }
         &:nth-child(10) {
           transform: translate(-7rem, -2rem);
@@ -296,10 +310,10 @@
           transform: translate(43rem, -8rem);
         }
         &:nth-child(12) {
-          transform: translate(47rem, 10rem);
+          transform: translate(54rem, 12rem);
         }
         &:nth-child(13) {
-          transform: translate(-14rem, 0rem);
+          transform: translate(-18rem, 6rem);
         }
         &:nth-child(14) {
           transform: translate(-32rem, 1rem);
@@ -308,31 +322,35 @@
           transform: translate(29rem, -8rem);
         }
         &:nth-child(16) {
-          visibility: hidden;
+          visibility: hidden; /* SEO */
           transform: translate(-2rem, 2rem);
-        } /* SEO */
+        }
         &:nth-child(17) {
           transform: translate(2rem, -1rem);
         }
         &:nth-child(18) {
-          transform: translate(26rem, 8rem);
+          transform: translate(-1rem, 19rem);
         }
         &:nth-child(19) {
-          transform: translate(5rem, 9rem);
+          transform: translate(5rem, 10rem);
         }
         &:nth-child(20) {
-          transform: translate(-5rem, -4rem);
+          transform: translate(22rem, -5rem);
         }
         &:nth-child(21) {
+          visibility: hidden; /* Wepback */
           transform: translate(-4rem, 8rem);
         }
         &:nth-child(22) {
           transform: translate(13rem, -9rem);
         }
         &:nth-child(23) {
-          visibility: hidden;
+          visibility: hidden; /* GULP */
           transform: translate(2rem, 6rem);
-        } /* GULP */
+        }
+        &:nth-child(24) {
+          transform: translate(19rem, -9rem);
+        }
       }
     }
   }
@@ -378,11 +396,6 @@
         transform: scale(1);
       }
     }
-  }
-
-  .footer {
-    color: var(--text_invert);
-    margin-top: var(--spacer-XL);
   }
 
   @keyframes orbite {
@@ -446,21 +459,20 @@
   class="wrapper"
   class:uAppear={isVisible}
   class:uAppearSoon={!isVisible}
-  data-section="skills"
   id="skills">
-  <h2 class="heading f-mono" style="--colorTabSelected: {colorTypes[tabSelected]};">
-    <span class="sr-only">Get to know her</span>
-    <span class="headingMain" bind:this={elHeading} style={headingStyle}>skills</span>
-  </h2>
+  <header class="header" style="--colorTabSelected: {colorTypes[tabSelected]};">
+    <h2 class="headerTitle f-mono" bind:this={elTitle} style='--progressN: {progressN}; --progressY: {progressY}'>skills</h2>
+    <p class="headerDesc uAppear-0">You can see them in action on <a href={GITHUB_URL} class="u-link invert">Github</a> and <a href={CODEPEN_URL} class="u-link invert">Codepen</a></p>
+  </header>
+  
   <div class="main">
-    <div class="tabList uAppear-0" role="tablist" aria-label="Type of tools">
+    <div class="tabList uAppear-0" aria-label="Skill types">
       {#each Object.keys(tools.lists) as id}
         {#if showExtraBtn(id)}
           <button
             class="tabItem"
             style="--colorType: {colorTypes[id]}"
-            role="tab"
-            aria-selected={tabSelected === id}
+            aria-pressed={tabSelected === id}
             on:click={() => updateList(id)}>
             {tools.lists[id]}
           </button>
@@ -468,7 +480,7 @@
       {/each}
     </div>
     <ul class="tools uAppear-3" class:noGravity role="tabpanel">
-      {#each tools.tools as { name, list }}
+      {#each tools.tools as { name, list, url }}
         <li
           class="toolsItem"
           class:isActive={list.includes(tabSelected)}
@@ -480,22 +492,13 @@
               <span class="pointStar" />
             </span>
           </span>
-          <span class="toolsItemText">{name}</span>
+          {#if !url}
+            <span class="toolsItemText">{name}</span>
+          {:else}
+            <a class="toolsItemText u-link" href={url}>{name}</a>
+          {/if}
         </li>
       {/each}
     </ul>
-    <div class="footer">
-      <p>
-        See them in action on
-        <a href="https://codepen.io/sandrina-p" target="_blank">Codepen</a>
-        and
-        <a href="http://github.com/sandrina-p" target="_blank">Github</a>
-      </p>
-      <p>
-        Hey, I'm on
-        <a href="https://github.com/sandrina-p/s008080_2019" target="_blank">Github</a>
-        !
-      </p>
-    </div>
   </div>
 </section>

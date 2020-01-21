@@ -12,22 +12,31 @@
 
   let elFooter;
   let elCard;
+
   let footerHeight = null;
   let isCardOnView = false;
+
   let progress = 0;
-  let cardInitialScale;
-  let titleProgress;
-  let cardProgress;
-  let isVisible;
-  let scale1;
-  let scale2;
-  let scale3;
+  let cardInitialScale = 0;
+  let titleProgress = '100vw';
+  let cardProgress = 0;
+  let isVisible = false;
+  let scale1 = 0;
+  let scale2 = 0;
+  let scale3 = 0;
+  let animation;
 
   afterGeneralUpdate((prevState, state) => {
+    const prevPageSection = prevState.pageCurrentSection;
+    const pageSection = state.pageCurrentSection;
+
     if (!prevState.isReady && state.isReady) {
-      setTimeout(()=> window.scrollTo(0, 10500), 0)
-      initAnimation();
-    }    
+      animation = initAnimation();
+    }
+    
+    if (prevPageSection !== pageSection && ['journey', 'contact'].includes(pageSection)) {
+      animation.verify();
+    }
   });
 
   function initAnimation() {
@@ -49,10 +58,12 @@
       isVisible = progress >= 1;
       titleProgress = wWidth - wWidth * progress + 'px';
 
+      // Set "thing" (circle) state
       scale1 = Math.abs((figHalf - ((scrollYpivot * 0.2) % figSize)) * 0.01);
       scale2 = Math.abs((figHalf - (((scrollYpivot - 150) * 0.2) % figSize)) * 0.01);
       scale3 = Math.abs((figHalf - (((scrollYpivot - 300) * 0.2) % figSize)) * 0.01);
 
+      // Set card size
       if (isCardOnView) {
         const cardScrollYpivot = scrollY - cardScrollPivot;
         const cardPercentage = getInLimit(cardScrollYpivot / cardGoal, 0, 1);
@@ -86,7 +97,7 @@
 
     const watchCard = ([{ isIntersecting, boundingClientRect, rootBounds }]) => {
       isCardOnView = isIntersecting;
-      cardScrollPivot = isIntersecting && window.scrollY - (rootBounds.height - boundingClientRect.top);
+      cardScrollPivot = isIntersecting && window.scrollY - (rootBounds.height);
     };
 
     const observerFooter = new IntersectionObserver(watchFooter);
@@ -94,6 +105,10 @@
 
     observerFooter.observe(elFooter);
     observerCard.observe(elCard);
+
+    return {
+      verify: handleScroll
+    }
   }
 </script>
 
@@ -143,7 +158,7 @@
         color: var(--primary_1);
         opacity: 0;
         transform: translateY(0);
-        transition: transform 150ms ease-out;
+        transition: opacity 150ms ease-out, transform 150ms ease-out;
 
         .isVisible & {
           opacity: 1;
@@ -282,6 +297,8 @@
   class="footer"
   class:isVisible
   bind:this={elFooter}
+  id="contact"
+  data-section-offset="100"
   style="height: {footerHeight}px; --thingSize: {progress}; --titleProgress: {titleProgress}; --cardProgress: {cardProgress};">
  
   <h3 class="title f-mono">
