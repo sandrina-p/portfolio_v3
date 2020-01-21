@@ -23,6 +23,7 @@ Here's a list of my learnings while building this website. When I release the we
 - 🎈how to log a reactive variable each time it changes: `$: foo, console.log('value:', foo);` 
 - 🎈 props cant have numbers! `isLevel1` -> `isLevelOne`. But you know what? This made me find a better solution: `level="1"`
 
+
 ## Javascript
 
 - Prefer using `window.scrollY` over `document.documentElement.scrollTop` to get [window scroll correctly across all browsers](https://stackoverflow.com/questions/20514596/document-documentelement-scrolltop-return-value-differs-in-chrome).
@@ -34,6 +35,12 @@ Here's a list of my learnings while building this website. When I release the we
 - 🎈Place consecutive paragraphs in the same line without position absolute using -1em.
 - 🎈 `position:sticky` doesn't work when the parent has `overflow:hidden`
 - 🎈🐛 `transparent` on Safari means rgba(0, 0, 0, 0) instead of rgba(255, 255, 255, 0). If you do `linear-gradient(red, transparent)` it will go from red to black transparent.
+- 🎈How to prevent transition on render.
+- 📝 Learning so about animations optimization using Safari Layers.
+  - lookout for elements size - white space consumes memory (ex: display block vs inline)
+  - look out for overlapping animations, avoid when possible. (ex: site intro)
+  - reduce size using scale() whenever possible. (ex: echo)
+  - look out for fixed elements, remove useless paddings / width / hight around.
 
 ## Accessibility
 

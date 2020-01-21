@@ -240,6 +240,13 @@
   .container {
     display: flex;
     align-items: center;
+    visibility: hidden;
+    transition: visibility 0ms 1000ms; /* time for any leaving animation */
+
+    &.isOnStage {
+      transition: visibility 0ms 0ms;
+      visibility: visible;
+    }
   }
 
   .dabox {
@@ -256,11 +263,12 @@
     transform: translate(calc(var(--scrollY) - 50%), -50%);
     /* TODO - speed up this when going to FINALLE */
     transition: width 400ms ease-in-out, height 400ms ease-in-out;
+    will-change: width, height; /* I'm sorry... */
     z-index: 1;
 
     &.isMorphing {
       transition: width 50ms ease-out, height 50ms ease-out; /* reduce color glitch when scrolling backward too fast */
-      border: 2px solid var(--bg_1);
+      border: 0.2rem solid var(--bg_1);
     }
 
     &.isActive {
@@ -279,33 +287,13 @@
     }
 
     &::before {
+      background-color: var(--bg_1);
       /* transition: transform 300ms;
-      will-change: transform; */
-      background: var(--bg_1);
+      transform: skew(calc(var(--scrollSpeed) * -0.1deg)); */
     }
 
-    /* doesnt work animating a border from static to animation... hmmm */
-    /* &.isGelly::before {
-      animation:
-        gelly 30s alternate-reverse infinite ease-in-out,
-        live 20s alternate-reverse infinite ease-in-out;
-
-      @keyframes gelly {
-        0%, 100% { border-radius: 60% 40% 45% 55% / 55% 45% 50% 60%; } 
-        20% { border-radius: 54% 46% 40% 60% / 43% 57% 40% 65%; } 
-        40% { border-radius: 40% 60% 46% 54% / 50% 60% 41% 50% } 
-        60% { border-radius: 56% 44% 60% 30% / 56% 44% 60% 30% } 
-        80% { border-radius: 46% 54% 35% 75% / 50% 50% 40% 65%; } 
-      }
-
-      @keyframes live {
-        0%, 100% { transform: translate3d(5%, 5%, 0) }
-        50% { transform: translate3d(-5%, -5%, 0) }
-      }
-    } */
-
     &::after {
-      background: var(--morph_total);
+      background-color: var(--morph_total);
       opacity: var(--opacity);
     }
   }
@@ -334,20 +322,20 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: var(--font-M);
-    line-height: 1.5;
-    opacity: 0;
+    padding: var(--spacer-XL);
     z-index: 1;
     pointer-events: none;
-    padding: var(--spacer-XL);
+    opacity: 0;
+    visibility: hidden;
 
     :global(.jsGoOn) & {
       /* TIL [1] only apply opacity on client side, to avoid transition (1 to 0) on first render */
-      transition: opacity 150ms 0ms ease-out;
+      transition: opacity 150ms 0ms ease-out, visibility 0ms 150ms;
     }
 
     &.isActive {
       opacity: 1;
+      visibility: visible;
       transition: opacity 600ms 350ms cubic-bezier(0.19, 1, 0.22, 1);
       pointer-events: auto;
     }
@@ -474,6 +462,7 @@
 
 <section
   class="container"
+  class:isOnStage
   style="{styleContainer} {currentPart === 'MORPH' ? '--scrollSpeed: 0;' : ''}">
 
   <h2 class="sr-only">Values</h2>
@@ -485,11 +474,11 @@
     <!-- class:isGelly={currentPart === 'ASK' } -->
 
   <div class="part pMorph" style={morphStyle}>
-    <Dots pattern='A' isActive={isOnStage} />
+    <Dots pattern='A' isActive={isOnStage && ['MORPH', 'DOTS'].includes(currentPart)} />
   </div>
 
   <div class="part pDots">
-    <Dots pattern='B' isActive={isOnStage} />
+    <Dots pattern='B' isActive={isOnStage && ['DOTS', 'ASK'].includes(currentPart)} />
     <h3 class="f-mono title" data-part="DOTS" bind:this={elDots}>Let's connect the dots</h3>
     <p class="pBox {getBoxClass('DOTS')}">
       <span class="pBox-text">

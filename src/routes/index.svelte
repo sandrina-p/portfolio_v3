@@ -2,7 +2,7 @@
   import { onMount, beforeUpdate, afterUpdate } from 'svelte';
   import Intro from '../components/Intro.svelte';
   import Values from '../components/Values.svelte';
-  import Words from '../components/WordsB.svelte';
+  import Words from '../components/Words.svelte';
   import Tools from '../components/Tools.svelte';
   import Journey from '../components/Journey.svelte';
   import Footer from '../components/Footer.svelte';
@@ -18,7 +18,7 @@
   let elHorizon;
   let browserClasses = '';
   let checkSpeed = true;
-  let horizonAfterOffset = '100vh';
+  let horizonSpace = '100vh';
 
   onMount(() => {
     initResponsive();
@@ -57,7 +57,7 @@
   }
 
   function handleNavCalculated(event) {
-    horizonAfterOffset = event.detail.horizonAfterOffset;
+    horizonSpace = event.detail.horizonSpace;
     // https://github.com/sveltejs/svelte/issues/3105
     document.body.classList.add('jsGoOn');
   }
@@ -79,13 +79,16 @@
     transform: translateX(calc(var(--scrollY) * -1));
   }
 
-  .horizonAfter {
-    position: fixed;
+  .horizonSpace {
+    position: relative;
     margin-top: var(--marginTop, 100vh);
+    height: 1px; /* to make margin work */
+  }
 
-    :global(.jsGoOn) & {
-      position: relative;
-    }
+  /* prevent scroll while the page is loading */
+  :global(body:not(.jsGoOn)) {
+    height: 100%;
+    overflow: hidden;
   }
 </style>
 
@@ -98,10 +101,9 @@
     <Values />
   </div>
 </div>
-<div class="horizonAfter" style="--marginTop: {horizonAfterOffset}">
-  <Words />
-  <Tools />
-  <Journey />
-  <Footer />
-</div>
+<div class="horizonSpace" style="--marginTop: {horizonSpace}"></div>
+<Words />
+<Tools />
+<Journey />
+<Footer />
 <SvgSprite />

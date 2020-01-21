@@ -12,6 +12,11 @@ export let isActive;
     top: 0;
     z-index: 1;
     pointer-events: none;
+    visibility: hidden;
+
+    &.isActive {
+      visibility: visible;
+    }
  
     &.pattern-A {
       transform: scale(1, -1);

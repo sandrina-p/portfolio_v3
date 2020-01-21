@@ -20,15 +20,15 @@
     --rotate: 30deg;
     --rotatePivot: 2deg;
     --fill: var(--morph_color);
-    --scrollY: 0px; /* to be manipulated by JS */
+    --scrollY: 0; /* to be manipulated by JS */
     --distance: 30rem;
     height: var(--size);
-    width: var(--distance); /* for shitty browsers, the animation distance is based on the width */
-    transform: translateX(calc(var(--scrollY, 0px) - calc(var(--size) / 2)));
+    width: calc(var(--distance)); /* for shitty browsers, the animation distance is based on the width */
+    transform: translateX(var(--scrollY, 0));
 
     :global(.jsFF) &,
     :global(.jsChrome) & {
-      width: var(--size);
+      width: calc(var(--size));
     }
 
     &.isPaused {
@@ -93,18 +93,19 @@
     }
   }
 
+  /* Know why this is done:
+    - https://stackoverflow.com/questions/59051548/css-animation-with-css-variables-and-keyframes-not-updating-on-safari */
   @keyframes circleMoveExpensive {
     from {
       transform: translateX(0)
         scale(var(--scaleStart))
         rotate(calc(0deg + var(--rotatePivot)));
-      color: #000; /* force repaint */
+        color: #000; /* force repaint */
     }
     to {
       transform: translateX(var(--distance))
         scale(var(--scaleEnd))
         rotate(calc(var(--rotate) + var(--rotatePivot)));
-      color: #001; /* force repaint */
     }
   }
 

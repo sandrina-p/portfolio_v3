@@ -72,7 +72,7 @@
     })();
     const wWidth = $_window.innerWidth;
     const wHeight = $_window.innerHeight;
-    const horizonOffset = valuesWidth - wHeight;
+    const horizonArea = valuesWidth - wHeight;
 
     navPivots = $strGeneral.pageSections.map(section => {
       if (section === 'intro') {
@@ -84,7 +84,7 @@
 
       return {
         name: section,
-        y: Math.round(horizonOffset + sectionTop),
+        y: Math.round(horizonArea + sectionTop),
         // on nav click, use this offset to show the section in a better position.
         offset: (elSection.getAttribute('data-section-offset') || 0)/100 * wHeight,
       };
@@ -92,7 +92,7 @@
 
     isCalculated = true;
     dispatch('calculated', {
-			horizonAfterOffset: `${horizonOffset + Math.round(wWidth / 2)}px`,
+			horizonSpace: `${horizonArea + Math.round(wWidth / 2)}px`,
 		});
   }
 
@@ -127,18 +127,13 @@
 <style>
   .nav {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 10rem;
+    top: var(--spacer-L);
+    right: var(--spacer-M);
     z-index: 5; /* above everything */
   }
 
   .links {
     &List {
-      position: fixed;
-      top: var(--spacer-L);
-      right: var(--spacer-L);
       display: flex;
       margin: 0;
       padding: 0;
@@ -149,7 +144,6 @@
       margin: 0;
       padding: 0;
       margin: 0 var(--spacer-M) 0 0;
-      padding: var(--spacer-S) 0;
 
       /* decorative animation */
       &::before,
@@ -168,8 +162,8 @@
         z-index: -1;
       }
 
-      &::before { background: var(--morph_total); }
-      &::after { background: var(--bg_0); }
+      &::before { background-color: var(--morph_total); }
+      &::after { background-color: var(--bg_0); }
 
       &.wasSelected {
         z-index: 1; /* so animation appears above other navItem */
@@ -182,7 +176,6 @@
           animation-duration: 1100ms;
         }
       }
-
       
       /* entry animation */
       opacity: 0;
@@ -208,6 +201,10 @@
     &Anchor {
       color: var(--text_1);
 
+      .invert &:not([aria-current='true']) {
+        color: var(--text_invert);
+      }
+
       &:hover,
       &:focus,
       &[aria-current='true'] {
@@ -230,7 +227,7 @@
   }
 </style>
 
-<nav class="nav" class:isReady={isCalculated}>
+<nav class="nav" class:isReady={isCalculated} class:invert={currentSection === 'skills'}>
   <ul class="linksList">
     {#each pageSections as name}
       <li

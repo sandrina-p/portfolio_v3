@@ -1,11 +1,11 @@
 <script>
   import HeadMeta from '../components/HeadMeta.svelte';
-  import UiFoundations from '../components/UiFoundations.svelte';
+  import Theme from '../components/Theme.svelte';
 
 </script>
 
 <HeadMeta />
-<UiFoundations />
+<Theme />
 <main>
   <slot />
 </main>

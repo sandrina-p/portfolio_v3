@@ -9,7 +9,7 @@
   const reducedMotion = false; // TODO this
   const noGravity = true; // TODO this
   const colorTypes = {
-    '1': 'var(--primary_1)',
+    '1': 'var(--primary_1_sat)',
     '2': 'var(--primary_2)',
     '3': 'var(--primary_3_darker)',
     '4': 'var(--primary_4)',
@@ -120,11 +120,12 @@
   .header {
     position: relative;
     margin-top: var(--spacer-L);
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
     &Title {
       position: relative;
-      display: block;
       font-size: var(--font-heading_0);
       color: transparent;
       transform-origin: 50% 0%;
@@ -133,8 +134,19 @@
       transform:
         scale(var(--progressN))
         translateY(var(--progressY));
-      will-change: transform; /* OPTMIZE THIS */
+      will-change: transform;
+      transition: text-shadow 150ms; 
 
+      .uAppear & {
+        will-change: unset;
+        -webkit-text-stroke: initial;
+        color: var(--text_invert);
+        /* TIL: fake opacity without opacity */
+        text-shadow:
+          0 0 4.5rem var(--bg_invert),
+          0 0 4.5rem var(--bg_invert),
+          0 0 3.5rem var(--colorTabSelected);
+      }
     }
 
     &Desc {
@@ -165,39 +177,67 @@
     }
 
     &Item {
+      position: relative;
       display: inline-block;
       font-size: var(--font-L);
+      font-weight: 500;
       border: none;
       cursor: pointer;
-      color: var(--text_1);
+      color: var(--text_invert);
       padding: var(--spacer-S) var(--spacer-M);
       margin-bottom: var(--spacer-L);
       background: transparent;
-      border: 2px dashed;
       width: 14rem;
-      opacity: 1;
-      border-radius: 4px; /* TODO/REVIEW borders */
-      position: relative;
-      transform: scale(0);
-      animation: wow 500ms cubic-bezier(0.28, 0.67, 0, 1.29) forwards;
+
+      &::before {
+        content: '';
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+        left: 0;
+        z-index: -1;
+        height: 100%;
+        border-radius: 0.4rem; /* REVIEW borders */
+        background-color: var(--text_1);
+        opacity: 0.5;
+        transform: scale(1, 0.3);
+        transform-origin: 0 75%;
+        transition: background 250ms ease-out, transform 250ms ease-out;
+      }
 
       &:hover,
       &:focus {
-        opacity: 0.7;
+        outline: none;
         color: var(--colorType);
       }
 
       &[aria-pressed='true'] {
-        color: var(--colorType);
-      }
-    }
+        color: var(--text_0);
 
-    @keyframes wow {
-      0% {
-        transform: scale(0);
+        &::before {
+          opacity: 1;
+          background-color: var(--colorType);
+          transform: scale(1, 1);
+          transition: transform 400ms cubic-bezier(0.28, 0.67, 0, 1.29);
+        }
       }
-      100% {
-        transform: scale(1);
+
+      opacity: 0;
+      transform: translateY(1rem);
+      transition: opacity 150ms ease-out, transform 150ms ease-out;
+
+      .uAppear & {
+        opacity: 1;
+        transform: translateY(0);
+        transition:
+          opacity 1000ms var(--delay) cubic-bezier(0.0, 0.0, 0.2, 1),
+          transform 1000ms var(--delay) cubic-bezier(0.19, 1, 0.22, 1);
+
+        $time: 75ms;
+
+        &:nth-child(1) { --delay: calc(200ms + $time*1); }
+        &:nth-child(2) { --delay: calc(200ms + $time*2); }
+        &:nth-child(3) { --delay: calc(200ms + $time*3); }
       }
     }
   }
@@ -459,10 +499,11 @@
   class="wrapper"
   class:uAppear={isVisible}
   class:uAppearSoon={!isVisible}
-  id="skills">
+  id="skills"
+  data-section-offset="5">
   <header class="header" style="--colorTabSelected: {colorTypes[tabSelected]};">
     <h2 class="headerTitle f-mono" bind:this={elTitle} style='--progressN: {progressN}; --progressY: {progressY}'>skills</h2>
-    <p class="headerDesc uAppear-0">You can see them in action on <a href={GITHUB_URL} class="u-link invert">Github</a> and <a href={CODEPEN_URL} class="u-link invert">Codepen</a></p>
+    <p class="headerDesc uAppear-0">Take a sneak peek on <a href={GITHUB_URL} class="u-link invert">Github</a> and <a href={CODEPEN_URL} class="u-link invert">Codepen</a></p>
   </header>
   
   <div class="main">

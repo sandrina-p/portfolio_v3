@@ -1,10 +1,10 @@
 <script>
   import { onMount, afterUpdate } from 'svelte';
   import words from '../data/words.js';
-  import { _window } from '../stores/responsive.js';
   import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
-  import { getInLimit, getIOstatusVertical } from '../utils';
-  import baffle from 'baffle';
+  // import { _window } from '../stores/responsive.js';
+  // import { getInLimit, getIOstatusVertical } from '../utils';
+  // import baffle from 'baffle';
 
   const colorTypes = {
     article: 'var(--primary_1)',
@@ -14,18 +14,19 @@
   };
   const options = ['sharing', 'writing', 'talking'];
   const colors = ['var(--primary_4)', 'var(--primary_1)', 'var(--primary_2)'];
-  let isOnStage = null;
-  let isFirstTimeOnStage = true;
-  let elLed = null;
-  let elCards = [];
-  let cardsProgress = [];
+  let isOnStage = false; // on viepower or passed the viewport
+  let isOnView = false; // on viewport
+  // // let isFirstTimeOnStage = true;
+  // // let elLed = null;
+  // // let elCards = [];
+  // // let cardsProgress = [];
 
-  let baffleLed;
+  // // let baffleLed;
+  // // let ledInterval;
   let ledText = options[0];
-  let ledInterval;
   let ledColor = colorTypes.default;
-  let elCardList;
-  let init = null;
+  // // let elCardList;
+  // // let init = null;
 
   afterGeneralUpdate((prevState, state) => {
     // REVIEW - Should move this index logic to general store?
@@ -40,6 +41,8 @@
     if (isOnStage && currentSectionIndex < thisSectionIndex) {
       isOnStage = false;
     }
+
+    isOnView = currentSectionIndex === thisSectionIndex;
   });
 
   // function baffleIt() {
@@ -188,8 +191,8 @@
 
   .content {
     position: relative;
-    padding-top: 55vh;
-    padding-bottom: 0;
+    padding-top: 75vh;
+    padding-bottom: var(--spacer-XL);
     background-color: var(--bg_0);
   }
 
@@ -241,7 +244,11 @@
       }
 
       opacity: 0;
-      transition: opacity 150ms 0ms ease-out, transform 150ms ease-out;
+      visibility: hidden;
+      transition:
+        opacity 150ms 0ms ease-out,
+        transform 150ms ease-out,
+        visibility 0ms 150ms;
       transform: translateX(20rem);
 
       .isOnStage & {
@@ -249,6 +256,11 @@
         transform: translateX(0);
         transition: opacity 600ms var(--delay, 0) cubic-bezier(0.0, 0.0, 0.2, 1),
           transform 600ms var(--delay, 0) cubic-bezier(0.0, 0.0, 0.2, 1);
+      }
+
+      .isOnView & {
+        /* OPTIMIZE - figure out why each item consumes 1Mb GPU memory? */
+        visibility: visible;
       }
 
       $off: calc(((100vw - 90rem + 9rem) / 2) / 4); /* TODO - holy moly */
@@ -259,7 +271,7 @@
         top: 0;
         left: 0;
         height: 100%;
-        background: var(--bg_1);
+        background-color: var(--bg_1);
         z-index: -2;
         transform: translateX(calc($off * -4 + $off * var(--i)));
         box-shadow: 0.2rem 0.2rem var(--primary_1_lighter);
@@ -283,7 +295,6 @@
 
   .title {
     font-size: var(--font-L2);
-    line-height: 1.2;
     /* text-transform: capitalize; */
     margin-bottom: var(--spacer-M);
   }
@@ -345,15 +356,14 @@
 
 <section class="wrapper"
   class:isOnStage
+  class:isOnView
   id="words"
-  data-section="words"
-  data-section-offset="25">
+  data-section-offset="50">
   <div class="content">
     <header class="header">
       <h2 class="f-mono headerTitle" data-io="heading" aria-label="She has been sharing">
         <span class="headerTitle-part">She has been</span>
         <span
-          bind:this={elLed}
           class="headerTitle-part"
           data-text={ledText}
           style="--led-color: {ledColor}">
@@ -362,7 +372,7 @@
       </h2>
       <p class="headerDescription">Something sweet and short about this.</p>
     </header>
-    <ul class="cardList" bind:this={elCardList} aria-label="articles, talks and more">
+    <ul class="cardList" aria-label="articles, talks and more">
       {#each words as { title, date, places }, index}
         <li
           class="cardItem">

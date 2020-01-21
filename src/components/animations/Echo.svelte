@@ -1,6 +1,7 @@
 <script>
-export let activeLevel
+export let activeLevel;
 </script>
+
 <style>
   .echos {
     position: fixed;
@@ -11,29 +12,32 @@ export let activeLevel
     transform: translate(var(--scrollY));
     pointer-events: none;
 
-    /* TODO/NOTE: make this come from parent/props */
+    /* OPTIMIZE: make this come from parent/props */
     --shape1S: var(--width-PEOPLE);
     --shape2W: var(--width-PEOPLE);
     --shape2H: var(--height-PEOPLE);
   }
 
   .echo {
-    --from: 3rem; /* from bottom effect */
+    --from: 1rem; /* initial bottom effect */
     position: absolute;
     top: 50vh;
     left: 50vw;
-    width: var(--shape1S); /* OPTIMIZE - Make this 2x smaller and adjust size */
-    height: var(--shape1S);
+    width: calc(var(--shape1S) / 4); /* reduce GPU memory */
+    height: calc(var(--shape1S) / 4);
     transform: scale(var(--scale, 1)) translate(-50%, calc(-50% + var(--from)));
     transform-origin: 0 0;
     overflow: hidden;
-    border-radius: 50%;
     opacity: 0;
+    visibility: hidden;
     z-index: -1;
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+  	clip-path: inset(0 round 50%);	
 
     :global(.jsGoOn) & {
-      transition: opacity 300ms var(--delayOpacity) ease-out, transform 300ms var(--delayOpacity) ease-out;
+      transition:
+        opacity 300ms var(--delayOpacity) ease-out,
+        transform 300ms var(--delayOpacity) ease-out,
+        visibility 0ms 600ms;
     }
 
     &::after { /* the gradient itself, as a mask */
@@ -50,12 +54,13 @@ export let activeLevel
       animation-play-state: paused;  
     }
 
-    &:nth-child(1) { --delayOpacity: 400ms }
-    &:nth-child(2) { --delayOpacity: 200ms }
+    &:nth-child(1) { --delayOpacity: 170ms }
+    &:nth-child(2) { --delayOpacity: 100ms }
     &:nth-child(3) { --delayOpacity: 0ms }
 
     &.isActive {
       opacity: 1;
+      visibility: visible;
       --from: 0rem;
       transition:
         opacity 700ms var(--delayOpacity) ease-in,
@@ -77,30 +82,29 @@ export let activeLevel
     }
 
     &:nth-child(1) {
-      --scale: 0.85;
+      --scale: 3.5;
       &::after {
         background: linear-gradient(70deg, rgba(113, 168, 255, 0.28), rgba(255, 255, 255, 0) 71%);
       }
     }
 
     &:nth-child(2) {
-      --scale: 1;
+      --scale: 4.2;
       &::after {
         animation-direction: reverse;
         background: linear-gradient(200deg, rgba(0, 16, 255, 0.07), rgba(255, 255, 255, 0) 71%);
-        
       }
     }
 
     &:nth-child(3) {
-      --scale: 1.2;
+      --scale: 5;
       &::after {
         background: linear-gradient(136deg, rgba(255, 0, 0, 0.21), rgba(255, 255, 255, 0) 30%),
           radial-gradient(circle at top right, rgba(0, 216, 255, 0.07), rgba(255, 255, 255, 0) 70%);
       }
     }
 
-    .echos.isRect & {
+    .isRect & {
       transition:
         /* transform 450ms ease-in-out, */
         clip-path 450ms ease-in-out,
@@ -108,30 +112,25 @@ export let activeLevel
 
       /* --scale: 1.02, 1.08; */
 
-      border-radius: 0;
+      /* border-radius: 0; */
 
       --gut: 0rem; 
-    	--xLeft: calc((100% - var(--shape2W)) / 2 + var(--gut));
-      --yTop: calc((100% - var(--shape2H)) / 2);
-      --xRight: calc(var(--shape2W) + ((100% - var(--shape2W)) / 2) - var(--gut));
-      --yBottom: calc(var(--shape2H) + ((100% - var(--shape2H)) / 2));
+      --ratio: 1;
+      --y: calc(var(--shape2H)/4 * 1.65); /* 1.7 ? by eye */
+      --x: calc(var(--shape2W)/4 * 0.1 - var(--gut)); /* 0.1*4 = size reduction GPU */
 
-      clip-path: polygon(
-        var(--xLeft) var(--yTop),
-        var(--xRight) var(--yTop),
-        var(--xRight) var(--yBottom),
-        var(--xLeft) var(--yBottom)
-      );
+      clip-path: inset(var(--y) var(--x));
 
       &:nth-child(3) {
-        --gut: 4rem; /* hide the last circle edges */
+        --gut: 0.3rem;
       }
     }
 
-    .echos.isGone & {
+    .isGone & {
       /* --yTop: 50%;
       --yBottom: 50%; */
       will-change: unset;
+      visibility: hidden;
 
       &::after {
         animation-play-state: paused;

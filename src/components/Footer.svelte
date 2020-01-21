@@ -4,7 +4,7 @@
   import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
   import { getInLimit } from '../utils';
   import throttle from 'lodash/throttle';
-  import Contacts from './ContactsClean.svelte';
+  import Contacts from './Contacts.svelte';
 
   $: wHeight = $_window && $_window.innerHeight;
   $: wWidth = $_window && $_window.innerWidth;
@@ -50,6 +50,7 @@
     let cardHeightHalf;
 
     function handleScrollLol() {
+      console.log('scrolling footer...')
       const scrollY = window.scrollY;
       const scrollYpivot = scrollY - titleScrollPivot;
       const percentage = getInLimit(scrollYpivot / titleGoal, 0, 1);
@@ -58,16 +59,16 @@
       isVisible = progress >= 1;
       titleProgress = wWidth - wWidth * progress + 'px';
 
-      // Set "thing" (circle) state
-      scale1 = Math.abs((figHalf - ((scrollYpivot * 0.2) % figSize)) * 0.01);
-      scale2 = Math.abs((figHalf - (((scrollYpivot - 150) * 0.2) % figSize)) * 0.01);
-      scale3 = Math.abs((figHalf - (((scrollYpivot - 300) * 0.2) % figSize)) * 0.01);
-
-      // Set card size
+      // Set card stuff
       if (isCardOnView) {
+        // Set "thing" (circle) state
+        scale1 = Math.abs((figHalf - ((scrollYpivot * 0.2) % figSize)) * 0.01);
+        scale2 = Math.abs((figHalf - (((scrollYpivot - 150) * 0.2) % figSize)) * 0.01);
+        scale3 = Math.abs((figHalf - (((scrollYpivot - 300) * 0.2) % figSize)) * 0.01);
+        
         const cardScrollYpivot = scrollY - cardScrollPivot;
         const cardPercentage = getInLimit(cardScrollYpivot / cardGoal, 0, 1);
-        cardProgress = cardInitialScale - ((cardInitialScale - 1) * cardPercentage);
+        cardProgress = cardPercentage === 1 ? 1 : cardInitialScale - ((cardInitialScale - 1) * cardPercentage);
       }
 
       // Create illusion of infinite scroll 🔮
@@ -97,7 +98,7 @@
 
     const watchCard = ([{ isIntersecting, boundingClientRect, rootBounds }]) => {
       isCardOnView = isIntersecting;
-      cardScrollPivot = isIntersecting && window.scrollY - (rootBounds.height);
+      cardScrollPivot = isIntersecting && window.scrollY - (rootBounds.height - boundingClientRect.top);
     };
 
     const observerFooter = new IntersectionObserver(watchFooter);
@@ -132,6 +133,8 @@
   }
 
   .title {
+    display: block;
+    width: 42rem; /* static content luxuries - reduce gpu usage */
     font-size: var(--font-heading_3);
     line-height: 1em;
     margin-left: calc(50vw - ($cardW/2));
@@ -189,11 +192,15 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: var(--bg_1);
+      background-color: var(--bg_1);
       z-index: -1; /* be bellow text */
       transform: scale(var(--cardProgress)); 
       transform-origin: 50% 0;
     }
+
+    /* Save GPU memory (+4Mb caused by nice ::before effect :/) */
+    visibility: hidden;
+    &.isCardOnView { visibility: visible; }
 
     &Child {
       &:nth-child(1) {
@@ -276,7 +283,6 @@
       transform-origin: 50% 50%;
       transform: scale(calc((var(--scale) * 1)));
       transition: transform 500ms ease-out;
-      will-change: transform;
 
       &Rect {
         fill: var(--morph_color);
@@ -306,7 +312,7 @@
     <span class="title-part">That's all for now!</span>
   </h3>
 
-  <div class="card" bind:this={ elCard }>
+  <div class="card" bind:this={ elCard } class:isCardOnView>
     <div class="cardChild">
       <p class="text">Fell free to <a href="#TODO" class="u-link">say hi</a>!</p>
       <p class="text">

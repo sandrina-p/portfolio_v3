@@ -10,15 +10,16 @@
     --bg_invert: #1b1b1b;
 
     /* put this color at meta theme-color */
-    --primary_1_lighter: #e9e1f8; /* #9072ff; /*#52e9d0; /* #59b9a3; /* #fb6177; */
     --primary_1: #9b78de; /* #9072ff; /*#52e9d0; /* #59b9a3; /* #fb6177; */
+    --primary_1_lighter: #e9e1f8; /* #9072ff; /*#52e9d0; /* #59b9a3; /* #fb6177; */
+    --primary_1_sat: #bd99ff; /* #9072ff; /*#52e9d0; /* #59b9a3; /* #fb6177; */
     --primary_1_darker: #8c00ff;
     --morph_color: rgba(109, 7, 255, 0.1); /*rgba(101, 189, 144, 0.09);*/
     --morph_total: #bfa1f8; /* #bbdccd; /* visual effect when all circles are overlapping */
     --primary_2: #52e9d0; /* #b69dff; */
     --primary_3: #0a0a09;
     --primary_3_darker: #dfb948;
-    --primary_4: #f08e8e;
+    --primary_4: #ff9d9d;
 
     --font-S: 1.4rem;
     --font-M: 1.6rem;
@@ -48,10 +49,10 @@
   }
 
   body {
-    background: var(--bg_0);
+    background-color: var(--bg_0);
     color: var(--text_0);
     font-size: var(--font-M);
-    line-height: 1.4;
+    line-height: 1.5;
     font-family: 'IBM Plex Sans', sans-serif;
     font-weight: 300;
     letter-spacing: 0.02em; /* visually better */
@@ -150,7 +151,7 @@
       left: -0.1em;
       width: calc(100% + 0.2em);
       height: 1.2em;
-      background: var(--primary_1);
+      background-color: var(--primary_1);
       opacity: 0.2;
       transform: scale(1, 0);
       transition: transform 75ms ease-out;

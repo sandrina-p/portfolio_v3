@@ -27,13 +27,13 @@ Well... let's say we are 70% done.
 
 ### UI/UX
 - [x] Short scroll length of initial morph
-- [ ] Finalize animations for Intro (90%)
-- [ ] Review "Skills" section overall UX
+- [x] Finalize animations for Intro (99%)
+- [x] Review "Skills" section overall UX
 - [ ] Pick a theme
 - [ ] Refine final copywriting
 - [x] Decide footer
 - [x] Decide where to put contacts
-- [ ] Refine nav
+- [x] Refine nav (99%)
 
 ### Development
 - [ ] Add ReduceMotion option
@@ -42,5 +42,5 @@ Well... let's say we are 70% done.
 - [ ] Review SEO
 - [ ] Review manifest
 - [ ] Run Lighthouse
-- [ ] Review animations performance
+- [x] Review animations performance
 - [ ] Easter Eggs!?

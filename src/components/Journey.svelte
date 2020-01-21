@@ -64,7 +64,6 @@
   .wrapper {
     position: relative;
     padding-top: $paddingTop;
-    /* padding-bottom: 25vh; */
     --rotate: -4deg;
     background-color: var(--bg_0);
   }
@@ -75,6 +74,7 @@
     font-size: var(--font-heading_3);
 
     &::before {
+      /* REVIEW/BUG pixel perfect - blacks are not rendered the same! ... */
       content: '';
       position: absolute;
       top: calc($paddingTop * -1);
@@ -121,7 +121,7 @@
 
     &Rotate {
       position: absolute;
-      background: var(--bg_invert);
+      background-color: var(--bg_invert);
       top: -20rem; /* to cover the bg from the rotate */
       left: -50vw; /* to make it centered based on 200vw */
       width: 200vw;

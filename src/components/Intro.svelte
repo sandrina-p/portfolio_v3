@@ -1,7 +1,6 @@
 <script>
   import { onMount } from 'svelte';
   import { strGeneral, updateGeneral } from '../stores/general.js';
-  import Contacts from './Contacts.svelte';
   import CircleComposition from './animations/CircleComposition.svelte';
   import { TIMEOUTS } from '../utils';
 
@@ -17,19 +16,21 @@
 <style>
   $titleChars: 13;
   $titleTempo: 200ms; 
+  $padding: 10rem;
+  $circleSizeHalf: 10rem;
 
   .intro {
     display: flex;
-    padding-left: 10rem;
+    padding-left: $padding;
     width: 100vw;
     height: 100vh;
     flex-shrink: 0;
     align-items: center;
-    background: var(--bg_0);
+    background-color: var(--bg_0);
   }
 
   .content {
-    width: calc(50vw - 10rem);
+    width: calc(50vw - $padding - $circleSizeHalf);
     margin-bottom: 12vh;
   }
 
@@ -62,7 +63,6 @@
 
   .text {
     font-size: var(--font-L2);
-    line-height: 1.5;
     max-width: 44rem;
     opacity: 0;
     animation: laserOn 750ms calc($titleTempo + 50ms * $titleChars) steps(8) forwards;
