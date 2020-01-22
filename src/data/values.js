@@ -35,7 +35,7 @@ export default {
     text: [
       'Sandrina is in a constant search for disruptive but pragmatic solutions. She goes beyond best practices and perfect pixels. She’s the one who will <strong>strive for innovation</strong> when everyone else is too afraid to change.',
     ],
-    width: '64rem',
+    width: '65rem',
     height: '15rem',
   },
   FINALLE: {

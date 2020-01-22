@@ -19,13 +19,14 @@ export let activeLevel;
   }
 
   .echo {
-    --from: 1rem; /* initial bottom effect */
+    --t_x: 0%;
+    --t_y: 1rem; /* initial bottom effect */
     position: absolute;
     top: 50vh;
     left: 50vw;
     width: calc(var(--shape1S) / 4); /* reduce GPU memory */
     height: calc(var(--shape1S) / 4);
-    transform: scale(var(--scale, 1)) translate(-50%, calc(-50% + var(--from)));
+    transform: scale(var(--scale, 1)) translate(calc(-50% + var(--t_x)), calc(-50% + var(--t_y)));
     transform-origin: 0 0;
     overflow: hidden;
     opacity: 0;
@@ -61,11 +62,10 @@ export let activeLevel;
     &.isActive {
       opacity: 1;
       visibility: visible;
-      --from: 0rem;
+      --t_y: 0rem;
       transition:
         opacity 700ms var(--delayOpacity) ease-in,
         /* get ready to next phase .isRect */
-        border-radius 50ms 1ms ease-in-out,
         transform 1000ms var(--delayOpacity) cubic-bezier(0.19, 1, 0.22, 1),
         clip-path 450ms 1ms ease-in-out;
 
@@ -106,29 +106,33 @@ export let activeLevel;
 
     .isRect & {
       transition:
-        /* transform 450ms ease-in-out, */
-        clip-path 450ms ease-in-out,
-        border-radius 450ms 200ms ease-in-out;
-
-      /* --scale: 1.02, 1.08; */
-
-      /* border-radius: 0; */
+        transform 450ms ease-in-out,
+        clip-path 450ms ease-in-out;
 
       --gut: 0rem; 
       --ratio: 1;
-      --y: calc(var(--shape2H)/4 * 1.65); /* 1.7 ? by eye */
+      --y: calc(var(--shape2H)/4 * 1.65); /* 1.7 - eye picky */
       --x: calc(var(--shape2W)/4 * 0.1 - var(--gut)); /* 0.1*4 = size reduction GPU */
 
       clip-path: inset(var(--y) var(--x));
 
+      &:nth-child(1) {
+        --t_y: 3rem;
+        --t_x: 2rem;
+      }
+
+      &:nth-child(2) {
+        --t_y: -2rem;
+        --t_x: -2rem;
+      }
+
       &:nth-child(3) {
         --gut: 0.3rem;
+        --t_x: 1rem;
       }
     }
 
     .isGone & {
-      /* --yTop: 50%;
-      --yBottom: 50%; */
       will-change: unset;
       visibility: hidden;
 

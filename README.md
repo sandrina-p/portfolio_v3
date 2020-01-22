@@ -14,7 +14,7 @@ This is where you can see her personal website code. But... wait, it's still in 
 yarn # or npm install
 
 # Run in dev mode
-yarn start # or npm start
+yarn dev # or npm dev
 ```
 
 ## Stack
@@ -34,6 +34,7 @@ Well... let's say we are 70% done.
 - [x] Decide footer
 - [x] Decide where to put contacts
 - [x] Refine nav (99%)
+- [ ] Review responsive
 
 ### Development
 - [ ] Add ReduceMotion option

@@ -1,5 +1,5 @@
 <script>
-  import { onMount, afterUpdate } from 'svelte';
+  import { onMount, afterUpdate, onDestroy } from 'svelte';
   import { getInLimit, getIOstatusHorizontal } from '../utils';
   import { _window, afterResponsiveUpdate } from '../stores/responsive.js';
   import { strDabox, updateDabox } from '../stores/dabox.js';
@@ -60,6 +60,10 @@
     window.addEventListener('scroll', verifyMetamorphose, { passive: true });
     animations = initAnimations();
   });
+
+  onDestroy(() => {
+    animations && animations.pause();
+  })
 
   afterGeneralUpdate((prevState, state) => {
     const prevPageSection = prevState.pageCurrentSection;
@@ -199,7 +203,7 @@
     };
 
     const observer = new IntersectionObserver(watchPart, {
-      rootMargin: '0px',
+      rootMargin: '0px -5% 0px 0px',
       threshold: 0,
     });
 
@@ -218,7 +222,9 @@
     function pause() {
       observer.disconnect();
       const lastPart = headingsToClip[headingsToClip.length - 1];
-      window.removeEventListener('scroll', clipHandles[lastPart])
+      for(let handle in clipHandles) {
+        window.removeEventListener('scroll', clipHandles[handle])
+      }
     }
 
     start();
@@ -246,6 +252,10 @@
     &.isOnStage {
       transition: visibility 0ms 0ms;
       visibility: visible;
+    }
+
+    @media(--max-md) {
+      display: none; /* ValuesVertical will replace it */
     }
   }
 
@@ -395,7 +405,7 @@
         }
 
         &:last-child {
-          clip-path: polygon(0 0, var(--clipx) 0, var(--clipx) 150%, 0 150%);
+          clip-path: polygon(0 0, var(--clipx, 0) 0, var(--clipx, 0) 150%, 0 150%);
           margin-top: -1em;
           color: var(--primary_1);
         }
@@ -425,7 +435,7 @@
         }
 
         &:last-child {
-          clip-path: polygon(0 0, var(--clipx) 0, var(--clipx) 150%, 0 150%);
+          clip-path: polygon(0 0, var(--clipx, 0) 0, var(--clipx, 0) 150%, 0 150%);
           color: var(--primary_1);
           margin-bottom: 0.2em; /* so it gets totally covered by the white box */
         }
@@ -463,7 +473,8 @@
 <section
   class="container"
   class:isOnStage
-  style="{styleContainer} {currentPart === 'MORPH' ? '--scrollSpeed: 0;' : ''}">
+  style="{styleContainer} {currentPart === 'MORPH' ? '--scrollSpeed: 0;' : ''}"
+  data-variant="horizon">
 
   <h2 class="sr-only">Values</h2>
 

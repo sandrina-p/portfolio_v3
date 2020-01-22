@@ -21,11 +21,14 @@
     --rotatePivot: 2deg;
     --fill: var(--morph_color);
     --scrollY: 0; /* to be manipulated by JS */
-    --distance: 30rem;
+    --distance: 20rem; /* change on xs */
     height: var(--size);
-    width: calc(var(--distance)); /* for shitty browsers, the animation distance is based on the width */
-    transform: translateX(var(--scrollY, 0));
-
+    width: var(--distance); /* for shitty browsers, the animation distance is based on the width */
+    
+    margin-bottom: calc(var(--size) / 2);
+    transform-origin: 0 0;
+    transform: rotate(90deg) translateY(calc(-40vw - 50%)); /* to the bottom, always centered */
+    
     :global(.jsFF) &,
     :global(.jsChrome) & {
       width: calc(var(--size));
@@ -37,6 +40,12 @@
       .circle {
         animation-play-state: paused;
       }
+    }
+
+    @media (--md) {
+      --distance: 30rem;
+      margin-bottom: 0;
+      transform: translateX(var(--scrollY, 0));
     }
   }
 

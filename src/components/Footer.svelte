@@ -124,6 +124,10 @@
     /* padding-top: 25vh; */
     /* overflow: hidden; */
     background-color: var(--bg_0);
+
+    @media(--max-md) {
+      display: none; /* TODO */
+    }
   }
 
   .title,

@@ -66,6 +66,10 @@
     padding-top: $paddingTop;
     --rotate: -4deg;
     background-color: var(--bg_0);
+
+    @media(--max-md) {
+      display: none; /* TODO */
+    }
   }
 
   .heading {

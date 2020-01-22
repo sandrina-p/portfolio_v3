@@ -1,6 +1,6 @@
 <script>
   import { onMount, afterUpdate, createEventDispatcher } from 'svelte';
-  import { _window } from '../stores/responsive.js';
+  import { _window, matchMq, afterResponsiveUpdate } from '../stores/responsive.js';
   import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
   import { TIMEOUTS } from '../utils';
 
@@ -35,6 +35,13 @@
     }
   });
 
+  afterResponsiveUpdate(async () => {
+    setTimeout(() => {
+      // HACK: wait for values layout to mount (in case it changed)
+      setNavigationData();
+    }, 0);
+  })
+
   function handleScroll() {
     if (isRICScheduled) { return; }
 
@@ -62,17 +69,36 @@
     }
   }
 
-  function setNavigationData() {
+  function getHorizonOffset(wHeight) {
+    if(!$matchMq.md) {
+      return 0 // there's no horizon, it's all vertical.
+    }
+
+    // It means Values is still rendering...
+    if (!document.getElementById('nav_valuesEnd')) return;
+
     const valuesWidth = (() => {
       // BUG/REVIEW: valuesEnd' parent has a smaller width than its content.
       // Dunno why.... so, instead lets get the position directly from it.
-      const { left, width } = document.getElementById('nav_valuesEnd').getBoundingClientRect();
+      const valuesEnd = document.getElementById('nav_valuesEnd');
+      
+      if (!valuesEnd) {
+        console.warn('Ups! Nav - nav_valuesEnd does not exist!');
+        return 0;
+      }
+
+      const { left, width } = valuesEnd.getBoundingClientRect();
 
       return Math.round(left + width);
     })();
+
+    return valuesWidth - wHeight
+  }
+
+  function setNavigationData() {
     const wWidth = $_window.innerWidth;
     const wHeight = $_window.innerHeight;
-    const horizonArea = valuesWidth - wHeight;
+    const horizonOffset = getHorizonOffset(wHeight);
 
     navPivots = $strGeneral.pageSections.map(section => {
       if (section === 'intro') {
@@ -84,17 +110,20 @@
 
       return {
         name: section,
-        y: Math.round(horizonArea + sectionTop),
+        y: Math.round(horizonOffset + sectionTop),
         // on nav click, use this offset to show the section in a better position.
         offset: (elSection.getAttribute('data-section-offset') || 0)/100 * wHeight,
       };
     });
 
     isCalculated = true;
+
     dispatch('calculated', {
-			horizonSpace: `${horizonArea + Math.round(wWidth / 2)}px`,
+			horizonSpace: `${horizonOffset + Math.round(wWidth / 2)}px`,
 		});
   }
+
+  // TODO - handle screen reader navigation.
 
   function goToSection(e, pageSection) {
     e.preventDefault();

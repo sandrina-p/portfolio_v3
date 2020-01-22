@@ -161,7 +161,11 @@
     padding-left: calc((100vw - 90rem + 9rem) / 2);
     opacity: 0;
     transition: opacity 150ms ease-out;
-    background-color: var(--bg_0); 
+    background-color: var(--bg_0);
+
+    @media(--max-md) {
+      display: none; /* TODO */
+    }
 
     &.isOnStage {
       transition: opacity 500ms;

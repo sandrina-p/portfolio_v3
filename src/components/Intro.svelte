@@ -16,22 +16,23 @@
 <style>
   $titleChars: 13;
   $titleTempo: 200ms; 
-  $padding: 10rem;
   $circleSizeHalf: 10rem;
 
   .intro {
-    display: flex;
-    padding-left: $padding;
-    width: 100vw;
-    height: 100vh;
-    flex-shrink: 0;
-    align-items: center;
+    padding: calc(var(--l-margin)*2) var(--l-margin) 0;
     background-color: var(--bg_0);
+    min-height: var(--wHeight);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 
   .content {
-    width: calc(50vw - $padding - $circleSizeHalf);
-    margin-bottom: 12vh;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 
   .title {
@@ -74,9 +75,32 @@
   }
 
   .animation {
+    margin-top: var(--spacer-M);
     position: relative;
     opacity: 0;
     animation: fadeIn 1000ms calc($titleTempo + 50ms * $titleChars) forwards;
+  }
+
+  @media (--md) {
+    .intro {
+      padding: 0 0 0 var(--l-margin);
+      width: 100vw;
+      height: 100vh;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      flex-shrink: 0;
+    }
+
+    .content {
+      width: calc(50vw - var(--l-margin) - $circleSizeHalf);
+      margin-bottom: 15vh;
+      flex-grow: 0;
+    }
+
+    .animation {
+      margin-top: 0;
+    }
   }
 </style>
 

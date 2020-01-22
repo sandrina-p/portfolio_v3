@@ -2,6 +2,8 @@
 
 <style global>
   :root {
+    --l-margin: 8vw; /* layout margin around */
+
     --text_0: #343434; /*#efefef */
     --text_1: #757575; /* #b7c2cf; /* text over bg with 0.6 opacity and some light... */
     --text_invert: #d6d6d6; /* similar to bg but lighter */
@@ -40,22 +42,36 @@
     --bounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
      /* --speed_0: 250ms; */ /* REVIEW - speed scale ? */
+
+    /* to be updated by JS, so Xvh is a fixed number to avoid bugs on mobile (specially Safari!) */
+    --wHeight: 100vh;
   }
 
   /* ************************************ */
 
   html {
-    font-size: 62.5%; /* 1rem = 10px */
+    font-size: 50%; /* 1rem = 8px */
+
+    @media (--md) {
+      font-size: 62.5%; /* 1rem = 10px */
+    }
   }
 
   body {
     background-color: var(--bg_0);
     color: var(--text_0);
+    
+    font-family: 'IBM Plex Sans', sans-serif;
     font-size: var(--font-M);
     line-height: 1.5;
-    font-family: 'IBM Plex Sans', sans-serif;
     font-weight: 300;
     letter-spacing: 0.02em; /* visually better */
+
+    /* avoid horizonal scroll on windows */
+    width: 100vw;
+    max-width: 100%;
+    overflow-x: hidden;
+
     box-sizing: border-box;
     
     * {
@@ -195,6 +211,8 @@
     }
   }
 
+  /* -------- Animations ------------- */
+
   @keyframes laserOn {
     0%,
     85% {
@@ -226,6 +244,8 @@
       opacity: 1;
     }
   }
-</style>
 
-<span />
+  /* -------- Media Queries ------- */
+  /* Check postcss.config.js. They're imported there. */
+
+</style>

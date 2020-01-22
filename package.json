@@ -3,7 +3,7 @@
   "description": "UX Engineer helping to turn ideas into accessible experiences",
   "version": "0.0.1",
   "scripts": {
-    "start": "sapper dev",
+    "dev": "sapper dev",
     "build": "sapper build --legacy",
     "export": "sapper export --legacy",
     "start_default": "node __sapper__/build",
@@ -15,6 +15,7 @@
   "dependencies": {
     "baffle": "^0.3.6",
     "compression": "^1.7.1",
+    "matchmedia-polyfill": "^0.3.2",
     "polka": "next",
     "sirv": "^0.4.0"
   },
@@ -25,6 +26,7 @@
     "@babel/preset-env": "^7.0.0",
     "@babel/runtime": "^7.0.0",
     "babel-eslint": "^10.0.3",
+    "css-mqpacker": "^7.0.0",
     "eslint": "^6.6.0",
     "eslint-config-prettier": "^6.5.0",
     "eslint-config-standard": "^14.0.0",

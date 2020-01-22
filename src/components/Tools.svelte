@@ -115,6 +115,10 @@
     &.uAppear {
       background-color: var(--bg_invert);
     }
+
+    @media(--max-md) {
+      display: none; /* TODO */
+    }
   }
 
   .header {

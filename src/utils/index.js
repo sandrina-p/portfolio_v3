@@ -1,7 +1,6 @@
 export function getInLimit(value, min, max) {
   const theValue = Math.max(min, Math.min(value, max));
 
-  // Avoid 3.3333333333 kind of stuff.
   return Number(theValue.toFixed(3));
 }
 
@@ -73,8 +72,8 @@ export const TIMEOUTS = {
   NAV_SCROLLED: 15,
 };
 
+// requestIdleCallback support for all browsers
 export function setRIC() {
-  // requestIdleCallback support for all browsers
   window.requestIdleCallback =
     window.requestIdleCallback ||
     function(cb) {
