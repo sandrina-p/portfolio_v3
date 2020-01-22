@@ -131,10 +131,7 @@
   style="--scrollY: {scrollY}px; --scrollSpeed: {scrollSpeedCurrent};">
   <div class="horizon" bind:this={elHorizon}>
     <Intro />
-    <!-- this doesnt work -->
-    <Loadable loader={() => import('../components/ValuesHorizon.svelte')} />
-    <!-- this works: -->
-    <!-- <svelte:component this={$matchMq.md ? ValuesHorizon : ValuesVertical} /> -->
+    <svelte:component this={$matchMq.md ? ValuesHorizon : ValuesVertical} />
   </div>
 </div>
 <div class="horizonSpace" style="--marginTop: {horizonSpace}"></div>

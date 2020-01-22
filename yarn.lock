@@ -4613,11 +4613,6 @@ supports-color@^6.1.0:
   dependencies:
     has-flag "^3.0.0"
 
-svelte-loadable@^1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/svelte-loadable/-/svelte-loadable-1.4.0.tgz#b67683987656e412fc9c274e86581bee864ee9b6"
-  integrity sha512-m6LbuQeuWUE7JsTKvYldvg/bW9JJO7YzqPtq39DL+2cKAob78ycZH2D+FgWd+4LlNuPoHbxgOkSCuYIjZqw05g==
-
 svelte-preprocess@^3.2.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/svelte-preprocess/-/svelte-preprocess-3.3.0.tgz#7732b0b25f02e40b518c6a3818e625f9b8ec4d14"
