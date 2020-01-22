@@ -1,5 +1,6 @@
 <script>
   import { onMount, beforeUpdate, afterUpdate } from 'svelte';
+  import Loadable from 'svelte-loadable'
   import Intro from '../components/Intro.svelte';
   import ValuesVertical from '../components/ValuesVertical.svelte';
   import Words from '../components/Words.svelte';
@@ -130,7 +131,10 @@
   style="--scrollY: {scrollY}px; --scrollSpeed: {scrollSpeedCurrent};">
   <div class="horizon" bind:this={elHorizon}>
     <Intro />
-    <svelte:component this={$matchMq.md ? ValuesHorizon : ValuesVertical} />
+    <!-- this doesnt work -->
+    <Loadable loader={() => import('../components/ValuesHorizon.svelte')} />
+    <!-- this works: -->
+    <!-- <svelte:component this={$matchMq.md ? ValuesHorizon : ValuesVertical} /> -->
   </div>
 </div>
 <div class="horizonSpace" style="--marginTop: {horizonSpace}"></div>
