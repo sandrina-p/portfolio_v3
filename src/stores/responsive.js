@@ -10,7 +10,7 @@ This is, its values (width, height, etc...) are automatically updated when a res
 
 import { readable, writable } from 'svelte/store';
 import debounce from 'lodash/debounce';
-import breakpoints from '../utils/breakpoints';
+import breakpoints from '../theme/breakpoints';
 
 let privateIsCalculated = false;
 const debounceResize = debounce(handleResize, 100);

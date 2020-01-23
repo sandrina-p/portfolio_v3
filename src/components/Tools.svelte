@@ -123,14 +123,14 @@
 
   .header {
     position: relative;
-    margin-top: var(--spacer-L);
+    margin-top: $spacer-L;
     display: flex;
     flex-direction: column;
     align-items: center;
 
     &Title {
       position: relative;
-      font-size: var(--font-heading_0);
+      font-size: $font-heading_0;
       color: transparent;
       transform-origin: 50% 0%;
       -webkit-text-stroke: 2px var(--text_1);
@@ -172,8 +172,8 @@
   .tab {
     &List {
       text-align: center;
-      margin: var(--spacer-L) 0;
-      margin-top: var(--spacer-XL);
+      margin: $spacer-L 0;
+      margin-top: $spacer-XL;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -183,13 +183,13 @@
     &Item {
       position: relative;
       display: inline-block;
-      font-size: var(--font-L);
+      font-size: $font-L;
       font-weight: 500;
       border: none;
       cursor: pointer;
       color: var(--text_invert);
-      padding: var(--spacer-S) var(--spacer-M);
-      margin-bottom: var(--spacer-L);
+      padding: $spacer-S $spacer-M;
+      margin-bottom: $spacer-L;
       background: transparent;
       width: 14rem;
 
@@ -255,16 +255,16 @@
     flex-wrap: wrap;
     height: 28rem; /* static list content */
     flex-direction: column;
-    margin-top: var(--spacer-XL);
+    margin-top: $spacer-XL;
     transform-origin: 50% 0;
     line-height: 1;
 
     &Item {
       position: relative;
-      width: calc(33.333% - var(--spacer-M));
-      margin: 0 var(--spacer-M) var(--spacer-M) 0;
+      width: calc(33.333% - $spacer-M);
+      margin: 0 $spacer-M $spacer-M 0;
       opacity: 0.5;
-      padding-left: calc(var(--spacer-M) + var(--spacer-S));
+      padding-left: $spacer-MS;
       transition: opacity 250ms ease;
       animation: blink 10s infinite ease;
 
@@ -282,7 +282,7 @@
         color: var(--text_invert);
 
         .isActive & {
-          transition-timing-function: var(--bounce);
+          transition-timing-function: $animate-bounce;
           transform: scale(1);
         }
       }
@@ -405,9 +405,9 @@
       position: absolute;
       top: 0;
       left: 0;
-      width: var(--spacer-M);
-      height: var(--spacer-M);
-      transform-origin: var(--spacer-L) 50%;
+      width: $spacer-M;
+      height: $spacer-M;
+      transform-origin: $spacer-L 50%;
       animation: orbite 15s infinite linear;
     }
 
@@ -436,7 +436,7 @@
 
       .isActive & {
         background-color: var(--colorType);
-        transition-timing-function: var(--bounce);
+        transition-timing-function: $animate-bounce;
         transform: scale(1);
       }
     }

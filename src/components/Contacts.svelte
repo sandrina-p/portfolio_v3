@@ -25,7 +25,7 @@
 <style>
   .item {
     display: inline-block;
-    margin-right: var(--spacer-M);
+    margin-right: $spacer-M;
   }
 </style>
 

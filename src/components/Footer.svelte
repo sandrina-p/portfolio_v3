@@ -119,7 +119,7 @@
 
   .footer {
     position: relative;
-    padding: 0 var(--spacer-M);
+    padding: 0 $spacer-M;
     min-height: 200vh;
     /* padding-top: 25vh; */
     /* overflow: hidden; */
@@ -139,7 +139,7 @@
   .title {
     display: block;
     width: 42rem; /* static content luxuries - reduce gpu usage */
-    font-size: var(--font-heading_3);
+    font-size: $font-heading_3;
     line-height: 1em;
     margin-left: calc(50vw - ($cardW/2));
     transform: translate(var(--titleProgress, 100vw), calc($cardH/-2 - 0.6em));
@@ -184,7 +184,7 @@
     align-items: center;
     width: $cardW;
     height: $cardH;
-    padding: var(--spacer-L);
+    padding: $spacer-L;
     background-color: var(--bg_1);
     margin: calc(50vw + ($cardW/2)) auto 0;
     transform: translateY(calc($cardH/-2));
@@ -209,7 +209,7 @@
     &Child {
       &:nth-child(1) {
         flex-basis: 50%;
-        margin-right: var(--spacer-M);
+        margin-right: $spacer-M;
       }
 
       &:nth-child(2) {
@@ -235,8 +235,8 @@
   }
 
   .text {
-    font-size: var(--font-L);
-    margin-bottom: var(--spacer-M);
+    font-size: $font-L;
+    margin-bottom: $spacer-M;
 
     &Line {
       display: block;
@@ -252,7 +252,7 @@
     z-index: -2;
     transform: translateY(-2rem);
     color: var(--text_1);
-    font-size: var(--font-S);
+    font-size: $font-S;
 
     .isVisible & {
       transition-delay: 500ms;

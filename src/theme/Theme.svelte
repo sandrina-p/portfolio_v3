@@ -1,8 +1,6 @@
-<script></script>
-
 <style global>
   :root {
-    --l-margin: 8vw; /* layout margin around */
+    --w-height: 100vw; /* JS will change this */
 
     --text_0: #343434; /*#efefef */
     --text_1: #757575; /* #b7c2cf; /* text over bg with 0.6 opacity and some light... */
@@ -22,39 +20,12 @@
     --primary_3: #0a0a09;
     --primary_3_darker: #dfb948;
     --primary_4: #ff9d9d;
-
-    --font-S: 1.4rem;
-    --font-M: 1.6rem;
-    --font-L: 1.8rem;
-    --font-L2: 2.1rem;
-    --font-XL: 2.6rem;
-    --font-heading_0: 12rem;
-    --font-heading_1: 8rem;
-    --font-heading_2: 6rem;
-    --font-heading_3: 5rem;
-
-    --spacer-XS: 0.4rem;
-    --spacer-S: 0.8rem;
-    --spacer-M: 1.6rem;
-    --spacer-L: 3.2rem;
-    --spacer-XL: 6.4rem;
-
-    --bounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
-
-     /* --speed_0: 250ms; */ /* REVIEW - speed scale ? */
-
-    /* to be updated by JS, so Xvh is a fixed number to avoid bugs on mobile (specially Safari!) */
-    --wHeight: 100vh;
   }
 
   /* ************************************ */
 
   html {
-    font-size: 50%; /* 1rem = 8px */
-
-    @media (--md) {
-      font-size: 62.5%; /* 1rem = 10px */
-    }
+    font-size: 62.5%; /* 1rem = 10px */
   }
 
   body {
@@ -62,22 +33,21 @@
     color: var(--text_0);
     
     font-family: 'IBM Plex Sans', sans-serif;
-    font-size: var(--font-M);
+    font-size: $font-M;
     line-height: 1.5;
     font-weight: 300;
     letter-spacing: 0.02em; /* visually better */
 
-    /* avoid horizonal scroll on windows */
+    /* avoid horizonal scroll when scrollbar is visible */
     width: 100vw;
     max-width: 100%;
     overflow-x: hidden;
 
     box-sizing: border-box;
-    
-    * {
-      box-sizing: inherit;
-    }
+    * { box-sizing: inherit; }
   }
+
+  /* ************************************ */
 
   .sr-only {
     position: absolute;
@@ -90,7 +60,7 @@
     border: 0;
   }
 
-  /** CSS UTILITIES - Font related **/
+  /** Font related **/
 
   .f-mono {
     /* font-family: 'Libre Baskerville', serif; */
@@ -211,6 +181,19 @@
     }
   }
 
+  
+  .u-carousel { /* only mobile REVIEW - should delete this? */
+    @media (--max-md) {
+      display: flex;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-behavior: smooth;
+      scroll-snap-type: x mandatory;
+      overflow: scroll;
+      -webkit-overflow-scrolling: touch;
+    }
+  }
+
   /* -------- Animations ------------- */
 
   @keyframes laserOn {
@@ -244,8 +227,4 @@
       opacity: 1;
     }
   }
-
-  /* -------- Media Queries ------- */
-  /* Check postcss.config.js. They're imported there. */
-
 </style>

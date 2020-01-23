@@ -23,18 +23,20 @@ yarn dev # or npm dev
 - **Deploy**: [Netlify](https://www.netlify.com/)
 
 ## What's missing:
-Well... let's say we are 70% done.
+Well... let's say we are 80% done and the other 20% will take 80% of the time.
 
 ### UI/UX
 - [x] Short scroll length of initial morph
 - [x] Finalize animations for Intro (99%)
 - [x] Review "Skills" section overall UX
-- [ ] Pick a theme
-- [ ] Refine final copywriting
+- [x] Light theme
+- [ ] Dark Theme
+- [ ] Refine copywriting
 - [x] Decide footer
 - [x] Decide where to put contacts
 - [x] Refine nav (99%)
 - [ ] Review responsive
+- [ ] Review transitions consistency
 
 ### Development
 - [ ] Add ReduceMotion option
@@ -45,3 +47,4 @@ Well... let's say we are 70% done.
 - [ ] Run Lighthouse
 - [x] Review animations performance
 - [ ] Easter Eggs!?
+- [ ] Review custom properties fallback

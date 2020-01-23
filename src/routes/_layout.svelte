@@ -1,6 +1,6 @@
 <script>
   import HeadMeta from '../components/HeadMeta.svelte';
-  import Theme from '../components/Theme.svelte';
+  import Theme from '../theme/Theme.svelte';
 
 </script>
 

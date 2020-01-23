@@ -14,7 +14,7 @@
   };
   const options = ['sharing', 'writing', 'talking'];
   const colors = ['var(--primary_4)', 'var(--primary_1)', 'var(--primary_2)'];
-  let isOnStage = false; // on viepower or passed the viewport
+  let isOnStage = false; // on viewport or passed the viewport
   let isOnView = false; // on viewport
   // // let isFirstTimeOnStage = true;
   // // let elLed = null;
@@ -33,6 +33,10 @@
     const thisSectionIndex = state.pageSections.indexOf('words');
     const currentSectionIndex = state.pageSections.indexOf(state.pageCurrentSection);
     
+    // if (!prevState.isReady && state.isReady) {
+    //   window.scroll(0, 2000); // FOR DEBUG
+    // }
+
     if (!isOnStage && currentSectionIndex >= thisSectionIndex) {
       // OPTIMIZE - better placement of section on viewport
       isOnStage = true;
@@ -149,77 +153,29 @@
   // }
 </script>
 
-<style>
+<style>  
   $headingWidth: 24rem; /* static content, so it's a luxury to do this. */
   $delayIn0: 200ms;
   $delayIn1: 400ms;
   $delayIn2: 600ms;
   $delayIn3: 750ms;
 
-  .wrapper {
-    position: relative;
-    padding-left: calc((100vw - 90rem + 9rem) / 2);
-    opacity: 0;
-    transition: opacity 150ms ease-out;
-    background-color: var(--bg_0);
-
-    @media(--max-md) {
-      display: none; /* TODO */
-    }
-
-    &.isOnStage {
-      transition: opacity 500ms;
-      opacity: 1;
-    }
-
-      &::before {
-        content: '';
-        display: block;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 25vw;
-        height: 100%;
-        background: linear-gradient(90deg, var(--bg_0), var(--primary_1));
-        opacity: 0.2;
-        transform: translateX(100%);
-        transition: transform 150ms ease-out;
-        display: none; /* REVIEW THIS */ 
-        
-        .isOnStage& {
-          transition: transform 500ms $delayIn1 cubic-bezier(0.0, 0.0, 0.2, 1);
-          transform: translateX(0%);
-        }
-      }
-    }
-  }
 
   .content {
-    position: relative;
-    padding-top: 75vh;
-    padding-bottom: var(--spacer-XL);
-    background-color: var(--bg_0);
+    padding-top: $spacer-XL;
+    padding-bottom: $spacer-XL;
   }
 
   .header {
-    padding-left: 1.5rem;
-    opacity: 0;
-    /* transform: translateY(3rem);
-    transform-origin: 50% 50%; */
-    transition: opacity 150ms 0ms ease-out;
-    /* , transform 150ms ease-out; */
-    margin-bottom: 3rem;
-
-    .isOnStage & {
-      opacity: 1;
-      transform: translateY(0);
-      transition: opacity 500ms $delayIn0 cubic-bezier(0.0, 0.0, 0.2, 1);
-        /* transform 1000ms $delayIn1 cubic-bezier(0.19, 1, 0.22, 1); */
-    }
+    padding-left: $layout-margin;
 
     &Title {
-      font-size: var(--font-heading_2);
+      font-size: calc($font-heading_2 * 0.8);
       margin-bottom: 1rem;
+
+      @media(--max-xs) {
+        font-size: calc($font-heading_2 * 0.7); /* to fit two lines */
+      }
 
       &-part:last-child {
         color: var(--primary_1);
@@ -233,88 +189,85 @@
 
   .card {
     &List {
-      margin-left: -9rem;
-    }
+      padding: $spacer-L $layout-margin;
+      align-items: stretch;
 
+      @media (--max-md) {
+        /* scroll margin on the end */
+        &::after {
+          display: block;
+          width: $layout-margin;
+          height: 10rem;
+          background: var(--bg_0);
+          content: '';
+          scroll-snap-align: end;
+          flex-shrink: 0;
+        }
+      }
+    }
+    
     &Item {
       position: relative;
-      padding: var(--spacer-M);
+      padding: $spacer-XL $spacer-L $spacer-LM;
       background-color: var(--bg_1);
       display: flex;
-      align-items: baseline;
-      width: 90rem;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 26rem;
+      flex-shrink: 0;
+      scroll-snap-align: center;
+
+      @media (--max-xs) {
+        padding-left: $spacer-M;
+        padding-right: $spacer-M;
+        max-width: 72vw; /* to see next card */
+      }
+
+      @media (--max-md) {
+        /* REVIEW DESIGN - HUM... Yes or no?? */
+        box-shadow:
+          inset 0 0 15px rgba(55, 84, 170, 0),
+          inset 0 0 20px rgba(255, 255, 255, 0),
+          10px 10px 18px #d8d8d8,
+          -10px -10px 22px #f7f2f0,
+          inset 0px 0px 4px rgba(255, 255, 255, 0.2);
+      }
 
       &:not(:last-child) {
-        margin-bottom: 1.5rem;
+        margin: 0 $spacer-L 0 0;
       }
-
-      opacity: 0;
-      transition:
-        opacity 150ms 0ms ease-out,
-        transform 150ms ease-out;
-      transform: translateX(20rem);
-
-      .isOnStage & {
-        opacity: 1;
-        transform: translateX(0);
-        transition: opacity 600ms var(--delay, 0) cubic-bezier(0.0, 0.0, 0.2, 1),
-          transform 600ms var(--delay, 0) cubic-bezier(0.0, 0.0, 0.2, 1);
-      }
-
-      .isOnView & {
-        /* TODO/OPTIMIZE - figure out why each item consumes 1Mb GPU memory? */
-      }
-
-      $off: calc(((100vw - 90rem + 9rem) / 2) / 4); /* TODO - holy moly */
-      &::before {
-        content: '';
-        width: calc(100% + $off * 4); /* 4 = nr childs */
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        background-color: var(--bg_1);
-        z-index: -2;
-        transform: translateX(calc($off * -4 + $off * var(--i)));
-        box-shadow: 0.2rem 0.2rem var(--primary_1_lighter);
-       }
-      
-
-      &:nth-child(1) { --i: 1; --delay: $delayIn2; }
-      &:nth-child(2) { --i: 2; --delay: calc($delayIn2 + 200ms); }
-      &:nth-child(3) { --i: 3; --delay: calc($delayIn2 + 400ms); }
-      &:nth-child(4) { --i: 4; --delay: calc($delayIn2 + 600ms); }
-
     }
-  }
-
-  .date {
-    flex-shrink: 0;
-    margin: 0 var(--spacer-L) 0 var(--spacer-M);
-    font-size: var(--font-S);
-    color: var(--text_1);
   }
 
   .title {
-    font-size: var(--font-L2);
-    /* text-transform: capitalize; */
-    margin-bottom: var(--spacer-M);
+    font-size: $font-L2;
+    margin-bottom: $spacer-L;
+  }
+
+  .date {
+    font-size: $font-S;
+    color: var(--text_1);
+    order: -1; /* to appear visually before title, but keep A11Y order */
+    position: absolute;
+    top: calc($spacer-L + $spacer-S);
+    left: auto;
   }
 
   .place {
     &List {
       display: flex;
+      flex-direction: column;
     }
 
     &Item {
-      font-size: var(--font-L);
+      font-size: $font-L;
       display: inline-flex;
       flex-direction: column;
       align-items: flex-start;
       line-height: 1.4;
 
       &:not(:last-child) {
-        margin-right: var(--spacer-L);
+        margin: 0 0 $spacer-M;
       }
     }
 
@@ -324,35 +277,141 @@
       text-decoration: none;
       display: flex;
       align-items: center;
-
-      &:hover,
-      &:focus {
-        outline: none;
-
-        .placeWhere::before {
-          transition-duration: 250ms;
-          transform: scale(1);
-        }
-      }
     }
 
     &Type {
       text-transform: capitalize;
       color: var(--text_1);
-      font-size: var(--font-S);
+      font-size: $font-S;
     }
 
     &Icon {
       width: 1.8rem;
       height: 1.8rem;
-      margin-right: var(--spacer-S);
+      margin-right: $spacer-S;
       opacity: 0.8;
     }
   }
+  
 
-  .footer {
-    text-align: center;
-    transform: translateY(-100%);
+  @media (--md) {
+    $cardW: 90rem;
+    $cardOffset: 9rem;
+
+    .wrapper {
+      position: relative;
+      padding-left: calc((100vw - $cardW + $cardOffset) / 2);
+      opacity: 0;
+      transition: opacity 150ms ease-out;
+      background-color: var(--bg_0);
+
+      &.isOnStage {
+        transition: opacity 500ms;
+        opacity: 1;
+      }
+    }
+
+    .content {
+      position: relative;
+      padding-top: 75vh;
+      background-color: var(--bg_0);
+    }
+
+    .header {
+      padding-left: $spacer-M;
+      margin-bottom: calc($spacer-M * 3);
+      opacity: 0;
+      transition: opacity 150ms 0ms ease-out;
+
+      .isOnStage & {
+        opacity: 1;
+        transition: opacity 500ms $delayIn0 cubic-bezier(0.0, 0.0, 0.2, 1);
+      }
+
+      &Title {
+        font-size: $font-heading_2;
+      }
+    }
+
+    .card {
+      &List {
+        margin-left: calc($cardOffset * -1);
+        padding: 0;
+      }
+
+      &Item {
+        padding: $spacer-M;
+        padding-left: calc($cardOffset + $spacer-M);
+        justify-content: flex-start;
+        width: $cardW;
+
+        &:not(:last-child) {
+          margin: 0 0 $spacer-M;
+        }
+
+        opacity: 0;
+        transition:
+          opacity 150ms 0ms ease-out,
+          transform 150ms ease-out;
+        transform: translateX(20rem);
+
+        .isOnStage & {
+          opacity: 1;
+          transform: translateX(0);
+          transition: opacity 600ms var(--delay, 0) cubic-bezier(0.0, 0.0, 0.2, 1),
+            transform 600ms var(--delay, 0) cubic-bezier(0.0, 0.0, 0.2, 1);
+        }
+
+        /* TODO/OPTIMIZE - Why each item consumes 1Mb GPU memory? */
+        /* .isOnView & {} */
+
+        $cards: 4;
+        $off: calc(((100vw - $cardW + $cardOffset) / 2) / $cards); /* holy moly */
+
+        &::before {
+          content: '';
+          width: calc(100% + $off * $cards);
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 100%;
+          background-color: var(--bg_1);
+          z-index: -2;
+          transform: translateX(calc($off * ($cards * -1) + $off * var(--i)));
+          box-shadow: 0.2rem 0.2rem var(--primary_1_lighter);
+        }
+        
+
+        &:nth-child(1) { --i: 1; --delay: $delayIn2; }
+        &:nth-child(2) { --i: 2; --delay: calc($delayIn2 + 200ms); }
+        &:nth-child(3) { --i: 3; --delay: calc($delayIn2 + 400ms); }
+        &:nth-child(4) { --i: 4; --delay: calc($delayIn2 + 600ms); }
+      }
+    }
+
+    .title {
+      font-size: $font-L2;
+      margin-bottom: $spacer-M;
+    }
+
+    .date {
+      flex-shrink: 0;
+      left: auto;
+      margin-left: calc($spacer-L * -3);
+      margin-top: -2rem; /* REVIEW - by eye */
+    }
+
+    .place {
+      &List {
+        flex-direction: row;
+      }
+
+      &Item {
+        &:not(:last-child) {
+          margin: 0 $spacer-L 0 0;
+        }
+      }
+    }
   }
 </style>
 
@@ -374,27 +433,27 @@
       </h2>
       <p class="headerDescription">Something sweet and short about this.</p>
     </header>
-    <ul class="cardList" aria-label="articles, talks and more">
+    <ul class="cardList u-carousel" aria-label="articles, talks and more">
       {#each words as { title, date, places }, index}
         <li
           class="cardItem">
-          <span class="date">{date}</span>
-          <div>
-            <h3 class="f-mono title">{title}</h3>
-            <ul class="placeList">
-              {#each places as { type, where, link, svg }}
-                <li class="placeItem" style="--place-color: {colorTypes[type] || colorTypes.default}">
-                  <span class="placeType">{type}</span>
-                  <div class="placeLink">
-                    <svg aria-hidden="true" class="placeIcon {svg}">
-                      <use xlink:href="#{svg}" />
-                    </svg>
-                    <a href={link} class="u-link" aria-label="">{where}</a>
-                  </div>
-                </li>
-              {/each}
-            </ul>
-          </div>
+          <h3 class="f-mono title">{title}</h3>
+          <span class="date">
+            <span class="sr-only">Date:</span> {date}
+          </span>
+          <ul class="placeList">
+            {#each places as { type, where, link, svg }}
+              <li class="placeItem" style="--place-color: {colorTypes[type] || colorTypes.default}">
+                <span class="placeType">{type}</span>
+                <div class="placeLink">
+                  <svg aria-hidden="true" class="placeIcon {svg}">
+                    <use xlink:href="#{svg}" />
+                  </svg>
+                  <a href={link} class="u-link" aria-label="">{where}</a>
+                </div>
+              </li>
+            {/each}
+          </ul>
         </li>
       {/each}
     </ul>

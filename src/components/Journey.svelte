@@ -75,7 +75,7 @@
   .heading {
     position: relative;
     height: $headingHeight;
-    font-size: var(--font-heading_3);
+    font-size: $font-heading_3;
 
     &::before {
       /* REVIEW/BUG pixel perfect - blacks are not rendered the same! ... */
@@ -140,7 +140,7 @@
   .text {
     max-width: 48rem;
     margin: -5rem auto 0;
-    font-size: var(--font-L);
+    font-size: $font-L;
     line-height: 1.5;
     color: var(--text_1);
     opacity: 0;
@@ -163,7 +163,7 @@
   }
 
   .p:not(:last-child) {
-    margin-bottom: var(--spacer-L);
+    margin-bottom: $spacer-L;
   }
 </style>
 

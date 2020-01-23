@@ -19,9 +19,9 @@
   $circleSizeHalf: 10rem;
 
   .intro {
-    padding: calc(var(--l-margin)*2) var(--l-margin) 0;
+    padding: calc($layout-margin*2) $layout-margin 0;
     background-color: var(--bg_0);
-    min-height: var(--wHeight);
+    min-height: var(--w-height);
 
     display: flex;
     flex-direction: column;
@@ -36,8 +36,13 @@
   }
 
   .title {
-    font-size: var(--font-heading_2);
-    margin-bottom: var(--spacer-L);
+    /* TODO - centralize this * 0.8 thing */
+    font-size: calc($font-heading_2 * 0.8);
+    margin-bottom: $spacer-M;
+
+    @media(--md) {
+      font-size: $font-heading_2;
+    }
 
     &-char {
       opacity: 0;
@@ -63,19 +68,27 @@
   }
 
   .text {
-    font-size: var(--font-L2);
+    font-size: $font-M;
     max-width: 44rem;
     opacity: 0;
     animation: laserOn 750ms calc($titleTempo + 50ms * $titleChars) steps(8) forwards;
 
+    @media(--md) {
+      font-size: $font-L2;
+    }
+
     &:nth-of-type(2) {
-      margin-top: var(--spacer-M);
-      max-width: 31rem;
+      margin-top: $spacer-M;
+      max-width: 24rem;
+
+      @media(--md) {
+        max-width: 31rem;
+      }
     }
   }
 
   .animation {
-    margin-top: var(--spacer-M);
+    margin-top: $spacer-M;
     position: relative;
     opacity: 0;
     animation: fadeIn 1000ms calc($titleTempo + 50ms * $titleChars) forwards;
@@ -83,9 +96,10 @@
 
   @media (--md) {
     .intro {
-      padding: 0 0 0 var(--l-margin);
+      padding: 0 0 0 $layout-margin;
       width: 100vw;
       height: 100vh;
+      min-height: auto;
       flex-direction: row;
       align-items: center;
       justify-content: flex-start;
@@ -93,7 +107,7 @@
     }
 
     .content {
-      width: calc(50vw - var(--l-margin) - $circleSizeHalf);
+      width: calc(50vw - $layout-margin - $circleSizeHalf);
       margin-bottom: 15vh;
       flex-grow: 0;
     }
@@ -112,9 +126,13 @@
       {/each}
     </h1>
     <p class="text">
-      Let me introduce you to someone who helps to turn ideas into accessible experiences.
+      Let me introduce you to someone who helps
+      to turn ideas into accessible experiences.
     </p>
-    <p class="text">Her name is Sandrina Pereira and she’s a UX Engineer.</p>
+    <p class="text">
+      Her name is Sandrina Pereira
+      and she’s a UX Engineer.
+    </p>
   </div>
   <div class="animation">
     <CircleComposition />

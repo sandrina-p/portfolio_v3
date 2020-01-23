@@ -172,7 +172,7 @@
 
   .pContent {
     position: relative;
-    padding: var(--spacer-M) var(--l-margin);
+    padding: $spacer-M $layout-margin;
     display: flex;
     align-items: center;
     overflow-x: auto;
@@ -184,8 +184,8 @@
   }
 
   .title {
-    font-size: var(--font-heading_2);
-    width: var(--title-w);
+    font-size: calc($font-heading_2 * 0.8);
+    width: var(--title-w, 100%);
     flex-shrink: 0;
     scroll-snap-align: center;
 
@@ -195,8 +195,8 @@
   }
 
   .pBox {
-    padding: var(--spacer-M) 10vw;
-    margin-left: calc((100% - var(--title-w)) - 10vw + var(--spacer-M)); /* to show only the edge */
+    padding: $layout-margin;
+    margin-left: calc((100% - var(--title-w, 100%)) - $layout-margin); /* to show only the edge */
     width: 100vw;
     flex-shrink: 0;
     scroll-snap-align: center;
@@ -204,15 +204,21 @@
     &-text {
       display: block;
       margin: auto;
-      width: var(--text-w);
+      width: var(--text-w, 100%);
       max-width: 40rem;
       background: var(--bg_1);
-      padding: var(--spacer-L);
-      font-size: var(--font-L);
+      padding: $spacer-L;
+      font-size: $font-M;
+      box-shadow: /* TODO REVIEW DESIGN here too same as words */
+        inset 0 0 15px rgba(55, 84, 170, 0),
+        inset 0 0 20px rgba(255, 255, 255, 0),
+        10px 10px 18px #d8d8d8,
+        -10px -10px 22px #f7f2f0,
+        inset 0px 0px 4px rgba(255, 255, 255, 0.2);
 
       &-par:not(:last-child) {
         display: block;
-        margin-bottom: var(--spacer-M);
+        margin-bottom: $spacer-M;
       }
 
       :global(strong) {
@@ -227,14 +233,15 @@
     position: absolute;
     bottom: 0;
     left: 100vw;
-    transform: translateX(calc(($width + var(--l-margin)) * -1));
+    transform: translateX(calc(($width + $layout-margin) * -1));
     white-space: nowrap;
-    font-size: var(--font-L);
+    font-size: $font-M;
+    color: var(--text_1);
 
     &::after {
       content: '';
       display: block;
-      width: calc($width + var(--l-margin));
+      width: calc($width + $layout-margin);
       height: 1px;
       background-color: var(--primary_1);
     }
@@ -330,13 +337,14 @@
 
   <div class="part pWolf">
     <!-- NOTE: activelLevel logic changes based on layout variant -->
+     <!-- OPTIMIZE: Find a more readable way for this nes-nes-ted ternary -->
     <Echo
       activeLevel={
         currentPart === 'WOLF'
           ? isOnWolfMax ? 2 : 1
           : currentPart === 'PEOPLE'
             ? 3
-            : currentPart === 'FINALLE' ? 4 : -1 } /> <!-- OPTIMIZE: Find a more readable way for this nes-nes-ted ternary -->
+            : currentPart === 'FINALLE' ? 4 : -1 } />
     <div class="pContent">
       <h3 class="f-mono title" data-part="WOLF" bind:this={elWolf} style={styleClip.WOLF}>
         <span class="title-part" aria-label="From a lone wolf to a team player">

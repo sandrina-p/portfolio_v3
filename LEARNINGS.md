@@ -41,6 +41,9 @@ Here's a list of my learnings while building this website. When I release the we
   - look out for overlapping animations, avoid when possible. (ex: site intro)
   - reduce size using scale() whenever possible. (ex: echo)
   - look out for fixed elements, remove useless paddings / width / hight around.
+  - use `visibility: hidden` to hide animations out of viewport - watch out to not hide text!
+- Reminder: 100vh is evil on mobile. But JS can save us here...
+- 📝 Use SCSS or CSS Variables? - TLDR: they complement each other.
 
 ## Accessibility
 

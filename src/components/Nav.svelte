@@ -70,10 +70,6 @@
   }
 
   function getHorizonOffset(wHeight) {
-    if(!$matchMq.md) {
-      return 0 // there's no horizon, it's all vertical.
-    }
-
     // It means Values is still rendering...
     if (!document.getElementById('nav_valuesEnd')) return;
 
@@ -96,9 +92,10 @@
   }
 
   function setNavigationData() {
+    const isDesktop = $matchMq.md;
     const wWidth = $_window.innerWidth;
     const wHeight = $_window.innerHeight;
-    const horizonOffset = getHorizonOffset(wHeight);
+    const horizonOffset = isDesktop ? getHorizonOffset(wHeight) : wHeight/-2;
 
     navPivots = $strGeneral.pageSections.map(section => {
       if (section === 'intro') {
@@ -106,20 +103,21 @@
       }
 
       const elSection = document.getElementById(section);
-      const sectionTop = elSection.getBoundingClientRect().top;
+      // TODO remove 99999 after finish responsive stuff 
+      const sectionTop = elSection.getBoundingClientRect().top || 999999999;
 
       return {
         name: section,
         y: Math.round(horizonOffset + sectionTop),
         // on nav click, use this offset to show the section in a better position.
-        offset: (elSection.getAttribute('data-section-offset') || 0)/100 * wHeight,
+        offset: isDesktop ? (elSection.getAttribute('data-section-offset') || 0)/100 * wHeight : 0,
       };
     });
 
     isCalculated = true;
 
     dispatch('calculated', {
-			horizonSpace: `${horizonOffset + Math.round(wWidth / 2)}px`,
+			horizonSpace: isDesktop ? `${horizonOffset + Math.round(wWidth / 2)}px` : 0,
 		});
   }
 
@@ -156,9 +154,13 @@
 <style>
   .nav {
     position: fixed;
-    top: var(--spacer-L);
-    right: var(--spacer-M);
+    top: $spacer-L;
+    right: $spacer-M;
     z-index: 5; /* above everything */
+
+    @media (--max-md) {
+      outline: 1px dashed red; /* TODO */
+    }
   }
 
   .links {
@@ -166,13 +168,13 @@
       display: flex;
       margin: 0;
       padding: 0;
-      font-size: var(--font-M);
+      font-size: $font-M;
     }
 
     &Item {
       margin: 0;
       padding: 0;
-      margin: 0 var(--spacer-M) 0 0;
+      margin: 0 $spacer-M 0 0;
 
       /* decorative animation */
       &::before,

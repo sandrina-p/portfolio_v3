@@ -265,9 +265,22 @@
     border-radius: var(--radius, 50%);
     transform: translate(calc(var(--scrollY) - 50%), -50%);
     /* TODO - speed up this when going to FINALLE */
-    transition: width 400ms ease-in-out, height 400ms ease-in-out;
-    will-change: width, height; /* I'm sorry... */
+    transition:
+      width 400ms ease-in-out,
+      height 400ms ease-in-out,
+      visibility 0ms 400ms; /* time for any leaving animation */
+    will-change: width, height; /* I'm sorry */
     z-index: 1;
+
+    visibility: hidden; /* reduce GPU*/
+
+    .isOnStage & {
+      visibility: visible;
+      transition:
+        width 400ms ease-in-out,
+        height 400ms ease-in-out,
+        visibility 0ms 0ms;
+    }
 
     &.isMorphing {
       transition: width 50ms ease-out, height 50ms ease-out; /* reduce color glitch when scrolling backward too fast */
@@ -313,7 +326,7 @@
   }
 
   .title {
-    font-size: var(--font-heading_2);
+    font-size: $font-heading_2;
     margin-right: 75vw; /* white space is everything */
   }
 
@@ -325,7 +338,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: var(--spacer-XL);
+    padding: $spacer-XL;
     z-index: 1;
     pointer-events: none;
     opacity: 0;
@@ -358,7 +371,7 @@
 
       &-par:not(:last-child) {
         display: block;
-        margin-bottom: var(--spacer-M);
+        margin-bottom: $spacer-M;
       }
 
       :global(strong) {
