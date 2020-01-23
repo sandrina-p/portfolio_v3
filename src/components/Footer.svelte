@@ -203,8 +203,8 @@
     }
 
     /* Save GPU memory (+4Mb caused by nice ::before effect :/) */
-    visibility: hidden;
-    &.isCardOnView { visibility: visible; }
+    /* visibility: hidden; */ /* REVIEW THIS! FIND ANOTHER WHAY */
+    &.isCardOnView { /* visibility: visible; */ }
 
     &Child {
       &:nth-child(1) {

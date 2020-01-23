@@ -153,13 +153,6 @@
 
 <style>
   .container {
-    transition: visibility 0ms 1000ms; /* time for any leaving animation */
-
-    &.isOnStage {
-      transition: visibility 0ms 0ms;
-      visibility: visible;
-    }
-
     @media(--md) {
       display: none; /* ValuesHorizon will replace it */
     }

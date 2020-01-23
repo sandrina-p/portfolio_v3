@@ -172,23 +172,24 @@
       opacity: 1;
     }
 
-    &::before {
-      content: '';
-      display: block;
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 25vw;
-      height: 100%;
-      background: linear-gradient(90deg, var(--bg_0), var(--primary_1));
-      opacity: 0.2;
-      transform: translateX(100%);
-      transition: transform 150ms ease-out;
-      display: none; /* REVIEW THIS */ 
-      
-      .isOnStage& {
-        transition: transform 500ms $delayIn1 cubic-bezier(0.0, 0.0, 0.2, 1);
-        transform: translateX(0%);
+      &::before {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 25vw;
+        height: 100%;
+        background: linear-gradient(90deg, var(--bg_0), var(--primary_1));
+        opacity: 0.2;
+        transform: translateX(100%);
+        transition: transform 150ms ease-out;
+        display: none; /* REVIEW THIS */ 
+        
+        .isOnStage& {
+          transition: transform 500ms $delayIn1 cubic-bezier(0.0, 0.0, 0.2, 1);
+          transform: translateX(0%);
+        }
       }
     }
   }
@@ -248,11 +249,9 @@
       }
 
       opacity: 0;
-      visibility: hidden;
       transition:
         opacity 150ms 0ms ease-out,
-        transform 150ms ease-out,
-        visibility 0ms 150ms;
+        transform 150ms ease-out;
       transform: translateX(20rem);
 
       .isOnStage & {
@@ -263,8 +262,7 @@
       }
 
       .isOnView & {
-        /* OPTIMIZE - figure out why each item consumes 1Mb GPU memory? */
-        visibility: visible;
+        /* TODO/OPTIMIZE - figure out why each item consumes 1Mb GPU memory? */
       }
 
       $off: calc(((100vw - 90rem + 9rem) / 2) / 4); /* TODO - holy moly */

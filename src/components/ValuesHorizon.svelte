@@ -246,16 +246,9 @@
   .container {
     display: flex;
     align-items: center;
-    visibility: hidden;
-    transition: visibility 0ms 1000ms; /* time for any leaving animation */
-
-    &.isOnStage {
-      transition: visibility 0ms 0ms;
-      visibility: visible;
-    }
 
     @media(--max-md) {
-      display: none; /* ValuesVertical will replace it */
+      display: none; /* ValuesVertical will replace this */
     }
   }
 
@@ -336,16 +329,14 @@
     z-index: 1;
     pointer-events: none;
     opacity: 0;
-    visibility: hidden;
 
     :global(.jsGoOn) & {
       /* TIL [1] only apply opacity on client side, to avoid transition (1 to 0) on first render */
-      transition: opacity 150ms 0ms ease-out, visibility 0ms 150ms;
+      transition: opacity 150ms 0ms ease-out;
     }
 
     &.isActive {
       opacity: 1;
-      visibility: visible;
       transition: opacity 600ms 350ms cubic-bezier(0.19, 1, 0.22, 1);
       pointer-events: auto;
     }

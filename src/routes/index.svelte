@@ -1,6 +1,5 @@
 <script>
   import { onMount, beforeUpdate, afterUpdate } from 'svelte';
-  import Loadable from 'svelte-loadable'
   import Intro from '../components/Intro.svelte';
   import ValuesVertical from '../components/ValuesVertical.svelte';
   import Words from '../components/Words.svelte';
