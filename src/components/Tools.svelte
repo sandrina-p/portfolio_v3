@@ -36,7 +36,7 @@
     const currentSectionIndex = state.pageSections.indexOf(state.pageCurrentSection);
     
     // if (!prevState.isReady && state.isReady) {
-    //   setTimeout(()=> window.scrollTo(0, 8500), 0)
+    //   window.scroll(0, 2500); // FOR DEBUG
     // }
 
     if (!isOnStage && currentSectionIndex >= prevSectionIndex) {
@@ -52,13 +52,13 @@
   });
 
   function updateFromTop(elTop = elTitle.getBoundingClientRect().top) {
-    fromTop = fromTop || elTop + window.scrollY;
+    fromTop = elTop + window.scrollY;
   }
 
   function verifyAnimations() {
     console.log('scrolling skills...');
     const scrollY = window.scrollY;
-    const offset = wHeight / 4;
+    const offset = wHeight / 3;
     const closeToTop = wHeight - (fromTop - scrollY + offset);
     const translate = limit - (fromTop - scrollY + offset);
     const perc = closeToTop / limit;
@@ -75,7 +75,6 @@
 
     const watchTitle = ([entry]) => {
       if (entry.isIntersecting) {
-        // OPTIMIZE - convert this to scrollPivot and create package.
         updateFromTop(entry.boundingClientRect.top)
         window.addEventListener('scroll', verifyAnimations);
       } else {
@@ -105,7 +104,7 @@
 
 <style>
   .wrapper {
-    min-height: 100vh;
+    min-height: 150vh; /* REVIEW this after footer is responsive */
     overflow: hidden;
     padding-top: 33vh;
     padding-bottom: 33vh;
@@ -114,10 +113,6 @@
 
     &.uAppear {
       background-color: var(--bg_invert);
-    }
-
-    @media(--max-md) {
-      display: none; /* TODO */
     }
   }
 
@@ -130,14 +125,15 @@
 
     &Title {
       position: relative;
-      font-size: $font-heading_0;
+      font-size: calc($font-heading_1 * 0.8);
       color: transparent;
+      outline: 1px dashed orange;
       transform-origin: 50% 0%;
-      -webkit-text-stroke: 2px var(--text_1);
+      -webkit-text-stroke: 0.1rem var(--text_1);
       opacity: var(--progressN, 0);
       transform:
-        scale(var(--progressN))
-        translateY(var(--progressY));
+        scale(var(--progressN, 1))
+        translateY(var(--progressY, 0));
       will-change: transform;
       transition: text-shadow 150ms; 
 
@@ -154,6 +150,7 @@
     }
 
     &Desc {
+      padding: $spacer-S $layout-margin;
       color: var(--text_invert);
     }
   }
@@ -171,27 +168,27 @@
 
   .tab {
     &List {
-      text-align: center;
-      margin: $spacer-L 0;
-      margin-top: $spacer-XL;
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      z-index: 1; /* to be above tools */
+      margin: $spacer-MS 0;
+      width: 100vw;
+      overflow: auto;
+      z-index: 1; /* to be above stars */
     }
 
     &Item {
       position: relative;
-      display: inline-block;
       font-size: $font-L;
       font-weight: 500;
       border: none;
       cursor: pointer;
       color: var(--text_invert);
       padding: $spacer-S $spacer-M;
-      margin-bottom: $spacer-L;
+      margin: 0 $spacer-M $spacer-M;
       background: transparent;
-      width: 14rem;
+      white-space: nowrap;
+      flex-shrink: 0;
+      width: 33vw;
+      max-width: 20rem;
 
       &::before {
         content: '';
@@ -225,39 +222,21 @@
           transition: transform 400ms cubic-bezier(0.28, 0.67, 0, 1.29);
         }
       }
-
-      opacity: 0;
-      transform: translateY(1rem);
-      transition: opacity 150ms ease-out, transform 150ms ease-out;
-
-      .uAppear & {
-        opacity: 1;
-        transform: translateY(0);
-        transition:
-          opacity 1000ms var(--delay) cubic-bezier(0.0, 0.0, 0.2, 1),
-          transform 1000ms var(--delay) cubic-bezier(0.19, 1, 0.22, 1);
-
-        $time: 75ms;
-
-        &:nth-child(1) { --delay: calc(200ms + $time*1); }
-        &:nth-child(2) { --delay: calc(200ms + $time*2); }
-        &:nth-child(3) { --delay: calc(200ms + $time*3); }
-      }
     }
   }
 
   .tools {
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
     display: flex;
     flex-wrap: wrap;
     height: 28rem; /* static list content */
     flex-direction: column;
-    margin-top: $spacer-XL;
     transform-origin: 50% 0;
     line-height: 1;
+
+    @media(--max-md) {
+      outline: 2px dashed red; /* TODO this */
+    }
 
     &Item {
       position: relative;
@@ -439,6 +418,61 @@
         transition-timing-function: $animate-bounce;
         transform: scale(1);
       }
+    }
+  }
+
+  @media (--md) {
+    .wrapper {
+      min-height: 100vh;
+    }
+
+    .header {
+      &Title {
+        font-size: $font-heading_0;
+      }
+
+      &Desc {
+        padding: 0;
+      }
+    }
+
+    .tab {
+      &List {
+        margin: $spacer-XL $spacer-M;
+        flex-direction: column;
+        align-items: center;
+        width: auto;
+      }
+
+      &Item {
+        width: 14rem;
+        margin: 0 0 $spacer-L;
+
+        opacity: 0;
+        transform: translateY(1rem);
+        transition: opacity 150ms ease-out, transform 150ms ease-out;
+
+        .uAppear & {
+          opacity: 1;
+          transform: translateY(0);
+          transition:
+            opacity 1000ms var(--delay) cubic-bezier(0.0, 0.0, 0.2, 1),
+            transform 1000ms var(--delay) cubic-bezier(0.19, 1, 0.22, 1);
+
+          $time: 75ms;
+
+          &:nth-child(1) { --delay: calc(200ms + $time*1); }
+          &:nth-child(2) { --delay: calc(200ms + $time*2); }
+          &:nth-child(3) { --delay: calc(200ms + $time*3); }
+        }
+      }
+    }
+
+    .tools {
+      position: absolute;
+      top: 0;
+      left: 0;
+      margin-top: $spacer-XL;
     }
   }
 

@@ -67,8 +67,9 @@
     --rotate: -4deg;
     background-color: var(--bg_0);
 
+    /* TODO MOBILE */
     @media(--max-md) {
-      display: none; /* TODO */
+      display: none;
     }
   }
 

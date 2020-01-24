@@ -37,8 +37,12 @@ function updateResponsiveData() {
 }
 
 function handleResize() {
-  updateResponsiveData();
-  afterResponsiveUpdateCb();
+  // Don't trigger on mobile when the only diff is height (because of scrolling)
+  // REVIEW TODO - Do this better...
+  if (window.innerWidth !== $_window.innerWidth) {
+    updateResponsiveData();
+    afterResponsiveUpdateCb();
+  }
 }
 
 export function initResponsive(options) {

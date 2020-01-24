@@ -33,9 +33,6 @@
     const thisSectionIndex = state.pageSections.indexOf('words');
     const currentSectionIndex = state.pageSections.indexOf(state.pageCurrentSection);
     
-    // if (!prevState.isReady && state.isReady) {
-    //   window.scroll(0, 2000); // FOR DEBUG
-    // }
 
     if (!isOnStage && currentSectionIndex >= thisSectionIndex) {
       // OPTIMIZE - better placement of section on viewport
@@ -163,7 +160,6 @@
 
   .content {
     padding-top: $spacer-XL;
-    padding-bottom: $spacer-XL;
   }
 
   .header {
@@ -218,9 +214,8 @@
       scroll-snap-align: center;
 
       @media (--max-xs) {
-        padding-left: $spacer-M;
-        padding-right: $spacer-M;
-        max-width: 72vw; /* to see next card */
+        padding: $spacer-LM $spacer-M $spacer-L;
+        max-width: 72vw; /* so next card is visible */
       }
 
       @media (--max-md) {
@@ -251,6 +246,11 @@
     position: absolute;
     top: calc($spacer-L + $spacer-S);
     left: auto;
+
+    @media (--max-xs) {
+      top: $spacer-MS;
+      max-width: 72vw; /* so next card is visible */
+    }
   }
 
   .place {
@@ -313,7 +313,7 @@
 
     .content {
       position: relative;
-      padding-top: 75vh;
+      padding: 75vh 0 $spacer-XL;
       background-color: var(--bg_0);
     }
 

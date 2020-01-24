@@ -23,6 +23,7 @@
   let ValuesHorizon = null;
 
   onMount(async () => {
+    setRIC();
     initResponsive();
     browserClasses = getBrowsers();
     await verifyLayoutVariant();
@@ -54,8 +55,6 @@
       const module = await import('../components/ValuesHorizon.svelte');
       ValuesHorizon = module.default;
 
-
-      setRIC();
       monitorizeScrollSpeed();
       window.addEventListener('scroll', handleScroll);
     }

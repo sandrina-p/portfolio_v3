@@ -97,7 +97,7 @@
     const wHeight = $_window.innerHeight;
     const horizonOffset = isDesktop ? getHorizonOffset(wHeight) : wHeight/-2;
 
-    navPivots = $strGeneral.pageSections.map(section => {
+    const newNavPivots = $strGeneral.pageSections.map(section => {
       if (section === 'intro') {
         return { name: 'intro', y: 0 };
       }
@@ -114,6 +114,8 @@
       };
     });
 
+    navPivots = newNavPivots;
+    console.log(newNavPivots)
     isCalculated = true;
 
     dispatch('calculated', {
