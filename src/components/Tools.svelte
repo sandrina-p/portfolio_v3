@@ -127,7 +127,6 @@
       position: relative;
       font-size: calc($font-heading_1 * 0.8);
       color: transparent;
-      outline: 1px dashed orange;
       transform-origin: 50% 0%;
       -webkit-text-stroke: 0.1rem var(--text_1);
       opacity: var(--progressN, 0);
@@ -136,6 +135,10 @@
         translateY(var(--progressY, 0));
       will-change: transform;
       transition: text-shadow 150ms; 
+
+      @media(--max-md) {
+        outline: 1px dashed orange;
+      }
 
       .uAppear & {
         will-change: unset;
@@ -538,7 +541,7 @@
   class:uAppear={isVisible}
   class:uAppearSoon={!isVisible}
   id="skills"
-  data-section-offset="5">
+  data-section-offset-h="5">
   <header class="header" style="--colorTabSelected: {colorTypes[tabSelected]};">
     <h2 class="headerTitle f-mono" bind:this={elTitle} style='--progressN: {progressN}; --progressY: {progressY}'>skills</h2>
     <p class="headerDesc uAppear-0">Take a sneak peek on <a href={GITHUB_URL} class="u-link invert">Github</a> and <a href={CODEPEN_URL} class="u-link invert">Codepen</a></p>

@@ -95,7 +95,9 @@
     const isDesktop = $matchMq.md;
     const wWidth = $_window.innerWidth;
     const wHeight = $_window.innerHeight;
-    const horizonOffset = isDesktop ? getHorizonOffset(wHeight) : wHeight/-2;
+    const horizonOffset = isDesktop ? getHorizonOffset(wHeight) : -wHeight;
+    // use this offset to show the section in a better position.
+    const dataSection = isDesktop ? 'data-section-offset-h' : 'data-section-offset-v';
 
     const newNavPivots = $strGeneral.pageSections.map(section => {
       if (section === 'intro') {
@@ -109,8 +111,7 @@
       return {
         name: section,
         y: Math.round(horizonOffset + sectionTop),
-        // on nav click, use this offset to show the section in a better position.
-        offset: isDesktop ? (elSection.getAttribute('data-section-offset') || 0)/100 * wHeight : 0,
+        offset: (elSection.getAttribute(dataSection) || 0)/100 * wHeight
       };
     });
 
@@ -159,10 +160,6 @@
     top: $spacer-L;
     right: $spacer-M;
     z-index: 5; /* above everything */
-
-    @media (--max-md) {
-      outline: 1px dashed red; /* TODO */
-    }
   }
 
   .links {
@@ -171,6 +168,11 @@
       margin: 0;
       padding: 0;
       font-size: $font-M;
+
+      @media (--max-md) {
+        outline: 1px dashed red; /* TODO */
+        font-size: $font-S;
+      }
     }
 
     &Item {

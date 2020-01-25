@@ -114,35 +114,33 @@
 </script>
 
 <style>
-  $cardW: 70rem; /* static content luxuries */
-  $cardH: 30rem;
+  $cardW: 100%; /* static content luxuries */
+  $cardH: auto;
 
   .footer {
     position: relative;
     padding: 0 $spacer-M;
     min-height: 200vh;
-    /* padding-top: 25vh; */
-    /* overflow: hidden; */
     background-color: var(--bg_0);
-
-    @media(--max-md) {
-      display: none; /* TODO */
-    }
   }
 
   .title,
   .card {
     position: sticky;
     top: 50vh;
+
+    @media(--max-md) {
+      outline: 3px outline red;
+    }
   }
 
   .title {
     display: block;
-    width: 42rem; /* static content luxuries - reduce gpu usage */
+    width: calc(100vw - $layout-margin);
     font-size: $font-heading_3;
     line-height: 1em;
-    margin-left: calc(50vw - ($cardW/2));
-    transform: translate(var(--titleProgress, 100vw), calc($cardH/-2 - 0.6em));
+    /* margin-left: calc(50vw - ($cardW/2));
+    transform: translate(var(--titleProgress, 100vw), calc($cardH/-2 - 0.6em)); */
     z-index: 2; /* above card */
     margin-bottom: -2em; /* fake position: absolute, 2em = 2 lines */
 
@@ -182,12 +180,12 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    width: $cardW;
-    height: $cardH;
+    width: 100%;
+    height: auto;
     padding: $spacer-L;
     background-color: var(--bg_1);
     margin: calc(50vw + ($cardW/2)) auto 0;
-    transform: translateY(calc($cardH/-2));
+    transform: translateY(-50%); /*hum..*/
 
     &::before {
       content: '';
@@ -206,7 +204,7 @@
     /* visibility: hidden; */ /* REVIEW THIS! FIND ANOTHER WHAY */
     &.isCardOnView { /* visibility: visible; */ }
 
-    &Child {
+    /* &Child {
       &:nth-child(1) {
         flex-basis: 50%;
         margin-right: $spacer-M;
@@ -216,7 +214,7 @@
         flex-grow: 1;
         text-align: center;
       }
-    }
+    } */
   }
 
   .cardChild,
@@ -297,6 +295,36 @@
     }
   }
 
+  @media (--md) {
+    $cardW: 70rem; /* static content luxuries */
+    $cardH: 30rem;
+
+    .title {
+      width: 42rem; /* static content luxuries - reduce gpu usage */
+      margin-left: calc(50vw - ($cardW/2));
+      transform: translate(var(--titleProgress, 100vw), calc($cardH/-2 - 0.6em));
+    }
+
+    .card {
+      width: $cardW;
+      height: $cardH;
+      margin: calc(50vw + ($cardW/2)) auto 0;
+      transform: translateY(calc($cardH/-2));
+
+      &Child {
+        &:nth-child(1) {
+          flex-basis: 50%;
+          margin-right: $spacer-M;
+        }
+
+        &:nth-child(2) {
+          flex-grow: 1;
+          text-align: center;
+        }
+      }
+    }
+  }
+
   @keyframes rotate {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
@@ -308,7 +336,7 @@
   class:isVisible
   bind:this={elFooter}
   id="contact"
-  data-section-offset="100"
+  data-section-offset-h="100"
   style="height: {footerHeight}px; --thingSize: {progress}; --titleProgress: {titleProgress}; --cardProgress: {cardProgress};">
  
   <h3 class="title f-mono">

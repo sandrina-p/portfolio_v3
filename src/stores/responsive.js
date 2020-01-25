@@ -8,7 +8,7 @@ This is, its values (width, height, etc...) are automatically updated when a res
 - Add options (read below)
 */
 
-import { readable, writable } from 'svelte/store';
+import { get, readable, writable } from 'svelte/store';
 import debounce from 'lodash/debounce';
 import breakpoints from '../theme/breakpoints';
 
@@ -22,7 +22,10 @@ let afterResponsiveUpdateCb = () => true;
 const afterResponsiveUpdate = fn => (afterResponsiveUpdateCb = fn);
 
 function updateResponsiveData() {
-  _window.update(() => window);
+  _window.update(() => ({
+    innerHeight: window.innerHeight,
+    innerWidth: window.innerWidth,
+  }));
 
   matchMq.update(() => {
     const qs = {};
@@ -37,12 +40,17 @@ function updateResponsiveData() {
 }
 
 function handleResize() {
-  // Don't trigger on mobile when the only diff is height (because of scrolling)
-  // REVIEW TODO - Do this better...
-  if (window.innerWidth !== $_window.innerWidth) {
-    updateResponsiveData();
-    afterResponsiveUpdateCb();
+  const preW = get(_window);
+  if (window.innerWidth === preW.innerWidth) {
+    const diffHeight = Math.abs(window.innerHeight - preW.innerHeight);
+    if (diffHeight < 50) {
+      // OPTIMIZE - Do this better?
+      // Probably was a resize on mobile (while scrolling and toolbar did hide)... so ignore this for now.
+      return;
+    }
   }
+  updateResponsiveData();
+  afterResponsiveUpdateCb();
 }
 
 export function initResponsive(options) {
@@ -75,15 +83,6 @@ export {
   _window,
   /* A callback to be runned on resize, *after* _window update. */
   afterResponsiveUpdate,
-  /* An object with mediaqueries matches catched. */
+  /* An object with mediaqueries matches cached. */
   matchMq,
-
-  /* ROADMAP:
-    mediaIs, // current bp (breakpoint) (md, lg, etc...),
-    media // Object with bps if they do match or not { md: true, lg: false } 
-    mediaUntil // Object with bps if they do match or not { md: false, lg: true } 
-    /ex:
-    mediaIs.md // false if width is 699px
-    media.lg // true if at least '1000px' width.
-  */
 };

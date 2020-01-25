@@ -419,7 +419,7 @@
   class:isOnStage
   class:isOnView
   id="words"
-  data-section-offset="50">
+  data-section-offset-h="50">
   <div class="content">
     <header class="header">
       <h2 class="f-mono headerTitle" data-io="heading" aria-label="She has been sharing">

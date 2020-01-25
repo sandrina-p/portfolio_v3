@@ -22,6 +22,10 @@
       animation = initAnimations();
     }
 
+    if (!prevState.isReady && state.isReady) {
+      window.scroll(0, 4000); // FOR DEBUG
+    }
+
     if (prevPageSection !== pageSection && pageSection === 'journey') {
       animation.verify();
     }
@@ -57,8 +61,9 @@
 </script>
 
 <style>
-  $headingHeight: 40rem; /* space for text even when rotated */
-  $headingWidth: 70rem;
+  $sectionWidth: 48rem;
+  $headingHeight: 25rem; /* space for text even when rotated */
+  $maskWidth: 120vw;
   $paddingTop: 25vh;
 
   .wrapper {
@@ -66,17 +71,14 @@
     padding-top: $paddingTop;
     --rotate: -4deg;
     background-color: var(--bg_0);
-
-    /* TODO MOBILE */
-    @media(--max-md) {
-      display: none;
-    }
+    max-width: 100%;
+    overflow: hidden; /* for the rotating header */
   }
 
   .heading {
     position: relative;
     height: $headingHeight;
-    font-size: $font-heading_3;
+    font-size: calc($font-heading_3 * 0.6);
 
     &::before {
       /* REVIEW/BUG pixel perfect - blacks are not rendered the same! ... */
@@ -91,19 +93,19 @@
 
     &Slide {
       display: block;
-      width: $headingWidth;
+      width: $sectionWidth;
       color: var(--text_invert);
       position: absolute;
       bottom: 0.2em;
       left: 0;
-      transform: translate(calc(100vw - 50%), calc(3em - 3em * var(--progress)));
+      transform: translate(calc($maskWidth/2 - 50%), calc(3em - 3em * var(--progress)));
     }
 
     &Fixed {
       position: absolute;
-      width: $headingWidth;
+      width: $sectionWidth;
       white-space: nowrap;
-      top: calc(20rem + 0.2em);
+      top: calc($headingHeight/2 + 0.2em);
       left: 50%;
       color: var(--primary_1);
       transform: translate(-50%, -2em) rotate(var(--rotate));
@@ -124,12 +126,16 @@
     overflow: hidden; /* to avoid scroll from rotate element */
     height: $headingHeight;
 
+    @media(--max-md) {
+      outline: 3px dashed red;
+    }
+
     &Rotate {
       position: absolute;
       background-color: var(--bg_invert);
-      top: -20rem; /* to cover the bg from the rotate */
-      left: -50vw; /* to make it centered based on 200vw */
-      width: 200vw;
+      top: calc($headingHeight / -2); /* to cover the bg from the rotate */
+      left: calc(($maskWidth - 100vw) / -2); /* to make it centered based on width */
+      width: $maskWidth;
       height: 100%;
       transform-origin: 50% 100%;
       transform: rotate(calc(var(--rotate) * var(--progress)));
@@ -139,9 +145,10 @@
   }
 
   .text {
-    max-width: 48rem;
-    margin: -5rem auto 0;
-    font-size: $font-L;
+    width: $sectionWidth;
+    max-width: 100vw;
+    padding: 0 $layout-margin;
+    margin: 0 auto;
     line-height: 1.5;
     color: var(--text_1);
     opacity: 0;
@@ -165,6 +172,25 @@
 
   .p:not(:last-child) {
     margin-bottom: $spacer-L;
+  }
+
+  @media (--md) {
+    .heading {
+      /* position: relative;
+      height: $headingHeight; */
+      font-size: $font-heading_3;
+
+      /* &Slide,
+      &Fixed {
+        width: $sectionWidth;
+        top: calc($headingHeight + 0.2em);
+      } */
+    }
+
+    .text {
+      padding: 0;
+      font-size: $font-L;
+    }
   }
 </style>
 
