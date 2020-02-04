@@ -184,6 +184,7 @@
   
   .u-carousel { /* only mobile REVIEW - should delete this? */
     @media (--max-md) {
+      width: 100vw;
       display: flex;
       overflow-x: auto;
       overflow-y: hidden;
@@ -192,6 +193,12 @@
       overflow: scroll;
       -webkit-overflow-scrolling: touch;
     }
+  }
+
+  .u-carousel-item {
+    position: relative;
+    flex-shrink: 0;
+    scroll-snap-align: center;
   }
 
   /* -------- Animations ------------- */

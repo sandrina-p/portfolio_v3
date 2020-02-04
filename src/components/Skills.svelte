@@ -2,7 +2,7 @@
   import { onMount, afterUpdate } from 'svelte';
   import tools from '../data/tools';
   import { getInLimit } from '../utils';
-  import { _window } from '../stores/responsive.js';
+  import { _window, matchMq } from '../stores/responsive.js';
   import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
   import { GITHUB_URL, CODEPEN_URL, SITE_REPO } from '../data/misc.js';
 
@@ -26,6 +26,18 @@
   let isOnStage;
   let progressN = 0;
   let progressY = 0;
+  const sortByLevel = (() => {
+    console.warn('Building Skills')
+    const lists = Array.from(Array(Object.keys(tools.lists).length), () => []);
+
+    for(let tool of tools.tools) {
+      tool.list.forEach(listID => {
+        return lists[listID - 1].push(tool)
+      })
+    }
+
+    return lists
+  })()
 
   afterGeneralUpdate((prevState, state) => {
     const prevPageSection = prevState.pageCurrentSection;
@@ -104,7 +116,7 @@
 
 <style>
   .wrapper {
-    min-height: 150vh; /* REVIEW this after footer is responsive */
+    min-height: 120vh; /* REVIEW this after footer is responsive */
     overflow: hidden;
     padding-top: 33vh;
     padding-bottom: 4rem;
@@ -176,6 +188,7 @@
       width: 100vw;
       overflow: auto;
       z-index: 1; /* to be above stars */
+      overflow: hidden; /* dont show scrollbar during entry animations */
     }
 
     &Item {
@@ -548,39 +561,64 @@
   </header>
   
   <div class="main">
-    <div class="tabList uAppear-0" aria-label="Skill types">
-      {#each Object.keys(tools.lists) as id}
-        {#if showExtraBtn(id)}
-          <button
-            class="tabItem"
-            style="--colorType: {colorTypes[id]}"
-            aria-pressed={tabSelected === id}
-            on:click={() => updateList(id)}>
-            {tools.lists[id]}
-          </button>
-        {/if}
-      {/each}
-    </div>
-    <ul class="tools uAppear-3" class:noGravity role="tabpanel">
-      {#each tools.tools as { name, list, url }}
-        <li
-          class="toolsItem"
-          class:isActive={list.includes(tabSelected)}
-          aria-hidden={!list.includes(tabSelected)}
-          on:click={() => (!list.includes(tabSelected) ? updateList(list[0]) : true)}
-          style="--colorType: {colorTypes[list[0]]}">
-          <span class="pointOrbite">
-            <span class="pointRotate">
-              <span class="pointStar" />
-            </span>
-          </span>
-          {#if !url}
-            <span class="toolsItemText">{name}</span>
-          {:else}
-            <a class="toolsItemText u-link" href={url}>{name}</a>
+    {#if $matchMq.md} 
+      <div class="tabList uAppear-0" aria-label="Skill types">
+        {#each Object.keys(tools.lists) as id}
+          {#if showExtraBtn(id)}
+            <button
+              class="tabItem"
+              style="--colorType: {colorTypes[id]}"
+              aria-pressed={tabSelected === id}
+              on:click={() => updateList(id)}>
+              {tools.lists[id]}
+            </button>
           {/if}
-        </li>
-      {/each}
-    </ul>
+        {/each}
+      </div>
+      <ul class="tools uAppear-3" class:noGravity role="tabpanel">
+        {#each tools.tools as { name, list, url }}
+          <li
+            class="toolsItem"
+            class:isActive={list.includes(tabSelected)}
+            aria-hidden={!list.includes(tabSelected)}
+            on:click={() => (!list.includes(tabSelected) ? updateList(list[0]) : true)}
+            style="--colorType: {colorTypes[list[0]]}">
+            <span class="pointOrbite">
+              <span class="pointRotate">
+                <span class="pointStar" />
+              </span>
+            </span>
+            {#if !url}
+              <span class="toolsItemText">{name}</span>
+            {:else}
+              <a class="toolsItemText u-link" href={url}>{name}</a>
+            {/if}
+          </li>
+        {/each}
+      </ul>
+    {:else}
+      <div class="u-carousel uAppear-0" style="width: 100%;">
+        {#each sortByLevel as level, lvlIndex}
+          <ul class="u-carousel-item" style="width: 26rem; outline: 1px dashed red;">
+            {#each level as { name, list, url }}
+              <li
+                class="toolsItem isActive"
+                style="--colorType: {colorTypes[lvlIndex + 1]}; white-space: nowrap">
+                <span class="pointOrbite">
+                  <span class="pointRotate">
+                    <span class="pointStar" />
+                  </span>
+                </span>
+                {#if !url}
+                  <span class="toolsItemText">{name}</span>
+                {:else}
+                  <a class="toolsItemText u-link" href={url}>{name}</a>
+                {/if}
+              </li>
+           {/each}
+          </ul>
+        {/each}
+      </div>
+    {/if}
   </div>
 </section>

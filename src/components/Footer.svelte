@@ -199,8 +199,14 @@
       pointer-events: none;
     }
 
-    &Child:nth-child(2) {
-      margin-top: $spacer-M;
+    &Child {
+      &:nth-child(1) {
+        flex-grow: 1;
+      }
+
+      &:nth-child(2) {
+        margin-top: $spacer-M;
+      }
     }
 
     /* Save GPU memory (+4Mb caused by nice ::before effect :/) */
