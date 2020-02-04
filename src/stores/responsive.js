@@ -31,7 +31,7 @@ const _windowUnsubscribe = _window.subscribe(value => {
 let afterResponsiveUpdateCb = () => true;
 const afterResponsiveUpdate = fn => (afterResponsiveUpdateCb = fn);
 
-function updateResponsiveData() {
+function updateResponsiveData({ doCb = true } = {}) {
   const getState = () => ({ matchMq: matchMqState, _window: _windowState });
   const prevState = getState();
   _window.update(() => ({
@@ -51,7 +51,10 @@ function updateResponsiveData() {
   });
 
   const state = getState();
-  afterResponsiveUpdateCb(prevState, state);
+
+  if (doCb) {
+    afterResponsiveUpdateCb(prevState, state);
+  }
 }
 
 function handleResize() {
@@ -64,7 +67,6 @@ function handleResize() {
       return;
     }
   }
-  const prevState = { _window, matchMq };
   updateResponsiveData();
 }
 
@@ -83,7 +85,7 @@ export function initResponsive(options) {
 
   privateIsCalculated = true;
 
-  updateResponsiveData();
+  updateResponsiveData({ doCb: false });
   isCalculated.update(() => true);
   window.addEventListener('resize', debounceResize);
 }

@@ -34,8 +34,8 @@ Well... let's say we are 80% done and the other 20% will take 80% of the time.
 - [ ] Refine copywriting
 - [x] Decide footer
 - [x] Decide where to put contacts
-- [x] Refine nav (99%)
-- [ ] Review responsive
+- [x] Refine nav (90%)
+- [ ] Review responsive (70%)
 - [ ] Review transitions consistency
 
 ### Development

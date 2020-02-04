@@ -121,7 +121,6 @@
     });
 
     navPivots = newNavPivots;
-    console.log(newNavPivots)
     isCalculated = true;
 
     dispatch('calculated', {
