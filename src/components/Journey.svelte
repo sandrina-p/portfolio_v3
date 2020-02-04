@@ -22,9 +22,9 @@
       animation = initAnimations();
     }
 
-    if (!prevState.isReady && state.isReady) {
-      window.scroll(0, 4000); // FOR DEBUG
-    }
+    // if (!prevState.isReady && state.isReady) {
+    //   window.scroll(0, 4000); // FOR DEBUG
+    // }
 
     if (prevPageSection !== pageSection && pageSection === 'journey') {
       animation.verify();

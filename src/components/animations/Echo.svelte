@@ -140,6 +140,27 @@ export let activeLevel;
         animation-play-state: paused;
       }
     }
+
+    @media (--max-md) {
+      .echos:not(.isRect) & {
+        &:nth-child(1) { --scale: 1.5; }
+        &:nth-child(2) { --scale: 2.2; }
+        &:nth-child(3) { --scale: 3; }
+      }
+
+      .isRect & {
+        &:nth-child(1) { --t_y: -2rem; --t_x: -6rem; }
+        &:nth-child(2) { --t_y: -3rem; --t_x: 4rem; }
+        &:nth-child(3) { --t_y: 0rem; --t_x: -5rem; }
+      }
+
+      .isGone & {
+        transition:
+          transform 250ms ease-in-out,
+          visibility 0ms 350ms;
+        --scale: 0;
+      }
+    }
   }
 
   @keyframes live {

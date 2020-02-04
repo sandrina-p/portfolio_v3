@@ -51,8 +51,8 @@
     }
   });
 
-  function updateFromTop(elTop = elTitle.getBoundingClientRect().top) {
-    fromTop = elTop + window.scrollY;
+  function updateFromTop(elTop) {
+    fromTop = fromTop || (elTop || elTitle.getBoundingClientRect().top) + window.scrollY;
   }
 
   function verifyAnimations() {
@@ -133,8 +133,9 @@
       transform:
         scale(var(--progressN, 1))
         translateY(var(--progressY, 0));
-      will-change: transform;
-      transition: text-shadow 150ms; 
+      /* will-change: transform; */
+      transition: transform 100ms ease,
+        text-shadow 150ms; 
 
       @media(--max-md) {
         outline: 1px dashed orange;

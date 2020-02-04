@@ -118,7 +118,7 @@
     .horizonSpace {
       position: relative;
       margin-top: var(--marginTop, 100vh);
-      height: 1px; /* to make margin work */
+      height: 1px; /* so --marginTop works */
     }
   }
 </style>

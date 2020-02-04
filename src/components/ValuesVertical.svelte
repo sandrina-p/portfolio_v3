@@ -3,7 +3,7 @@
   import { getInLimit, getIOstatusVertical } from '../utils';
   import { _window, afterResponsiveUpdate } from '../stores/responsive.js';
   import { strDabox, updateDabox } from '../stores/dabox.js';
-  import { updateCircle } from '../stores/circle.js';
+  import { updateCircle, strCircle } from '../stores/circle.js';
   import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
   import Dots from './animations/Dots.svelte';
   import Gelly from './animations/Gelly.svelte';
@@ -65,35 +65,44 @@
     animations && animations.pause();
   })
 
+  afterUpdate(() => {
+    const isPaused = $strCircle.isPaused;
+    const includesParts = ['MORPH', 'DOTS'].includes(currentPart);
+
+    if (!isPaused && !includesParts) {
+      updateCircle({ isPaused: true })
+    } else if (isPaused && includesParts) {
+      updateCircle({ isPaused: false })
+    }
+  })
+
 
   afterGeneralUpdate((prevState, state) => {
-    // TODO - Handle THIS....
-    
-    // const prevPageSection = prevState.pageCurrentSection;
-    // const pageSection = state.pageCurrentSection;
+    const prevPageSection = prevState.pageCurrentSection;
+    const pageSection = state.pageCurrentSection;
 
-    // if (prevPageSection === pageSection) {
-    //   return false;
-    // }
+    if (prevPageSection === pageSection) {
+      return false;
+    }
 
-    // // Pause animations in case user scrolled beyond intro
-    // if (pageSection !== 'intro') {
-    //   if(currentPart !== 'FINALLE') {
-    //     currentPart = 'FINALLE';
-    //     animations.pause();
-    //   }
-    //   return;
-    // }
+    // Pause animations in case user scrolled beyond intro
+    if (pageSection !== 'intro') {
+      if (currentPart !== 'FINALLE') {
+        currentPart = 'FINALLE';
+        animations.pause();
+      }
+      return;
+    }
     
-    // if(window.scrollY === 0) { // a.k.a triggered by navigation link
-    //   currentPart = 'MORPH';
-    //   // verifyMetamorphose();
-    //   animations.continue(true);
-    // } else {
-    //   currentPart = 'PEOPLE';
-    //   animations.continue(false);
-    // }
+    if(window.scrollY === 0) { // a.k.a triggered by navigation link
+      currentPart = 'MORPH';
+      animations.continue(true);
+    } else {
+      currentPart = 'PEOPLE';
+      animations.continue(false);
+    }
   });
+
 
   function initAnimations() {
     const getNextPart = {
@@ -137,7 +146,6 @@
 
     function pause() {
       observer.disconnect();
-      // window.removeEventListener('scroll', clipHandles[lastPart])
     }
 
     start();
@@ -153,9 +161,10 @@
 
 <style>
   .container {
-    @media(--md) {
-      display: none; /* ValuesHorizon will replace it */
-    }
+    padding-top: 25vh;
+
+    /* ValuesHorizon will replace it */
+    @media(--md) { display: none; }
   }
 
   .dabox,
@@ -210,11 +219,11 @@
       padding: $spacer-L;
       font-size: $font-M;
       box-shadow: /* TODO REVIEW DESIGN here too same as words */
-        inset 0 0 15px rgba(55, 84, 170, 0),
-        inset 0 0 20px rgba(255, 255, 255, 0),
-        10px 10px 18px #d8d8d8,
-        -10px -10px 22px #f7f2f0,
-        inset 0px 0px 4px rgba(255, 255, 255, 0.2);
+        /* inset 0 0 15px rgba(55, 84, 170, 0),
+        inset 0 0 20px rgba(255, 255, 255, 0), */
+        10px 10px 18px #d8d8d8;
+        /* -10px -10px 22px #f7f2f0, */
+        /* inset 0px 0px 4px rgba(255, 255, 255, 0.2); */
 
       &-par:not(:last-child) {
         display: block;
@@ -253,7 +262,7 @@
   }
 
   .pAsk {
-    --title-w: 35rem;
+    --title-w: 28rem;
   }
 
   .pWolf {
@@ -340,8 +349,7 @@
      <!-- OPTIMIZE: Find a more readable way for this nes-nes-ted ternary -->
     <Echo
       activeLevel={
-        currentPart === 'WOLF'
-          ? isOnWolfMax ? 2 : 1
+        currentPart === 'WOLF' ? 2
           : currentPart === 'PEOPLE'
             ? 3
             : currentPart === 'FINALLE' ? 4 : -1 } />

@@ -95,7 +95,7 @@
     const isDesktop = $matchMq.md;
     const wWidth = $_window.innerWidth;
     const wHeight = $_window.innerHeight;
-    const horizonOffset = isDesktop ? getHorizonOffset(wHeight) : -wHeight;
+    const horizonOffset = isDesktop ? getHorizonOffset(wHeight) : -wHeight*0.5;
     // use this offset to show the section in a better position.
     const dataSection = isDesktop ? 'data-section-offset-h' : 'data-section-offset-v';
 

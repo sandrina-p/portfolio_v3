@@ -10,7 +10,7 @@
     left: calc(var(--scrollY) + 60vw);
     width: 40rem;
     height: 30rem;
-    transform: translate3d(-50%, 0, 0) scale(var(--scale));
+    transform: translate3d(-50%, 0, 0) scale(var(--scale, 0));
     transform-origin: 0 100%;
     visibility: hidden;
     pointer-events: none;
@@ -38,9 +38,9 @@
     height: 100%;
     background-color: var(--primary_1);
     box-shadow:
-      inset 119px 45px 65px var(--primary_1_darker),
-      inset -33px 108px 88px #fffc00,
-      inset -104px -89px 45px #00fff7;
+        inset 12rem 4.5rem 6.5rem var(--primary_1_darker),
+        inset -3rem 11rem 8rem #fffc00,
+        inset -10rem -90rem 4.5rem #00fff7;
     opacity: 0.1;
     animation:
       gelly 30s alternate-reverse infinite ease-in-out,

@@ -10,9 +10,12 @@ export let isActive;
     width: 100%;
     left: 0;
     top: 0;
-    z-index: 1;
     pointer-events: none;
     visibility: hidden;
+
+    @media(--md) {
+      z-index: 1;
+    }
 
     &.isActive {
       visibility: visible;
@@ -102,6 +105,15 @@ export let isActive;
       --size: 2rem; --top: 80%; --left: 46%; --opacity: 0.6;
       --rotate: 20deg;
       animation-delay: -2s;
+    }
+
+    @media (--max-md) {
+      &:nth-child(1) { --top: 17%; --left: 76%; }
+      &:nth-child(3) { --top: 40%; --left: 88%; }
+      &:nth-child(4) { display: none; }
+      &:nth-child(5) { --top: 30%; }
+      &:nth-child(6) { --top: 61%; --left: 12%; }
+      &:nth-child(7) { --top: 50%; --left: 40%; }
     }
   }
 
