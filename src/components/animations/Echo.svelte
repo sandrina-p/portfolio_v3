@@ -156,7 +156,7 @@ export let activeLevel;
 
       .isGone & {
         transition:
-          transform 250ms ease-in-out,
+          transform 500ms ease-in-out,
           visibility 0ms 350ms;
         --scale: 0;
       }

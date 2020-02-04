@@ -79,6 +79,7 @@
     position: relative;
     height: $headingHeight;
     font-size: calc($font-heading_3 * 0.6);
+    margin-bottom: -4rem;
 
     &::before {
       /* REVIEW/BUG pixel perfect - blacks are not rendered the same! ... */
@@ -91,9 +92,14 @@
       background-color: var(--bg_invert);
     }
 
+    &Slide,
+    &Fixed {
+      width: $sectionWidth;
+      max-width: calc(100vw - $layout-margin*2);
+    }
+
     &Slide {
       display: block;
-      width: $sectionWidth;
       color: var(--text_invert);
       position: absolute;
       bottom: 0.2em;
@@ -103,7 +109,6 @@
 
     &Fixed {
       position: absolute;
-      width: $sectionWidth;
       white-space: nowrap;
       top: calc($headingHeight/2 + 0.2em);
       left: 50%;
@@ -125,10 +130,6 @@
     width: 100vw;
     overflow: hidden; /* to avoid scroll from rotate element */
     height: $headingHeight;
-
-    @media(--max-md) {
-      outline: 3px dashed red;
-    }
 
     &Rotate {
       position: absolute;
@@ -179,6 +180,7 @@
       /* position: relative;
       height: $headingHeight; */
       font-size: $font-heading_3;
+      margin-bottom: 0;
 
       /* &Slide,
       &Fixed {

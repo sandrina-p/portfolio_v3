@@ -74,7 +74,7 @@
       // Create illusion of infinite scroll 🔮
       // You may run a lot but you'll always be close to home.
       if(scrollYpivot > footerHeight - figSize) {
-        window.scrollTo(0, titleScrollPivot + titleGoal);
+        window.scrollTo(0, titleScrollPivot + titleGoal + 50); /* 50 workaround on mobile*/
       }
     }
 
@@ -116,10 +116,11 @@
 <style>
   $cardW: 100%; /* static content luxuries */
   $cardH: auto;
+  $cardTop: 11.5rem; /* by eye */
 
   .footer {
     position: relative;
-    padding: 0 $spacer-M;
+    padding: $cardTop $spacer-M 0;
     min-height: 200vh;
     background-color: var(--bg_0);
   }
@@ -127,22 +128,18 @@
   .title,
   .card {
     position: sticky;
-    top: 50vh;
-
-    @media(--max-md) {
-      outline: 3px outline red;
-    }
   }
 
   .title {
+    top: 10rem; /* by eye */
     display: block;
-    width: calc(100vw - $layout-margin);
-    font-size: $font-heading_3;
+    width: 28rem; /* static content luxuries - reduce gpu usage */
+    padding-left: $spacer-M;
     line-height: 1em;
-    /* margin-left: calc(50vw - ($cardW/2));
-    transform: translate(var(--titleProgress, 100vw), calc($cardH/-2 - 0.6em)); */
+    font-size: calc($font-heading_3 * 0.6);
     z-index: 2; /* above card */
-    margin-bottom: -2em; /* fake position: absolute, 2em = 2 lines */
+    /* REVIEW/TODO make this pixel perfect */
+    margin-bottom: -1.5em; /* fake position: absolute for sticky, 2em = 2 lines */
 
     &-part {
       display: block;
@@ -153,7 +150,7 @@
         transition: transform 150ms ease-out;
 
         .isVisible & {
-          transform: translateY(-1em) scale(0.5);
+          transform: translateY(-1em) scale(0.7);
           transition:
             transform 1000ms cubic-bezier(0.19, 1, 0.22, 1);
         }
@@ -177,15 +174,16 @@
   }
 
   .card {
+    top: $cardTop;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
+    justify-content: center;
     width: 100%;
     height: auto;
-    padding: $spacer-L;
+    padding: $spacer-L $spacer-M $spacer-M;
     background-color: var(--bg_1);
-    margin: calc(50vw + ($cardW/2)) auto 0;
-    transform: translateY(-50%); /*hum..*/
+    margin: 0 auto;
 
     &::before {
       content: '';
@@ -198,23 +196,26 @@
       z-index: -1; /* be bellow text */
       transform: scale(var(--cardProgress)); 
       transform-origin: 50% 0;
+      pointer-events: none;
+    }
+
+    &Child:nth-child(2) {
+      margin-top: $spacer-M;
     }
 
     /* Save GPU memory (+4Mb caused by nice ::before effect :/) */
     /* visibility: hidden; */ /* REVIEW THIS! FIND ANOTHER WHAY */
     &.isCardOnView { /* visibility: visible; */ }
+  }
 
-    /* &Child {
-      &:nth-child(1) {
-        flex-basis: 50%;
-        margin-right: $spacer-M;
-      }
-
-      &:nth-child(2) {
-        flex-grow: 1;
-        text-align: center;
-      }
-    } */
+  @media (--max-xs) {
+    .title {
+      padding-left: 1.4rem;
+    }
+    .card {
+      padding-right: 1.4rem;
+      padding-left: 1.4rem;
+    }
   }
 
   .cardChild,
@@ -233,7 +234,7 @@
   }
 
   .text {
-    font-size: $font-L;
+    font-size: $font-M;
     margin-bottom: $spacer-M;
 
     &Line {
@@ -241,26 +242,10 @@
     }
   }
 
-  .credits {
-    position: absolute;
-    bottom: -2em;
-    left: 0;
-    width: 100%;
-    text-align: center;
-    z-index: -2;
-    transform: translateY(-2rem);
-    color: var(--text_1);
-    font-size: $font-S;
-
-    .isVisible & {
-      transition-delay: 500ms;
-    }
-  }
-
   .thing {
     display: inline-block;
-    width: 20rem;
-    height: 20rem;
+    width: 14rem;
+    height: 14rem;
     animation: rotate 50s linear infinite;
     animation-play-state: paused;
 
@@ -295,19 +280,56 @@
     }
   }
 
+  .credits {
+    position: absolute;
+    bottom: -2em;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    z-index: -2;
+    transform: translateY(-2rem);
+    color: var(--text_1);
+    font-size: $font-S;
+
+    .isVisible & {
+      transition-delay: 500ms;
+    }
+  }
+
   @media (--md) {
     $cardW: 70rem; /* static content luxuries */
     $cardH: 30rem;
 
+    .footer {
+      padding-top: 0;
+
+    }
+    .title,
+    .card {
+      top: 50vh;
+    }
+
     .title {
       width: 42rem; /* static content luxuries - reduce gpu usage */
+      padding-left: 0;
       margin-left: calc(50vw - ($cardW/2));
+      font-size: $font-heading_3;
       transform: translate(var(--titleProgress, 100vw), calc($cardH/-2 - 0.6em));
+      margin-bottom: -2em; /* fake position: absolute for sticky, 2em = 2 lines */
+
+      &-part {
+        &:first-child {
+          .isVisible & {
+            transform: translateY(-1em) scale(0.5);
+          }
+        }
+      }
     }
 
     .card {
       width: $cardW;
       height: $cardH;
+      padding: $spacer-L;
       margin: calc(50vw + ($cardW/2)) auto 0;
       transform: translateY(calc($cardH/-2));
 
@@ -320,8 +342,18 @@
         &:nth-child(2) {
           flex-grow: 1;
           text-align: center;
+          margin-top: 0;
         }
       }
+    }
+
+    .text {
+      font-size: $font-L;
+    }
+
+    .thing {
+      width: 20rem;
+      height: 20rem;
     }
   }
 

@@ -3,7 +3,7 @@
   import Intro from '../components/Intro.svelte';
   import ValuesVertical from '../components/ValuesVertical.svelte';
   import Words from '../components/Words.svelte';
-  import Tools from '../components/Tools.svelte';
+  import Skills from '../components/Skills.svelte';
   import Journey from '../components/Journey.svelte';
   import Footer from '../components/Footer.svelte';
   import Nav from '../components/Nav.svelte';
@@ -134,7 +134,7 @@
 </div>
 <div class="horizonSpace" style="--marginTop: {horizonSpace}"></div>
 <Words />
-<Tools />
+<Skills />
 <Journey />
 <Footer />
 <SvgSprite />

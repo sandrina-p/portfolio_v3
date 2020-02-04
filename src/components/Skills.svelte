@@ -35,9 +35,9 @@
     const prevSectionIndex = state.pageSections.indexOf('words');
     const currentSectionIndex = state.pageSections.indexOf(state.pageCurrentSection);
     
-    // if (!prevState.isReady && state.isReady) {
-    //   window.scroll(0, 2500); // FOR DEBUG
-    // }
+    if (!prevState.isReady && state.isReady) {
+      // window.scroll(0, 2500); // FOR DEBUG
+    }
 
     if (!isOnStage && currentSectionIndex >= prevSectionIndex) {
       isOnStage = true;
@@ -107,12 +107,16 @@
     min-height: 150vh; /* REVIEW this after footer is responsive */
     overflow: hidden;
     padding-top: 33vh;
-    padding-bottom: 33vh;
+    padding-bottom: 4rem;
     background-color: var(--bg_0);
     transition: background-color 400ms cubic-bezier(0.19, 1, 0.22, 1);
 
     &.uAppear {
       background-color: var(--bg_invert);
+    }
+
+    @media (--md) {
+      padding-bottom: 33vh;
     }
   }
 
@@ -133,13 +137,8 @@
       transform:
         scale(var(--progressN, 1))
         translateY(var(--progressY, 0));
-      /* will-change: transform; */
       transition: transform 100ms ease,
         text-shadow 150ms; 
-
-      @media(--max-md) {
-        outline: 1px dashed orange;
-      }
 
       .uAppear & {
         will-change: unset;
