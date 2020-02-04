@@ -62,6 +62,7 @@
   });
 
   onDestroy(() => {
+    isMount = false;
     animations && animations.pause();
   })
 
@@ -78,6 +79,7 @@
 
 
   afterGeneralUpdate((prevState, state) => {
+    if (!isMount) { return false };
     const prevPageSection = prevState.pageCurrentSection;
     const pageSection = state.pageCurrentSection;
 

@@ -18,10 +18,22 @@ const _window = writable(null);
 const matchMq = writable({});
 const isCalculated = writable(false);
 
+let matchMqState;
+let _windowState;
+
+const matchMqUnsubscribe = matchMq.subscribe(value => {
+  matchMqState = value;
+});
+const _windowUnsubscribe = _window.subscribe(value => {
+  _windowState = value;
+});
+
 let afterResponsiveUpdateCb = () => true;
 const afterResponsiveUpdate = fn => (afterResponsiveUpdateCb = fn);
 
 function updateResponsiveData() {
+  const getState = () => ({ matchMq: matchMqState, _window: _windowState });
+  const prevState = getState();
   _window.update(() => ({
     innerHeight: window.innerHeight,
     innerWidth: window.innerWidth,
@@ -37,6 +49,9 @@ function updateResponsiveData() {
 
     return qs;
   });
+
+  const state = getState();
+  afterResponsiveUpdateCb(prevState, state);
 }
 
 function handleResize() {
@@ -49,8 +64,8 @@ function handleResize() {
       return;
     }
   }
+  const prevState = { _window, matchMq };
   updateResponsiveData();
-  afterResponsiveUpdateCb();
 }
 
 export function initResponsive(options) {
@@ -81,7 +96,10 @@ export {
   // QUESTION: How to make it read-only to the outside?
   */
   _window,
-  /* A callback to be runned on resize, *after* _window update. */
+  /* A callback to be runned on resize, *after* _window update. 
+  NOTE/BUG: This cb is called even after the component is destroyed.
+  I need to figure how to fix that. Until then make sure to return earlier
+  on the component if it's not mounted. (ex: ValuesHorizon) */
   afterResponsiveUpdate,
   /* An object with mediaqueries matches cached. */
   matchMq,

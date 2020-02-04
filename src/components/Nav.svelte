@@ -35,7 +35,12 @@
     }
   });
 
-  afterResponsiveUpdate(async () => {
+  afterResponsiveUpdate((prevState, state) => {
+    if(prevState.matchMq.md !== state.matchMq.md) {
+      console.warn('Changing between desktop to mobile!')
+      /* Make sure Values and Navigation data are resetted correctly. */
+      window.scroll(0, 0);
+    }
     setTimeout(() => {
       // HACK: wait for values layout to mount (in case it changed)
       setNavigationData();
