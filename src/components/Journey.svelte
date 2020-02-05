@@ -68,7 +68,7 @@
 
   .wrapper {
     position: relative;
-    padding-top: $paddingTop;
+    padding-top: 0;
     --rotate: -4deg;
     background-color: var(--bg_0);
     max-width: 100%;
@@ -176,6 +176,9 @@
   }
 
   @media (--md) {
+    .wrapper {
+      padding-top: $paddingTop;
+    }
     .heading {
       /* position: relative;
       height: $headingHeight; */

@@ -157,11 +157,6 @@
   $delayIn2: 600ms;
   $delayIn3: 750ms;
 
-
-  .content {
-    padding-top: $spacer-XL;
-  }
-
   .header {
     padding-left: $layout-margin;
 

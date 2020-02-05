@@ -2,110 +2,118 @@ import { SITE_REPO } from './misc.js';
 
 export default {
   lists: {
-    '1': 'rocking',
-    '2': 'had fun',
-    '3': 'curious',
-    '4': 'made me',
+    '0': 'rocking',
+    '1': 'had fun',
+    '2': 'curious',
+    '3': 'made me',
   },
   tools: [
     {
-      name: 'Accessibility',
-      list: ['1', '4'],
+      name: 'React',
+      list: ['0'],
+    },
+    {
+      name: 'Redux',
+      list: ['0'],
+    },
+
+    {
+      name: 'Vue',
+      list: ['1'],
+    },
+    {
+      name: 'Svelte',
+      list: ['1', '3'],
+    },
+
+    {
+      name: 'PostCSS',
+      list: ['0', '3'],
+    },
+    {
+      name: 'SCSS',
+      list: ['0'],
     },
     {
       name: 'CSS-in-JS',
+      list: ['1'],
+    },
+
+    {
+      name: 'React Native',
+      list: ['1'],
+    },
+    {
+      name: 'WebGL',
       list: ['2'],
     },
     {
-      name: 'Cypress',
-      list: ['2', '4'],
-    },
-    {
-      name: 'Enzyme',
-      list: ['1'],
-    },
-    {
-      name: 'Figma',
-      list: ['2', '4'],
-    },
-    {
-      name: 'Git',
-      list: ['1'],
-    },
-    {
-      name: 'Jest',
-      list: ['1'],
-    },
-    {
-      name: 'Netlify',
-      list: ['4'],
-    },
-    {
       name: 'NodeJS',
-      list: ['3'],
-    },
-    {
-      name: 'Parcel',
-      list: ['4'],
-    },
-    {
-      name: 'PostCSS',
-      list: ['1', '4'],
-    },
-    {
-      name: 'React',
-      list: ['1'],
-    },
-    {
-      name: 'React Native',
       list: ['2'],
     },
     {
       name: 'ReasonML',
-      list: ['3'],
-    },
-    {
-      name: 'Redux',
-      list: ['1'],
-    },
-
-    {
-      name: 'SEO',
-      list: ['1'],
-    },
-    {
-      name: 'SCSS',
       list: ['2'],
     },
 
     {
-      name: 'Svelte',
-      list: ['2', '4'],
+      name: 'Jest',
+      list: ['0'],
+    },
+    {
+      name: 'Enzyme',
+      list: ['0'],
+    },
+    {
+      name: 'Cypress',
+      list: ['1', '3'],
     },
     {
       name: 'Testing Library',
+      list: ['2'],
+    },
+
+    {
+      name: 'Git',
+      list: ['0'],
+    },
+    {
+      name: 'Netlify',
       list: ['3'],
     },
+
     {
-      name: 'VueJS',
-      list: ['2'],
-    },
-    {
-      name: 'Webpack',
-      list: ['2'],
-    },
-    {
-      name: 'WebGL',
+      name: 'Parcel',
       list: ['3'],
-    },
-    {
-      name: 'Gulp',
-      list: ['2'],
     },
     {
       name: `I'm on Github!`,
-      list: ['4'],
+      list: ['3'],
       url: SITE_REPO,
     },
+
+    {
+      name: 'Webpack',
+      list: ['1'],
+    },
+    {
+      name: 'Gulp',
+      list: ['1'],
+    },
+    {
+      name: 'SEO',
+      list: ['0'],
+    },
+    {
+      name: 'Figma',
+      list: ['1', '3'],
+    },
+
+    // This one is tricky. This isn't a tool/skill.
+    // It's a requirement... Uhh a new tweet for today!
+    // {
+    //   name: 'Accessibility',
+    //   list: ['0', '3'],
+    // },
   ],
 };

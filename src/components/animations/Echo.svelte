@@ -107,6 +107,7 @@ export let activeLevel;
     .isRect & {
       transition:
         transform 450ms ease-in-out,
+        opacity 450ms ease-in-out,
         clip-path 450ms ease-in-out;
 
       --gut: 0rem; 
@@ -142,6 +143,12 @@ export let activeLevel;
     }
 
     @media (--max-md) {
+      &.isActive {
+        &:nth-child(1) { --delayOpacity: 250ms }
+        &:nth-child(2) { --delayOpacity: 450ms }
+        &:nth-child(3) { --delayOpacity: 700ms }
+      }
+
       .echos:not(.isRect) & {
         &:nth-child(1) { --scale: 1.5; }
         &:nth-child(2) { --scale: 2.2; }
@@ -155,10 +162,9 @@ export let activeLevel;
       }
 
       .isGone & {
-        transition:
-          transform 500ms ease-in-out,
+        transition: opacity 500ms ease-in-out,
           visibility 0ms 350ms;
-        --scale: 0;
+        opacity: 0;
       }
     }
   }

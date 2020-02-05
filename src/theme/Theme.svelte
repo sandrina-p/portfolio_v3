@@ -8,6 +8,7 @@
     --bg_0: #f8f3ef; /* #f4f4f4; /* #0d1722;*/
     --bg_1: #fff; /* #000000; */
     --bg_invert: #1b1b1b;
+    --bg_invert_transparent: #1b1b1b00; /* for safari... */
 
     /* put this color at meta theme-color */
     --primary_1: #9b78de; /* #9072ff; /*#52e9d0; /* #59b9a3; /* #fb6177; */

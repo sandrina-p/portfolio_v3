@@ -163,7 +163,8 @@
 
 <style>
   .container {
-    padding-top: 25vh;
+    padding-top: 25vw;
+    padding-bottom: $spacer-XL;
 
     /* ValuesHorizon will replace it */
     @media(--md) { display: none; }
