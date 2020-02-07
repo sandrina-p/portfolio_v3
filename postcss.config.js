@@ -19,6 +19,7 @@ module.exports = {
       },
     },
     'postcss-for': {},
+    'postcss-mixins': {},
     'postcss-random': { round: true },
     'postcss-nested': {},
     'postcss-simple-vars': {

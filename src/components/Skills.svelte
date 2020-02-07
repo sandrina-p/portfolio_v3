@@ -44,7 +44,7 @@
     
     if (!prevState.isReady && state.isReady) {
       // setTimeout(() => {
-      //   window.scroll(0, 8000); // FOR DEBUG
+      //   window.scroll(0, 9500); // FOR DEBUG
       // }, 150)
     }
 
@@ -105,7 +105,7 @@
 
   function showExtraBtn(id) {
     /* EASTER_EGG - show "made me" when all 3 lists are viewed */
-    return id !== '4' || Object.keys(interactedWith).length >= 3;
+    return id !== '3' || Object.keys(interactedWith).length >= 3;
   }
 </script>
 
@@ -150,11 +150,6 @@
       .uAppear & {
         -webkit-text-stroke: initial;
         color: var(--text_invert);
-        /* TIL: fake opacity without opacity */
-        text-shadow:
-          0 0 4.5rem var(--bg_invert),
-          0 0 4.5rem var(--bg_invert),
-          0 0 3.5rem var(--colorTabSelected);
       }
     }
 
@@ -164,8 +159,8 @@
     }
   }
 
-  /* -- Tools -- */
   .main {
+    position: relative;
     max-width: 90rem;
     margin: 0 auto;
     position: relative;
@@ -173,300 +168,10 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-  }
-
-  .tab {
-    &List {
-      display: flex;
-      flex-direction: column;
-      margin-top: $spacer-XL;
-      z-index: 1; /* to be above stars */
-      overflow: hidden; /* dont show scrollbar during entry animations */
-    }
-
-    &Item {
-      position: relative;
-      font-size: $font-L;
-      font-weight: 500;
-      border: none;
-      cursor: pointer;
-      color: var(--text_invert);
-      padding: $spacer-S $spacer-M;
-      margin: 0 $spacer-M $spacer-M;
-      background: transparent;
-      white-space: nowrap;
-      flex-shrink: 0;
-      width: 14rem;
-      margin: 0 0 $spacer-L;
-
-      opacity: 0;
-      transform: translateY(1rem);
-      transition: opacity 150ms ease-out, transform 150ms ease-out;
-
-      &::before {
-        content: '';
-        position: absolute;
-        width: 100%;
-        bottom: 0;
-        left: 0;
-        z-index: -1;
-        height: 100%;
-        border-radius: 0.4rem; /* REVIEW borders */
-        background-color: var(--text_1);
-        opacity: 0.5;
-        transform: scale(1, 0.3);
-        transform-origin: 0 75%;
-        transition: background 250ms ease-out, transform 250ms ease-out;
-      }
-
-      &:hover,
-      &:focus {
-        outline: none;
-        color: var(--colorType);
-      }
-
-      &[aria-pressed='true'] {
-        color: var(--text_0);
-
-        &::before {
-          opacity: 1;
-          background-color: var(--colorType);
-          transform: scale(1, 1);
-          transition: transform 400ms cubic-bezier(0.28, 0.67, 0, 1.29);
-        }
-      }
-
-      .uAppear & {
-        opacity: 1;
-        transform: translateY(0);
-        transition:
-          opacity 1000ms var(--delay) cubic-bezier(0.0, 0.0, 0.2, 1),
-          transform 1000ms var(--delay) cubic-bezier(0.19, 1, 0.22, 1);
-
-        $time: 75ms;
-
-        &:nth-child(1) { --delay: calc(200ms + $time*1); }
-        &:nth-child(2) { --delay: calc(200ms + $time*2); }
-        &:nth-child(3) { --delay: calc(200ms + $time*3); }
-      }
-    }
-  }
-
-  .tools {
-    position: absolute;
-    top: 0;
-    left: 0;
-    margin-top: $spacer-XL;
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    height: 28rem; /* static content luxuries */
-    flex-direction: column;
-    transform-origin: 50% 0;
-    line-height: 1;
-
-    &Item {
-      position: relative;
-      width: calc(33.333% - $spacer-M);
-      margin: 0 $spacer-M $spacer-M 0;
-      opacity: 0.5;
-      padding-left: $spacer-MS;
-      transition: opacity 250ms ease;
-      animation: blink 10s infinite ease;
-      white-space: nowrap;
-
-      &.isActive {
-        opacity: 1;
-        animation: none;
-        /* animation-name: blinkStrong; */
-      }
-
-      &Text {
-        display: inline-block;
-        transform: scale(0);
-        transform-origin: 0 50%;
-        transition: transform 250ms ease-out;
-        color: var(--text_invert);
-
-        .isActive & {
-          transition-timing-function: $animate-bounce;
-          transform: scale(1);
-        }
-      }
-
-      @for $i from 1 to 24 {
-        &:nth-child($i) {
-          .pointOrbite {
-            /* WOW discovery: Use @keyframes to create an animation.
-              Use delay to start the animation at X point and use
-              "animation-play-state:paused" to always stick there.
-              And that's how we create random coordinates in a cleaner way */
-            animation-delay: calc(1ms * random(-40000, 0));
-            animation-play-state: paused;
-          }
-
-          .pointRotate {
-            $reversed: random(0, 1);
-            @if $reversed == 1 {
-              animation-direction: reverse;
-            }
-          }
-
-          &, /* blink animation */
-          .pointRotate {
-            animation-delay: calc(1ms * random(-40000, 0));
-          }
-
-          .toolsItemText,
-          .pointStar {
-            transition-delay: calc(1ms * random(0, 250));
-          }
-        }
-      }
-
-      .galaxy & {
-        /* Handmade coordinates for each item */
-        &:nth-child(1) {
-          transform: translate(3rem, 23rem);
-        }
-        &:nth-child(2) {
-          transform: translate(5rem, 1rem);
-        }
-        &:nth-child(3) {
-          transform: translate(-5rem, -6rem);
-        }
-        &:nth-child(4) {
-          transform: translate(0rem, 1rem);
-        }
-        &:nth-child(5) {
-          transform: translate(-7rem, 1rem);
-          /* visibility: hidden; Figma */
-        }
-        &:nth-child(6) {
-          transform: translate(15rem, -15rem);
-        }
-        &:nth-child(7) {
-          transform: translate(17rem, -7rem);
-        }
-        &:nth-child(8) {
-          transform: translate(24rem, 2rem);
-        }
-        &:nth-child(9) {
-          transform: translate(-4rem, 8rem);
-        }
-        &:nth-child(10) {
-          transform: translate(-7rem, -2rem);
-        }
-        &:nth-child(11) {
-          transform: translate(43rem, -8rem);
-        }
-        &:nth-child(12) {
-          transform: translate(54rem, 12rem);
-        }
-        &:nth-child(13) {
-          transform: translate(-18rem, 6rem);
-        }
-        &:nth-child(14) {
-          transform: translate(-32rem, 1rem);
-        }
-        &:nth-child(15) {
-          transform: translate(29rem, -8rem);
-        }
-        &:nth-child(16) {
-          transform: translate(-2rem, 2rem);
-          /* visibility: hidden; SEO */
-        }
-        &:nth-child(17) {
-          transform: translate(2rem, -1rem);
-        }
-        &:nth-child(18) {
-          transform: translate(-1rem, 19rem);
-        }
-        &:nth-child(19) {
-          transform: translate(5rem, 10rem);
-        }
-        &:nth-child(20) {
-          transform: translate(22rem, -5rem);
-        }
-        &:nth-child(21) {
-          transform: translate(-4rem, 8rem);
-          /* visibility: hidden; Wepback */
-        }
-        &:nth-child(22) {
-          transform: translate(13rem, -9rem);
-        }
-        &:nth-child(23) {
-          transform: translate(2rem, 6rem);
-          /* visibility: hidden; GULP */
-        }
-        &:nth-child(24) {
-          transform: translate(19rem, -9rem);
-        }
-      }
-    }
-  }
-
-  .point {
-    &Orbite {
-      display: block;
-      position: absolute;
-      top: 0.7rem;
-      left: 0;
-      width: 1.1rem;
-      height: 1.1rem;
-      animation: orbite 15s infinite linear;
-      transform-origin: 50% 50%;
-
-      @media (--md) {
-        top: 0;
-        width: 1.6rem;
-        height: 1.6rem;
-        transform-origin: $spacer-L 50%;
-      }
-    }
-
-    &Rotate,
-    &Star {
-      display: block;
-      width: 100%;
-      height: 100%;
-      transform-origin: 50% 50%;
-    }
-
-    &Rotate {
-      @media (--md) {
-        animation: rotateSlider 25s infinite linear;
-
-        :not(.uAppear) & {
-          animation-play-state: pause;
-        }
-      }
-
-      
-    }
-
-    &Star {
-      background-color: var(--text_invert);
-      transform: scale(0.5);
-      transition: transform 250ms ease;
-      cursor: zoom-in;
-      border-radius: 0.4rem;
-
-      .isActive & {
-        background-color: var(--colorType);
-        transition-timing-function: $animate-bounce;
-        transform: scale(1);
-      }
-    }
-  }
-  
-  /* -------- CAROUSEL VERSION ------------- */
-  .main {
-    position: relative;
+    padding-bottom: calc($layout-margin * 2);
 
     @media (--max-md) {
-      padding-bottom: calc($layout-margin * 2);
-      &::before { /* scroll shadow */
+      &::before { /* slider shadow */
         content: '';
         position: absolute;
         top: 0;
@@ -490,7 +195,11 @@
     }
   }
 
-  .slider {
+  .tabList {
+    display: none;
+  }
+
+  .skills {
     $gutter: calc($layout-margin*2);
     padding: $spacer-L $layout-margin;
 
@@ -527,24 +236,93 @@
       }
     }
 
-    &Item {
+    &Lvl {
       width: calc(100vw - $layout-margin*5);
       max-width: 22rem;
       margin-right: $gutter;
     }
 
-    /* Not worth mentioning on mobile */
-    [data-tool='Git'],
-    [data-tool='SEO'],
-    [data-tool='Redux'],
-    [data-tool='Webpack'],
-    [data-tool='Gulp'],
-    [data-tool='Figma'],
-    [data-tool='Netlify']  {
-      display: none;
+    @media(--max-md) {
+      /* Not worth mentioning on mobile */
+      [data-tool='Git'],
+      [data-tool='SEO'],
+      [data-tool='Redux'],
+      [data-tool='Webpack'],
+      [data-tool='Gulp'],
+      [data-tool='Figma'],
+      [data-tool='Netlify'] {
+        display: none;
+      }
     }
   }
 
+  .point {
+    position: relative;
+    width: calc(33.333% - $spacer-M);
+    margin: 0 $spacer-M $spacer-M 0;
+    padding-left: $spacer-MS;
+    white-space: nowrap;
+
+    &Text {
+      display: inline-block;
+      color: var(--text_invert);
+    }
+
+    &Orbite {
+      display: block;
+      position: absolute;
+      top: 0.7rem;
+      left: 0;
+      width: 1.1rem;
+      height: 1.1rem;
+      animation: orbite 15s infinite linear;
+      animation-play-state: paused;
+      transform-origin: 50% 50%;
+    }
+
+    &Rotate,
+    &Star {
+      display: block;
+      width: 100%;
+      height: 100%;
+      transform-origin: 50% 50%;
+    }
+
+    &Star {
+      background-color: var(--colorType);
+      cursor: zoom-in;
+      border-radius: 0.3rem;
+    }
+
+    @for $i from 1 to 24 {
+      &:nth-child($i) {
+        .pointOrbite {
+          /* WOW discovery: Use @keyframes to create an animation.
+            Use delay to start the animation at X point and use
+            "animation-play-state:paused" to always stick there.
+            And that's how we create random coordinates in a cleaner way */
+          animation-delay: calc(1ms * random(-40000, 0));
+        }
+
+        .pointRotate {
+          $reversed: random(0, 1);
+          @if $reversed == 1 {
+            animation-direction: reverse;
+          }
+        }
+
+        &, /* blink animation */
+        .pointRotate {
+          animation-delay: calc(1ms * random(-40000, 0));
+        }
+
+        .pointText,
+        .pointStar {
+          transition-delay: calc(1ms * random(0, 250));
+        }
+      }
+    }
+  }
 
   @media (--md) {
     .wrapper {
@@ -552,14 +330,221 @@
       min-height: 100vh;
     }
 
+    .main {
+      margin-top: $spacer-XL;
+    }
+
     .header {
       &Title {
         font-size: $font-heading_0;
+
+        .uAppear & {
+          /* TIL: fake opacity without opacity */
+          text-shadow:
+            0 0 4.5rem var(--bg_invert),
+            0 0 4.5rem var(--bg_invert),
+            0 0 3.5rem var(--colorTabSelected);
+        }
       }
 
       &Desc {
         padding: 0;
       }
+    }
+
+    .tab {
+      &List {
+        display: flex;
+        flex-direction: column;
+        z-index: 1; /* to be above stars */
+        overflow: hidden; /* dont show scrollbar during entry animations */
+      }
+
+      &Btn {
+        position: relative;
+        font-size: $font-L;
+        font-weight: 500;
+        border: none;
+        cursor: pointer;
+        color: var(--text_invert);
+        padding: $spacer-S $spacer-M;
+        margin: 0 $spacer-M $spacer-M;
+        background: transparent;
+        white-space: nowrap;
+        flex-shrink: 0;
+        width: 14rem;
+        margin: 0 0 $spacer-L;
+
+        opacity: 0;
+        transform: translateY(1rem);
+        transition: opacity 150ms ease-out, transform 150ms ease-out;
+
+        &::before {
+          content: '';
+          position: absolute;
+          width: 100%;
+          bottom: 0;
+          left: 0;
+          z-index: -1;
+          height: 100%;
+          border-radius: 0.4rem; /* REVIEW borders */
+          background-color: var(--text_1);
+          opacity: 0.5;
+          transform: scale(1, 0.3);
+          transform-origin: 0 75%;
+          transition: background 250ms ease-out, transform 250ms ease-out;
+        }
+
+        &:hover,
+        &:focus {
+          outline: none;
+          color: var(--colorType);
+        }
+
+        &[aria-pressed='true'] {
+          color: var(--text_0);
+
+          &::before {
+            opacity: 1;
+            background-color: var(--colorType);
+            transform: scale(1, 1);
+            transition: transform 400ms cubic-bezier(0.28, 0.67, 0, 1.29);
+          }
+        }
+
+        .uAppear & {
+          opacity: 1;
+          transform: translateY(0);
+          transition:
+            opacity 1000ms var(--delay) cubic-bezier(0.0, 0.0, 0.2, 1),
+            transform 1000ms var(--delay) cubic-bezier(0.19, 1, 0.22, 1);
+
+          $time: 75ms;
+
+          &:nth-child(1) { --delay: calc(200ms + $time*1); }
+          &:nth-child(2) { --delay: calc(200ms + $time*2); }
+          &:nth-child(3) { --delay: calc(200ms + $time*3); }
+        }
+      }
+    }
+
+    .skills {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 0;
+
+      &Title {
+        display: none;
+      }
+
+      &Lvl {
+        &[data-level="made me"] {
+          [data-tool] {
+            /* so stars dont appear twice */
+            display: none;
+          }
+
+          [data-tool="I'm on Github!"] { /* can't escape ' and ! */
+            display: block;
+            transform: translate(82rem, 8rem);
+          }
+        }
+      }
+    }
+
+    @define-mixin coord $name, $x, $y {
+      &[data-tool="$name"] {
+        transform: translate($x, $y);
+      }
+    }
+
+    @define-mixin ignore $name {
+      &[data-tool="$name"] {
+        display: none;
+      }
+    }
+
+    .point {
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0.5;
+      transition: opacity 250ms ease;
+      animation: blink 10s infinite ease;
+
+      &.isActive {
+        opacity: 1;
+        animation: none;
+        /* animation-name: blinkStrong; */
+      }
+
+      &Text {
+        transform: scale(0);
+        transform-origin: 0 50%;
+        transition: transform 250ms ease-out;
+
+        .isActive & {
+          transition-timing-function: $animate-bounce;
+          transform: scale(1);
+        }
+      }
+
+      &Rotate {
+        animation: rotateSlider 25s infinite linear;
+
+        :not(.uAppear) & {
+          animation-play-state: paused;
+        }
+      }
+
+      &Orbite {
+        top: 0;
+        width: 1.6rem;
+        height: 1.6rem;
+        transform-origin: $spacer-L 50%;
+      }
+
+      &Star {
+        transform: scale(0.5);
+        transition: transform 250ms ease;
+        background-color: var(--text_invert);
+
+        .isActive & {
+          background-color: var(--colorType);
+          transition-timing-function: $animate-bounce;
+          transform: scale(1);
+        }
+      }
+
+      @mixin coord React, 79rem, 19rem;
+      @mixin coord Redux, 60rem, 10rem;
+      @mixin coord Vue, 70rem, 23rem;
+      @mixin coord Svelte, 4rem, 3rem;
+
+      @mixin coord PostCSS, 65rem, -1rem;
+      @mixin coord SCSS, 26rem, 17rem;
+      @mixin coord CSS-in-JS, 24rem, 3rem;
+
+      @mixin coord React Native, 63rem, 5rem;
+      @mixin coord WebGL, 3rem, 22rem;
+      @mixin coord NodeJS, 68rem, 13rem;
+      @mixin coord ReasonML, 20rem, 10rem;
+
+      @mixin coord Jest, 10rem, 12rem;
+      @mixin coord Enzyme, -6rem, 5rem;
+      @mixin coord Cypress, -1rem, 15rem;
+      @mixin coord Testing Library, 75rem, 3rem;
+
+      @mixin coord Git, 15rem, -1rem;
+      @mixin coord Netlify, 56rem, 18rem;
+      @mixin coord Parcel, 18rem, 22rem;
+
+      @mixin ignore Webpack;
+      @mixin ignore Gulp;
+      @mixin ignore SEO;
+      @mixin ignore Figma;
     }
   }
 
@@ -640,66 +625,45 @@
   data-section-offset-h="5">
   <header class="header" style="--colorTabSelected: {colorTypes[tabSelected]};">
     <h2 class="headerTitle f-mono" bind:this={elTitle} style='--progressN: {progressN}; --progressY: {progressY}'>skills</h2>
-    <p class="headerDesc uAppear-0">Take a sneak peek on <a href={GITHUB_URL} class="u-link invert">Github</a> and <a href={CODEPEN_URL} class="u-link invert">Codepen</a></p>
+    <p class="headerDesc uAppear-0">Take a sneak peek on <a href={GITHUB_URL} class="u-link invert">Github</a> and <a href={CODEPEN_URL} class="u-link invert">Codepen</a>.</p>
   </header>
   
   <div class="main">
-    {#if $matchMq.md} 
-      <div class="tabList uAppear-0" aria-label="Skill types">
-        {#each Object.keys(tools.lists) as id}
-          {#if showExtraBtn(id)}
-            <button
-              class="tabItem"
-              style="--colorType: {colorTypes[id]}"
-              aria-pressed={tabSelected === id}
-              on:click={() => updateList(id)}>
-              {tools.lists[id]}
-            </button>
-          {/if}
-        {/each}
-      </div>
-      <ul class="tools galaxy uAppear-3" role="tabpanel">
-        {#each tools.tools as { name, list, url }}
-          <li
-            class="toolsItem"
-            class:isActive={list.includes(tabSelected)}
-            aria-hidden={!list.includes(tabSelected)}
-            on:click={() => (!list.includes(tabSelected) ? updateList(list[0]) : true)}
-            style="--colorType: {colorTypes[list[0]]}">
-            <span class="pointOrbite">
-              <span class="pointRotate">
-                <span class="pointStar" />
-              </span>
-            </span>
-            {#if !url}
-              <span class="toolsItemText">{name}</span>
-            {:else}
-              <a class="toolsItemText u-link" href={url}>{name}</a>
-            {/if}
-          </li>
-        {/each}
-      </ul>
-    {:else}
-      <ul class="slider u-carousel uAppear-1">
+    <div class="tabList uAppear-0" aria-label="Skill types">
+      {#each Object.keys(tools.lists) as id}
+        {#if showExtraBtn(id)}
+          <button
+            class="tabBtn"
+            style="--colorType: {colorTypes[id]}"
+            aria-pressed={tabSelected === id}
+            on:click={() => updateList(id)}>
+            {tools.lists[id]}
+          </button>
+        {/if}
+      {/each}
+    </div>
+      <ul class="skills u-carousel uAppear-1">
         {#each sortByLevel as level, lvlIndex}
-          <li class='sliderItem u-carousel-item' style="--colorType: {colorTypes[lvlIndex]}">
-            <h3 class="f-mono sliderTitle">
+          <li class='skillsLvl u-carousel-item' data-level={tools.lists[lvlIndex]} style="--colorType: {colorTypes[lvlIndex]}">
+            <h3 class="f-mono skillsTitle">
               {tools.lists[lvlIndex]}
             </h3>
             <ul aria-label={tools.lists[lvlIndex]}>
               {#each level as { name, list, url, hide }}
                 <li
                   data-tool={name}
-                  class="toolsItem isActive">
+                  class:isActive={list.includes(tabSelected)}
+                  on:click={() => (!list.includes(tabSelected) ? updateList(list[0]) : true)}
+                  class="point isActive">
                   <span class="pointOrbite">
                     <span class="pointRotate">
                       <span class="pointStar" />
                     </span>
                   </span>
                   {#if !url}
-                    <span class="toolsItemText">{name}</span>
+                    <span class="pointText">{name}</span>
                   {:else}
-                    <a class="toolsItemText u-link" href={url}>{name}</a>
+                    <a class="pointText u-link" href={url}>{name}</a>
                   {/if}
                 </li>
             {/each}
@@ -707,6 +671,6 @@
           </li>
         {/each}
       </ul>
-    {/if}
+    <!-- {/if} -->
   </div>
 </section>

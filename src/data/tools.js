@@ -79,12 +79,12 @@ export default {
     },
     {
       name: 'Netlify',
-      list: ['3'],
+      list: ['1', '3'],
     },
 
     {
       name: 'Parcel',
-      list: ['3'],
+      list: ['1', '3'],
     },
     {
       name: `I'm on Github!`,
