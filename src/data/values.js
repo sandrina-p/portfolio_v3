@@ -33,7 +33,7 @@ export default {
   PEOPLE: {
     // TODO - rename to PROGRESS
     text: [
-      `Sandrina is in a constant search for disruptive but pragmatic solutions. She'll <strong>advocate for innovation</strong> and help those around her to go beyond best practices and product requirements.`,
+      `Sandrina is in a constant search for disruptive but pragmatic solutions. She'll <strong>strive for innovation</strong> and help those around her to go beyond best practices and product requirements.`,
     ],
     width: '65rem',
     height: '15rem',

@@ -123,7 +123,6 @@
     position: relative;
     padding: $cardTop $spacer-M 0;
     min-height: 200vh;
-    background-color: var(--bg_0);
   }
 
   .title,

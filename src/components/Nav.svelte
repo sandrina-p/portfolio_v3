@@ -11,6 +11,8 @@
   let wasSelected = null; // when the link is clicked, trigger the fancyBubble
   let isRICScheduled = false;
   let theme = 'light';
+  let hasReducedMotion = false;
+  let sunH = 5;
 
 	const dispatch = createEventDispatcher();
 
@@ -161,7 +163,7 @@
 
   function toggleTheme() {
     const newTheme = theme === 'dark' ? 'light' : 'dark';
-
+    sunH = newTheme === 'dark' ? 3 : 5;
     // https://github.com/sveltejs/svelte/issues/3105
     document.body.classList.remove(theme);
     document.body.classList.add(newTheme);
@@ -170,104 +172,194 @@
 </script>
 
 <style>
+  $itemW: 6rem;
+
   .nav {
     position: fixed;
-    top: 0;
-    right: 0;
-    padding: $spacer-L $spacer-L 0 0;
+    top: $spacer-MS;
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 5; /* above everything */
     display: flex;
+    align-items: center;
+
+    @media (--md) {
+      top: auto;
+      bottom: $spacer-MS;
+    }
   }
 
-  .toggleTheme {
-    margin-right: $spacer-M;
-    outline: 1px dashed red;
-    background: transparent;
-    color: black;
+  .toggleTheme,
+  .toggleMotion,
+  .linksItem {
+    /* entry animation */
+    opacity: 0;
+    $time: 75ms;
+  }
 
-    &[aria-pressed="true"] {
-      color: white;
+  .isReady {
+    .toggleTheme,
+    .toggleMotion,
+    .linksItem {
+      opacity: 1;
+      transition:
+        opacity 1000ms var(--delay, $time) cubic-bezier(0.0, 0.0, 0.2, 1),
+        transform 1000ms var(--delay, $time) cubic-bezier(0.19, 1, 0.22, 1);
+    }
+
+    .linksList::before {
+      transform: scale(1);
+      transition: transform 700ms cubic-bezier(0.19, 1, 0.22, 1);
+    }
+
+    .linksItem {
+      &:nth-child(1) { --delay: calc($time*3); }
+      &:nth-child(2) { --delay: calc($time*2); }
+      &:nth-child(3) { --delay: calc($time*1); }
+      &:nth-child(4) { --delay: calc($time*2); }
+      &:nth-child(5) { --delay: calc($time*3); }
+    }
+
+    .toggleTheme,
+    .toggleMotion {
+      --delay: calc($time*4);
     }
   }
 
   .links {
     &List {
+      position: relative;
       display: flex;
       margin: 0;
       padding: 0;
       font-size: $font-S;
 
-      outline: 1px dashed red;
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: calc($itemW/2);
+        width: calc(100% - $itemW);
+        height: 0.1rem;
+        background-color: var(--text_invert);
+        transform: scale(0, 1);
+        pointer-events: none;
+      }
     }
 
     &Item {
+      position: relative;
       margin: 0;
-      padding: 0;
+      width: $itemW;
+      text-align: center;
 
-      &:not(:last-child) {
-        margin-right: $spacer-M;
+      &::before {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 0; left: 50%;
+        width: $spacer-S;
+        height: $spacer-S;
+        border-radius: 50%;
+        background-color: var(--text_invert);
+        transform: translate(-50%, -50%);
       }
-      
-      /* entry animation */
-      opacity: 0;
-      transform: translateY(-2rem);
 
-      .isReady & {
-        opacity: 1;
-        transform: translateY(0);
-        transition:
-          opacity 1000ms var(--delay) cubic-bezier(0.0, 0.0, 0.2, 1),
-          transform 1000ms var(--delay) cubic-bezier(0.19, 1, 0.22, 1);
-
-        $time: 75ms;
-
-        &:nth-child(1) { --delay: calc($time*1); }
-        &:nth-child(2) { --delay: calc($time*2); }
-        &:nth-child(3) { --delay: calc($time*3); }
-        &:nth-child(4) { --delay: calc($time*4); }
-        &:nth-child(5) { --delay: calc($time*5); }
+      &.isCurrent,
+      &:hover,
+      &:focus-within {
+        &::before {
+          opacity: 1;
+          transition: background-color 400ms;
+          background-color: var(--primary_1);
+        }
       }
     }
 
     &Anchor {
+      display: block;
       color: var(--text_1);
-
-      .invert &:not([aria-current='true']) {
-        color: var(--text_invert);
-      }
+      padding-top: $spacer-S;
+      opacity: 0;
+      transition: opacity 400ms;
+      text-decoration: none;
 
       &:hover,
-      &:focus,
-      &[aria-current='true'] {
+      &:focus {
+        outline: none;
+        opacity: 1;
         color: var(--primary_1);
       }
     }
   }
 
+  .toggleTheme,
+  .toggleMotion {
+    position: relative;
+    margin: 0 $spacer-S;
+    background: transparent;
+    border: none;
+    width: 3rem;
+    height: 3rem;
+    padding: 0;
+    border-radius: 50%;
+    margin-top: -3rem;
+    color: var(--text_1);
+
+    &:hover,
+    &:focus {
+      outline: none;
+      color: var(--primary_1);
+    }
+  }
+
+  .sun {
+    width: 100%;
+    height: 100%;
+
+    &Ray,
+    &Center {
+      fill: currentColor;
+    }
+
+    &Ray {
+      opacity: 0.5;
+    }
+  }
+
+  .motion {
+    width: 1.6rem;
+    height: 1.6rem;
+    background: var(--text_1);
+    border-radius: 50%;
+    display: block;
+    border: 0.2rem solid var(--bg_0);
+    outline: 1px dashed red;
+  }
+
   @media (--md) {
-    .linksItem {
-      /* decorative animation */
+    /* decorative animation */
+    .bubble {
+      z-index: -1;
+
       &::before,
       &::after {
         content: '';
-        position: absolute;
-        top: -50vw;
-        right: -50vw;
-        width: 180vw;
-        height: 180vw;
         display: block;
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: 200vw;
+        height: 200vw;
         border-radius: 50%;
-        transform: scale(0);
-        transform-origin: 75% 25%;
+        transform: translate(-50%, -50%) scale(0);
         box-sizing: border-box;
-        z-index: -1;
       }
 
       &::before { background-color: var(--morph_total); }
       &::after { background-color: var(--bg_0); }
 
       &.wasSelected {
-        z-index: 1; /* so animation appears above other navItem */
         &::before,
         &::after {
           animation: fancyBubble 1150ms ease-out;
@@ -282,29 +374,41 @@
 
   @keyframes fancyBubble {
     0% {
-      transform: scale(0);
+      transform: translate(-50%, -50%) scale(0);
     }
     75% {
       opacity: 1;
     }
     100% {
-      transform: scale(1);
+      transform:translate(-50%, -50%) scale(1);
       opacity: 0;
     }
   }
 </style>
 
 <nav class="nav" class:isReady={isCalculated} class:invert={currentSection === 'skills'}>
-  <button class="toggleTheme" on:click={toggleTheme} aria-pressed={theme === 'dark'} aria-label="Dark Theme">T</button>
+  <span class="bubble" class:wasSelected={wasSelected}></span>
+  <button class="toggleTheme" on:click={toggleTheme} aria-pressed={theme === 'dark'} aria-label="Dark Theme">
+    <svg class="sun" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <rect class="sunCenter" x="17.4" y="12.3" width="8" height="8" rx="4" transform="rotate(135 17.4 12.3)" fill="#3F3F3F"/>
+      <rect class="sunRay" x="12.5" y="5.9" width="1.5" height={sunH} rx=".5" transform="rotate(-180 12.5 5.9)" fill="#3F3F3F"/>
+      <rect class="sunRay" x="11" y="18.8" width="1.5" height={sunH} rx=".5" fill="#3F3F3F"/>
+      <rect class="sunRay" x="18.2" y="13.1" width="1.5" height={sunH} rx=".5" transform="rotate(-90 18.2 13)" fill="#3F3F3F"/>
+      <rect class="sunRay" x="5.2" y="11.6" width="1.5" height={sunH} rx=".5" transform="rotate(90 5.2 11.6)" fill="#3F3F3F"/>
+      <rect class="sunRay" x="15.6" y="17.6" width="1.5" height={sunH} rx=".5" transform="rotate(-45 15.6 17.6)" fill="#3F3F3F"/>
+      <rect class="sunRay" x="7.6" y="7.2" width="1.5" height={sunH} rx=".5" transform="rotate(135 7.6 7.2)" fill="#3F3F3F"/>
+      <rect class="sunRay" x="16.8" y="8.3" width="1.5" height={sunH} rx=".5" transform="rotate(-135 16.8 8.3)" fill="#3F3F3F"/>
+      <rect class="sunRay" x="6.6" y="16.3" width="1.5" height={sunH} rx=".5" transform="rotate(45 6.6 16.3)" fill="#3F3F3F"/>
+    </svg>
+  </button>
   <ul class="linksList">
     {#each pageSections as name}
       <li
         class="linksItem"
-        class:isCurrent={currentSection === name}
-        class:wasSelected={wasSelected === name}>
+        class:isCurrent={currentSection === name}>
         <a
           href="#{name}"
-          class="linksAnchor u-linkInteract"
+          class="linksAnchor"
           aria-current={currentSection === name}
           on:click={e => goToSection(e, name)}>
           {name}
@@ -312,4 +416,7 @@
       </li>
     {/each}
   </ul>
+  <button class="toggleMotion" on:click={() => true} aria-pressed={hasReducedMotion} aria-label="Reduced Motion">
+    <span class="motion"></span>
+  </button>
 </nav>

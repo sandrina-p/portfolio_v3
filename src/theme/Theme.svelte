@@ -7,18 +7,17 @@
     --text_invert: #d6d6d6; /* similar to bg but lighter */
     --bg_0: #f8f3ef;
     --bg_1: #fff;
-    --bg_invert: #4a3e4d; /* #same as .dark bg_1; */
-    --bg_invert_transparent: #4a3e4d00; /* for safari... */
+    --bg_invert: #2e2a2f; /* #same as .dark bg_1; */
+    --bg_invert_transparent: #2e2a2f00; /* for safari... */
 
     --primary_1: #9b78de;
-    --primary_1_lighter: #e9e1f8;
+    --primary_1_smooth: #e9e1f8;
     --primary_1_sat: #bd99ff;
-    --primary_1_darker: #8c00ff;
+    --primary_1_stronger: #8c00ff;
     --morph_color: rgba(109, 7, 255, 0.1);
     --morph_total: #bfa1f8; /* visual effect when all circles are overlapping */
     --primary_2: #52e9d0;
-    --primary_3: #0a0a09;
-    --primary_3_darker: #dfb948;
+    --primary_3: #dfb948;
     --primary_4: #ff9d9d;
   }
 
@@ -28,12 +27,12 @@
 
   body.dark {
     --text_0: #e2e2e2;
-    /* --text_1: #757575; /* same for now */
-    --bg_0: #424043; /*#5b515f; /* #332940; */
+    --text_1: #8a8a8a;
+    --text_invert: #343434; /* same as defautl text_0*/
+    --bg_0: #424043;
     --bg_1: #2e2a2f;
-    --bg_invert_transparent: #dfdfdf00; /* for safari... */
     --primary_1: #9f76ff; /* slightly brigter */
-    --primary_1_lighter: #2e262f; /* REVIEW better name */
+    --primary_1_smooth: #2e262f; /* REVIEW better name */
     --morph_color: rgba(202, 152, 255, 0.15);
     --morph_total: #9176af;
   }

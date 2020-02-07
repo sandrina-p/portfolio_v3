@@ -9,7 +9,7 @@
   const colorTypes = {
     article: 'var(--primary_1)',
     talk: 'var(--primary_2)',
-    zine: 'var(--primary_3_darker)',
+    zine: 'var(--primary_3)',
     default: 'var(--primary_4)',
   };
   const options = ['sharing', 'writing', 'talking'];
@@ -214,7 +214,7 @@
       }
 
       @media (--max-md) {
-        box-shadow: 0.2rem 0.2rem var(--primary_1_lighter);
+        box-shadow: 0.2rem 0.2rem var(--primary_1_smooth);
       }
 
       &:not(:last-child) {
@@ -367,7 +367,7 @@
           background-color: var(--bg_1);
           z-index: -2;
           transform: translateX(calc($off * ($cards * -1) + $off * var(--i)));
-          box-shadow: 0.2rem 0.2rem var(--primary_1_lighter);
+          box-shadow: 0.2rem 0.2rem var(--primary_1_smooth);
         }
         
 

@@ -7,7 +7,7 @@
   const colorTypes = {
     '0': 'var(--primary_1_sat)',
     '1': 'var(--primary_2)',
-    '2': 'var(--primary_3_darker)',
+    '2': 'var(--primary_3)',
     '3': 'var(--primary_4)',
   };
   const sortByLevel = (() => {
@@ -278,6 +278,10 @@
 
         &[aria-expanded='true'] {
           color: var(--text_0);
+         
+          :global(.dark) & {
+            color: var(--text_invert);
+          }
 
           &::before {
             opacity: 1;

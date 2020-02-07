@@ -38,7 +38,7 @@
     height: 100%;
     background-color: var(--primary_1);
     box-shadow:
-        inset 12rem 4.5rem 6.5rem var(--primary_1_darker),
+        inset 12rem 4.5rem 6.5rem var(--primary_1_stronger),
         inset -3rem 11rem 8rem #fffc00,
         inset -10rem -90rem 4.5rem #00fff7;
     opacity: 0.1;

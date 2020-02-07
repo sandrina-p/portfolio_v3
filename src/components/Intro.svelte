@@ -5,6 +5,7 @@
   import { TIMEOUTS } from '../utils';
 
   const intro = 'Oh, hi there!';
+  let hasntScrollYet = true
 
   onMount(() => {
     setTimeout(() => {

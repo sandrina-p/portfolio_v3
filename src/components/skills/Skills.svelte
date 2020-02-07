@@ -182,7 +182,7 @@
   class:uAppear={isVisible}
   class:uAppearSoon={!isVisible}
   id="skills"
-  data-section-offset-h="15">
+  data-section-offset-h="5">
 
   <header class="header" style="--colorTabSelected: {colorType};">
     <h2 class="headerTitle f-mono"
