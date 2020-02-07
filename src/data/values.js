@@ -10,14 +10,14 @@ export default {
   },
   DOTS: {
     text: [
-      'Combining the design and development processes is one of Sandrina’s expertises. She loves to <strong>work closely with the design team</strong> to create stuff that actually works for everyone.',
+      'Combining the design and development processes is one of Sandrina’s expertises. She loves to <strong>work closely with the design team</strong> to create meaningful stuff for everyone.',
     ],
     width: '48rem',
     height: '21rem',
   },
   ASK: {
     text: [
-      'You’ll see Sandrina asking the questions you never thought about. Those that will wisper <a class="u-link" target="_blank" href="https://en.wikipedia.org/wiki/Eureka_effect">eureka</a> and lead us to <strong>wiser decisions</strong>, taken with true care.',
+      'You’ll see Sandrina asking questions you never thought about. Questions that help clear barriers, unpack assumptions and spark <a class="u-link" target="_blank" href="https://en.wikipedia.org/wiki/Eureka_effect">eureka</a> moments.',
     ],
     width: '30rem',
     height: '30rem',
@@ -31,9 +31,9 @@ export default {
     height: '40rem',
   },
   PEOPLE: {
-    // TODO - rename to PROGRESS?
+    // TODO - rename to PROGRESS
     text: [
-      'Sandrina is in a constant search for disruptive but pragmatic solutions. She goes beyond best practices and perfect pixels. She’s the one who will <strong>strive for innovation</strong> when everyone else is too afraid to change.',
+      `Sandrina is in a constant search for disruptive but pragmatic solutions. She'll <strong>advocate for innovation</strong> and help those around her to go beyond best practices and product requirements.`,
     ],
     width: '65rem',
     height: '15rem',

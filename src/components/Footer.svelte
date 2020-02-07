@@ -1,9 +1,10 @@
 <script>
   import { onMount } from 'svelte';
   import { _window } from '../stores/responsive.js';
+  import throttle from 'lodash/throttle';
   import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
   import { getInLimit } from '../utils';
-  import throttle from 'lodash/throttle';
+  import { EMAIL_URL, SITE_REPO } from '../data/misc.js';
   import Contacts from './Contacts.svelte';
 
   $: wHeight = $_window && $_window.innerHeight;
@@ -108,7 +109,7 @@
     observerCard.observe(elCard);
 
     return {
-      verify: handleScroll
+      verify: handleScroll // BUG - need to update cardScrollPivot and titleScrollPivot
     }
   }
 </script>
@@ -320,6 +321,7 @@
       padding-left: 0;
       margin-left: calc(50vw - ($cardW/2));
       font-size: $font-heading_3;
+      /* BUG SAFARI. transform elements add scroll, and can't add overflow hidden to parent because this is sticky... this needs to be absolute. */
       transform: translate(var(--titleProgress, 100vw), calc($cardH/-2 - 0.6em));
       margin-bottom: -2em; /* fake position: absolute for sticky, 2em = 2 lines */
 
@@ -374,7 +376,7 @@
   class:isVisible
   bind:this={elFooter}
   id="contact"
-  data-section-offset-h="100"
+  data-section-offset-h="150"
   style="height: {footerHeight}px; --thingSize: {progress}; --titleProgress: {titleProgress}; --cardProgress: {cardProgress};">
  
   <h3 class="title f-mono">
@@ -384,7 +386,7 @@
 
   <div class="card" bind:this={ elCard } class:isCardOnView>
     <div class="cardChild">
-      <p class="text">Fell free to <a href="#TODO" class="u-link">say hi</a>!</p>
+      <p class="text">Fell free to <a href={EMAIL_URL} class="u-link">say hi</a>!</p>
       <p class="text">
         <span class="textLine">It's easy to find Sandrina around</span>
         <span class="textLine">specially if you are a web lover too.</span>
@@ -407,6 +409,6 @@
       </div>
     </div>
     <!-- REVIEW THIS -->
-    <p class="credits">Curious about me? Here's my <a href="#TODO" class="u-link">source code</a>.</p>
+    <p class="credits">Curious about me? Here's my <a href={SITE_REPO} class="u-link">source code</a>.</p>
   </div>
 </footer>

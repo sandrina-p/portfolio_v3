@@ -27,9 +27,9 @@
     const currentSectionIndex = state.pageSections.indexOf(state.pageCurrentSection);
     
     if (!prevState.isReady && state.isReady) {
-      setTimeout(() => {
-        window.scroll(0, 8000); // FOR DEBUG
-      }, 150)
+      // setTimeout(() => {
+      //   window.scroll(0, 8000); // FOR DEBUG
+      // }, 150)
     }
 
     if (!isOnStage && currentSectionIndex >= prevSectionIndex) {
@@ -89,6 +89,7 @@
 
 <style>
   .wrapper {
+    --skills-bg: var(--bg_invert);
     min-height: 100vh;
     overflow: hidden;
     padding-top: 50vw;
@@ -96,8 +97,13 @@
     background-color: var(--bg_0);
     transition: background-color 400ms cubic-bezier(0.19, 1, 0.22, 1);
 
+    :global(.dark) & {
+      --skills-bg: var(--bg_1);
+    }
+
     &.uAppear {
-      background-color: var(--bg_invert);
+      background-color: #1b1b1b; /* var(--bg_invert) - fallback css variables */
+      background-color: var(--skills-bg);
     }
 
     @media (--md) {
@@ -128,12 +134,20 @@
       .uAppear & {
         -webkit-text-stroke: initial;
         color: var(--text_invert);
+
+        :global(.dark) & {
+          color: var(--text_0);
+        }
       }
     }
 
     &Desc {
       padding: $spacer-S $layout-margin;
       color: var(--text_invert);
+
+      :global(.dark) & {
+        color: var(--text_0);
+      }
     }
   }
 
@@ -150,8 +164,8 @@
         .uAppear & {
           /* TIL: fake opacity without opacity */
           text-shadow:
-            0 0 4.5rem var(--bg_invert),
-            0 0 4.5rem var(--bg_invert),
+            0 0 4.5rem var(--skills-bg),
+            0 0 4.5rem var(--skills-bg),
             0 0 3.5rem var(--colorTabSelected);
         }
       }
@@ -168,7 +182,7 @@
   class:uAppear={isVisible}
   class:uAppearSoon={!isVisible}
   id="skills"
-  data-section-offset-h="5">
+  data-section-offset-h="15">
 
   <header class="header" style="--colorTabSelected: {colorType};">
     <h2 class="headerTitle f-mono"

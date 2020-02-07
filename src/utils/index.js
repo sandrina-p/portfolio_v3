@@ -66,7 +66,7 @@ export const TIMEOUTS = {
   INTRO_ANIMATED: 2000,
   // Nav animation on click has an animation. Wait when it's
   // "fullscreen" animated (~middle), to hide the manual scroll behind.
-  NAV_ANIMATING: 500,
+  NAV_ANIMATING: 700,
   // the section change might be triggered by Nav, so the scroll
   // is manually done (Nav.svelte). Just a time-sanity check.
   NAV_SCROLLED: 15,

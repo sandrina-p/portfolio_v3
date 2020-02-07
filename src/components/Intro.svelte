@@ -20,9 +20,7 @@
 
   .intro {
     padding: calc($layout-margin*2) $layout-margin 0;
-    background-color: var(--bg_0);
     min-height: var(--w-height);
-
     display: flex;
     flex-direction: column;
     justify-content: space-between;

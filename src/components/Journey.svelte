@@ -70,9 +70,9 @@
     position: relative;
     padding-top: 0;
     --rotate: -4deg;
-    background-color: var(--bg_0);
     max-width: 100%;
     overflow: hidden; /* for the rotating header */
+    margin-top: -1px; /* hide semi-pixel of bg_0 on safari */
   }
 
   .heading {
@@ -90,6 +90,10 @@
       height: $paddingTop;
       width: 100%;
       background-color: var(--bg_invert);
+
+      :global(.dark) & {
+        background-color: var(--bg_1);
+      }
     }
 
     &Slide,
@@ -105,6 +109,14 @@
       bottom: 0.2em;
       left: 0;
       transform: translate(calc($maskWidth/2 - 50%), calc(3em - 3em * var(--progress)));
+    
+      :global(.dark) & {
+        color: var(--text_0);
+      }
+    }
+
+    &Block {
+      display: block;
     }
 
     &Fixed {
@@ -124,6 +136,7 @@
   }
 
   .sliding {
+    display: block;
     position: absolute;
     top: 0;
     left: 0;
@@ -132,6 +145,7 @@
     height: $headingHeight;
 
     &Rotate {
+      display: block;
       position: absolute;
       background-color: var(--bg_invert);
       top: calc($headingHeight / -2); /* to cover the bg from the rotate */
@@ -141,7 +155,11 @@
       transform-origin: 50% 100%;
       transform: rotate(calc(var(--rotate) * var(--progress)));
       overflow: hidden;
-      z-index: 1; /* above "and so did Sandrina" */
+      z-index: 1; /* above 2nd line of text */
+
+      :global(.dark) & {
+        background-color: var(--bg_1);
+      }
     }
   }
 
@@ -151,7 +169,7 @@
     padding: 0 $layout-margin;
     margin: 0 auto;
     line-height: 1.5;
-    color: var(--text_1);
+    color: var(--text_0);
     opacity: 0;
     transform: translateY(-2rem);
     transition: transform 300ms ease-ine, opacity 300ms ease-ine;
@@ -203,16 +221,15 @@
   class:isActive
   style="--progress: {progress}"
   id="journey">
-  <h2 class="f-mono heading" aria-label="Uff, you came so far..." bind:this={elHeading}>
-    <div class="sliding">
-      <div class="slidingRotate">
+  <h2 class="f-mono heading" bind:this={elHeading}>
+    <span class="sliding">
+      <span class="slidingRotate">
         <span class="headingSlide">
-          Uff,
-          <br />
+          <span class="headingBlock">Uff,</span>
           you came so far...
         </span>
-      </div>
-    </div>
+      </span>
+    </span>
     <span class="headingFixed">and so did Sandrina!</span>
   </h2>
   <div class="text">

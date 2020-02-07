@@ -10,6 +10,8 @@
   let isCalculated = false;
   let wasSelected = null; // when the link is clicked, trigger the fancyBubble
   let isRICScheduled = false;
+  let theme = 'light';
+
 	const dispatch = createEventDispatcher();
 
   afterGeneralUpdate((prevState, state) => {
@@ -156,14 +158,36 @@
 
     }, TIMEOUTS.NAV_ANIMATING);
   }
+
+  function toggleTheme() {
+    const newTheme = theme === 'dark' ? 'light' : 'dark';
+
+    // https://github.com/sveltejs/svelte/issues/3105
+    document.body.classList.remove(theme);
+    document.body.classList.add(newTheme);
+    theme = newTheme;
+  }
 </script>
 
 <style>
   .nav {
     position: fixed;
-    top: $spacer-L;
-    right: $spacer-M;
+    top: 0;
+    right: 0;
+    padding: $spacer-L $spacer-L 0 0;
     z-index: 5; /* above everything */
+    display: flex;
+  }
+
+  .toggleTheme {
+    margin-right: $spacer-M;
+    outline: 1px dashed red;
+    background: transparent;
+    color: black;
+
+    &[aria-pressed="true"] {
+      color: white;
+    }
   }
 
   .links {
@@ -171,49 +195,17 @@
       display: flex;
       margin: 0;
       padding: 0;
-      font-size: $font-M;
+      font-size: $font-S;
 
-      @media (--max-md) {
-        outline: 1px dashed red; /* TODO */
-        font-size: $font-S;
-      }
+      outline: 1px dashed red;
     }
 
     &Item {
       margin: 0;
       padding: 0;
-      margin: 0 $spacer-M 0 0;
 
-      /* decorative animation */
-      &::before,
-      &::after {
-        content: '';
-        position: absolute;
-        top: -50vw;
-        right: -50vw;
-        width: 200vw;
-        height: 200vw;
-        display: block;
-        border-radius: 50%;
-        transform: scale(0);
-        transform-origin: 75% 25%;
-        box-sizing: border-box;
-        z-index: -1;
-      }
-
-      &::before { background-color: var(--morph_total); }
-      &::after { background-color: var(--bg_0); }
-
-      &.wasSelected {
-        z-index: 1; /* so animation appears above other navItem */
-        &::before,
-        &::after {
-          animation: fancyBubble 850ms ease-out;
-        }
-
-        &::after {
-          animation-duration: 1100ms;
-        }
+      &:not(:last-child) {
+        margin-right: $spacer-M;
       }
       
       /* entry animation */
@@ -252,6 +244,42 @@
     }
   }
 
+  @media (--md) {
+    .linksItem {
+      /* decorative animation */
+      &::before,
+      &::after {
+        content: '';
+        position: absolute;
+        top: -50vw;
+        right: -50vw;
+        width: 180vw;
+        height: 180vw;
+        display: block;
+        border-radius: 50%;
+        transform: scale(0);
+        transform-origin: 75% 25%;
+        box-sizing: border-box;
+        z-index: -1;
+      }
+
+      &::before { background-color: var(--morph_total); }
+      &::after { background-color: var(--bg_0); }
+
+      &.wasSelected {
+        z-index: 1; /* so animation appears above other navItem */
+        &::before,
+        &::after {
+          animation: fancyBubble 1150ms ease-out;
+        }
+
+        &::after {
+          animation-duration: 1400ms;
+        }
+      }
+    }
+  }
+
   @keyframes fancyBubble {
     0% {
       transform: scale(0);
@@ -267,6 +295,7 @@
 </style>
 
 <nav class="nav" class:isReady={isCalculated} class:invert={currentSection === 'skills'}>
+  <button class="toggleTheme" on:click={toggleTheme} aria-pressed={theme === 'dark'} aria-label="Dark Theme">T</button>
   <ul class="linksList">
     {#each pageSections as name}
       <li

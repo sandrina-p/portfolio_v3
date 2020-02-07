@@ -214,13 +214,7 @@
       }
 
       @media (--max-md) {
-        /* REVIEW DESIGN - HUM... Yes or no?? */
-        box-shadow:
-          inset 0 0 15px rgba(55, 84, 170, 0),
-          inset 0 0 20px rgba(255, 255, 255, 0),
-          10px 10px 18px #d8d8d8,
-          -10px -10px 22px #f7f2f0,
-          inset 0px 0px 4px rgba(255, 255, 255, 0.2);
+        box-shadow: 0.2rem 0.2rem var(--primary_1_lighter);
       }
 
       &:not(:last-child) {
@@ -417,7 +411,7 @@
   data-section-offset-h="50">
   <div class="content">
     <header class="header">
-      <h2 class="f-mono headerTitle" data-io="heading" aria-label="She has been sharing">
+      <h2 class="f-mono headerTitle" data-io="heading">
         <span class="headerTitle-part">She has been</span>
         <span
           class="headerTitle-part"
@@ -428,7 +422,7 @@
       </h2>
       <p class="headerDescription">Something sweet and short about this.</p>
     </header>
-    <ul class="cardList u-carousel" aria-label="articles, talks and more">
+    <ul class="cardList u-carousel">
       {#each words as { title, date, places }, index}
         <li
           class="cardItem">

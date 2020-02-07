@@ -29,22 +29,23 @@ Well... let's say we are 80% done and the other 20% will take 80% of the time.
 - [x] Short scroll length of initial morph
 - [x] Finalize animations for Intro (99%)
 - [x] Review "Skills" section overall UX
-- [x] Light theme
-- [ ] Dark Theme
-- [ ] Refine copywriting
+- [x] Light/Dark theme
+- [ ] Toggle Theme
+- [ ] Refine copywrite (missing journey)
 - [x] Decide footer
 - [x] Decide where to put contacts
 - [x] Refine nav (90%)
-- [ ] Review responsive (70%)
+- [x] Review responsive
 - [ ] Review transitions consistency
 
 ### Development
-- [ ] Add ReduceMotion option
 - [ ] Review test coverage
 - [ ] Review Accessibility
 - [ ] Review SEO
+- [x] Review HTML
 - [ ] Review manifest
 - [ ] Run Lighthouse
 - [x] Review animations performance
 - [ ] Easter Eggs!?
 - [ ] Review custom properties fallback
+- [ ] Add ReduceMotion option

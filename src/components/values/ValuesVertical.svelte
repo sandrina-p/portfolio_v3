@@ -221,12 +221,6 @@
       background: var(--bg_1);
       padding: $spacer-L;
       font-size: $font-M;
-      box-shadow: /* TODO REVIEW DESIGN here too same as words */
-        /* inset 0 0 15px rgba(55, 84, 170, 0),
-        inset 0 0 20px rgba(255, 255, 255, 0), */
-        10px 10px 18px #d8d8d8;
-        /* -10px -10px 22px #f7f2f0, */
-        /* inset 0px 0px 4px rgba(255, 255, 255, 0.2); */
 
       &-par:not(:last-child) {
         display: block;

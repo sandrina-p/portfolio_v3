@@ -2,25 +2,40 @@
   :root {
     --w-height: 100vw; /* JS will change this */
 
-    --text_0: #343434; /*#efefef */
-    --text_1: #757575; /* #b7c2cf; /* text over bg with 0.6 opacity and some light... */
+    --text_0: #343434;
+    --text_1: #757575;
     --text_invert: #d6d6d6; /* similar to bg but lighter */
-    --bg_0: #f8f3ef; /* #f4f4f4; /* #0d1722;*/
-    --bg_1: #fff; /* #000000; */
-    --bg_invert: #1b1b1b;
-    --bg_invert_transparent: #1b1b1b00; /* for safari... */
+    --bg_0: #f8f3ef;
+    --bg_1: #fff;
+    --bg_invert: #4a3e4d; /* #same as .dark bg_1; */
+    --bg_invert_transparent: #4a3e4d00; /* for safari... */
 
-    /* put this color at meta theme-color */
-    --primary_1: #9b78de; /* #9072ff; /*#52e9d0; /* #59b9a3; /* #fb6177; */
-    --primary_1_lighter: #e9e1f8; /* #9072ff; /*#52e9d0; /* #59b9a3; /* #fb6177; */
-    --primary_1_sat: #bd99ff; /* #9072ff; /*#52e9d0; /* #59b9a3; /* #fb6177; */
+    --primary_1: #9b78de;
+    --primary_1_lighter: #e9e1f8;
+    --primary_1_sat: #bd99ff;
     --primary_1_darker: #8c00ff;
-    --morph_color: rgba(109, 7, 255, 0.1); /*rgba(101, 189, 144, 0.09);*/
-    --morph_total: #bfa1f8; /* #bbdccd; /* visual effect when all circles are overlapping */
-    --primary_2: #52e9d0; /* #b69dff; */
+    --morph_color: rgba(109, 7, 255, 0.1);
+    --morph_total: #bfa1f8; /* visual effect when all circles are overlapping */
+    --primary_2: #52e9d0;
     --primary_3: #0a0a09;
     --primary_3_darker: #dfb948;
     --primary_4: #ff9d9d;
+  }
+
+  body {
+    transition: color 0.2s ease-out, background-color 0.2s ease-out;
+  }
+
+  body.dark {
+    --text_0: #e2e2e2;
+    /* --text_1: #757575; /* same for now */
+    --bg_0: #424043; /*#5b515f; /* #332940; */
+    --bg_1: #2e2a2f;
+    --bg_invert_transparent: #dfdfdf00; /* for safari... */
+    --primary_1: #9f76ff; /* slightly brigter */
+    --primary_1_lighter: #2e262f; /* REVIEW better name */
+    --morph_color: rgba(202, 152, 255, 0.15);
+    --morph_total: #9176af;
   }
 
   /* ************************************ */
@@ -128,7 +143,7 @@
   .u-linkInteract {
     position: relative;
     white-space: nowrap;
-    color: var(--text_0);
+    color: inherit;
     z-index: 0; /* so before gets behind but visible */
 
     &::before {
@@ -160,9 +175,9 @@
       opacity: 0.4;
     }
 
-    &.invert {
+    /* &.invert {
       color: var(--text_invert);
-    }
+    } */
   }
 
   .u-linkInteract {

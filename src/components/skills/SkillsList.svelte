@@ -21,7 +21,6 @@
 
     return lists
   })();
-
   let lvlActive = '0';
   let interactedWith = { '0': true };
 
@@ -40,15 +39,15 @@
     });
   }
 
-  function showExtraBtn(id) {
-    /* EASTER_EGG - show "made me" when all 3 lists are viewed */
-    return id !== '3' || Object.keys(interactedWith).length >= 3;
-  }
-
   function handlePointClick(list) {
     if(list.includes(lvlActive) && $matchMq.md) {
       updateSkill(list[0])
     }
+  }
+
+  function showExtraBtn(id) {
+    /* EASTER_EGG - show "made me" when all 3 lists are viewed */
+    return id !== '3' || Object.keys(interactedWith).length >= 3;
   }
 </script>
 
@@ -66,6 +65,11 @@
     justify-content: center;
     align-items: center;
     padding-bottom: calc($layout-margin * 2);
+    color: var(--text_invert);
+
+    :global(.dark) & {
+      color: var(--text_0);
+    }
 
     @media (--max-md) {
       &::before { /* slider shadow */
@@ -111,7 +115,6 @@
 
     &Title {
       position: relative;
-      color: var(--text_invert);
       font-size: $font-XL;
       margin-bottom: $spacer-MS;
       line-height: 1;
@@ -161,7 +164,6 @@
 
     &Text {
       display: inline-block;
-      color: var(--text_invert);
     }
 
     &Orbite {
@@ -171,7 +173,7 @@
       left: 0;
       width: 1.1rem;
       height: 1.1rem;
-      animation: orbite 15s infinite linear;
+      animation: rotateOrbite 15s infinite linear;
       animation-play-state: paused;
       transform-origin: 50% 50%;
     }
@@ -239,7 +241,7 @@
         font-weight: 500;
         border: none;
         cursor: pointer;
-        color: var(--text_invert);
+        color: inherit;
         padding: $spacer-S $spacer-M;
         margin: 0 $spacer-M $spacer-M;
         background: transparent;
@@ -274,7 +276,7 @@
           color: var(--colorType);
         }
 
-        &[aria-pressed='true'] {
+        &[aria-expanded='true'] {
           color: var(--text_0);
 
           &::before {
@@ -350,7 +352,6 @@
       &.isActive {
         opacity: 1;
         animation: none;
-        /* animation-name: blinkStrong; */
       }
 
       &Text {
@@ -365,7 +366,7 @@
       }
 
       &Rotate {
-        animation: rotateSlider 25s infinite linear;
+        animation: rotateItself 20s infinite linear;
 
         :not(:global(.uAppear)) & {
           animation-play-state: paused;
@@ -383,6 +384,10 @@
         transform: scale(0.5);
         transition: transform 250ms ease;
         background-color: var(--text_invert);
+
+        :global(.dark) & {
+          background-color: var(--text_1);
+        }
 
         .isActive & {
           background-color: var(--colorType);
@@ -421,7 +426,7 @@
     }
   }
 
-  @keyframes orbite {
+  @keyframes rotateOrbite {
     0% {
       transform: rotate(-45deg);
     }
@@ -430,7 +435,7 @@
     }
   }
 
-  @keyframes rotateSlider {
+  @keyframes rotateItself {
     0% {
       transform: rotate(0deg) scale(0.7);
     }
@@ -439,18 +444,6 @@
     }
     100% {
       transform: rotate(180deg) scale(0.7);
-    }
-  }
-
-  @keyframes rotateGalaxy {
-    0% {
-      transform: rotate(0deg) scale(0.7);
-    }
-    50% {
-      transform: rotate(180deg) scale(1);
-    }
-    100% {
-      transform: rotate(360deg) scale(0.7);
     }
   }
 
@@ -469,36 +462,16 @@
       opacity: 0.5;
     }
   }
-
-  /* REVIEW THIS */
-  @keyframes blinkStrong {
-    0% {
-      opacity: 1;
-    }
-    1% {
-      opacity: 0.5;
-    }
-    2% {
-      opacity: 1;
-    }
-    3% {
-      opacity: 0.2;
-    }
-    4%,
-    100% {
-      opacity: 1;
-    }
-  }
 </style>
 
 <div class="main">
-  <div class="tabList uAppear-0" aria-label="Skill types">
+  <div class="tabList uAppear-0">
     {#each Object.keys(tools.lists) as id}
       {#if showExtraBtn(id)}
         <button
           class="tabBtn"
           style="--colorType: {colorTypes[id]}"
-          aria-pressed={lvlActive === id}
+          aria-expanded={lvlActive === id}
           on:click={() => updateSkill(id)}>
           {tools.lists[id]}
         </button>
@@ -508,15 +481,15 @@
   <ul class="skills u-carousel uAppear-1">
     {#each sortByLevel as level, lvlIndex}
       <li class='skillsLvl u-carousel-item' data-level={tools.lists[lvlIndex]} style="--colorType: {colorTypes[lvlIndex]}">
-        <h3 class="f-mono skillsTitle">
+        <h3 class="f-mono skillsTitle" id={`skill-${lvlIndex}`}>
           {tools.lists[lvlIndex]}
         </h3>
-        <ul aria-label={tools.lists[lvlIndex]}>
+        <ul aria-labelledby={`skill-${lvlIndex}`}>
           {#each level as { name, list, url, hide }}
             <li
               data-tool={name}
               class:isActive={list.includes(lvlActive)}
-              on:click={() => handlePointClick(list[0])}
+              on:click={() => handlePointClick(list)}
               class="point isActive">
               <span class="pointOrbite">
                 <span class="pointRotate">
