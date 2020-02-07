@@ -1,7 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import { strGeneral, updateGeneral } from '../stores/general.js';
-  import CircleComposition from './animations/CircleComposition.svelte';
+  import CircleComposition from './CircleComposition.svelte';
   import { TIMEOUTS } from '../utils';
 
   const intro = 'Oh, hi there!';

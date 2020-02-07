@@ -1,14 +1,14 @@
 <script>
   import { onMount, afterUpdate, onDestroy } from 'svelte';
-  import { getInLimit, getIOstatusVertical } from '../utils';
-  import { _window, afterResponsiveUpdate } from '../stores/responsive.js';
-  import { strDabox, updateDabox } from '../stores/dabox.js';
-  import { updateCircle, strCircle } from '../stores/circle.js';
-  import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
-  import Dots from './animations/Dots.svelte';
-  import Gelly from './animations/Gelly.svelte';
-  import Echo from './animations/Echo.svelte';
-  import valuesData from '../data/values.js';
+  import { getInLimit, getIOstatusVertical } from '../../utils';
+  import { _window, afterResponsiveUpdate } from '../../stores/responsive.js';
+  import { strDabox, updateDabox } from '../../stores/dabox.js';
+  import { updateCircle, strCircle } from '../../stores/circle.js';
+  import { strGeneral, updateGeneral, afterGeneralUpdate } from '../../stores/general.js';
+  import Dots from './Dots.svelte';
+  import Gelly from './Gelly.svelte';
+  import Echo from './Echo.svelte';
+  import valuesData from '../../data/values.js';
 
   const parts = ['MORPH', 'DOTS', 'ASK', 'WOLF', 'PEOPLE', 'FINALLE'];
   $:isOnStage = $strGeneral.isReady && $strGeneral.pageCurrentSection === 'intro';
@@ -400,12 +400,3 @@
     </div>
   </div>
 </section>
-
-<!--
-  TODO:: 
-  - [ ] Pixel Perfect Animations (some parallax? Maybe if not too heavy).
-  - Merge "Values" variants markup.
-  
-  OPTIMIZE/TODO::
-  - Looks like I completely ignored SUIT/BEM conventions ._. -->
-<!-- diffs so far: + pContent + .legend -->

@@ -1,14 +1,14 @@
 <script>
   import { onMount, afterUpdate, onDestroy } from 'svelte';
-  import { getInLimit, getIOstatusHorizontal } from '../utils';
-  import { _window, afterResponsiveUpdate } from '../stores/responsive.js';
-  import { strDabox, updateDabox } from '../stores/dabox.js';
-  import { updateCircle } from '../stores/circle.js';
-  import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
-  import Dots from './animations/Dots.svelte';
-  import Gelly from './animations/Gelly.svelte';
-  import Echo from './animations/Echo.svelte';
-  import valuesData from '../data/values.js';
+  import { getInLimit, getIOstatusHorizontal } from '../../utils';
+  import { _window, afterResponsiveUpdate } from '../../stores/responsive.js';
+  import { strDabox, updateDabox } from '../../stores/dabox.js';
+  import { updateCircle } from '../../stores/circle.js';
+  import { strGeneral, updateGeneral, afterGeneralUpdate } from '../../stores/general.js';
+  import Dots from './Dots.svelte';
+  import Gelly from './Gelly.svelte';
+  import Echo from './Echo.svelte';
+  import valuesData from '../../data/values.js';
 
   const parts = ['MORPH', 'DOTS', 'ASK', 'WOLF', 'PEOPLE', 'FINALLE'];
   $:isOnStage = $strGeneral.isReady && $strGeneral.pageCurrentSection === 'intro';
@@ -475,6 +475,13 @@
     }
   }
 </style>
+
+<!--
+  TODO - Merge "Values" variants, so both consume the same HTML. Svelte doesn't make it easy because of classes.
+  
+  OPTIMIZE/TODO::
+  - Looks like I completely ignored SUIT/BEM conventions ._. -->
+<!-- diffs with ValuesVertical: + pContent + .legend -->
 
 <section
   class="container"

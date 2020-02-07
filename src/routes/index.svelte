@@ -1,7 +1,7 @@
 <script>
   import { onMount, beforeUpdate, afterUpdate } from 'svelte';
   import Intro from '../components/Intro.svelte';
-  import ValuesVertical from '../components/ValuesVertical.svelte';
+  import ValuesVertical from '../components/values/ValuesVertical.svelte';
   import Words from '../components/Words.svelte';
   import Skills from '../components/skills/Skills.svelte';
   import Journey from '../components/Journey.svelte';
@@ -52,7 +52,7 @@
     if ($matchMq.md && !isHorizonRequested) {
       isHorizonRequested = true
 
-      const module = await import('../components/ValuesHorizon.svelte');
+      const module = await import('../components/values/ValuesHorizon.svelte');
       ValuesHorizon = module.default;
 
       monitorizeScrollSpeed();

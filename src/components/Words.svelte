@@ -392,8 +392,8 @@
     .date {
       flex-shrink: 0;
       left: auto;
-      margin-left: calc($spacer-L * -3);
-      margin-top: -2rem; /* REVIEW - by eye */
+      margin-left: calc($spacer-M * -5);
+      margin-top: -2rem;
     }
 
     .place {

@@ -1,6 +1,6 @@
 <script>
-export let pattern;
-export let isActive;
+  export let pattern;
+  export let isActive;
 </script>
 
 <style>
