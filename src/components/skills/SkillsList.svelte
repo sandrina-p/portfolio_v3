@@ -1,11 +1,9 @@
 <script>
-  import { onMount, afterUpdate } from 'svelte';
-  import tools from '../data/tools';
-  import { getInLimit } from '../utils';
-  import { _window, matchMq } from '../stores/responsive.js';
-  import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
-  import { GITHUB_URL, CODEPEN_URL, SITE_REPO } from '../data/misc.js';
+  import { onMount, createEventDispatcher } from 'svelte';
+  import tools from '../../data/tools';
+  import {  matchMq } from '../../stores/responsive.js';
 
+	const dispatch = createEventDispatcher();
   const colorTypes = {
     '0': 'var(--primary_1_sat)',
     '1': 'var(--primary_2)',
@@ -14,153 +12,52 @@
   };
   const sortByLevel = (() => {
     const lists = Array.from(Array(Object.keys(tools.lists).length), () => []);
+    
     for(let tool of tools.tools) {
       tool.list.forEach(listIndex => {
         return lists[listIndex].push(tool)
       })
     }
+
     return lists
   })();
 
-  $: wHeight = $_window && $_window.innerHeight;
-
-  let tabSelected = '0';
+  let lvlActive = '0';
   let interactedWith = { '0': true };
-  let elTitle;
-  let isVisible = false;
-  let limit;
-  let fromTop;
-  let isOnStage;
-  let progressN = 0; // title scale
-  let progressY = 0; // title translate
 
-  afterGeneralUpdate((prevState, state) => {
-    const prevPageSection = prevState.pageCurrentSection;
-    const pageSection = state.pageCurrentSection;
+  onMount(() => {
+    dispatch('setColorType', {
+      colorType: colorTypes['0']
+    });
+  })
 
-    // REVIEW - Should move this index logic to general store?
-    const prevSectionIndex = state.pageSections.indexOf('words');
-    const currentSectionIndex = state.pageSections.indexOf(state.pageCurrentSection);
-    
-    if (!prevState.isReady && state.isReady) {
-      // setTimeout(() => {
-      //   window.scroll(0, 9500); // FOR DEBUG
-      // }, 150)
-    }
-
-    if (!isOnStage && currentSectionIndex >= prevSectionIndex) {
-      isOnStage = true;
-      // The "scale" effect should start before 
-      initAnimation();
-    }
-
-    if (prevPageSection !== pageSection && pageSection === 'skills') {
-      updateFromTop();
-      verifyAnimations();
-    }
-  });
-
-  function updateFromTop(elTop) {
-    fromTop = fromTop || (elTop || elTitle.getBoundingClientRect().top) + window.scrollY;
-  }
-
-  function verifyAnimations() {
-    console.log('scrolling skills...');
-    const scrollY = window.scrollY;
-    const offset = wHeight / 4;
-    const closeToTop = wHeight - (fromTop - scrollY + offset);
-    const perc = closeToTop / limit;
-
-    progressN = getInLimit(perc, 0, 1);
-    const translate = progressN > -1 ? limit - progressN*limit/1 : 0
-    progressY = `${getInLimit(translate, 0, limit) * -1}px`
-    isVisible = progressN === 1;
-  }
-
-  function initAnimation() {
-    limit = wHeight / 2;
-
-    const watchTitle = ([entry]) => {
-      if (entry.isIntersecting) {
-        updateFromTop(entry.boundingClientRect.top)
-        window.addEventListener('scroll', verifyAnimations);
-      } else {
-        window.removeEventListener('scroll', verifyAnimations);
-      }
-    };
-
-    const observer = new IntersectionObserver(watchTitle);
-
-    // OPTIMIZE - disconnect
-    observer.observe(elTitle);
-
-    updateFromTop();
-    verifyAnimations();
-  }
-
-  function updateList(id) {
+  function updateSkill(id) {
     interactedWith[id] = true;
-    tabSelected = id;
+    lvlActive = id;
+
+    dispatch('setColorType', {
+      colorType: colorTypes[id]
+    });
   }
 
   function showExtraBtn(id) {
     /* EASTER_EGG - show "made me" when all 3 lists are viewed */
     return id !== '3' || Object.keys(interactedWith).length >= 3;
   }
+
+  function handlePointClick(list) {
+    if(list.includes(lvlActive) && $matchMq.md) {
+      updateSkill(list[0])
+    }
+  }
 </script>
 
 <style>
-  .wrapper {
-    min-height: 100vh;
-    overflow: hidden;
-    padding-top: 50vw;
-    padding-bottom: 4rem;
-    background-color: var(--bg_0);
-    transition: background-color 400ms cubic-bezier(0.19, 1, 0.22, 1);
-
-    &.uAppear {
-      background-color: var(--bg_invert);
-    }
-
-    @media (--md) {
-      padding-bottom: 33vh;
-    }
-  }
-
-  .header {
-    position: relative;
-    margin-top: $spacer-L;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    
-    &Title {
-      position: relative;
-      font-size: calc($font-heading_1 * 0.8);
-      color: transparent;
-      transform-origin: 50% 0%;
-      -webkit-text-stroke: 0.1rem var(--text_1);
-      opacity: var(--progressN, 0);
-      transform:
-        scale(var(--progressN, 1))
-        translateY(var(--progressY, 0));
-      transition: transform 100ms ease,
-        text-shadow 150ms; 
-
-      .uAppear & {
-        -webkit-text-stroke: initial;
-        color: var(--text_invert);
-      }
-    }
-
-    &Desc {
-      padding: $spacer-S $layout-margin;
-      color: var(--text_invert);
-    }
-  }
+  $gutter: calc($layout-margin*2);
 
   .main {
     position: relative;
+    width: 100%;
     max-width: 90rem;
     margin: 0 auto;
     position: relative;
@@ -185,7 +82,7 @@
         visibility: hidden;
         opacity: 0;
         
-        .uAppear & {
+        :global(.uAppear) & {
           /* avoid a weird clash of colors on fade in/out */
           transition: visibility 0ms 100ms, opacity 100ms 100ms;
           visibility: visible;
@@ -200,7 +97,6 @@
   }
 
   .skills {
-    $gutter: calc($layout-margin*2);
     padding: $spacer-L $layout-margin;
 
     /* scroll margin on the end */
@@ -291,7 +187,7 @@
     &Star {
       background-color: var(--colorType);
       cursor: zoom-in;
-      border-radius: 0.3rem;
+      border-radius: 0.4rem;
     }
 
     @for $i from 1 to 24 {
@@ -325,31 +221,8 @@
   }
 
   @media (--md) {
-    .wrapper {
-      padding-top: 25vh; /* enough to cover all in black I guess */
-      min-height: 100vh;
-    }
-
     .main {
       margin-top: $spacer-XL;
-    }
-
-    .header {
-      &Title {
-        font-size: $font-heading_0;
-
-        .uAppear & {
-          /* TIL: fake opacity without opacity */
-          text-shadow:
-            0 0 4.5rem var(--bg_invert),
-            0 0 4.5rem var(--bg_invert),
-            0 0 3.5rem var(--colorTabSelected);
-        }
-      }
-
-      &Desc {
-        padding: 0;
-      }
     }
 
     .tab {
@@ -412,7 +285,7 @@
           }
         }
 
-        .uAppear & {
+        :global(.uAppear) & {
           opacity: 1;
           transform: translateY(0);
           transition:
@@ -494,7 +367,7 @@
       &Rotate {
         animation: rotateSlider 25s infinite linear;
 
-        :not(.uAppear) & {
+        :not(:global(.uAppear)) & {
           animation-play-state: paused;
         }
       }
@@ -597,6 +470,7 @@
     }
   }
 
+  /* REVIEW THIS */
   @keyframes blinkStrong {
     0% {
       opacity: 1;
@@ -617,60 +491,47 @@
   }
 </style>
 
-<section
-  class="wrapper"
-  class:uAppear={isVisible}
-  class:uAppearSoon={!isVisible}
-  id="skills"
-  data-section-offset-h="5">
-  <header class="header" style="--colorTabSelected: {colorTypes[tabSelected]};">
-    <h2 class="headerTitle f-mono" bind:this={elTitle} style='--progressN: {progressN}; --progressY: {progressY}'>skills</h2>
-    <p class="headerDesc uAppear-0">Take a sneak peek on <a href={GITHUB_URL} class="u-link invert">Github</a> and <a href={CODEPEN_URL} class="u-link invert">Codepen</a>.</p>
-  </header>
-  
-  <div class="main">
-    <div class="tabList uAppear-0" aria-label="Skill types">
-      {#each Object.keys(tools.lists) as id}
-        {#if showExtraBtn(id)}
-          <button
-            class="tabBtn"
-            style="--colorType: {colorTypes[id]}"
-            aria-pressed={tabSelected === id}
-            on:click={() => updateList(id)}>
-            {tools.lists[id]}
-          </button>
-        {/if}
-      {/each}
-    </div>
-      <ul class="skills u-carousel uAppear-1">
-        {#each sortByLevel as level, lvlIndex}
-          <li class='skillsLvl u-carousel-item' data-level={tools.lists[lvlIndex]} style="--colorType: {colorTypes[lvlIndex]}">
-            <h3 class="f-mono skillsTitle">
-              {tools.lists[lvlIndex]}
-            </h3>
-            <ul aria-label={tools.lists[lvlIndex]}>
-              {#each level as { name, list, url, hide }}
-                <li
-                  data-tool={name}
-                  class:isActive={list.includes(tabSelected)}
-                  on:click={() => (!list.includes(tabSelected) ? updateList(list[0]) : true)}
-                  class="point isActive">
-                  <span class="pointOrbite">
-                    <span class="pointRotate">
-                      <span class="pointStar" />
-                    </span>
-                  </span>
-                  {#if !url}
-                    <span class="pointText">{name}</span>
-                  {:else}
-                    <a class="pointText u-link" href={url}>{name}</a>
-                  {/if}
-                </li>
-            {/each}
-            </ul>
-          </li>
-        {/each}
-      </ul>
-    <!-- {/if} -->
+<div class="main">
+  <div class="tabList uAppear-0" aria-label="Skill types">
+    {#each Object.keys(tools.lists) as id}
+      {#if showExtraBtn(id)}
+        <button
+          class="tabBtn"
+          style="--colorType: {colorTypes[id]}"
+          aria-pressed={lvlActive === id}
+          on:click={() => updateSkill(id)}>
+          {tools.lists[id]}
+        </button>
+      {/if}
+    {/each}
   </div>
-</section>
+  <ul class="skills u-carousel uAppear-1">
+    {#each sortByLevel as level, lvlIndex}
+      <li class='skillsLvl u-carousel-item' data-level={tools.lists[lvlIndex]} style="--colorType: {colorTypes[lvlIndex]}">
+        <h3 class="f-mono skillsTitle">
+          {tools.lists[lvlIndex]}
+        </h3>
+        <ul aria-label={tools.lists[lvlIndex]}>
+          {#each level as { name, list, url, hide }}
+            <li
+              data-tool={name}
+              class:isActive={list.includes(lvlActive)}
+              on:click={() => handlePointClick(list[0])}
+              class="point isActive">
+              <span class="pointOrbite">
+                <span class="pointRotate">
+                  <span class="pointStar" />
+                </span>
+              </span>
+              {#if !url}
+                <span class="pointText">{name}</span>
+              {:else}
+                <a class="pointText u-link" href={url}>{name}</a>
+              {/if}
+            </li>
+        {/each}
+        </ul>
+      </li>
+    {/each}
+  </ul>
+</div>
