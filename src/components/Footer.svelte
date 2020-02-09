@@ -397,8 +397,8 @@
       <div class="thing">
         <div class="thingItself">
           {#each [scale1, scale2, scale3] as scale}
-            <svg class="thingSvg"
-              style="--scale: {scale};"
+            <svg class="thingSvg u-svg"
+              style="display: none; --scale: {scale};"
               viewBox="0 0 201 201"
               xmlns="http://www.w3.org/2000/svg">
               <rect class="thingSvgRect" x="1.13721" y="1.55859" width="198" height="198" rx={figSize} />

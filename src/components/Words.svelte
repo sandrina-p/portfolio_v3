@@ -435,7 +435,7 @@
               <li class="placeItem" style="--place-color: {colorTypes[type] || colorTypes.default}">
                 <span class="placeType">{type}</span>
                 <div class="placeLink">
-                  <svg aria-hidden="true" class="placeIcon {svg}">
+                  <svg aria-hidden="true" class="placeIcon {svg} u-svg" style="display: none;">
                     <use xlink:href="#{svg}" />
                   </svg>
                   <a href={link} class="u-link" aria-label="">{where}</a>

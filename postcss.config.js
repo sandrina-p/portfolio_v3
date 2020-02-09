@@ -16,6 +16,7 @@ module.exports = {
             customMedia,
           },
         },
+        'focus-within-pseudo-class': false,
       },
     },
     'postcss-for': {},

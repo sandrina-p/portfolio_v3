@@ -12,7 +12,7 @@
   let isRICScheduled = false;
   let theme = 'light';
   let hasReducedMotion = false;
-  let sunH = 5;
+  let sunH = 4;
 
 	const dispatch = createEventDispatcher();
 
@@ -163,7 +163,7 @@
 
   function toggleTheme() {
     const newTheme = theme === 'dark' ? 'light' : 'dark';
-    sunH = newTheme === 'dark' ? 3 : 5;
+    sunH = newTheme === 'dark' ? 3 : 4;
     // https://github.com/sveltejs/svelte/issues/3105
     document.body.classList.remove(theme);
     document.body.classList.add(newTheme);
@@ -176,17 +176,12 @@
 
   .nav {
     position: fixed;
-    top: $spacer-MS;
+    top: $spacer-L;
     left: 50%;
     transform: translateX(-50%);
     z-index: 5; /* above everything */
     display: flex;
     align-items: center;
-
-    @media (--md) {
-      top: auto;
-      bottom: $spacer-MS;
-    }
   }
 
   .toggleTheme,
@@ -250,6 +245,7 @@
     &Item {
       position: relative;
       margin: 0;
+      margin-top: calc($spacer-S * -1);
       width: $itemW;
       text-align: center;
 
@@ -262,7 +258,8 @@
         height: $spacer-S;
         border-radius: 50%;
         background-color: var(--text_invert);
-        transform: translate(-50%, -50%);
+        transform: translate(-50%, calc($spacer-S/2));
+        pointer-events: none;
       }
 
       &.isCurrent,
@@ -279,7 +276,7 @@
     &Anchor {
       display: block;
       color: var(--text_1);
-      padding-top: $spacer-S;
+      padding-top: $spacer-M;
       opacity: 0;
       transition: opacity 400ms;
       text-decoration: none;
@@ -389,7 +386,7 @@
 <nav class="nav" class:isReady={isCalculated} class:invert={currentSection === 'skills'}>
   <span class="bubble" class:wasSelected={wasSelected}></span>
   <button class="toggleTheme" on:click={toggleTheme} aria-pressed={theme === 'dark'} aria-label="Dark Theme">
-    <svg class="sun" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <svg class="sun u-svg" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="display:none;">
       <rect class="sunCenter" x="17.4" y="12.3" width="8" height="8" rx="4" transform="rotate(135 17.4 12.3)" fill="#3F3F3F"/>
       <rect class="sunRay" x="12.5" y="5.9" width="1.5" height={sunH} rx=".5" transform="rotate(-180 12.5 5.9)" fill="#3F3F3F"/>
       <rect class="sunRay" x="11" y="18.8" width="1.5" height={sunH} rx=".5" fill="#3F3F3F"/>

@@ -138,6 +138,12 @@
     }
   }
 
+  .u-svg {
+    /* this svg have an inline display: none; so in case the page is loaded without styles
+    it doesn't ruin the layout. once styles are loaded, let's make sure we render this correctly */
+    display: block !important;
+  }
+
   .u-link,
   .u-linkInteract {
     position: relative;

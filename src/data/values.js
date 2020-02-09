@@ -25,7 +25,7 @@ export default {
   WOLF: {
     text: [
       'If you wanna go quickly, Sandrina can make it happen. As a fast paced learner with a <strong>high quality bar</strong>, she can be the lone wolf when needed.',
-      `But if you wanna go far, <a class="u-link" href=${EMAIL_URL}>ask her to join</a> your wolves pack and let’s go together, as a team.`,
+      `But if you wanna go far, <a class="u-link" href="${EMAIL_URL}">ask her to join</a> your wolves pack and let’s go together, as a team.`,
     ],
     width: '30rem',
     height: '40rem',

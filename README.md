@@ -2,7 +2,7 @@
 
 Let me introduce you to someone who helps to turn ideas into accessible experiences.
 
-Her name is Sandrina Pereira and she’s a frontend developer.
+Her name is Sandrina Pereira and she’s a UX Engineer.
 
 ----
 
@@ -14,7 +14,7 @@ This is where you can see her personal website code. But... wait, it's still in 
 yarn # or npm install
 
 # Run in dev mode
-yarn dev # or npm dev
+yarn dev # or npm run dev
 ```
 
 ## Stack
@@ -30,18 +30,24 @@ Well... let's say we are 80% done and the other 20% will take 80% of the time.
 - [x] Finalize animations for Intro (99%)
 - [x] Review "Skills" section overall UX
 - [x] Light/Dark theme
-- [ ] Toggle Theme
+- [x] Toggle Theme
 - [ ] Refine copywrite (missing journey)
 - [x] Decide footer
 - [x] Decide where to put contacts
-- [x] Refine nav (90%)
-- [x] Review responsive
+- [x] Refine nav
+- [x] Responsive
 - [ ] Review transitions consistency
 
 ### Development
+- [ ] 🐛 Nav "Contacts" click - pixel perfect
+- [ ] 🐛 Resize recalculation.
+- [ ] 🐛 Responsive change needs recalculation.
+- [ ] 🐛 Values - when scrolling to fast, clipping values are wrong.
+- [ ] 🐛 Contacts - On Safari a horizonal scroll happens on elements with translate (not absolute). Refactor that.
+
 - [ ] Review test coverage
 - [ ] Review Accessibility
-- [ ] Review SEO
+- [ ] Review SEO (Add favicon)
 - [x] Review HTML
 - [ ] Review manifest
 - [ ] Run Lighthouse

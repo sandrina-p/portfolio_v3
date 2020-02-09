@@ -127,7 +127,7 @@
 
 <div class="container" class:isPaused={state.isPaused} style={state.style}>
   {#each circleCount as circle}
-    <svg viewbox="0 0 100 100" class="circle">
+    <svg viewbox="0 0 100 100" class="circle u-svg" style="display: none;">
       <circle cx="50" cy="50" r="49" />
     </svg>
   {/each}
