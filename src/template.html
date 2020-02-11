@@ -25,6 +25,11 @@
     %sapper.head%
   </head>
   <body>
+    <script>
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark'); // See ToggleTheme.svelte
+      }
+    </script>
     <!-- The application will be rendered inside this element,
 	     because `src/client.js` references it -->
     <div id="sapper">%sapper.html%</div>

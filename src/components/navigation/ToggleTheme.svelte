@@ -1,17 +1,26 @@
 <script>
-  let isDark = false; // TODO - Read browser preferences.
+  import { onMount } from 'svelte';
+  let isDark = false;
   let sunH = 4;
+
+  onMount(() => {
+    const isDefaultDark = document.body.classList.contains('dark'); // done at template.html
+    setDark(isDefaultDark);
+  });
+
+  function setDark (isNowDark) {
+    sunH = isNowDark ? 3 : 4;
+    isDark = isNowDark;
+  }
 
   function toggleTheme() {
     const isNowDark = !isDark;
-    sunH = isNowDark ? 3 : 4;
+    setDark(isNowDark);
 
     // Don't use .toggle() to avoid possible desync when clicking toooo fast.
     const action = isNowDark ? 'add' : 'remove';
     // https://github.com/sveltejs/svelte/issues/3105
     document.body.classList[action]('dark');
-
-    isDark = isNowDark;
   }
 
   export let klass;

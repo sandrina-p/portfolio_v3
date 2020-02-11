@@ -27,7 +27,7 @@
 
   body.dark {
     --text_0: #e2e2e2;
-    --text_1: #8a8a8a;
+    --text_1: #9b9b9b;
     --text_invert: #343434; /* same as defautl text_0 */
     --bg_0: #424043;
     --bg_1: #2e2a2f;
