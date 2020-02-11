@@ -37,6 +37,14 @@
     --morph_total: #9176af;
   }
 
+  body.js-tabbing {
+    a:focus,
+    button:focus {
+      outline: 1px solid var(--primary_1) !important;
+      box-shadow: 2px 2px 0px 1px var(--primary_1_stronger) !important;
+    }
+  }
+
   /* ************************************ */
 
   html {
@@ -144,10 +152,11 @@
     display: block !important;
   }
 
-  .u-link,
-  .u-linkInteract {
+  .u-link {
     position: relative;
     white-space: nowrap;
+    text-decoration: underline;
+    text-decoration-color: var(--primary_1);
     color: inherit;
     z-index: 0; /* so before gets behind but visible */
 
@@ -160,14 +169,13 @@
       height: 1.2em;
       background-color: var(--primary_1);
       opacity: 0.2;
-      transform: scale(1, 0);
+      transform: scale(1, 0.3);
       transition: transform 75ms ease-out;
       transform-origin: 0 100%;
       z-index: -1;
     }
 
-    &:hover,
-    &:focus {
+    &:hover {
       outline: none;
 
       &::before {
@@ -175,33 +183,7 @@
         transform: scale(1, 1);
       }
     }
-
-    &:focus::before {
-      opacity: 0.4;
-    }
-
-    /* &.invert {
-      color: var(--text_invert);
-    } */
   }
-
-  .u-linkInteract {
-    text-decoration: none;
-
-    &[aria-current='true']::before {
-      transform: scale(1, 0.3);
-    }
-  }
-
-  .u-link {
-    text-decoration: underline;
-    text-decoration-color: var(--primary_1);
-
-    &::before {
-      transform: scale(1, 0.3);
-    }
-  }
-
   
   .u-carousel { /* only mobile REVIEW - should delete this? */
     @media (--max-md) {
@@ -213,13 +195,13 @@
       scroll-snap-type: x mandatory;
       overflow: scroll;
       -webkit-overflow-scrolling: touch;
-    }
-  }
 
-  .u-carousel-item {
-    position: relative;
-    flex-shrink: 0;
-    scroll-snap-align: center;
+      .u-carousel-item {
+        position: relative;
+        flex-shrink: 0;
+        scroll-snap-align: center;
+      }
+    }
   }
 
   /* -------- Animations ------------- */

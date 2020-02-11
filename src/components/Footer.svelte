@@ -3,7 +3,7 @@
   import { _window } from '../stores/responsive.js';
   import throttle from 'lodash/throttle';
   import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
-  import { getInLimit } from '../utils';
+  import { getInLimit, scrollIntoView } from '../utils';
   import { EMAIL_URL, SITE_REPO } from '../data/misc.js';
   import Contacts from './Contacts.svelte';
 
@@ -112,6 +112,14 @@
       verify: handleScroll // BUG - need to update cardScrollPivot and titleScrollPivot
     }
   }
+
+  function handleKeyboardFocus(e) {
+    scrollIntoView(e, {
+      value: $_window.innerHeight * 0.25 // to make sure header is visible.
+    })
+    animation.verify();
+  }
+
 </script>
 
 <style>
@@ -384,7 +392,7 @@
   </h3>
 
   <div class="card" bind:this={ elCard } class:isCardOnView>
-    <div class="cardChild">
+    <div class="cardChild" on:focusin={handleKeyboardFocus}>
       <p class="text">Fell free to <a href={EMAIL_URL} class="u-link">say hi</a>!</p>
       <p class="text">
         <span class="textLine">It's easy to find Sandrina around</span>

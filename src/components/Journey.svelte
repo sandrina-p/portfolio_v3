@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import { _window } from '../stores/responsive.js';
   import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
-  import { getInLimit, TIMEOUTS } from '../utils';
+  import { getInLimit, scrollIntoView } from '../utils';
   import { EMAIL_URL, CODEPEN_URL, TWITTER_URL } from '../data/misc.js';
 
   let elHeading;
@@ -57,6 +57,13 @@
     return {
       verify: handleScroll
     }
+  }
+
+  function handleKeyboardFocus(e) {
+    scrollIntoView(e, {
+      value: $_window.innerHeight * -0.25 + 32 // $paddingTop + visual margin.
+    })
+    animation.verify();
   }
 </script>
 
@@ -220,7 +227,8 @@
 <section class="wrapper"
   class:isActive
   style="--progress: {progress}"
-  id="journey">
+  id="journey"
+  on:focusin={handleKeyboardFocus}>
   <h2 class="f-mono heading" bind:this={elHeading}>
     <span class="sliding">
       <span class="slidingRotate">

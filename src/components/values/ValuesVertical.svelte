@@ -354,14 +354,10 @@
     <div class="pContent">
       <h3 class="f-mono title" data-part="WOLF" bind:this={elWolf} style={styleClip.WOLF}>
         <span class="title-part" aria-label="From a lone wolf to a team player">
-          From a
-          <br />
-          lone wolf
+          From a <br /> lone wolf
         </span>
         <span class="title-part">
-          to a
-          <br class="title-br" />
-          team player
+          to a <br class="title-br" /> team player
         </span>
       </h3>
       <span class="legend">swipe left</span>

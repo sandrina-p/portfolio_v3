@@ -36,13 +36,14 @@ Well... let's say we are 80% done and the other 20% will take 80% of the time.
 - [x] Decide where to put contacts
 - [x] Refine nav
 - [x] Responsive
+- [ ] Style scrollbar and text-selection
 - [ ] Review transitions consistency
 
 ### Development
 - [ ] 🐛 Nav "Contacts" click - pixel perfect
 - [x] 🐛 Resize recalculation.
-- [ ] 🐛 Responsive change needs recalculation.
-- [ ] 🐛 Values - when scrolling to fast, clipping values are wrong.
+- [x] 🐛 Responsive change needs recalculation.
+- [x] 🐛 Values - when scrolling to fast, clipping values are wrong.
 - [ ] 🐛 Contacts - On Safari a horizonal scroll happens on elements with translate (not absolute). Refactor that.
 
 - [ ] Review test coverage

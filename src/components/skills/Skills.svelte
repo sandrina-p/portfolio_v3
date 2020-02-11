@@ -2,8 +2,8 @@
   import { onMount, afterUpdate } from 'svelte';
   import SkillsList from './SkillsList.svelte';
   import tools from '../../data/tools';
-  import { getInLimit } from '../../utils';
-  import { _window, matchMq } from '../../stores/responsive.js';
+  import { getInLimit, scrollIntoView } from '../../utils';
+  import { _window, matchMq, afterResponsiveUpdate } from '../../stores/responsive.js';
   import { strGeneral, updateGeneral, afterGeneralUpdate } from '../../stores/general.js';
   import { GITHUB_URL, CODEPEN_URL, SITE_REPO } from '../../data/misc.js';
 
@@ -25,12 +25,6 @@
     // REVIEW - Should move this index logic to general store?
     const prevSectionIndex = state.pageSections.indexOf('words');
     const currentSectionIndex = state.pageSections.indexOf(state.pageCurrentSection);
-    
-    if (!prevState.isReady && state.isReady) {
-      // setTimeout(() => {
-      //   window.scroll(0, 8000); // FOR DEBUG
-      // }, 150)
-    }
 
     if (!isOnStage && currentSectionIndex >= prevSectionIndex) {
       isOnStage = true;
@@ -44,8 +38,15 @@
     }
   });
 
-  function updateFromTop(elTop) {
-    fromTop = fromTop || (elTop || elTitle.getBoundingClientRect().top) + window.scrollY;
+  afterResponsiveUpdate(() => {
+    console.warn('Resize: skills');
+    updateFromTop(null, { forced: true });
+  })
+
+  function updateFromTop(elTop, { forced } = {}) {
+    fromTop = !fromTop || forced
+      ? (elTop || elTitle.getBoundingClientRect().top) + window.scrollY
+      : fromTop;
   }
 
   function verifyAnimations() {
@@ -85,6 +86,13 @@
   function handleColorType(ev) {
     colorType = ev.detail.colorType
   }
+
+  function handleKeyboardFocus(e) {
+    scrollIntoView(e, {
+      value: $_window.innerHeight * -0.25 // to make sure header is visible.
+    })
+    verifyAnimations();
+  }
 </script>
 
 <style>
@@ -105,10 +113,10 @@
       background-color: #1b1b1b; /* var(--bg_invert) - fallback css variables */
       background-color: var(--skills-bg);
     }
-
+    /* 
     @media (--md) {
-      padding-bottom: 33vh;
-    }
+      padding-bottom: 10vh; -- no need, too big on taller screens
+    } */
   }
 
   .header {
@@ -182,6 +190,7 @@
   class:uAppear={isVisible}
   class:uAppearSoon={!isVisible}
   id="skills"
+  on:focusin={handleKeyboardFocus}
   data-section-offset-h="5">
 
   <header class="header" style="--colorTabSelected: {colorType};">

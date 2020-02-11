@@ -59,6 +59,33 @@ export function getBrowsers() {
   }, '');
 }
 
+// Similar to how Element.scrollIntoView() works but with custom position
+// taking in account possible animations within this element.
+// ex: scroll 10px from top
+// <div on:focusin={ (e) => scrollIntoView(e, { value: 10 }) }>
+export function scrollIntoView(
+  event,
+  {
+    // Get elements position vertically (top) or horizontally (left).
+    direction = 'top', // top || left
+    // where element should be in vieport.
+    value,
+  }
+) {
+  if (!['BUTTON', 'A'].includes(event.target.tagName)) {
+    // Maybe it was something else?... Strange. Abort and report.
+    console.error('scrollIntoView ignored', event.target);
+    return false;
+  }
+
+  const scrollY = window.scrollY;
+  const parentAway = event.currentTarget.getBoundingClientRect()[direction];
+  const awaitFromPosition = value - parentAway;
+  const to = scrollY - awaitFromPosition;
+  window.scrollTo(0, to);
+  console.debug('handleKeyboardFocus focus to:', to, event.target);
+}
+
 // There are some timeouts around the app.
 // All of them have an explanation:
 export const TIMEOUTS = {
@@ -93,4 +120,26 @@ export function setRIC() {
     function(id) {
       clearTimeout(id);
     };
+}
+
+// Handle styling related to focus based on type of navigation (mouse vs keyboard)
+// Ref: https://medium.com/hackernoon/removing-that-ugly-focus-ring-and-keeping-it-too-6c8727fefcd2
+export function focusOnlyWhenNeeded() {
+  function handleTabOnce(e) {
+    if (e.keyCode === 9) {
+      document.body.classList.add('js-tabbing');
+
+      window.removeEventListener('keydown', handleTabOnce);
+      window.addEventListener('mousedown', handleMouseDownOnce);
+    }
+  }
+
+  function handleMouseDownOnce() {
+    document.body.classList.remove('js-tabbing');
+
+    window.removeEventListener('mousedown', handleMouseDownOnce);
+    window.addEventListener('keydown', handleTabOnce);
+  }
+
+  window.addEventListener('keydown', handleTabOnce);
 }

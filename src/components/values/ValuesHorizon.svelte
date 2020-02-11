@@ -1,6 +1,6 @@
 <script>
   import { onMount, afterUpdate, onDestroy } from 'svelte';
-  import { getInLimit, getIOstatusHorizontal } from '../../utils';
+  import { getInLimit, getIOstatusHorizontal, scrollIntoView } from '../../utils';
   import { _window, afterResponsiveUpdate } from '../../stores/responsive.js';
   import { strDabox, updateDabox } from '../../stores/dabox.js';
   import { updateCircle } from '../../stores/circle.js';
@@ -64,6 +64,7 @@
   onDestroy(() => {
     isMount = false;
     animations && animations.pause();
+    window.removeEventListener('scroll', verifyMetamorphose);
   })
 
   afterGeneralUpdate((prevState, state) => {
@@ -177,9 +178,10 @@
           entry,
           scrollPivot:
             status === 'enterRight'
-              ? window.scrollY
+              ? window.scrollY - (entry.rootBounds.width - entry.boundingClientRect.x)
               : window.scrollY - entry.rootBounds.width - entry.boundingClientRect.width,
         };
+        clipHandles[part](); // call immediately in case it was reached by keyboard focus.
         window.addEventListener('scroll', clipHandles[part]);
       } else {
         window.removeEventListener('scroll', clipHandles[part]);
@@ -235,6 +237,13 @@
       continue: start,
       pause,
     }
+  }
+
+  function handleKeyboardFocus(e) {
+    scrollIntoView(e, {
+      direction: 'left',
+      value: $_window.innerWidth * 0.7
+    })
   }
 
   $: getBoxClass = partName => {
@@ -331,6 +340,12 @@
   .title {
     font-size: $font-heading_2;
     margin-right: 75vw; /* white space is everything */
+
+    &-part {
+      span { /* REVIEW - Lazy */
+        display: block;
+      }
+    }
   }
 
   .pBox {
@@ -516,7 +531,7 @@
     </p>
   </div>
 
-  <div class="part pAsk">
+  <div class="part pAsk" on:focusin={ handleKeyboardFocus }>
     <Gelly isActive={ currentPart === 'ASK' }/>
     <h3 class="f-mono title" data-part="ASK" bind:this={elAsk} style={styleClip.ASK}>
       <span class="title-part">Ask why</span>
@@ -533,7 +548,7 @@
     </p>
   </div>
 
-  <div class="part pWolf">
+  <div class="part pWolf" on:focusin={ handleKeyboardFocus }>
     <Echo
       activeLevel={
         currentPart === 'WOLF'
@@ -543,14 +558,10 @@
             : currentPart === 'FINALLE' ? 4 : -1 } /> <!-- OPTIMIZE: Find a more readable way for this nes-nes-ted ternary -->
     <h3 class="f-mono title" data-part="WOLF" bind:this={elWolf} style={styleClip.WOLF}>
       <span class="title-part">
-        From a
-        <br />
-        lone wolf
+        <span>From a</span> <span>lone wolf</span>
       </span>
       <span class="title-part">
-        to a
-        <br />
-        team player
+        <span>to a</span> <span>team player</span>
       </span>
     </h3>
     <p class="pBox {getBoxClass('WOLF')}">

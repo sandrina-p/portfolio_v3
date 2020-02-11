@@ -232,6 +232,7 @@
         display: flex;
         flex-direction: column;
         z-index: 1; /* to be above stars */
+        padding: $spacer-XS;
         overflow: hidden; /* dont show scrollbar during entry animations */
       }
 
@@ -245,6 +246,7 @@
         padding: $spacer-S $spacer-M;
         margin: 0 $spacer-M $spacer-M;
         background: transparent;
+        border-radius: 2px;
         white-space: nowrap;
         flex-shrink: 0;
         width: 14rem;
@@ -278,10 +280,12 @@
 
         &[aria-expanded='true'] {
           color: var(--text_0);
-         
+          
           :global(.dark) & {
             color: var(--text_invert);
           }
+
+          &:focus { color: inherit; }
 
           &::before {
             opacity: 1;
@@ -353,7 +357,7 @@
       transition: opacity 250ms ease;
       animation: blink 10s infinite ease;
 
-      &.isActive {
+      .isActive & {
         opacity: 1;
         animation: none;
       }
@@ -484,26 +488,30 @@
   </div>
   <ul class="skills u-carousel uAppear-1">
     {#each sortByLevel as level, lvlIndex}
-      <li class='skillsLvl u-carousel-item' data-level={tools.lists[lvlIndex]} style="--colorType: {colorTypes[lvlIndex]}">
+      <li class='skillsLvl u-carousel-item'
+        class:isActive={lvlIndex == lvlActive}
+        data-level={tools.lists[lvlIndex]}
+        style="--colorType: {colorTypes[lvlIndex]}"
+        aria-hidden={lvlIndex != lvlActive}
+      >
         <h3 class="f-mono skillsTitle" id={`skill-${lvlIndex}`}>
           {tools.lists[lvlIndex]}
         </h3>
         <ul aria-labelledby={`skill-${lvlIndex}`}>
           {#each level as { name, list, url, hide }}
             <li
+              class="point"
               data-tool={name}
-              class:isActive={list.includes(lvlActive)}
-              on:click={() => handlePointClick(list)}
-              class="point isActive">
+              on:click={() => handlePointClick(list)}>
               <span class="pointOrbite">
                 <span class="pointRotate">
                   <span class="pointStar" />
                 </span>
               </span>
-              {#if !url}
-                <span class="pointText">{name}</span>
-              {:else}
+              {#if url && lvlIndex == lvlActive}
                 <a class="pointText u-link" href={url}>{name}</a>
+              {:else}
+                <span class="pointText">{name}</span>
               {/if}
             </li>
         {/each}

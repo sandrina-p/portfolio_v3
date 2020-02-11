@@ -1,8 +1,9 @@
 <script>
-  import { onMount, afterUpdate, createEventDispatcher } from 'svelte';
-  import { _window, matchMq, afterResponsiveUpdate } from '../stores/responsive.js';
-  import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
-  import { TIMEOUTS } from '../utils';
+  import { afterUpdate, createEventDispatcher } from 'svelte';
+  import { _window, matchMq, afterResponsiveUpdate } from '../../stores/responsive.js';
+  import ToggleTheme from './ToggleTheme.svelte';
+  import { strGeneral, updateGeneral, afterGeneralUpdate } from '../../stores/general.js';
+  import { TIMEOUTS } from '../../utils';
 
   $: currentSection = $strGeneral.pageCurrentSection;
   let pageSections = $strGeneral.pageSections;
@@ -10,9 +11,7 @@
   let isCalculated = false;
   let wasSelected = null; // when the link is clicked, trigger the fancyBubble
   let isRICScheduled = false;
-  let theme = 'light';
   let hasReducedMotion = false;
-  let sunH = 4;
 
 	const dispatch = createEventDispatcher();
 
@@ -27,28 +26,31 @@
 
     if (prevPageSection !== pageSection) {
       console.log('pageSection changed:', pageSection);
-      
-      // Do I want or _need_ this?
-      // history.pushState(null, null, `#${pageSection}`);
-
       if(wasSelected) {
         setTimeout(() => {
           wasSelected = null;
         }, TIMEOUTS.NAV_ANIMATING);
       }
     }
-  });
 
+    if (!prevState.isValuesChanging && state.isValuesChanging) {
+      console.warn('isValuesChanging - started: scroll to 0');
+      /* There are so many animations and layout changes, that the best UX
+      is to set the scroll back to the beginning. */
+      window.scrollTo(0, 0);
+    }
+
+    if (prevState.isValuesChanging && !state.isValuesChanging) {
+      console.warn('isValuesChanging - finished: restart nav');
+      setNavigationData();
+    }
+  });
+  
   afterResponsiveUpdate((prevState, state) => {
     if(prevState.matchMq.md !== state.matchMq.md) {
-      console.warn('Changing between desktop to mobile!')
-      /* Make sure Values and Navigation data are resetted correctly. */
-      window.scroll(0, 0);
-    }
-    setTimeout(() => {
-      // HACK: wait for values layout to mount (in case it changed)
+    } else {
       setNavigationData();
-    }, 0);
+    }
   })
 
   function handleScroll() {
@@ -78,23 +80,26 @@
     }
   }
 
-  function getHorizonOffset(wHeight) {
-    // It means Values is still rendering...
-    if (!document.getElementById('nav_valuesEnd')) return;
+  function getHorizonOffset(scrollY, wHeight) {
+    // It means Values is still loading/rendering...
+    if (!document.getElementById('nav_valuesEnd')) {
+      return 0
+    };
 
     const valuesWidth = (() => {
-      // BUG/REVIEW: valuesEnd' parent has a smaller width than its content.
+      // BUG/REVIEW/EDGE_CASE: valuesEnd' parent has a smaller width than its content.
       // Dunno why.... so, instead lets get the position directly from it.
       const valuesEnd = document.getElementById('nav_valuesEnd');
       
       if (!valuesEnd) {
-        console.warn('Ups! Nav - nav_valuesEnd does not exist!');
+        console.error('Ups! Nav - nav_valuesEnd does not exist! It is a bug!');
         return 0;
       }
 
       const { left, width } = valuesEnd.getBoundingClientRect();
 
-      return Math.round(left + width);
+      // add scrollY in case the resize happens in the "middle" of the page.
+      return Math.round(scrollY + left + width);
     })();
 
     return valuesWidth - wHeight
@@ -105,9 +110,13 @@
     const wWidth = $_window.innerWidth;
     const wHeight = $_window.innerHeight;
     const scrollY = window.scrollY; 
-    const horizonOffset = isDesktop ? getHorizonOffset(wHeight) : -wHeight*0.5;
+    const horizonOffset = isDesktop ? getHorizonOffset(scrollY, wHeight) : -wHeight*0.5;
     // use this offset to show the section in a better position.
     const dataSection = isDesktop ? 'data-section-offset-h' : 'data-section-offset-v';
+    // When recalculating the nav on page resize, we should ignore the horizonSpace
+    // so all the math matches correctly. Explaining this is hard.
+    const horizonSpaceInPixels = horizonSpace === '100vh' ? wHeight : parseFloat(horizonSpace);
+    const anullPrevHorizon = horizonSpaceInPixels - wHeight;
 
     const newNavPivots = $strGeneral.pageSections.map(section => {
       if (section === 'intro') {
@@ -119,21 +128,26 @@
 
       return {
         name: section,
-        y: Math.round(horizonOffset + sectionTop),
-        offset: (elSection.getAttribute(dataSection) || 0)/100 * wHeight
+        y: Math.round(horizonOffset + sectionTop - anullPrevHorizon),
+        offset: Math.round((elSection.getAttribute(dataSection) || 0)/100 * wHeight)
       };
     });
 
     navPivots = newNavPivots;
+    console.log('::newNavPivots', newNavPivots)
     isCalculated = true;
 
     dispatch('calculated', {
-			horizonSpace: isDesktop ? `${horizonOffset + Math.round(wWidth / 2)}px` : 0,
+      horizonSpace: isDesktop
+        // horizonOffset may not exist when isDesktop.
+        // it means valuesHorizon isn't loaded yet, so we pass 100vh to avoid
+        // showing the other sections while Values is still loading.
+        ? horizonOffset ? `${horizonOffset + Math.round(wWidth / 2)}px` : '100vh'
+        : 0
 		});
   }
 
-  // TODO - handle screen reader navigation.
-
+  // TODO - handle SR navigation.
   function goToSection(e, pageSection) {
     e.preventDefault();
 
@@ -161,14 +175,7 @@
     }, TIMEOUTS.NAV_ANIMATING);
   }
 
-  function toggleTheme() {
-    const newTheme = theme === 'dark' ? 'light' : 'dark';
-    sunH = newTheme === 'dark' ? 3 : 4;
-    // https://github.com/sveltejs/svelte/issues/3105
-    document.body.classList.remove(theme);
-    document.body.classList.add(newTheme);
-    theme = newTheme;
-  }
+  export let horizonSpace;
 </script>
 
 <style>
@@ -184,8 +191,7 @@
     align-items: center;
   }
 
-  .toggleTheme,
-  .toggleMotion,
+  :global(.toggleBtn),
   .linksItem {
     /* entry animation */
     opacity: 0;
@@ -193,8 +199,7 @@
   }
 
   .isReady {
-    .toggleTheme,
-    .toggleMotion,
+    :global(.toggleBtn),
     .linksItem {
       opacity: 1;
       transition:
@@ -215,8 +220,7 @@
       &:nth-child(5) { --delay: calc($time*3); }
     }
 
-    .toggleTheme,
-    .toggleMotion {
+    :global(.toggleBtn) {
       --delay: calc($time*4);
     }
   }
@@ -290,40 +294,14 @@
     }
   }
 
-  .toggleTheme,
+  :global(.toggleBtn) {
+    margin-top: -3rem;
+  }
+
   .toggleMotion {
-    position: relative;
-    margin: 0 $spacer-S;
     background: transparent;
     border: none;
-    width: 3rem;
-    height: 3rem;
-    padding: 0;
-    border-radius: 50%;
-    margin-top: -3rem;
-    color: var(--text_1);
-
-    &:hover,
-    &:focus {
-      outline: none;
-      color: var(--primary_1);
-    }
   }
-
-  .sun {
-    width: 100%;
-    height: 100%;
-
-    &Ray,
-    &Center {
-      fill: currentColor;
-    }
-
-    &Ray {
-      opacity: 0.5;
-    }
-  }
-
   .motion {
     width: 1.6rem;
     height: 1.6rem;
@@ -385,19 +363,7 @@
 
 <nav class="nav" class:isReady={isCalculated} class:invert={currentSection === 'skills'}>
   <span class="bubble" class:wasSelected={wasSelected}></span>
-  <button class="toggleTheme" on:click={toggleTheme} aria-pressed={theme === 'dark'} aria-label="Dark Theme">
-    <svg class="sun u-svg" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="display:none;">
-      <rect class="sunCenter" x="17.4" y="12.3" width="8" height="8" rx="4" transform="rotate(135 17.4 12.3)" fill="#3F3F3F"/>
-      <rect class="sunRay" x="12.5" y="5.9" width="1.5" height={sunH} rx=".5" transform="rotate(-180 12.5 5.9)" fill="#3F3F3F"/>
-      <rect class="sunRay" x="11" y="18.8" width="1.5" height={sunH} rx=".5" fill="#3F3F3F"/>
-      <rect class="sunRay" x="18.2" y="13.1" width="1.5" height={sunH} rx=".5" transform="rotate(-90 18.2 13)" fill="#3F3F3F"/>
-      <rect class="sunRay" x="5.2" y="11.6" width="1.5" height={sunH} rx=".5" transform="rotate(90 5.2 11.6)" fill="#3F3F3F"/>
-      <rect class="sunRay" x="15.6" y="17.6" width="1.5" height={sunH} rx=".5" transform="rotate(-45 15.6 17.6)" fill="#3F3F3F"/>
-      <rect class="sunRay" x="7.6" y="7.2" width="1.5" height={sunH} rx=".5" transform="rotate(135 7.6 7.2)" fill="#3F3F3F"/>
-      <rect class="sunRay" x="16.8" y="8.3" width="1.5" height={sunH} rx=".5" transform="rotate(-135 16.8 8.3)" fill="#3F3F3F"/>
-      <rect class="sunRay" x="6.6" y="16.3" width="1.5" height={sunH} rx=".5" transform="rotate(45 6.6 16.3)" fill="#3F3F3F"/>
-    </svg>
-  </button>
+  <ToggleTheme klass='toggleBtn' />
   <ul class="linksList">
     {#each pageSections as name}
       <li
@@ -413,7 +379,7 @@
       </li>
     {/each}
   </ul>
-  <button class="toggleMotion" on:click={() => true} aria-pressed={hasReducedMotion} aria-label="Reduced Motion">
+  <button class="toggleBtn toggleMotion" on:click={() => true} aria-pressed={hasReducedMotion} aria-label="Reduced Motion">
     <span class="motion"></span>
   </button>
 </nav>

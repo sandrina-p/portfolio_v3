@@ -7,9 +7,9 @@
   import Skills from '../components/skills/Skills.svelte';
   import Journey from '../components/Journey.svelte';
   import Footer from '../components/Footer.svelte';
-  import Nav from '../components/Nav.svelte';
+  import Nav from '../components/navigation/Nav.svelte';
   import SvgSprite from '../components/SvgSprite.svelte';
-  import { getInLimit, getBrowsers, setRIC } from '../utils';
+  import { getInLimit, getBrowsers, setRIC, focusOnlyWhenNeeded } from '../utils';
   import { matchMq, initResponsive, afterResponsiveUpdate } from '../stores/responsive.js';
   import { strGeneral, updateGeneral } from '../stores/general.js';
 
@@ -28,8 +28,11 @@
     setRIC();
     // smoothscroll.polyfill(); // REVIEW - Do I really need this?
     initResponsive();
+    focusOnlyWhenNeeded();
     browserClasses = getBrowsers();
-    await verifyLayoutVariant();
+    if ($matchMq.md) {
+      await verifyLayoutVariant({ doUpdateGeneral: false });
+    }
   });
 
   beforeUpdate(() => {
@@ -47,12 +50,23 @@
   });
 
 
-  afterResponsiveUpdate(async () => {
-    await verifyLayoutVariant();
+  afterResponsiveUpdate(async (prevState, state) => {
+    if(prevState.matchMq.md !== state.matchMq.md) {
+      console.warn('Changing values variant!');
+      await verifyLayoutVariant()
+    }
+    return true
   })
 
-  async function verifyLayoutVariant() {
-    if ($matchMq.md && !isHorizonRequested) {
+  async function verifyLayoutVariant({
+    doUpdateGeneral = true 
+  } = {}) {
+    if (doUpdateGeneral) {
+      updateGeneral({ isValuesChanging: true })
+    }
+    if (!isHorizonRequested) {
+      console.log('Loading ValuesHorizon...')
+      document.body.classList.remove('jsGoOn');
       isHorizonRequested = true
 
       const module = await import('../components/values/ValuesHorizon.svelte');
@@ -60,6 +74,11 @@
 
       monitorizeScrollSpeed();
       window.addEventListener('scroll', handleScroll);
+    } else {
+      console.log('Just re-rendering values.')
+    }
+    if (doUpdateGeneral) {
+      updateGeneral({ isValuesChanging: false })
     }
   }
 
@@ -83,7 +102,7 @@
     const newHorizonSpace = event.detail.horizonSpace
     horizonSpace = newHorizonSpace;
 
-    console.log('Intro - horizonSpace updated!', newHorizonSpace)
+    console.log('Nav and (horizonSpace) updated!', newHorizonSpace)
 
     // https://github.com/sveltejs/svelte/issues/3105
     document.body.classList.add('jsGoOn');
@@ -91,9 +110,6 @@
 </script>
 
 <style>
-  .container {
-  }
-
   /* prevent scroll while the page is loading */
   :global(body:not(.jsGoOn)) {
     height: 100%;
@@ -187,7 +203,7 @@
   }
 </style>
 
-<Nav on:calculated={handleNavCalculated} />
+<Nav on:calculated={handleNavCalculated} horizonSpace={horizonSpace} />
 <div
   class="container {browserClasses}"
   style="--scrollY: {scrollY}px; --scrollSpeed: {scrollSpeedCurrent};">

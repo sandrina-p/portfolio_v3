@@ -18,6 +18,9 @@ const [strGeneral, updateGeneral, afterGeneralUpdate] = createStore({
   // ideally, meanwhile, each section has plenty of time to
   // inform the store about their own pivots.
   isReady: false,
+  // Set to true by index.svelte right after
+  // changing Values variant (horizontal vs vertical)
+  isValuesChanging: false,
 });
 
 export { strGeneral, updateGeneral, afterGeneralUpdate };
