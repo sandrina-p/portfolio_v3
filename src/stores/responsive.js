@@ -59,11 +59,12 @@ function updateResponsiveData({ doCb = true } = {}) {
 
 function handleResize() {
   const preW = get(_window);
-  if (window.innerWidth === preW.innerWidth) {
-    const diffHeight = Math.abs(window.innerHeight - preW.innerHeight);
-    if (diffHeight < 50) {
-      // OPTIMIZE - Do this better?
-      // Probably was a resize on mobile (while scrolling and toolbar did hide)... so ignore this for now.
+  const { innerWidth, innerHeight } = window;
+  if (innerWidth === preW.innerWidth) {
+    const diffHeight = Math.abs(innerHeight - preW.innerHeight);
+    if (innerHeight > window.innerWidth && diffHeight < 100) {
+      // It's a phone/tablet and probably was caused
+      // while scrolling, which hides the browser navbars.
       return;
     }
   }

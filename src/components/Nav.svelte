@@ -104,6 +104,7 @@
     const isDesktop = $matchMq.md;
     const wWidth = $_window.innerWidth;
     const wHeight = $_window.innerHeight;
+    const scrollY = window.scrollY; 
     const horizonOffset = isDesktop ? getHorizonOffset(wHeight) : -wHeight*0.5;
     // use this offset to show the section in a better position.
     const dataSection = isDesktop ? 'data-section-offset-h' : 'data-section-offset-v';
@@ -114,8 +115,7 @@
       }
 
       const elSection = document.getElementById(section);
-      // TODO remove 99999 after finish responsive stuff 
-      const sectionTop = elSection.getBoundingClientRect().top || 999999999;
+      const sectionTop = scrollY + elSection.getBoundingClientRect().top;
 
       return {
         name: section,
