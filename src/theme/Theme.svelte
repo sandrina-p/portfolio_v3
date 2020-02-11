@@ -28,21 +28,13 @@
   body.dark {
     --text_0: #e2e2e2;
     --text_1: #8a8a8a;
-    --text_invert: #343434; /* same as defautl text_0*/
+    --text_invert: #343434; /* same as defautl text_0 */
     --bg_0: #424043;
     --bg_1: #2e2a2f;
     --primary_1: #9f76ff; /* slightly brigter */
-    --primary_1_smooth: #2e262f; /* REVIEW better name */
+    --primary_1_smooth: #514371;
     --morph_color: rgba(202, 152, 255, 0.15);
     --morph_total: #9176af;
-  }
-
-  body.js-tabbing {
-    a:focus,
-    button:focus {
-      outline: 1px solid var(--primary_1) !important;
-      box-shadow: 2px 2px 0px 1px var(--primary_1_stronger) !important;
-    }
   }
 
   /* ************************************ */
@@ -68,6 +60,22 @@
 
     box-sizing: border-box;
     * { box-sizing: inherit; }
+  }
+
+  body.js-tabbing {
+    a:focus,
+    button:focus {
+      outline: 1px solid var(--primary_1) !important;
+      box-shadow: 2px 2px 0px 1px var(--primary_1_stronger) !important;
+    }
+  }
+
+  /* ------ Text highlight ------ */
+  ::selection {
+    background: var(--primary_1_smooth);
+  }
+  ::-moz-selection {
+    background: var(--primary_1_smooth);
   }
 
   /* ************************************ */
