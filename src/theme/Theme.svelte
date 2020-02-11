@@ -3,7 +3,7 @@
     --w-height: 100vw; /* JS will change this */
 
     --text_0: #343434;
-    --text_1: #757575;
+    --text_1: #6f6f6f;
     --text_invert: #d6d6d6; /* similar to bg but lighter */
     --bg_0: #f8f3ef;
     --bg_1: #fff;

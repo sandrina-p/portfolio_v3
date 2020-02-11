@@ -285,8 +285,6 @@
             color: var(--text_invert);
           }
 
-          &:focus { color: inherit; }
-
           &::before {
             opacity: 1;
             background-color: var(--colorType);

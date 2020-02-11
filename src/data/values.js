@@ -17,7 +17,7 @@ export default {
   },
   ASK: {
     text: [
-      'You’ll see Sandrina asking questions you never thought about. Questions that help clear barriers, unpack assumptions and spark <a class="u-link" target="_blank" href="https://en.wikipedia.org/wiki/Eureka_effect">eureka</a> moments.',
+      'You’ll see Sandrina asking questions you never thought about. Questions that help clear barriers, unpack assumptions and spark <a class="u-link" target="_blank" rel="noreferrer" href="https://en.wikipedia.org/wiki/Eureka_effect">eureka</a> moments.',
     ],
     width: '30rem',
     height: '30rem',

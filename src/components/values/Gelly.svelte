@@ -45,7 +45,7 @@
     width: 100%;
     height: 100%;
     box-shadow:
-        inset 10rem -3rem 6rem #d7e7ff,
+        inset 10rem -3rem 6rem #d7eaff,
         inset 0rem 3rem 11rem #ffd8d8;
         /* inset 0rem -54rem 3rem #ffffd5; */
     opacity: 0.7;

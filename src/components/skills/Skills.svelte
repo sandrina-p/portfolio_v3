@@ -200,7 +200,7 @@
       skills
     </h2>
     <p class="headerDesc uAppear-0">
-      Take a sneak peek on <a href={GITHUB_URL} class="u-link invert">Github</a> and <a href={CODEPEN_URL} class="u-link invert">Codepen</a>
+      Take a sneak peek on <a href={GITHUB_URL} class="u-link">Github</a> and <a href={CODEPEN_URL} class="u-link">Codepen</a>
     </p>
   </header>
   
