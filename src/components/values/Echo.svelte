@@ -93,6 +93,10 @@ export let activeLevel;
       &::after {
         animation-direction: reverse;
         background: linear-gradient(200deg, rgba(0, 16, 255, 0.07), rgba(255, 255, 255, 0) 71%);
+      
+        :global(.dark) & {
+          background: linear-gradient(200deg, rgba(0, 34, 255, 0.16) -15%, rgba(255, 255, 255, 0) 48%);
+        }
       }
     }
 
@@ -101,6 +105,11 @@ export let activeLevel;
       &::after {
         background: linear-gradient(136deg, rgba(255, 0, 0, 0.21), rgba(255, 255, 255, 0) 30%),
           radial-gradient(circle at top right, rgba(0, 216, 255, 0.07), rgba(255, 255, 255, 0) 70%);
+      
+        :global(.dark) {
+          background: linear-gradient(136deg, rgba(255, 160, 160, 0.21), rgba(255, 255, 255, 0) 30%),
+            radial-gradient(circle at top right, rgba(66, 65, 67, 0), rgba(255, 255, 255, 0) 70%);
+        }
       }
     }
 

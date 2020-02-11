@@ -54,14 +54,20 @@
       live 20s alternate-reverse infinite ease-in-out;
     animation-play-state: paused;
     animation-delay: -10s;
+
+    :global(.dark) & {
+      box-shadow:
+        inset 10rem -3rem 6rem #586b88,
+        inset 0rem 3rem 11rem #a07979;
+    }
   }
 
   @keyframes gelly {
-    0%, 100% { border-radius: 60% 45% 59% 55% / 55% 64% 58% 75%; } 
-    20% { border-radius: 54% 46% 40% 60% / 43% 57% 40% 65%; } 
+    0%, 100% { border-radius: 65% 68% 77% 50% / 59% 76% 58% 75%; } 
+    20% { border-radius: 40% 58% 46% 54% / 50% 60% 41% 50%; } 
     40% { border-radius: 40% 60% 46% 54% / 50% 60% 41% 50%; } 
     60% { border-radius: 56% 44% 60% 30% / 56% 44% 60% 30%; } 
-    80% { border-radius: 46% 54% 35% 75% / 50% 75% 30% 56%; } 
+    80% { border-radius: 51% 52% 68% 36% / 56% 43% 60% 47%; } 
   }
 
   @keyframes live {
