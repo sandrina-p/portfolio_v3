@@ -7,11 +7,11 @@
     --scale: 0;
     position: fixed;
     top: 20vh;
-    left: calc(var(--scrollY) + 60vw);
-    width: 40rem;
-    height: 30rem;
+    right: calc(var(--scrollY) - 15rem);
+    width: 30rem;
+    height: 25rem;
     transform: translate3d(-50%, 0, 0) scale(var(--scale, 0));
-    transform-origin: 0 100%;
+    transform-origin: 100% 100%;
     visibility: hidden;
     pointer-events: none;
 
@@ -30,30 +30,38 @@
         animation-play-state: running;
       }
     }
+
+    @media (--md) {
+      right: auto;
+      left: calc(var(--scrollY) + 60vw);
+      width: 40rem;
+      height: 30rem;
+      transform-origin: 0 100%;
+    }
   }
 
   .gellyItself {
     position: relative;
     width: 100%;
     height: 100%;
-    background-color: var(--primary_1);
     box-shadow:
-        inset 12rem 4.5rem 6.5rem var(--primary_1_stronger),
-        inset -3rem 11rem 8rem #fffc00,
-        inset -10rem -90rem 4.5rem #00fff7;
-    opacity: 0.1;
+        inset 10rem -3rem 6rem #d7e7ff,
+        inset 0rem 3rem 11rem #ffd8d8;
+        /* inset 0rem -54rem 3rem #ffffd5; */
+    opacity: 0.7;
     animation:
       gelly 30s alternate-reverse infinite ease-in-out,
       live 20s alternate-reverse infinite ease-in-out;
     animation-play-state: paused;
+    animation-delay: -10s;
   }
 
   @keyframes gelly {
-    0%, 100% { border-radius: 60% 45% 47% 55% / 55% 48% 53% 60%; } 
+    0%, 100% { border-radius: 60% 45% 59% 55% / 55% 64% 58% 75%; } 
     20% { border-radius: 54% 46% 40% 60% / 43% 57% 40% 65%; } 
     40% { border-radius: 40% 60% 46% 54% / 50% 60% 41% 50%; } 
     60% { border-radius: 56% 44% 60% 30% / 56% 44% 60% 30%; } 
-    80% { border-radius: 46% 54% 35% 75% / 50% 50% 40% 65%; } 
+    80% { border-radius: 46% 54% 35% 75% / 50% 75% 30% 56%; } 
   }
 
   @keyframes live {

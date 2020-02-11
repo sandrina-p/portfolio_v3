@@ -10,7 +10,7 @@
 
 <style>
   .container {
-    --size: 20rem;
+    --size: 17rem;
     --speed: 4.5s;
     --delay: 150ms;
     --delay-1stframe: 500ms;
@@ -42,7 +42,16 @@
       }
     }
 
+    @media (--max-md) {
+      .circle:nth-child(2),
+      .circle:nth-child(4),
+      .circle:nth-child(6) {
+        visibility: hidden; /* Save memory */
+      }
+    }
+
     @media (--md) {
+      --size: 20rem;
       --distance: 30rem;
       margin-bottom: 0;
       transform: translateX(var(--scrollY, 0));

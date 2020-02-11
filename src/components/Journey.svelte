@@ -248,7 +248,7 @@
     <p class="p">
       Currently,
       <strong class="f-bold">Sandrina is open for new challenges</strong> where she can help people with code.
-      If you believe you both can rock together, <a class="u-link" href={ EMAIL_URL }>go talk to her!</a>
+      If you believe both of you can rock together, <a class="u-link" href={ EMAIL_URL }>go talk to her!</a>
     </p>
   </div>
 </section>

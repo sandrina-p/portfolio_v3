@@ -32,7 +32,7 @@
   $: wInnerWidthHalf = isMount && $_window.innerWidth / 2;
   // $: distance = isMount && wInnerWidthHalf - (size * 1.5);
   const morphCircleRatio = 2; // circle progression based on scroll. (it needs to scroll 20px to change 10px)
-  const morphBoxRatio = 150; // nr of scrolled pixels needed to change border-radius from circle to square
+  const morphBoxRatio = 200; // nr of scrolled pixels needed to change border-radius from circle to square
   let isMorphing = true;
 
   $: offLimit = isMount && wInnerWidthHalf + (distance * morphCircleRatio) + morphBoxRatio;
@@ -306,6 +306,7 @@
 
     &::before {
       background-color: var(--bg_1);
+      /* in case I want to add skew effect again */
       /* transition: transform 300ms;
       transform: skew(calc(var(--scrollSpeed) * -0.1deg)); */
     }

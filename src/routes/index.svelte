@@ -64,12 +64,13 @@
   }
 
   function monitorizeScrollSpeed() {
-    scrollSpeedCurrent = scrollSpeedCached ? scrollSpeedCached - scrollY : 0;
-    scrollSpeedCached = scrollY;
+    // REVIEW - Keep or delete this?
+    // scrollSpeedCurrent = scrollSpeedCached ? scrollSpeedCached - scrollY : 0;
+    // scrollSpeedCached = scrollY;
 
-    if (checkSpeed) {
-      requestAnimationFrame(monitorizeScrollSpeed);
-    }
+    // if (checkSpeed) {
+    //   requestAnimationFrame(monitorizeScrollSpeed);
+    // }
   }
 
   function handleScroll() {

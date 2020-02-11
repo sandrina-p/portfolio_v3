@@ -68,7 +68,7 @@
 
   .text {
     font-size: $font-M;
-    max-width: 44rem;
+    max-width: 25rem;
     opacity: 0;
     animation: laserOn 750ms calc($titleTempo + 50ms * $titleChars) steps(8) forwards;
 
@@ -109,6 +109,10 @@
       width: calc(50vw - $layout-margin - $circleSizeHalf);
       margin-bottom: 15vh;
       flex-grow: 0;
+    }
+
+    .text {
+      max-width: 44rem;
     }
 
     .animation {

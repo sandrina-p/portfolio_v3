@@ -163,7 +163,7 @@ export let activeLevel;
 
       .isGone & {
         transition: opacity 500ms ease-in-out,
-          visibility 0ms 350ms;
+          visibility 0ms 500ms;
         opacity: 0;
       }
     }

@@ -209,7 +209,8 @@
   .pBox {
     padding: $layout-margin;
     margin-left: calc((100% - var(--title-w, 100%)) - $layout-margin); /* to show only the edge */
-    width: 100vw;
+    width: 99vw; /* not 100vw, so the title is still on the viewport (by 1vw).
+                    Enough to prevent IO from triggerring to the next part. */
     flex-shrink: 0;
     scroll-snap-align: center;
 
@@ -220,7 +221,7 @@
       max-width: 40rem;
       background: var(--bg_1);
       padding: $spacer-L;
-      font-size: $font-M;
+      box-shadow: 0.2rem 0.2rem var(--primary_1_smooth);
 
       &-par:not(:last-child) {
         display: block;

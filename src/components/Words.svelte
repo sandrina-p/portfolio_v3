@@ -158,7 +158,7 @@
   $delayIn3: 750ms;
 
   .header {
-    padding-left: $layout-margin;
+    padding: 0 $layout-margin;
 
     &Title {
       font-size: calc($font-heading_2 * 0.8);
@@ -219,6 +219,37 @@
 
       &:not(:last-child) {
         margin: 0 $spacer-L 0 0;
+      }
+    }
+  }
+
+  @media (--max-md) {
+    .header {
+      opacity: 0;
+      transform: translateY(3rem);
+      transition: opacity 300ms ease-out, transform 300ms ease-out;
+
+      .isOnStage & {
+        opacity: 1;
+        transform: translateY(0);
+        transition:
+          opacity 1500ms cubic-bezier(0.0, 0.0, 0.2, 1),
+          transform 1000ms cubic-bezier(0.19, 1, 0.22, 1);
+      }
+    }
+
+    .cardItem:nth-child(1),
+    .cardItem:nth-child(2) {
+      opacity: 0;
+      transform: translateX(50%);
+      transition: opacity 150ms ease-out, transform 150ms ease-out;
+
+      .isOnStage & {
+        opacity: 1;
+        transform: translateX(0);
+        transition:
+          opacity 2000ms cubic-bezier(0.0, 0.0, 0.2, 1),
+          transform 2000ms cubic-bezier(0.19, 1, 0.22, 1);
       }
     }
   }
@@ -307,7 +338,7 @@
     }
 
     .header {
-      padding-left: $spacer-M;
+      padding: 0 $spacer-M;
       margin-bottom: calc($spacer-M * 3);
       opacity: 0;
       transition: opacity 150ms 0ms ease-out;
