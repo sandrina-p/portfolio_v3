@@ -243,6 +243,10 @@
         background-color: var(--text_invert);
         transform: scale(0, 1);
         pointer-events: none;
+
+        :global(.dark) & {
+          background-color: var(--text_1);
+        }
       }
     }
 
@@ -264,6 +268,10 @@
         background-color: var(--text_invert);
         transform: translate(-50%, calc($spacer-S/2));
         pointer-events: none;
+
+        :global(.dark) & {
+          background-color: var(--text_1);
+        }
       }
 
       &.isCurrent,

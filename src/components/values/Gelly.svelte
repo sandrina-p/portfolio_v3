@@ -17,11 +17,13 @@
 
     :global(.jsGoOn) & {
       transition: transform 400ms ease-in, visibility 0ms 400ms;
+      will-change: transform;
     }
 
     &.isActive {
       --scale: 1;
       visibility: visible;
+      will-change: unset;
       transition:
         visibility 0ms 0ms,
         transform 1000ms 200ms cubic-bezier(0.17, 0.55, 0.24, 1.01);

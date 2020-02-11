@@ -103,12 +103,10 @@ export let activeLevel;
     &:nth-child(3) {
       --scale: 5;
       &::after {
-        background: linear-gradient(136deg, rgba(255, 0, 0, 0.21), rgba(255, 255, 255, 0) 30%),
-          radial-gradient(circle at top right, rgba(0, 216, 255, 0.07), rgba(255, 255, 255, 0) 70%);
+        background: linear-gradient(136deg, rgba(255, 0, 0, 0.21), rgba(255, 255, 255, 0) 30%);
       
         :global(.dark) {
-          background: linear-gradient(136deg, rgba(255, 160, 160, 0.21), rgba(255, 255, 255, 0) 30%),
-            radial-gradient(circle at top right, rgba(66, 65, 67, 0), rgba(255, 255, 255, 0) 70%);
+          background: llinear-gradient(136deg, rgba(255, 0, 0, 0.21), rgba(255, 255, 255, 0) 30%);
         }
       }
     }
