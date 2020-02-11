@@ -1,7 +1,6 @@
 <script>
   import { onMount, afterUpdate } from 'svelte';
   import SkillsList from './SkillsList.svelte';
-  import tools from '../../data/tools';
   import { getInLimit, scrollIntoView } from '../../utils';
   import { _window, matchMq, afterResponsiveUpdate } from '../../stores/responsive.js';
   import { strGeneral, updateGeneral, afterGeneralUpdate } from '../../stores/general.js';
@@ -88,8 +87,13 @@
   }
 
   function handleKeyboardFocus(e) {
+    // It's already on the viewport, there's no need to do magic tricks.
+    if(isVisible) {
+      return
+    }
+
     scrollIntoView(e, {
-      value: $_window.innerHeight * -0.25 // to make sure header is visible.
+      value: $_window.innerHeight * -0.25 // same as css $paddingTop.
     })
     verifyAnimations();
   }
@@ -160,8 +164,10 @@
   }
 
   @media (--md) {
+    $paddingTop: 25vh; /* enough to cover all in black I guess */
+
     .wrapper {
-      padding-top: 25vh; /* enough to cover all in black I guess */
+      padding-top: $paddingTop;
       min-height: 100vh;
     }
 

@@ -83,7 +83,7 @@ export function scrollIntoView(
   const awaitFromPosition = value - parentAway;
   const to = scrollY - awaitFromPosition;
   window.scrollTo(0, to);
-  console.debug('handleKeyboardFocus focus to:', to, event.target);
+  console.log('handleKeyboardFocus focus to:', to, event.target);
 }
 
 // There are some timeouts around the app.

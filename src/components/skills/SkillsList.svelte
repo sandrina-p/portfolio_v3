@@ -1,6 +1,6 @@
 <script>
   import { onMount, createEventDispatcher } from 'svelte';
-  import tools from '../../data/tools';
+  import skills from '../../data/skills.js';
   import {  matchMq } from '../../stores/responsive.js';
 
 	const dispatch = createEventDispatcher();
@@ -11,9 +11,9 @@
     '3': 'var(--primary_4)',
   };
   const sortByLevel = (() => {
-    const lists = Array.from(Array(Object.keys(tools.lists).length), () => []);
+    const lists = Array.from(Array(Object.keys(skills.lists).length), () => []);
     
-    for(let tool of tools.tools) {
+    for(let tool of skills.tools) {
       tool.list.forEach(listIndex => {
         return lists[listIndex].push(tool)
       })
@@ -40,7 +40,7 @@
   }
 
   function handlePointClick(list) {
-    if(list.includes(lvlActive) && $matchMq.md) {
+    if($matchMq.md) {
       updateSkill(list[0])
     }
   }
@@ -355,7 +355,7 @@
       transition: opacity 250ms ease;
       animation: blink 10s infinite ease;
 
-      .isActive & {
+      &.isActive {
         opacity: 1;
         animation: none;
       }
@@ -472,14 +472,14 @@
 
 <div class="main">
   <div class="tabList uAppear-0">
-    {#each Object.keys(tools.lists) as id}
+    {#each Object.keys(skills.lists) as id}
       {#if showExtraBtn(id)}
         <button
           class="tabBtn"
           style="--colorType: {colorTypes[id]}"
           aria-expanded={lvlActive === id}
           on:click={() => updateSkill(id)}>
-          {tools.lists[id]}
+          {skills.lists[id]}
         </button>
       {/if}
     {/each}
@@ -487,18 +487,18 @@
   <ul class="skills u-carousel uAppear-1">
     {#each sortByLevel as level, lvlIndex}
       <li class='skillsLvl u-carousel-item'
-        class:isActive={lvlIndex == lvlActive}
-        data-level={tools.lists[lvlIndex]}
+        data-level={skills.lists[lvlIndex]}
         style="--colorType: {colorTypes[lvlIndex]}"
         aria-hidden={lvlIndex != lvlActive}
       >
         <h3 class="f-mono skillsTitle" id={`skill-${lvlIndex}`}>
-          {tools.lists[lvlIndex]}
+          {skills.lists[lvlIndex]}
         </h3>
         <ul aria-labelledby={`skill-${lvlIndex}`}>
           {#each level as { name, list, url, hide }}
             <li
               class="point"
+              class:isActive={list.includes(lvlActive)}
               data-tool={name}
               on:click={() => handlePointClick(list)}>
               <span class="pointOrbite">

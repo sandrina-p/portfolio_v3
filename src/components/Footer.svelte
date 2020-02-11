@@ -114,6 +114,10 @@
   }
 
   function handleKeyboardFocus(e) {
+    if (isCardOnView) {
+      return
+    }
+
     scrollIntoView(e, {
       value: $_window.innerHeight * 0.25 // to make sure header is visible.
     })
