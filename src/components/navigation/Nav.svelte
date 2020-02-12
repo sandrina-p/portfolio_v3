@@ -12,7 +12,7 @@
   let isCalculated = false;
   let wasSelected = null; // when the link is clicked, trigger the fancyBubble
   let isRICScheduled = false;
-  let hasReducedMotion = false;
+  // let hasReducedMotion = false;
 
 	const dispatch = createEventDispatcher();
 
@@ -318,7 +318,7 @@
     color: var(--text_1);
   }
 
-  .toggleMotion {
+  /* .toggleMotion {
     background: transparent;
     border: none;
     margin-right: $spacer-M;
@@ -332,7 +332,7 @@
     display: block;
     border: 0.2rem solid var(--bg_0);
     outline: 1px dashed #b57070;
-  }
+  } */
 
   /* decorative animation */
   .bubble {
@@ -399,8 +399,8 @@
       </li>
     {/each}
   </ul>
-  <button class="toggleBtn toggleMotion" on:click={() => true} aria-pressed={hasReducedMotion} aria-label="Reduced Motion">
+  <!-- <button class="toggleBtn toggleMotion" on:click={() => true} aria-pressed={hasReducedMotion} aria-label="Reduced Motion">
     <span class="motion"></span>
-  </button>
+  </button> -->
   <ToggleTheme klass='toggleBtn' />
 </nav>

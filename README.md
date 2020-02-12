@@ -31,28 +31,35 @@ Well... let's say we are 80% done and the other 20% will take 80% of the time.
 - [x] Review "Skills" section overall UX
 - [x] Light/Dark theme
 - [x] Toggle Theme
-- [ ] Refine copywrite
 - [x] Decide footer
 - [x] Decide where to put contacts
-- [ ] Nav
-- [ ] Reduced motion
 - [x] Responsive
 - [x] Style text-selection
+- [ ] Decide Menu (navigation) 
 - [ ] Review transitions consistency
+- [ ] Refine copywrite
+- [ ] Reduced motion
+  - intro: Remove circle animation
+  - intro: Pause dots animations
+  - intro: gelly and echo are simply opacity effect.
+  - words: has no animations/opacity. a simple go over.
+  - skills: remove zoom effect and opacities.
+  - skills: remove starts rotation and remove delays.
+  - journey: show already already rotated without fades.
+  - contacts: remove _all_ animations, includind svg scroll.
 
 ### Development
 - [x] 🐛 Resize recalculation.
 - [x] 🐛 Responsive change needs recalculation.
 - [x] 🐛 Values - when scrolling to fast, clipping values are wrong.
 - [x] 🐛 Contacts - On Safari a horizonal scroll happens on elements with translate (not absolute). Refactor that.
-
+- [ ] Bundle production mode
 - [ ] Review test coverage
-- [ ] Review Accessibility
-- [ ] Review SEO (Add favicon)
+- [x] Review Accessibility
+- [ ] Review SEO (Missing favicon)
 - [x] Review HTML
 - [ ] Review manifest
 - [ ] Run Lighthouse
 - [x] Review animations performance
 - [ ] Easter Eggs!?
 - [ ] Review custom properties fallback
-- [ ] Add ReduceMotion option
