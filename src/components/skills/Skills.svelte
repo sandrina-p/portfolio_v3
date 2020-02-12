@@ -102,12 +102,26 @@
 <style>
   .wrapper {
     --skills-bg: var(--bg_invert);
+    position: relative;
     min-height: 100vh;
     overflow: hidden;
     padding-top: 50vw;
     padding-bottom: 4rem;
     background-color: var(--bg_0);
     transition: background-color 400ms cubic-bezier(0.19, 1, 0.22, 1);
+
+    &::before { /* smooth transition between sections borders, in case we scroll too fast. */
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 8rem;
+      display: block;
+      background: linear-gradient(var(--bg_0) 2px, var(--skills-bg));
+      opacity: 0;
+      transition: opacity 400ms cubic-bezier(0.19, 1, 0.22, 1);
+    }
 
     :global(.dark) & {
       --skills-bg: var(--bg_1);
@@ -116,6 +130,10 @@
     &.uAppear {
       background-color: #1b1b1b; /* var(--bg_invert) - fallback css variables */
       background-color: var(--skills-bg);
+
+      &::before {
+        opacity: 1;
+      }
     }
     /* 
     @media (--md) {

@@ -354,6 +354,7 @@
       opacity: 0.5;
       transition: opacity 250ms ease;
       animation: blink 10s infinite ease;
+      width: auto;
 
       &.isActive {
         opacity: 1;

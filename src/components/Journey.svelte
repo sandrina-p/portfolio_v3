@@ -9,7 +9,6 @@
   let scrollPivot;
   let progressOffset = 0;
   let progress = 0;
-  let isOnStage = false;
   let animation;
 
   $: isActive = progress === 1;
@@ -86,6 +85,7 @@
     position: relative;
     height: $headingHeight;
     font-size: calc($font-heading_3 * 0.6);
+    line-height: 1;
     margin-bottom: -4rem;
 
     &::before {
@@ -133,11 +133,11 @@
       left: 50%;
       color: var(--primary_1);
       transform: translate(-50%, -2em) rotate(var(--rotate));
-      transition: transform 300ms cubic-bezier(0, 0, 0.2, 1);
+      transition: transform 300ms ease-out;
 
       .isActive & {
         transform: translate(-50%, 0) rotate(var(--rotate));
-        transition: transform 600ms cubic-bezier(0, 0, 0.2, 1);
+        transition: transform 600ms cubic-bezier(0.0, 0.0, 0.2, 1),;
       }
     }
   }
@@ -178,17 +178,15 @@
     line-height: 1.5;
     color: var(--text_0);
     opacity: 0;
-    transform: translateY(-2rem);
-    transition: transform 300ms ease-ine, opacity 300ms ease-ine;
-    transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
-    pointer-events: none;
+    transform: translateY(-3rem);
+    transition: opacity 150ms ease-out, transform 150ms ease-out;
 
     .isActive & {
       opacity: 1;
-      transform: translateY(0rem);
-      pointer-events: auto;
-      transition: opacity 600ms 700ms, transform 400ms 500ms;
-      transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+      transform: translateX(0);
+      transition:
+        opacity 1000ms 300ms cubic-bezier(0.0, 0.0, 0.2, 1),
+        transform 1000ms 300ms cubic-bezier(0.19, 1, 0.22, 1);
     }
 
     .f-bold {
@@ -205,16 +203,8 @@
       padding-top: $paddingTop;
     }
     .heading {
-      /* position: relative;
-      height: $headingHeight; */
       font-size: $font-heading_3;
       margin-bottom: 0;
-
-      /* &Slide,
-      &Fixed {
-        width: $sectionWidth;
-        top: calc($headingHeight + 0.2em);
-      } */
     }
 
     .text {

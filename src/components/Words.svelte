@@ -2,31 +2,10 @@
   import { onMount, afterUpdate } from 'svelte';
   import words from '../data/words.js';
   import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
-  // import { _window } from '../stores/responsive.js';
-  // import { getInLimit, getIOstatusVertical } from '../utils';
-  // import baffle from 'baffle';
-
-  const colorTypes = {
-    article: 'var(--primary_1)',
-    talk: 'var(--primary_2)',
-    zine: 'var(--primary_3)',
-    default: 'var(--primary_4)',
-  };
   const options = ['sharing', 'writing', 'talking'];
-  const colors = ['var(--primary_4)', 'var(--primary_1)', 'var(--primary_2)'];
+  const ledText = options[0];
   let isOnStage = false; // on viewport or passed the viewport
   let isOnView = false; // on viewport
-  // // let isFirstTimeOnStage = true;
-  // // let elLed = null;
-  // // let elCards = [];
-  // // let cardsProgress = [];
-
-  // // let baffleLed;
-  // // let ledInterval;
-  let ledText = options[0];
-  let ledColor = colorTypes.default;
-  // // let elCardList;
-  // // let init = null;
 
   afterGeneralUpdate((prevState, state) => {
     // REVIEW - Should move this index logic to general store?
@@ -45,113 +24,10 @@
 
     isOnView = currentSectionIndex === thisSectionIndex;
   });
-
-  // function baffleIt() {
-  //   console.log('baffling words...'); // TODO REVIEW THIS
-  //   const index = options.indexOf(ledText);
-  //   const nextIndex = options[index + 1] ? index + 1 : 0;
-  //   const nextLedText = options[nextIndex];
-
-  //   baffleLed
-  //     .start()
-  //     .text(currentText => nextLedText)
-  //     .reveal(500);
-  //   ledColor = 'var(--bg_0)';
-  //   setTimeout(() => {
-  //     ledText = nextLedText;
-  //     ledColor = colors[nextIndex];
-  //   }, 250);
-  // }
-
-  // function initAnimation() {
-  //   const cardArgs = []; // A list of args to be passed to handles, based on the card
-
-  //   baffleLed = baffle(elLed).set({ characters: '+-•~!=*' });
-
-  //   function updateCardArgs(cardId, entry) {
-  //     if (entry.isIntersecting) {
-  //       if (!cardArgs[cardId]) {
-  //         cardArgs[cardId] = {
-  //           index: cardId,
-  //           entry,
-  //           scrollPivot: window.scrollY - (entry.rootBounds.height - entry.boundingClientRect.top),
-  //         };
-  //       } else {
-  //         cardArgs[cardId].ignore = false;
-  //       }
-  //     } else {
-  //       if (cardArgs[cardId]) {
-  //         cardArgs[cardId].ignore = true;
-  //       }
-  //     }
-  //   }
-
-  //   function verifyCardPostion() {
-  //     console.log('Scrolling through words cards...');
-  //     const scrollY = window.scrollY;
-  //     const middle = $_window.innerHeight / 2;
-  //     cardArgs.forEach(args => {
-  //       if (!args.ignore) {
-  //         const percentage = getInLimit((scrollY - args.scrollPivot) / middle, 0, 1);
-  //         cardsProgress[args.index] = percentage;
-  //       }
-  //     });
-  //   }
-
-  //   function watchList([entry]) {
-  //     const status = getIOstatusVertical(entry);
-
-  //     clearInterval(ledInterval);
-  //     window.removeEventListener('scroll', verifyCardPostion);
-
-  //     if (entry.isIntersecting) {
-  //       // ledInterval = window.setInterval(baffleIt, 2500);
-  //       window.addEventListener('scroll', verifyCardPostion);
-  //     }
-  //   }
-
-  //   function watchCard(entries) {
-  //     entries.forEach(entry => {
-  //       const cardId = entry.target.getAttribute('data-io');
-  //       updateCardArgs(cardId, entry);
-  //     });
-  //   }
-
-  //   const observerList = new IntersectionObserver(watchList);
-  //   const observerCards = new IntersectionObserver(watchCard);
-
-  //   observerList.observe(elCardList);
-  //   // OPTMIZE/REVIEW - check all observers, DRY them and disconnect when.
-
-  //   elCards.forEach(elCard => {
-  //     observerCards.observe(elCard);
-  //   });
-
-  //   verifyCardPostion();
-
-  //   return {
-  //     verifyCardPostion,
-  //   };
-  // }
-
-  // function getRandom(min, max) {
-  //   min = Math.ceil(min);
-  //   max = Math.floor(max);
-  //   return (Math.random() * (max - min) + min).toFixed(2);
-  // }
-
-  // function getRandomSkew(axios) {
-  //   const abs = getRandom(0, 1) > 0.5 ? 1 : -1;
-  //   if (axios === 'x') {
-  //     return getRandom(3, 8) * abs;
-  //   } else if (axios === 'y') {
-  //     return getRandom(2, 3) * abs;
-  //   }
-  // }
 </script>
 
 <style>  
-  $headingWidth: 24rem; /* static content, so it's a luxury to do this. */
+  $headingWidth: 24rem; /* static content luxuries */
   $delayIn0: 200ms;
   $delayIn1: 400ms;
   $delayIn2: 600ms;
@@ -382,7 +258,7 @@
             transform 600ms var(--delay, 0) cubic-bezier(0.0, 0.0, 0.2, 1);
         }
 
-        /* TODO/OPTIMIZE - Why each item consumes 1Mb GPU memory? */
+        /* OPTIMIZE - Why each item consumes 1Mb GPU memory? */
         /* .isOnView & {} */
 
         $cards: 4;
@@ -445,9 +321,7 @@
       <h2 class="f-mono headerTitle" data-io="heading">
         <span class="headerTitle-part">She has been</span>
         <span
-          class="headerTitle-part"
-          data-text={ledText}
-          style="--led-color: {ledColor}">
+          class="headerTitle-part">
           {ledText}
         </span>
       </h2>
@@ -463,7 +337,7 @@
           </span>
           <ul class="placeList">
             {#each places as { type, where, link, svg }}
-              <li class="placeItem" style="--place-color: {colorTypes[type] || colorTypes.default}">
+              <li class="placeItem">
                 <span class="placeType">{type}</span>
                 <div class="placeLink">
                   <svg aria-hidden="true" class="placeIcon {svg} u-svg" style="display: none;">
