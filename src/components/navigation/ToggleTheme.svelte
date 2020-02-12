@@ -9,7 +9,7 @@
   });
 
   function setDark (isNowDark) {
-    sunH = isNowDark ? 3 : 4;
+    sunH = isNowDark ? 0 : 4;
     isDark = isNowDark;
   }
 
@@ -35,11 +35,23 @@
     height: 3rem;
     padding: 0;
     color: var(--text_1);
+    cursor: pointer;
 
-    &:hover,
+    &:hover {
+      color: var(--primary_1);
+    }
+
     &:focus {
       outline: none;
-      color: var(--primary_1);
+    }
+
+    &[aria-pressed="true"] {
+      .sunCenter {
+        transform: scale(2.5);
+      }
+      .sunMoon {
+        transform: scale(2.3);
+      }
     }
   }
 
@@ -50,9 +62,22 @@
     &Ray,
     &Center {
       fill: currentColor;
+      transition: transform 200ms ease-out, color 200ms ease-out;
+    }
+
+    &Moon {
+      fill: var(--bg_0);
+      transform: scale(0);
+    }
+
+    &Center,
+    &Moon {
+      transition: transform 200ms ease-out, fill 200ms ease-out;
+      transform-origin: 50% 50%;
     }
 
     &Ray {
+      transition: height 150ms ease-out;
       opacity: 0.5;
     }
   }
@@ -64,6 +89,7 @@
   aria-label="Dark Theme">
   <svg class="sun u-svg" style="display:none;" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
     <rect class="sunCenter" x="8.7" y="9.3" width="6" height="6" rx="3" />
+    <rect class="sunMoon" x="10" y="8" width="6" height="6" rx="3" />
     <rect class="sunRay" x="12.5" y="5.9" width="1.5" height={sunH} rx=".5" transform="rotate(-180 12.5 5.9)" />
     <rect class="sunRay" x="11" y="18.8" width="1.5" height={sunH} rx=".5" />
     <rect class="sunRay" x="18.2" y="13.1" width="1.5" height={sunH} rx=".5" transform="rotate(-90 18.2 13)" />
