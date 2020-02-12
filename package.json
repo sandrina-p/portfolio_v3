@@ -13,12 +13,9 @@
     "ngrok": "/Users/sandrina-p/Documents/git/ngrok http 3000"
   },
   "dependencies": {
-    "baffle": "^0.3.6",
     "compression": "^1.7.1",
-    "matchmedia-polyfill": "^0.3.2",
     "polka": "next",
-    "sirv": "^0.4.0",
-    "smoothscroll-polyfill": "^0.4.4"
+    "sirv": "^0.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
