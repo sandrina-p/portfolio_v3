@@ -67,16 +67,8 @@
   })
 
   afterUpdate(() => {
-    const isPaused = $strCircle.isPaused;
-    const includesParts = ['MORPH', 'DOTS'].includes(currentPart);
-
-    if (!isPaused && !includesParts) {
-      updateCircle({ isPaused: true })
-    } else if (isPaused && includesParts) {
-      updateCircle({ isPaused: false })
-    }
+    verifyCirclePauseStatus({ checkCurrent: true });
   })
-
 
   afterGeneralUpdate((prevState, state) => {
     if (!isMount) { return false };
@@ -105,6 +97,28 @@
     }
   });
 
+  // Need this if I address [*CODE_SHAME*]
+  // afterResponsiveUpdate((prevState, state) => {
+  //   if(prevState.matchMq.md !== state.matchMq.md) {
+  //    verifyCirclePauseStatus({ checkCurrent: false });
+  //   }
+  // })
+
+  function verifyCirclePauseStatus(checkCurrent) {
+    const isPaused = $strCircle.isPaused;
+    const includesParts = ['MORPH', 'DOTS'].includes(currentPart);
+
+    if(!checkCurrent) {
+      updateCircle({ isPaused: !includesParts })
+      return
+    }
+
+    if (!isPaused && !includesParts) {
+      updateCircle({ isPaused: true })
+    } else if (isPaused && includesParts) {
+      updateCircle({ isPaused: false })
+    }
+  }
 
   function initAnimations() {
     const getNextPart = {

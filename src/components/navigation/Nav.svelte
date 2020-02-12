@@ -34,21 +34,25 @@
       }
     }
 
-    if (!prevState.isValuesChanging && state.isValuesChanging) {
-      console.warn('isValuesChanging - started: scroll to 0');
-      /* There are so many animations and layout changes, that the best UX
-      is to set the scroll back to the beginning. */
-      window.scrollTo(0, 0);
-    }
-
-    if (prevState.isValuesChanging && !state.isValuesChanging) {
-      console.warn('isValuesChanging - finished: restart nav');
-      setNavigationData();
-    }
+    // OPTMIZE - Need this if I address [*CODE_SHAME*]
+    // if (prevState.isValuesChanging && !state.isValuesChanging) {
+    //   console.warn('isValuesChanging - finished: restarting nav');
+    //   setNavigationData();
+    // }
   });
   
   afterResponsiveUpdate((prevState, state) => {
     if(prevState.matchMq.md !== state.matchMq.md) {
+      // There are so many animations and layout changes and edge cases
+      // that the best UX is:
+      // 1. set the scroll back to the beginning */
+      window.scrollTo(0, 0);
+      // 2.A and reset/handle/adapt all animations around.
+      // or...!
+      // 2.B Just refresh the page, and come back to this later (maybe never?)
+      // TODO/OPTIMIZE. [*CODE_SHAME*]
+      location.reload(); // Okay... this is the part I'm less proud off.
+      // Maybe I could show a banner to gently warn about danger and ask for a refresh.
     } else {
       setNavigationData();
     }
@@ -82,21 +86,17 @@
   }
 
   function getHorizonOffset(scrollY, wHeight) {
+    // BUG/REVIEW/EDGE_CASE: valuesEnd' parent has a smaller width than its content.
+    // Dunno why.... so, instead lets get the position directly from it.
+    const valuesEnd = document.getElementById('nav_valuesEnd');
+
     // It means Values is still loading/rendering...
-    if (!document.getElementById('nav_valuesEnd')) {
+    if (!valuesEnd) {
+      console.warn('nav_valuesEnd does not exist! Is still rendering...');
       return 0
     };
 
-    const valuesWidth = (() => {
-      // BUG/REVIEW/EDGE_CASE: valuesEnd' parent has a smaller width than its content.
-      // Dunno why.... so, instead lets get the position directly from it.
-      const valuesEnd = document.getElementById('nav_valuesEnd');
-      
-      if (!valuesEnd) {
-        console.error('Ups! Nav - nav_valuesEnd does not exist! It is a bug!');
-        return 0;
-      }
-
+    const valuesWidth = (() => {      
       const { left, width } = valuesEnd.getBoundingClientRect();
 
       // add scrollY in case the resize happens in the "middle" of the page.
@@ -315,6 +315,7 @@
   .menu {
     margin-right: $spacer-M;
     outline: 1px dashed #b57070;
+    color: var(--text_1);
   }
 
   .toggleMotion {

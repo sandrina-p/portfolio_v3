@@ -50,13 +50,14 @@
   });
 
 
-  afterResponsiveUpdate(async (prevState, state) => {
-    if(prevState.matchMq.md !== state.matchMq.md) {
-      console.warn('Changing values variant!');
-      await verifyLayoutVariant()
-    }
-    return true
-  })
+  // OPTMIZE - Need this if I address [*CODE_SHAME*]
+  // afterResponsiveUpdate(async (prevState, state) => {
+  //   if(prevState.matchMq.md !== state.matchMq.md) {
+  //     console.warn('Changing values variant!');
+  //     await verifyLayoutVariant()
+  //   }
+  //   return true
+  // })
 
   async function verifyLayoutVariant({
     doUpdateGeneral = true 
@@ -165,11 +166,10 @@
       &::before {
         content: '';
         position: absolute;
-        bottom: 0.1rem;
+        bottom: 0.1rem; /* with 0, it's not visible on safari */
         left: 0;
         height: 0.1rem;
         width: 100%;
-        z-index: 1; /* above :after */
         background-color: var(--primary_1);
         transform: translateX(100%);
         animation: slideIn 500ms 1.7s forwards ease-out;
