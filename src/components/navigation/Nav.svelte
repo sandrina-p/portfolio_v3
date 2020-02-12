@@ -51,6 +51,7 @@
       // or...!
       // 2.B Just refresh the page, and come back to this later (maybe never?)
       // TODO/OPTIMIZE. [*CODE_SHAME*]
+      console.warn('The page changed between mobile/desktop. Reloading...')
       location.reload(); // Okay... this is the part I'm less proud off.
       // Maybe I could show a banner to gently warn about danger and ask for a refresh.
     } else {

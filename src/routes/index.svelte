@@ -2,12 +2,12 @@
   import { onMount, beforeUpdate, afterUpdate } from 'svelte';
   // import smoothscroll from 'smoothscroll-polyfill';
   import Intro from '../components/Intro.svelte';
+  import Nav from '../components/navigation/Nav.svelte';
   import ValuesVertical from '../components/values/ValuesVertical.svelte';
   import Words from '../components/Words.svelte';
   import Skills from '../components/skills/Skills.svelte';
   import Journey from '../components/Journey.svelte';
   import Footer from '../components/Footer.svelte';
-  import Nav from '../components/navigation/Nav.svelte';
   import SvgSprite from '../components/SvgSprite.svelte';
   import { getInLimit, getBrowsers, setRIC, focusOnlyWhenNeeded } from '../utils';
   import { matchMq, initResponsive, afterResponsiveUpdate } from '../stores/responsive.js';
