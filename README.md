@@ -31,16 +31,16 @@ Well... let's say we are 80% done and the other 20% will take 80% of the time.
 - [x] Review "Skills" section overall UX
 - [x] Light/Dark theme
 - [x] Toggle Theme
-- [ ] Refine copywrite (missing journey)
+- [ ] Refine copywrite
 - [x] Decide footer
 - [x] Decide where to put contacts
-- [x] Refine nav
+- [ ] Nav
+- [ ] Reduced motion
 - [x] Responsive
-- [ ] Style scrollbar and text-selection
+- [x] Style text-selection
 - [ ] Review transitions consistency
 
 ### Development
-- [ ] 🐛 Nav "Contacts" click - pixel perfect
 - [x] 🐛 Resize recalculation.
 - [x] 🐛 Responsive change needs recalculation.
 - [x] 🐛 Values - when scrolling to fast, clipping values are wrong.

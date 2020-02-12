@@ -184,14 +184,15 @@
 
   .nav {
     position: fixed;
-    top: $spacer-L;
-    left: 50%;
-    transform: translateX(-50%);
+    top: $spacer-M;
+    right: $spacer-M;
+    /* transform: translateX(-50%); */
     z-index: 5; /* above everything */
     display: flex;
     align-items: center;
   }
 
+  .menu,
   :global(.toggleBtn),
   .linksItem {
     /* entry animation */
@@ -201,7 +202,8 @@
 
   .isReady {
     :global(.toggleBtn),
-    .linksItem {
+    .linksItem,
+    .menu {
       opacity: 1;
       transition:
         opacity 1000ms var(--delay, $time) cubic-bezier(0.0, 0.0, 0.2, 1),
@@ -221,9 +223,8 @@
       &:nth-child(5) { --delay: calc($time*3); }
     }
 
-    :global(.toggleBtn) {
-      --delay: calc($time*4);
-    }
+    .menu { --delay: calc($time*5); }
+    :global(.toggleBtn), { --delay: calc($time*4); }
   }
 
   .links {
@@ -303,14 +304,25 @@
     }
   }
 
+  .linksList {
+    display: none; /* TODO this */
+  }
+
   :global(.toggleBtn) {
-    margin-top: -3rem;
+    /* margin-top: -3rem; */
+  }
+
+  .menu {
+    margin-right: $spacer-M;
+    outline: 1px dashed #b57070;
   }
 
   .toggleMotion {
     background: transparent;
     border: none;
+    margin-right: $spacer-M;
   }
+
   .motion {
     width: 1.6rem;
     height: 1.6rem;
@@ -318,40 +330,38 @@
     border-radius: 50%;
     display: block;
     border: 0.2rem solid var(--bg_0);
-    outline: 1px dashed red;
+    outline: 1px dashed #b57070;
   }
 
-  @media (--md) {
-    /* decorative animation */
-    .bubble {
-      z-index: -1;
+  /* decorative animation */
+  .bubble {
+    z-index: -1;
 
+    &::before,
+    &::after {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 200vw;
+      height: 200vw;
+      border-radius: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      box-sizing: border-box;
+    }
+
+    &::before { background-color: var(--morph_total); }
+    &::after { background-color: var(--bg_0); }
+
+    &.wasSelected {
       &::before,
       &::after {
-        content: '';
-        display: block;
-        position: absolute;
-        top: 0;
-        left: 50%;
-        width: 200vw;
-        height: 200vw;
-        border-radius: 50%;
-        transform: translate(-50%, -50%) scale(0);
-        box-sizing: border-box;
+        animation: fancyBubble 1150ms ease-out;
       }
 
-      &::before { background-color: var(--morph_total); }
-      &::after { background-color: var(--bg_0); }
-
-      &.wasSelected {
-        &::before,
-        &::after {
-          animation: fancyBubble 1150ms ease-out;
-        }
-
-        &::after {
-          animation-duration: 1400ms;
-        }
+      &::after {
+        animation-duration: 1400ms;
       }
     }
   }
@@ -372,7 +382,7 @@
 
 <nav class="nav" class:isReady={isCalculated} class:invert={currentSection === 'skills'}>
   <span class="bubble" class:wasSelected={wasSelected}></span>
-  <ToggleTheme klass='toggleBtn' />
+  <p class="menu">menu</p>
   <ul class="linksList">
     {#each pageSections as name}
       <li
@@ -391,4 +401,5 @@
   <button class="toggleBtn toggleMotion" on:click={() => true} aria-pressed={hasReducedMotion} aria-label="Reduced Motion">
     <span class="motion"></span>
   </button>
+  <ToggleTheme klass='toggleBtn' />
 </nav>
