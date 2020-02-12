@@ -1,16 +1,16 @@
 <script>
   import { onMount } from 'svelte';
-  import { _window } from '../stores/responsive.js';
+  import { _window, afterResponsiveUpdate } from '../stores/responsive.js';
   import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
   import { getInLimit, scrollIntoView } from '../utils';
   import { EMAIL_URL, CODEPEN_URL, TWITTER_URL } from '../data/misc.js';
 
-  let elHeading;
-  let scrollPivot;
-  let progressOffset = 0;
+  let elHeader;
   let progress = 0;
   let animation;
 
+  $: wHeight = $_window && $_window.innerHeight;
+  $: goal = wHeight / 2;
   $: isActive = progress === 1;
 
   afterGeneralUpdate((prevState, state) => {
@@ -21,44 +21,57 @@
       animation = initAnimations();
     }
 
-    // if (!prevState.isReady && state.isReady) {
-    //   window.scroll(0, 4000); // FOR DEBUG
-    // }
-
     if (prevPageSection !== pageSection && pageSection === 'journey') {
       animation.verify();
     }
   });
 
+  afterResponsiveUpdate(() => {
+    if(!animation) { return }
+    animation.verify();
+    console.warn('Resize: journey updated');
+  })
+
   function initAnimations() {
+    let scrollPivot;
+    let progressOffset = 0;
+
     function handleScroll() {
       console.log('scrolling journey...');
-      const goal = $_window.innerHeight / 2;
-      const percentage = getInLimit((window.scrollY - progressOffset - scrollPivot) / goal, 0, 1);
-      progress = percentage;
+      const percentage = (window.scrollY - progressOffset - scrollPivot) / goal;
+      progress = getInLimit(percentage, 0, 1);
     }
 
-    const watchSlidding = ([{ isIntersecting, boundingClientRect, rootBounds }]) => {
-      scrollPivot = window.scrollY - (rootBounds.height - boundingClientRect.top);
+    const watchHeader = ([{ isIntersecting, boundingClientRect }]) => {
+      scrollPivot = window.scrollY - ($_window.innerHeight - boundingClientRect.top);
       progressOffset = progressOffset || boundingClientRect.height / 2;
       
       if (isIntersecting) {
+        handleScroll()
         window.addEventListener('scroll', handleScroll, { passive: true });
       } else {
         window.removeEventListener('scroll', handleScroll);
       }
     };
 
-    const observer = new IntersectionObserver(watchSlidding);
+    const observer = new IntersectionObserver(watchHeader);
 
-    observer.observe(elHeading);
+    observer.observe(elHeader); // OPTIMIZE - disconnect
 
     return {
-      verify: handleScroll
+      verify: () => {
+        const boundingClientRect = elHeader.getBoundingClientRect()
+        watchHeader([{
+          isIntersecting: boundingClientRect.top < wHeight,
+          boundingClientRect
+        }])
+      }
     }
   }
 
   function handleKeyboardFocus(e) {
+    if (isActive) { return }
+
     scrollIntoView(e, {
       value: $_window.innerHeight * -0.25 + 32 // $paddingTop + visual margin.
     })
@@ -68,7 +81,7 @@
 
 <style>
   $sectionWidth: 48rem;
-  $headingHeight: 25rem; /* space for text even when rotated */
+  $headerHeight: 25rem; /* space for text even when rotated */
   $maskWidth: 120vw;
   $paddingTop: 25vh;
 
@@ -81,9 +94,9 @@
     margin-top: -1px; /* hide semi-pixel of bg_0 on safari */
   }
 
-  .heading {
+  .header {
     position: relative;
-    height: $headingHeight;
+    height: $headerHeight;
     font-size: calc($font-heading_3 * 0.6);
     line-height: 1;
     margin-bottom: -4rem;
@@ -129,7 +142,7 @@
     &Fixed {
       position: absolute;
       white-space: nowrap;
-      top: calc($headingHeight/2 + 0.2em);
+      top: calc($headerHeight/2 + 0.2em);
       left: 50%;
       color: var(--primary_1);
       transform: translate(-50%, -2em) rotate(var(--rotate));
@@ -149,13 +162,13 @@
     left: 0;
     width: 100vw;
     overflow: hidden; /* to avoid scroll from rotate element */
-    height: $headingHeight;
+    height: $headerHeight;
 
     &Rotate {
       display: block;
       position: absolute;
       background-color: var(--bg_invert);
-      top: calc($headingHeight / -2); /* to cover the bg from the rotate */
+      top: calc($headerHeight / -2); /* to cover the bg from the rotate */
       left: calc(($maskWidth - 100vw) / -2); /* to make it centered based on width */
       width: $maskWidth;
       height: 100%;
@@ -188,10 +201,6 @@
         opacity 1000ms 300ms cubic-bezier(0.0, 0.0, 0.2, 1),
         transform 1000ms 300ms cubic-bezier(0.19, 1, 0.22, 1);
     }
-
-    .f-bold {
-      color: var(--text_0);
-    }
   }
 
   .p:not(:last-child) {
@@ -202,7 +211,7 @@
     .wrapper {
       padding-top: $paddingTop;
     }
-    .heading {
+    .header {
       font-size: $font-heading_3;
       margin-bottom: 0;
     }
@@ -219,16 +228,16 @@
   style="--progress: {progress}"
   id="journey"
   on:focusin={handleKeyboardFocus}>
-  <h2 class="f-mono heading" bind:this={elHeading}>
+  <h2 class="f-mono header" bind:this={elHeader}>
     <span class="sliding">
       <span class="slidingRotate">
-        <span class="headingSlide">
-          <span class="headingBlock">Uff,</span>
+        <span class="headerSlide">
+          <span class="headerBlock">Uff,</span>
           you came so far...
         </span>
       </span>
     </span>
-    <span class="headingFixed">and so did Sandrina!</span>
+    <span class="headerFixed">and so did Sandrina!</span>
   </h2>
   <div class="text">
     <p class="p">

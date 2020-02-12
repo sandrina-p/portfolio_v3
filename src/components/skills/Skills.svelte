@@ -9,10 +9,10 @@
   $: wHeight = $_window && $_window.innerHeight;
 
   let elTitle;
+
   let isVisible = false;
-  let limit;
-  let fromTop;
-  let isOnStage;
+  let isOnStage = false;
+  let animation;
   let progressN = 0; // title scale
   let progressY = 0; // title translate
   let colorType = null;
@@ -27,59 +27,68 @@
 
     if (!isOnStage && currentSectionIndex >= prevSectionIndex) {
       isOnStage = true;
-      // The "scale" effect should start before 
-      initAnimation();
-    }
-
-    if (prevPageSection !== pageSection && pageSection === 'skills') {
-      updateFromTop();
-      verifyAnimations();
+      // The "zoom" effect should start before 
+      animation = initAnimation();
     }
   });
 
   afterResponsiveUpdate(() => {
-    console.warn('Resize: skills');
-    updateFromTop(null, { forced: true });
+    if(!animation) { return }
+    animation && animation.verify();
+    console.warn('Resize: skills updated');
   })
 
-  function updateFromTop(elTop, { forced } = {}) {
-    fromTop = !fromTop || forced
-      ? (elTop || elTitle.getBoundingClientRect().top) + window.scrollY
-      : fromTop;
-  }
-
-  function verifyAnimations() {
-    console.log('scrolling skills...');
-    const scrollY = window.scrollY;
-    const offset = wHeight / 4;
-    const closeToTop = wHeight - (fromTop - scrollY + offset);
-    const perc = closeToTop / limit;
-
-    progressN = getInLimit(perc, 0, 1);
-    const translate = progressN > -1 ? limit - progressN*limit/1 : 0
-    progressY = `${getInLimit(translate, 0, limit) * -1}px`
-    isVisible = progressN === 1;
-  }
 
   function initAnimation() {
-    limit = wHeight / 2;
+    let startAt; // where animation starts
+    let endsAt; // where it ends
+    let range; // the space where "zoom magic" happens
+    /*
+      +--------------------+ 
+      |                    | [2]+
+      |                    |    |
+      |      VIEWPORT      |    |-[3]
+      |                    |    |
+      |                    | [1]+
+      +--------------------+
+    */
 
-    const watchTitle = ([entry]) => {
-      if (entry.isIntersecting) {
-        updateFromTop(entry.boundingClientRect.top)
-        window.addEventListener('scroll', verifyAnimations);
+    function handleScroll() {
+      console.log('scrolling skills...');
+      const scrollY = window.scrollY;
+      const fromStart = scrollY - startAt;
+      progressN = getInLimit(fromStart/range, 0, 1);
+      progressY = `${(range - progressN*range/1) * -1}px`
+      isVisible = progressN === 1;
+    }
+
+    const watchTitle = ([{ isIntersecting, boundingClientRect }]) => {
+      const topScreen = window.scrollY + $_window.innerHeight - ($_window.innerHeight - boundingClientRect.top);
+      startAt = topScreen - wHeight / 1.5;
+      endsAt = topScreen - wHeight / 4; // 25vh - same as $paddingTop
+      range = endsAt - startAt;
+
+      if (isIntersecting) {
+        handleScroll()
+        window.addEventListener('scroll', handleScroll, { passive: true });
       } else {
-        window.removeEventListener('scroll', verifyAnimations);
+        window.removeEventListener('scroll', handleScroll);
       }
     };
 
     const observer = new IntersectionObserver(watchTitle);
 
-    // OPTIMIZE - disconnect
-    observer.observe(elTitle);
+    observer.observe(elTitle); // OPTIMIZE - disconnect
 
-    updateFromTop();
-    verifyAnimations();
+    return {
+      verify: () => {
+        const boundingClientRect = elTitle.getBoundingClientRect();
+        watchTitle([{
+          isIntersecting: boundingClientRect.top < wHeight,
+          boundingClientRect,
+        }])
+      }
+    }
   }
 
   function handleColorType(ev) {
@@ -87,15 +96,13 @@
   }
 
   function handleKeyboardFocus(e) {
-    // It's already on the viewport, there's no need to do magic tricks.
-    if(isVisible) {
-      return
-    }
+    if(isVisible) { return }
 
     scrollIntoView(e, {
       value: $_window.innerHeight * -0.25 // same as css $paddingTop.
     })
-    verifyAnimations();
+    
+    animation.verify();
   }
 </script>
 
@@ -217,9 +224,10 @@
   on:focusin={handleKeyboardFocus}
   data-section-offset-h="5">
 
-  <header class="header" style="--colorTabSelected: {colorType};">
+  <header class="header"
+    style="--colorTabSelected: {colorType};"
+    bind:this={elTitle}>
     <h2 class="headerTitle f-mono"
-      bind:this={elTitle}
       style='--progressN: {progressN}; --progressY: {progressY}'>
       skills
     </h2>

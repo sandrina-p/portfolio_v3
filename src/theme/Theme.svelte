@@ -33,22 +33,17 @@
     --morph_total: #9176af;
   }
 
-  body {
-    /* smooth transition between themes */
-    transition: color 0.2s ease-out, background-color 0.2s ease-out;
-  }
-
   /* ************************************ */
 
   html {
     font-size: 62.5%; /* 1rem = 10px */
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
   }
 
   body {
     background-color: var(--bg_0);
     color: var(--text_0);
+    /* smooth transition between themes */
+    transition: color 0.2s ease-out, background-color 0.2s ease-out;
     
     font-family: 'IBM Plex Sans', sans-serif;
     font-size: $font-M;
@@ -60,6 +55,7 @@
     width: 100vw;
     max-width: 100%;
     overflow-x: hidden;
+
 
     box-sizing: border-box;
     * { box-sizing: inherit; }

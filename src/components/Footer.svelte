@@ -1,14 +1,15 @@
 <script>
   import { onMount } from 'svelte';
-  import { _window } from '../stores/responsive.js';
+  import { _window, afterResponsiveUpdate } from '../stores/responsive.js';
   import throttle from 'lodash/throttle';
   import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
   import { getInLimit, scrollIntoView } from '../utils';
   import { EMAIL_URL, SITE_REPO } from '../data/misc.js';
   import Contacts from './Contacts.svelte';
 
-  $: wHeight = $_window && $_window.innerHeight;
   $: wWidth = $_window && $_window.innerWidth;
+  $: wHeight = $_window && $_window.innerHeight;
+
   const figSize = 200; /* OPTMIZE - access DOM */
 
   let elFooter;
@@ -19,8 +20,8 @@
   let isCardOnView = false; // self explanatory
   let isVisible = false; // when everything gets visible.
 
-  let progress = 0;
   let cardInitialScale = 0;
+  let thingProgress = 0;
   let titleProgress = '100vw';
   let cardScale = 0;
   let scale1 = 0;
@@ -41,38 +42,41 @@
     }
   });
 
+  afterResponsiveUpdate(() => {
+    if(!animation) { return }
+    animation.verify();
+    console.warn('Resize: footer/contacts updated');
+  })
+
   function initAnimation() {
-    const handleScroll = throttle(handleScrollLol, 16);
+    const handleScroll = throttle(handleScrollThrottled, 16);
     const figHalf = figSize / 2;
     let titleGoal;
     let titleScrollPivot;
     let cardGoal;
     let cardScrollPivot;
-    let cardWidthHalf;
-    let cardHeightHalf;
     let cardScaleLimit; // define a limit equal to wWidth, so it avoids horizontal scroll when too big.
 
-    function handleScrollLol() {
+    function handleScrollThrottled() {
       console.log('scrolling footer...')
       const scrollY = window.scrollY;
       const scrollYpivot = scrollY - titleScrollPivot;
       const percentage = getInLimit(scrollYpivot / titleGoal, 0, 1);
 
-      progress = percentage;
-      isVisible = progress >= 1;
-      titleProgress = wWidth - wWidth * progress + 'px';
+      thingProgress = percentage;
+      isVisible = percentage >= 1;
+      titleProgress = wWidth - wWidth * percentage + 'px';
 
-      // Set card stuff
       if (isCardOnView) {
-        // Set "thing" (circle) state
-        scale1 = Math.abs((figHalf - ((scrollYpivot * 0.2) % figSize)) * 0.01);
-        scale2 = Math.abs((figHalf - (((scrollYpivot - 150) * 0.2) % figSize)) * 0.01);
-        scale3 = Math.abs((figHalf - (((scrollYpivot - 300) * 0.2) % figSize)) * 0.01);
-        
-        const cardScrollYpivot = scrollY - cardScrollPivot;
-        const cardPercentage = getInLimit(cardScrollYpivot / cardGoal, 0, 1);
-        const cardScaleOriginal = cardPercentage === 1 ? 1 : cardInitialScale - ((cardInitialScale - 1) * cardPercentage);
-        cardScale = getInLimit(cardScaleOriginal, 1, cardScaleLimit);
+          // Update Svg circles (.thing) scales
+          scale1 = Math.abs((figHalf - ((scrollYpivot * 0.2) % figSize)) * 0.01);
+          scale2 = Math.abs((figHalf - (((scrollYpivot - 150) * 0.2) % figSize)) * 0.01);
+          scale3 = Math.abs((figHalf - (((scrollYpivot - 300) * 0.2) % figSize)) * 0.01);
+          
+          const cardScrollYpivot = scrollY - cardScrollPivot;
+          const cardPercentage = getInLimit(cardScrollYpivot / cardGoal, 0, 1);
+          const cardScaleOriginal = cardPercentage === 1 ? 1 : cardInitialScale - ((cardInitialScale - 1) * cardPercentage);
+          cardScale = getInLimit(cardScaleOriginal, 1, cardScaleLimit);
       }
 
       // Create illusion of infinite scroll 🔮
@@ -82,29 +86,33 @@
       }
     }
 
-    const watchFooter = ([{ isIntersecting, boundingClientRect, rootBounds }]) => {
-      const wHeightHalf = wHeight/2;
-      cardWidthHalf = cardWidthHalf || elCard.offsetWidth / 2;
-      cardHeightHalf = cardHeightHalf || elCard.offsetHeight / 2;
-      cardGoal = cardGoal || wHeightHalf + cardHeightHalf;
-      cardInitialScale = cardInitialScale || wWidth / elCard.offsetWidth;
-      cardScaleLimit = wWidth/elCard.offsetWidth;
-      cardScale = cardScaleLimit;
-
-      titleGoal = titleGoal || wHeightHalf + wWidth / 2 + cardWidthHalf;
-      isOnStage = isIntersecting;
+    const watchFooter = ([{ isIntersecting, boundingClientRect }]) => {
       if (isIntersecting) {
+        const wHeightHalf = wHeight/2;
+        const cardWidth = elCard.offsetWidth;
+        const cardHeight = elCard.offsetHeight;
+
+        cardGoal = wHeightHalf + cardHeight/2;
+        cardInitialScale = wWidth / cardWidth;
+        cardScaleLimit = wWidth/cardWidth;
+        cardScale = cardScaleLimit;
+
+        titleGoal = wHeightHalf + wWidth / 2 + cardWidth / 2;
+        titleScrollPivot = window.scrollY - ($_window.innerHeight - boundingClientRect.top);
+        isOnStage = isIntersecting;
+
         footerHeight = titleGoal + figSize * 12;
-        titleScrollPivot = window.scrollY - (rootBounds.height - boundingClientRect.top);
+
+        handleScroll()
         window.addEventListener('scroll', handleScroll, { passive: true });
       } else {
         window.removeEventListener('scroll', handleScroll);
       }
     };
 
-    const watchCard = ([{ isIntersecting, boundingClientRect, rootBounds }]) => {
+    const watchCard = ([{ isIntersecting, boundingClientRect }]) => {
       isCardOnView = isIntersecting;
-      cardScrollPivot = isIntersecting && window.scrollY - (rootBounds.height - boundingClientRect.top);
+      cardScrollPivot = isIntersecting && window.scrollY - ($_window.innerHeight - boundingClientRect.top);
     };
 
     const observerFooter = new IntersectionObserver(watchFooter);
@@ -114,14 +122,25 @@
     observerCard.observe(elCard);
 
     return {
-      verify: handleScroll // BUG - need to update cardScrollPivot and titleScrollPivot
+      verify: () => {
+        const boundingClientRectCard = elCard.getBoundingClientRect()
+        const boundingClientRectFooter = elFooter.getBoundingClientRect()
+
+        // Verify card first, so handleScroll is runned with the correc value of isCardOnView
+        watchCard([{
+          isIntersecting: boundingClientRectCard.top < wHeight,
+          boundingClientRect: boundingClientRectCard
+        }])
+        watchFooter([{
+          isIntersecting: boundingClientRectFooter.top < wHeight,
+          boundingClientRect: boundingClientRectFooter
+        }]);
+      }
     }
   }
 
   function handleKeyboardFocus(e) {
-    if (isCardOnView) {
-      return
-    }
+    if (isCardOnView) { return }
 
     scrollIntoView(e, {
       value: $_window.innerHeight * 0.25 // to make sure header is visible.
@@ -345,7 +364,7 @@
         /* can't be sticky because Safari adds scroll when title is transforming X */
         position: fixed;
         top: calc(50vh - $cardH/2 - 0.6em);
-        left: calc(50vw - ($cardW/2));
+        left: calc(50vw - ($cardW/2) + $spacer-L);
 
         .title-content {
           transform: translateX(var(--titleProgress, 100vw));        
@@ -410,7 +429,7 @@
   bind:this={elFooter}
   id="contact"
   data-section-offset-h="150"
-  style="height: {footerHeight}px; --thingSize: {progress}; --titleProgress: {titleProgress}; --cardScale: {cardScale};">
+  style="height: {footerHeight}px; --thingSize: {thingProgress}; --titleProgress: {titleProgress}; --cardScale: {cardScale};">
  
   <h3 class="title f-mono">
     <span class="title-content">
@@ -428,7 +447,6 @@
       </p>
       <Contacts />
     </div>
-
     <div class="cardChild" aria-hidden="true">
       <div class="thing">
         <div class="thingItself">
@@ -443,7 +461,6 @@
         </div>
       </div>
     </div>
-    <!-- REVIEW THIS -->
-    <p class="credits">Curious about me? Here's my <a href={SITE_REPO} class="u-link">source code</a>.</p>
+    <p class="credits">Built without coffee. Check the <a href={SITE_REPO} class="u-link">source code</a>.</p>
   </div>
 </footer>
