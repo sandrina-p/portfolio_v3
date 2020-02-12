@@ -21,10 +21,6 @@
     --primary_4: #ff9d9d;
   }
 
-  body {
-    transition: color 0.2s ease-out, background-color 0.2s ease-out;
-  }
-
   body.dark {
     --text_0: #e2e2e2;
     --text_1: #adadad;
@@ -37,10 +33,17 @@
     --morph_total: #9176af;
   }
 
+  body {
+    /* smooth transition between themes */
+    transition: color 0.2s ease-out, background-color 0.2s ease-out;
+  }
+
   /* ************************************ */
 
   html {
     font-size: 62.5%; /* 1rem = 10px */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   body {
@@ -53,7 +56,7 @@
     font-weight: 300;
     letter-spacing: 0.02em; /* visually better */
 
-    /* avoid horizonal scroll when scrollbar is visible */
+    /* avoid horizontal scroll when scrollbar is visible (windows) */
     width: 100vw;
     max-width: 100%;
     overflow-x: hidden;
@@ -92,31 +95,13 @@
   }
 
   /** Font related **/
-
   .f-mono {
-    /* font-family: 'Libre Baskerville', serif; */
     line-height: 1.2;
     font-weight: 500;
   }
 
   .f-bold {
     font-weight: 500;
-  }
-
-  /* The outline offseted effect */
-  .f-led {
-    position: relative;
-    display: inline-block;
-
-    &::before {
-      content: attr(data-text);
-      position: absolute;
-      -webkit-text-stroke: 2px var(--led-color);
-      z-index: -1;
-      top: 0.03em;
-      left: -0.03em;
-      color: var(--bg_0);
-    }
   }
 
   /* Animation to show up... */
