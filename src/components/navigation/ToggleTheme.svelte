@@ -50,7 +50,7 @@
         transform: scale(2.5);
       }
       .sunMoon {
-        transform: scale(2.3);
+        transform: scale(0.8);
       }
     }
   }
@@ -65,15 +65,14 @@
       transition: transform 200ms ease-out, color 200ms ease-out;
     }
 
-    &Moon {
-      fill: var(--bg_0);
-      transform: scale(0);
-    }
-
     &Center,
     &Moon {
       transition: transform 200ms ease-out, fill 200ms ease-out;
-      transform-origin: 50% 50%;
+      transform-origin: 50%;
+    }
+
+    &Moon {
+      transform: scale(0);
     }
 
     &Ray {
@@ -87,9 +86,14 @@
   on:click={toggleTheme}
   aria-pressed={isDark}
   aria-label="Dark Theme">
-  <svg class="sun u-svg" style="display:none;" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-    <rect class="sunCenter" x="8.7" y="9.3" width="6" height="6" rx="3" />
-    <rect class="sunMoon" x="10" y="8" width="6" height="6" rx="3" />
+  <svg class="sun u-svg" style="display:none;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <defs>
+      <mask id="hole">
+        <rect width="100%" height="100%" fill="white"/>
+        <circle class="sunMoon" r="3" cx="13.5" cy="11" fill="black" />
+      </mask>
+    </defs>
+    <circle class="sunCenter" r="3" cx="12" cy="12" mask="url(#hole)" />
     <rect class="sunRay" x="12.5" y="5.9" width="1.5" height={sunH} rx=".5" transform="rotate(-180 12.5 5.9)" />
     <rect class="sunRay" x="11" y="18.8" width="1.5" height={sunH} rx=".5" />
     <rect class="sunRay" x="18.2" y="13.1" width="1.5" height={sunH} rx=".5" transform="rotate(-90 18.2 13)" />
