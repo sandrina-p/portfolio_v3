@@ -35,7 +35,7 @@ Here's a list of my learnings while building this website. When I release the we
 - 🎈Place consecutive paragraphs in the same line without position absolute using -1em.
 - 🎈 `position:sticky` doesn't work when the parent has `overflow:hidden`
 - 🎈🐛 `transparent` on Safari means rgba(0, 0, 0, 0) instead of rgba(255, 255, 255, 0). If you do `linear-gradient(red, transparent)` it will go from red to black transparent.
-- 🎈How to prevent transition on render.
+- 🎈How to prevent CSS transition from happening on 1st render.
 - 📝 Learning so about animations optimization using Safari Layers.
   - lookout for elements size - white space consumes memory (ex: display block vs inline)
   - look out for overlapping animations, avoid when possible. (ex: site intro)
@@ -44,6 +44,7 @@ Here's a list of my learnings while building this website. When I release the we
   - use `visibility: hidden` to hide animations out of viewport - watch out to not hide text!
 - Reminder: 100vh is evil on mobile. But JS can save us here...
 - 📝 Use SCSS or CSS Variables? - TLDR: they complement each other.
+- 🎈 When using `position:fixed`, you can't add `transform` to that element. It will ignore fixed. Solution: Apply transform to child element. (ex: footer title)
 
 ## Accessibility
 

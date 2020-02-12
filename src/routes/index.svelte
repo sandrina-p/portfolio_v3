@@ -165,10 +165,11 @@
       &::before {
         content: '';
         position: absolute;
-        bottom: 0;
+        bottom: 0.1rem;
         left: 0;
         height: 0.1rem;
         width: 100%;
+        z-index: 1; /* above :after */
         background-color: var(--primary_1);
         transform: translateX(100%);
         animation: slideIn 500ms 1.7s forwards ease-out;

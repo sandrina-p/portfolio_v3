@@ -8,6 +8,7 @@
   $: currentSection = $strGeneral.pageCurrentSection;
   let pageSections = $strGeneral.pageSections;
   let navPivots = $strGeneral.pageSections.map(section => ({ name: section }));
+  $: navPivotsLg = navPivots.length;
   let isCalculated = false;
   let wasSelected = null; // when the link is clicked, trigger the fancyBubble
   let isRICScheduled = false;
@@ -67,7 +68,7 @@
     isRICScheduled = false;
     const currentY = window.scrollY;
 
-    for (let i = navPivots.length - 1; i >= 0; i--) {
+    for (let i = navPivotsLg - 1; i >= 0; i--) {
       if (currentY < navPivots[i].y) {
         continue;
       }

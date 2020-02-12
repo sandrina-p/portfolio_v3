@@ -44,7 +44,7 @@ Well... let's say we are 80% done and the other 20% will take 80% of the time.
 - [x] 🐛 Resize recalculation.
 - [x] 🐛 Responsive change needs recalculation.
 - [x] 🐛 Values - when scrolling to fast, clipping values are wrong.
-- [ ] 🐛 Contacts - On Safari a horizonal scroll happens on elements with translate (not absolute). Refactor that.
+- [x] 🐛 Contacts - On Safari a horizonal scroll happens on elements with translate (not absolute). Refactor that.
 
 - [ ] Review test coverage
 - [ ] Review Accessibility

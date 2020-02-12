@@ -15,13 +15,14 @@
   let elCard;
 
   let footerHeight = null;
-  let isCardOnView = false;
+  let isOnStage = false; // when footer enters the view.
+  let isCardOnView = false; // self explanatory
+  let isVisible = false; // when everything gets visible.
 
   let progress = 0;
   let cardInitialScale = 0;
   let titleProgress = '100vw';
-  let cardProgress = 0;
-  let isVisible = false;
+  let cardScale = 0;
   let scale1 = 0;
   let scale2 = 0;
   let scale3 = 0;
@@ -49,6 +50,7 @@
     let cardScrollPivot;
     let cardWidthHalf;
     let cardHeightHalf;
+    let cardScaleLimit; // define a limit equal to wWidth, so it avoids horizontal scroll when too big.
 
     function handleScrollLol() {
       console.log('scrolling footer...')
@@ -69,7 +71,8 @@
         
         const cardScrollYpivot = scrollY - cardScrollPivot;
         const cardPercentage = getInLimit(cardScrollYpivot / cardGoal, 0, 1);
-        cardProgress = cardPercentage === 1 ? 1 : cardInitialScale - ((cardInitialScale - 1) * cardPercentage);
+        const cardScaleOriginal = cardPercentage === 1 ? 1 : cardInitialScale - ((cardInitialScale - 1) * cardPercentage);
+        cardScale = getInLimit(cardScaleOriginal, 1, cardScaleLimit);
       }
 
       // Create illusion of infinite scroll 🔮
@@ -85,9 +88,11 @@
       cardHeightHalf = cardHeightHalf || elCard.offsetHeight / 2;
       cardGoal = cardGoal || wHeightHalf + cardHeightHalf;
       cardInitialScale = cardInitialScale || wWidth / elCard.offsetWidth;
+      cardScaleLimit = wWidth/elCard.offsetWidth;
+      cardScale = cardScaleLimit;
 
       titleGoal = titleGoal || wHeightHalf + wWidth / 2 + cardWidthHalf;
-
+      isOnStage = isIntersecting;
       if (isIntersecting) {
         footerHeight = titleGoal + figSize * 12;
         titleScrollPivot = window.scrollY - (rootBounds.height - boundingClientRect.top);
@@ -194,9 +199,8 @@
     width: 100%;
     height: auto;
     padding: $spacer-L $spacer-M $spacer-M;
-    background-color: var(--bg_1);
     margin: 0 auto;
-
+    
     &::before {
       content: '';
       position: absolute;
@@ -206,9 +210,16 @@
       height: 100%;
       background-color: var(--bg_1);
       z-index: -1; /* be bellow text */
-      transform: scale(var(--cardProgress)); 
+      transform: scale(var(--cardScale)); 
       transform-origin: 50% 0;
       pointer-events: none;
+      visibility: hidden;
+    }
+    &.isCardOnView { 
+      &::before {
+        /* Save GPU memory (+4Mb) */
+        visibility: visible;
+      }
     }
 
     &Child {
@@ -219,20 +230,6 @@
       &:nth-child(2) {
         margin-top: $spacer-M;
       }
-    }
-
-    /* Save GPU memory (+4Mb caused by nice ::before effect :/) */
-    /* visibility: hidden; */ /* REVIEW THIS! FIND ANOTHER WHAY */
-    &.isCardOnView { /* visibility: visible; */ }
-  }
-
-  @media (--max-xs) {
-    .title {
-      padding-left: 1.4rem;
-    }
-    .card {
-      padding-right: 1.4rem;
-      padding-left: 1.4rem;
     }
   }
 
@@ -314,27 +311,50 @@
     }
   }
 
+  @media (--max-xs) {
+    .title {
+      padding-left: 1.4rem;
+    }
+    .card {
+      padding-right: 1.4rem;
+      padding-left: 1.4rem;
+    }
+  }
+
   @media (--md) {
     $cardW: 70rem; /* static content luxuries */
     $cardH: 30rem;
 
     .footer {
-      padding-top: 0;
-
-    }
-    .title,
-    .card {
-      top: 50vh;
+      padding-top: 1px; /* so it counts .card marign-top */
     }
 
     .title {
-      width: 42rem; /* static content luxuries - reduce gpu usage */
+      position: relative;
+      top: 100vh; /* put out of view [1] */
+      width: 42rem;
       padding-left: 0;
-      margin-left: calc(50vw - ($cardW/2));
       font-size: $font-heading_3;
-      /* BUG SAFARI. transform elements add scroll, and can't add overflow hidden to parent because this is sticky... this needs to be absolute. */
-      transform: translate(var(--titleProgress, 100vw), calc($cardH/-2 - 0.6em));
-      margin-bottom: -2em; /* fake position: absolute for sticky, 2em = 2 lines */
+
+      :not(.isVisible) & {
+        pointer-events: none; /* so journey text can be selected while title is transforming X. */
+      }
+
+      .isOnStage & {
+        /* [2]...put back on the view */
+        /* can't be sticky because Safari adds scroll when title is transforming X */
+        position: fixed;
+        top: calc(50vh - $cardH/2 - 0.6em);
+        left: calc(50vw - ($cardW/2));
+
+        .title-content {
+          transform: translateX(var(--titleProgress, 100vw));        
+        }
+      }
+
+      &-content {
+        display: block;
+      }
 
       &-part {
         &:first-child {
@@ -346,6 +366,7 @@
     }
 
     .card {
+      top: 50vh;
       width: $cardW;
       height: $cardH;
       padding: $spacer-L;
@@ -384,15 +405,18 @@
 
 <footer
   class="footer"
+  class:isOnStage
   class:isVisible
   bind:this={elFooter}
   id="contact"
   data-section-offset-h="150"
-  style="height: {footerHeight}px; --thingSize: {progress}; --titleProgress: {titleProgress}; --cardProgress: {cardProgress};">
+  style="height: {footerHeight}px; --thingSize: {progress}; --titleProgress: {titleProgress}; --cardScale: {cardScale};">
  
   <h3 class="title f-mono">
-    <span class="title-part">Well...</span>
-    <span class="title-part">That's all for now!</span>
+    <span class="title-content">
+      <span class="title-part">Well...</span>
+      <span class="title-part">That's all for now!</span>
+    </span>
   </h3>
 
   <div class="card" bind:this={ elCard } class:isCardOnView>
