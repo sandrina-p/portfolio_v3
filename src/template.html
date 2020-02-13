@@ -6,10 +6,7 @@
     
     %sapper.base%
     
-    <!-- <link href="https://fonts.googleapis.com/css?family=Libre+Baskerville:700|Work+Sans:300&display=swap" rel="stylesheet"> -->
-    <!-- TODO load 500 async because it's used less. -->
-    <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,500,700&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,500&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="reset.css" />
 
@@ -25,11 +22,38 @@
     %sapper.head%
   </head>
   <body>
+    <!-- Critical JS to be runned before Svelte is loaded. -->
     <script>
+      // NOTE: Do not modify the DOM inside #sapper!
+      // Otherwise Svelte hydratation won't work properly.
+      // -------
+      // Set the prefered theme. Remaining logic at ToggleTheme.svelte
       if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.body.classList.add('dark'); // See ToggleTheme.svelte
+        document.body.classList.add('dark');
       }
+      // Detect current browser. Needed for some CSS animations otimizations.
+      (function setBrowsers() {
+        var browsers = {
+          jsChrome: /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor),
+          jsSafari: !!navigator.userAgent.match(/Version\/[\d\.]+.*Safari/),
+          jsIOS: /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream,
+          jsFF: !!navigator.userAgent.match(/firefox/i),
+        };
+        var matched = Object.keys(browsers).reduce(function (classes, browser) {
+          if (browsers[browser]) {
+            classes.push(browser);
+            return classes;
+          } else {
+            return classes;
+          }
+        }, []);
+
+        for (var i = 0; i < matched.length; i++) {
+          document.body.classList.add(matched[i]);
+        }
+      })();
     </script>
+
     <!-- The application will be rendered inside this element,
 	     because `src/client.js` references it -->
     <div id="sapper">%sapper.html%</div>

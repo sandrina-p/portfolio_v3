@@ -46,19 +46,6 @@ export function getIOstatusVertical(entry) {
   }
 }
 
-export function getBrowsers() {
-  const browsers = {
-    jsChrome: /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor),
-    jsSafari: !!navigator.userAgent.match(/Version\/[\d\.]+.*Safari/),
-    jsIOS: /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream,
-    jsFF: !!navigator.userAgent.match(/firefox/i),
-  };
-
-  return Object.keys(browsers).reduce((classes, browser) => {
-    return browsers[browser] ? `${classes} ${browser}` : classes;
-  }, '');
-}
-
 // Similar to how Element.scrollIntoView() works but with custom position
 // taking in account possible animations within this element.
 // ex: scroll 10px from top

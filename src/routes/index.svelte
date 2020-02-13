@@ -9,7 +9,7 @@
   import Journey from '../components/Journey.svelte';
   import Footer from '../components/Footer.svelte';
   import SvgSprite from '../components/SvgSprite.svelte';
-  import { getInLimit, getBrowsers, setRIC, focusOnlyWhenNeeded } from '../utils';
+  import { getInLimit, setRIC, focusOnlyWhenNeeded } from '../utils';
   import { matchMq, initResponsive, afterResponsiveUpdate } from '../stores/responsive.js';
   import { strGeneral, updateGeneral } from '../stores/general.js';
 
@@ -29,7 +29,6 @@
     // smoothscroll.polyfill(); // REVIEW - Do I really need this?
     initResponsive();
     focusOnlyWhenNeeded();
-    browserClasses = getBrowsers();
     if ($matchMq.md) {
       await verifyLayoutVariant({ doUpdateGeneral: false });
     }
@@ -206,7 +205,7 @@
 
 <Nav on:calculated={handleNavCalculated} horizonSpace={horizonSpace} />
 <div
-  class="container {browserClasses}"
+  class="container"
   style="--scrollY: {scrollY}px; --scrollSpeed: {scrollSpeedCurrent};">
   <div class="horizon" bind:this={elHorizon}>
     <Intro />

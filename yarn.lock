@@ -4680,10 +4680,9 @@ svelte-preprocess@^3.2.0:
     detect-indent "^6.0.0"
     strip-indent "^2.0.0"
 
-svelte@^3.0.0:
-  version "3.9.0"
-  resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.9.0.tgz#04e26b48f9f656a431c5e483efa519ab041d20f3"
-  integrity sha512-A3mHsfrzxiXdV7icqKrxVmqNzFtxr4BMEzCDrPYBBtngRuU2Ci/dUHjSq/sZHSe64p/DcF1gjqXfT3sjwA/LnA==
+"svelte@https://github.com/wix-incubator/wix-svelte.git#master":
+  version "3.18.1"
+  resolved "https://github.com/wix-incubator/wix-svelte.git#02f112bd36f7041e0e811117dd8e21a1cdb49fbb"
 
 svg-tags@^1.0.0:
   version "1.0.0"
