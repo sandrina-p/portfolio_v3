@@ -237,25 +237,26 @@
         </span>
       </span>
     </span>
-    <span class="headerFixed">and so did Sandrina!</span>
+    <span class="headerFixed">Here's my journey</span>
   </h2>
   <div class="text">
     <p class="p">
-      During the last year she has been helping to bring an open source idea to life -
+      During the last year I have been helping to bring an open source idea to life -
       <a class="u-link" href="https://github.com/okTurtles/group-income-simple">Group Income</a>.
-      Before that, she was a Senior UI Engineer at
+      Before that, I was a Senior UI Engineer at
       <a class="u-link" href="https://www.farfetch.com">Farfetch</a>
       for a few years.
     </p>
     <p class="p">
-      Sandrina always looked for ways to emerge design and development fields. Her meta-goal is still the same: create human experiences through the digital world.
-      In her free time she loves to
-      <a class="u-link" href={CODEPEN_URL}>push pixels around</a> and <a class="u-link" href={TWITTER_URL}>share her learnings</a> with the community.
+      I always look for ways to merge design and development in my work and my meta-goal has always been the same:
+      to create humanly accessible experiences within digital environments.
+      In my free time I like to
+      <a class="u-link" href={CODEPEN_URL}>push pixels around</a> and <a class="u-link" href={TWITTER_URL}>share ideias</a> with the community.
     </p>
     <p class="p">
       Currently,
-      <strong class="f-bold">Sandrina is open for new challenges</strong> where she can help people with code.
-      If you believe both of you can rock together, <a class="u-link" href={ EMAIL_URL }>go talk to her!</a>
+      <strong class="f-bold">I am open for new challenges</strong> where I can help people through lines of code.
+      If you feel like we could work together <a class="u-link" href={ EMAIL_URL }>send me an e-mail!</a>
     </p>
   </div>
 </section>

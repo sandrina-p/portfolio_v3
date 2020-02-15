@@ -341,10 +341,8 @@
     font-size: $font-heading_2;
     margin-right: 75vw; /* white space is everything */
 
-    &-part {
-      span { /* REVIEW - Lazy */
-        display: block;
-      }
+    &-line {
+      display: block;
     }
   }
 
@@ -558,10 +556,12 @@
             : currentPart === 'FINALLE' ? 4 : -1 } /> <!-- OPTIMIZE: Find a more readable way for this nes-nes-ted ternary -->
     <h3 class="f-mono title" data-part="WOLF" bind:this={elWolf} style={styleClip.WOLF}>
       <span class="title-part">
-        <span>From a</span> <span>lone wolf</span>
+        <span class="title-line">From a</span>
+        <span class="title-line">solo act</span>
       </span>
       <span class="title-part">
-        <span>to a</span> <span>team player</span>
+        <span class="title-line">to a</span>
+        <span class="title-line">team player</span>
       </span>
     </h3>
     <p class="pBox {getBoxClass('WOLF')}">

@@ -106,7 +106,7 @@ export let activeLevel;
         background: linear-gradient(136deg, rgba(255, 0, 0, 0.21), rgba(255, 255, 255, 0) 30%);
       
         :global(.dark) & {
-          background: linear-gradient(136deg, rgba(255, 119, 119, 0.36), rgba(255, 255, 255, 0) 30%);
+          background: linear-gradient(136deg, rgba(221, 141, 141, 0.33), rgba(255, 255, 255, 0) 30%);
         }
       }
     }

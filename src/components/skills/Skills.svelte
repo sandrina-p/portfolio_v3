@@ -181,7 +181,7 @@
       color: var(--text_invert);
 
       :global(.dark) & {
-        color: var(--text_0);
+        color: var(--text_1);
       }
     }
   }

@@ -10,32 +10,31 @@ export default {
   },
   DOTS: {
     text: [
-      'Combining the design and development processes is one of Sandrina’s expertises. She loves to <strong>work closely with the design team</strong> to create meaningful stuff for everyone.',
+      `Combining design and development processes is one of my expertises. As someone with a background in communication design, I love to <strong>work closely with the design team</strong> and don't let technical constraints compromise the final experience.`,
     ],
-    width: '48rem',
+    width: '52rem',
     height: '21rem',
   },
   ASK: {
     text: [
-      'You’ll see Sandrina asking questions you never thought about. Questions that help clear barriers, unpack assumptions and spark <a class="u-link" target="_blank" rel="noreferrer" href="https://en.wikipedia.org/wiki/Eureka_effect">eureka</a> moments.',
+      'Clear understanding and open communication are fundamental parts of my process: expect lots of questions - questions that help clear barriers, unpack assumptions and spark <a class="u-link" target="_blank" rel="noreferrer" href="https://en.wikipedia.org/wiki/Eureka_effect">eureka</a> moments.',
     ],
-    width: '30rem',
-    height: '30rem',
+    width: '32rem',
+    height: '32rem',
   },
   WOLF: {
     text: [
-      'If you wanna go quickly, Sandrina can make it happen. As a fast paced learner with a <strong>high quality bar</strong>, she can be the lone wolf when needed.',
-      `But if you wanna go far, <a class="u-link" href="${EMAIL_URL}">ask her to join</a> your wolves pack and let’s go together, as a team.`,
+      'If you wanna go quickly, I can make it happen. As a fast paced learner with a <strong>high quality bar</strong>, I can go solo when needed.',
+      `But if you wanna go far and prefer collaboration over competition, <a class="u-link" href="${EMAIL_URL}">ask me</a> to join your team!`,
     ],
-    width: '30rem',
+    width: '31.4rem',
     height: '40rem',
   },
   PEOPLE: {
-    // TODO - rename to PROGRESS
     text: [
-      `Sandrina is in a constant search for disruptive but pragmatic solutions. She'll <strong>strive for innovation</strong> and help those around her to go beyond best practices and product requirements.`,
+      'I feel myself in a constant search for disruptive but pragmatic solutions. Not one for tradition, <strong>striving for innovation</strong>  is my default while helping those around me to go beyond best practices and product requirements.',
     ],
-    width: '65rem',
+    width: '67rem',
     height: '15rem',
   },
   FINALLE: {

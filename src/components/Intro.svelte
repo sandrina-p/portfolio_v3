@@ -112,7 +112,7 @@
     }
 
     .text {
-      max-width: 44rem;
+      max-width: 42rem;
     }
 
     .animation {
@@ -129,12 +129,12 @@
       {/each}
     </h1>
     <p class="text">
-      Let me introduce you to someone who helps
-      to turn ideas into accessible experiences.
+      Let me introduce myself. I love to help
+      turning ideas into accessible experiences.
     </p>
     <p class="text">
-      Her name is Sandrina Pereira
-      and she’s a UX Engineer.
+      My name is Sandrina Pereira
+      and I'm a UX Engineer.
     </p>
   </div>
   <div class="animation">

@@ -23,6 +23,7 @@
   })();
   let lvlActive = '0';
   let interactedWith = { '0': true };
+  $: hadClickInAll = Object.keys(interactedWith).length > 2;
 
   onMount(() => {
     dispatch('setColorType', {
@@ -43,11 +44,6 @@
     if($matchMq.md) {
       updateSkill(list[0])
     }
-  }
-
-  function showExtraBtn(id) {
-    /* EASTER_EGG - show "made me" when all 3 lists are viewed */
-    return id !== '3' || Object.keys(interactedWith).length >= 3;
   }
 </script>
 
@@ -267,7 +263,7 @@
           border-radius: 0.3rem;
           background-color: var(--text_1);
           opacity: 0.5;
-          transform: scale(1, 0.3);
+          transform: scale(1, 0.2);
           transform-origin: 0 75%;
           transition: background 250ms ease-out, transform 250ms ease-out;
         }
@@ -293,18 +289,19 @@
           }
         }
 
-        :global(.uAppear) & {
+        :global(.uAppear) &.isVisible {
           opacity: 1;
           transform: translateY(0);
           transition:
-            opacity 1000ms var(--delay) cubic-bezier(0.0, 0.0, 0.2, 1),
-            transform 1000ms var(--delay) cubic-bezier(0.19, 1, 0.22, 1);
+            opacity 1000ms var(--delay, 75ms) cubic-bezier(0.0, 0.0, 0.2, 1),
+            transform 1000ms var(--delay, 75ms) cubic-bezier(0.19, 1, 0.22, 1);
 
           $time: 75ms;
 
           &:nth-child(1) { --delay: calc(200ms + $time*1); }
           &:nth-child(2) { --delay: calc(200ms + $time*2); }
           &:nth-child(3) { --delay: calc(200ms + $time*3); }
+          &:nth-child(3) { --delay: calc(200ms + $time*4); }
         }
       }
     }
@@ -321,7 +318,7 @@
       }
 
       &Lvl {
-        &[data-level="made me"] {
+        &[data-level="this site"] {
           [data-tool] {
             /* so stars dont appear twice */
             display: none;
@@ -418,7 +415,7 @@
       @mixin coord ReasonML, 20rem, 10rem;
 
       @mixin coord Jest, 10rem, 12rem;
-      @mixin coord Enzyme, -6rem, 5rem;
+      @mixin coord Enzyme, -5rem, 7rem;
       @mixin coord Cypress, -1rem, 15rem;
       @mixin coord Testing Library, 75rem, 3rem;
 
@@ -474,15 +471,14 @@
 <div class="main">
   <div class="tabList uAppear-0">
     {#each Object.keys(skills.lists) as id}
-      {#if showExtraBtn(id)}
-        <button
-          class="tabBtn"
-          style="--colorType: {colorTypes[id]}"
-          aria-expanded={lvlActive === id}
-          on:click={() => updateSkill(id)}>
-          {skills.lists[id]}
-        </button>
-      {/if}
+      <button
+        class="tabBtn"
+        class:isVisible={id !== '3' || hadClickInAll}
+        style="--colorType: {colorTypes[id]}"
+        aria-expanded={lvlActive === id}
+        on:click={() => updateSkill(id)}>
+        {skills.lists[id]}
+      </button>
     {/each}
   </div>
   <ul class="skills u-carousel uAppear-1">

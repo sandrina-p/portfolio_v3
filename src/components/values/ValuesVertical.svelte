@@ -265,7 +265,7 @@
         color: var(--primary_1);
       }
 
-      &-br {
+      &-line {
         display: none;
       }
     }
@@ -346,11 +346,13 @@
             : currentPart === 'FINALLE' ? 4 : -1 } />
     <div class="pContent">
       <h3 class="f-mono title" data-part="WOLF" bind:this={elWolf} style={styleClip.WOLF}>
-        <span class="title-part" aria-label="From a lone wolf to a team player">
-          From a <br /> lone wolf
+        <span class="title-part">
+          <span class="title-line">From a</span>
+          <span class="title-line">solo act</span>
         </span>
         <span class="title-part">
-          to a <br class="title-br" /> team player
+          <span class="title-line">to a</span>
+          <span class="title-line">team player</span>
         </span>
       </h3>
       <span class="legend">swipe left</span>

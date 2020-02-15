@@ -442,7 +442,7 @@
     <div class="cardChild" on:focusin={handleKeyboardFocus}>
       <p class="text">Fell free to <a href={EMAIL_URL} class="u-link">say hi</a>!</p>
       <p class="text">
-        <span class="textLine">It's easy to find Sandrina around</span>
+        <span class="textLine">It's easy to find me around,</span>
         <span class="textLine">specially if you are a web lover too.</span>
       </p>
       <Contacts />

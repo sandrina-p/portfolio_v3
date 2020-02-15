@@ -2,10 +2,10 @@ import { SITE_REPO } from './misc.js';
 
 export default {
   lists: {
-    '0': 'rocking',
+    '0': 'focused',
     '1': 'had fun',
     '2': 'curious',
-    '3': 'made me',
+    '3': 'this site',
   },
   tools: [
     {

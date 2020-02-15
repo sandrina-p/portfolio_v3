@@ -320,13 +320,13 @@
   <div class="content">
     <header class="header">
       <h2 class="f-mono headerTitle" data-io="heading">
-        <span class="headerTitle-part">She has been</span>
+        <span class="headerTitle-part">I've been</span>
         <span
           class="headerTitle-part">
           {ledText}
         </span>
       </h2>
-      <p class="headerDescription">Something sweet and short about this.</p>
+      <p class="headerDescription">As a self-taught developer, giving back to the community is a joy!</p>
     </header>
     <ul class="cardList u-carousel">
       {#each words as { title, date, places }, index}

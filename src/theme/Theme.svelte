@@ -4,7 +4,7 @@
 
     --text_0: #343434;
     --text_1: #6f6f6f;
-    --text_invert: #d6d6d6; /* similar to bg but lighter */
+    --text_invert: #e2e2e2; /* similar to bg but lighter */
     --bg_0: #f8f3ef;
     --bg_1: #fff;
     --bg_invert: #2e2a2f; /* #same as .dark bg_1; */
@@ -22,7 +22,7 @@
   }
 
   body.dark {
-    --text_0: #e2e2e2;
+    --text_0: #e2e2e2; /* same as --text_invert */
     --text_1: #adadad;
     --text_invert: #343434; /* same as defautl text_0 */
     --bg_0: #424043;
@@ -144,26 +144,11 @@
 
   .u-link {
     position: relative;
-    white-space: nowrap;
+
     text-decoration: underline;
     text-decoration-color: var(--primary_1);
     color: inherit;
     z-index: 0; /* so before gets behind but visible */
-
-    &::before {
-      content: '';
-      position: absolute;
-      bottom: 0.05em;
-      left: -0.1em;
-      width: calc(100% + 0.2em);
-      height: 1.2em;
-      background-color: var(--primary_1);
-      opacity: 0.2;
-      transform: scale(1, 0.3);
-      transition: transform 75ms ease-out;
-      transform-origin: 0 100%;
-      z-index: -1;
-    }
 
     &:hover {
       outline: none;
@@ -171,6 +156,25 @@
       &::before {
         transition-duration: 250ms ease-in-out;
         transform: scale(1, 1);
+      }
+    }
+
+    @media (--md) {
+      white-space: nowrap;
+
+      &::before {
+        content: '';
+        position: absolute;
+        bottom: 0.05em;
+        left: -0.1em;
+        width: calc(100% + 0.2em);
+        height: 1.2em;
+        background-color: var(--primary_1);
+        opacity: 0.2;
+        transform: scale(1, 0.3);
+        transition: transform 75ms ease-out;
+        transform-origin: 0 100%;
+        z-index: -1;
       }
     }
   }
