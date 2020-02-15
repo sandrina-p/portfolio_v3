@@ -31,8 +31,8 @@
     position: relative;
     background: transparent;
     border: none;
-    width: 3rem;
-    height: 3rem;
+    width: 4.4rem;
+    height: 4.4rem;
     padding: 0;
     color: var(--text_1);
     cursor: pointer;
@@ -56,8 +56,9 @@
   }
 
   .sun {
-    width: 100%;
-    height: 100%;
+    width: 80%;
+    height: 80%;
+    margin: 0 auto;
 
     &Ray,
     &Center {

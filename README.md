@@ -35,7 +35,7 @@ Well... let's say we are 80% done and the other 20% will take 80% of the time.
 - [x] Decide where to put contacts
 - [x] Responsive
 - [x] Style text-selection
-- [ ] Decide Menu (navigation) 
+- [x] Decide Menu (navigation) 
 - [ ] Review transitions consistency
 - [ ] Refine copywrite
 - [ ] Reduced motion

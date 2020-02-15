@@ -12,7 +12,7 @@
   let isCalculated = false;
   let wasSelected = null; // when the link is clicked, trigger the fancyBubble
   let isRICScheduled = false;
-  // let hasReducedMotion = false;
+  let isMenuOpen = false;
 
 	const dispatch = createEventDispatcher();
 
@@ -149,7 +149,6 @@
 		});
   }
 
-  // TODO - handle SR navigation.
   function goToSection(e, pageSection) {
     e.preventDefault();
 
@@ -164,6 +163,8 @@
 
     wasSelected = pageSection;
 
+    document.getElementById(pageSection).focus(); // Help keyboard users
+
     setTimeout(() => {
       console.log('scrolled by click');
       // NOTE: Make sure to call scrollTo before updateGeneral,
@@ -177,6 +178,10 @@
     }, TIMEOUTS.NAV_ANIMATING);
   }
 
+  function handleMenuBtnClick() {
+    isMenuOpen = !isMenuOpen
+  }
+
   export let horizonSpace;
 </script>
 
@@ -187,156 +192,160 @@
     position: fixed;
     top: $spacer-M;
     right: $spacer-M;
-    /* transform: translateX(-50%); */
-    z-index: 5; /* above everything */
     display: flex;
-    align-items: center;
+    color: var(--text_1);
+    z-index: 5; /* above everything */
+
+    &.isInverted {
+      color: var(--text_invert);
+    }
+
+    :global(.dark) &.isInverted {
+      color: var(--text_1);
+    }
   }
 
-  .menu,
   :global(.toggleBtn),
-  .linksItem {
-    /* entry animation */
+  .menu {
     opacity: 0;
-    $time: 75ms;
+    pointer-events: none;
   }
 
   .isReady {
+    $time: 75ms;
+
     :global(.toggleBtn),
-    .linksItem,
     .menu {
       opacity: 1;
+      pointer-events: auto;
       transition:
-        opacity 1000ms var(--delay, $time) cubic-bezier(0.0, 0.0, 0.2, 1),
-        transform 1000ms var(--delay, $time) cubic-bezier(0.19, 1, 0.22, 1);
+        opacity 1000ms cubic-bezier(0.0, 0.0, 0.2, 1),
+        transform 1000ms cubic-bezier(0.19, 1, 0.22, 1);
     }
+  }
 
-    .linksList::before {
-      transform: scale(1);
-      transition: transform 700ms cubic-bezier(0.19, 1, 0.22, 1);
-    }
+  :global(.toggleBtn) {
+    margin-right: $spacer-S;
+  }
 
-    .linksItem {
-      &:nth-child(1) { --delay: calc($time*3); }
-      &:nth-child(2) { --delay: calc($time*2); }
-      &:nth-child(3) { --delay: calc($time*1); }
-      &:nth-child(4) { --delay: calc($time*2); }
-      &:nth-child(5) { --delay: calc($time*3); }
-    }
-
-    .menu { --delay: calc($time*5); }
-    :global(.toggleBtn), { --delay: calc($time*4); }
+  .menu {
+    position: relative;
   }
 
   .links {
     &List {
-      position: relative;
-      display: flex;
+      position: absolute;
       margin: 0;
       padding: 0;
-      font-size: $font-S;
-
-      &::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: calc($itemW/2);
-        width: calc(100% - $itemW);
-        height: 0.1rem;
-        background-color: var(--text_invert);
-        transform: scale(0, 1);
-        pointer-events: none;
-
-        :global(.dark) & {
-          background-color: var(--text_1);
-        }
-      }
+      top: 4.4rem; /* btn height */
+      right: 0;
+      display: block;
+      text-align: right;
     }
 
     &Item {
-      position: relative;
-      margin: 0;
-      margin-top: calc($spacer-S * -1);
-      width: $itemW;
-      text-align: center;
+      --time: 300ms;
+      &:nth-child(1) { --delay: calc($time*5); }
+      &:nth-child(2) { --delay: calc($time*4); }
+      &:nth-child(3) { --delay: calc($time*3); }
+      &:nth-child(4) { --delay: calc($time*2); }
+      &:nth-child(5) { --delay: calc($time*1); }
 
-      &::before {
-        content: '';
-        display: block;
-        position: absolute;
-        top: 0; left: 50%;
-        width: $spacer-S;
-        height: $spacer-S;
-        border-radius: 50%;
-        background-color: var(--text_invert);
-        transform: translate(-50%, calc($spacer-S/2));
-        pointer-events: none;
-
-        :global(.dark) & {
-          background-color: var(--text_1);
-        }
-      }
-
-      &.isCurrent,
-      &:hover,
-      &:focus-within {
-        &::before {
-          opacity: 1;
-          transition: background-color 400ms;
-          background-color: var(--primary_1);
-        }
+      .isOpen & {
+        --time: 1000ms;
+        &:nth-child(1) { --delay: calc($time*1); }
+        &:nth-child(2) { --delay: calc($time*2); }
+        &:nth-child(3) { --delay: calc($time*3); }
+        &:nth-child(4) { --delay: calc($time*4); }
+        &:nth-child(5) { --delay: calc($time*5); }
       }
     }
 
     &Anchor {
       display: block;
-      color: var(--text_1);
-      padding-top: $spacer-M;
-      opacity: 0;
-      transition: opacity 400ms;
+      color: inherit;
+      padding: $spacer-S;
       text-decoration: none;
+      opacity: 0;
+      font-size: $font-S;
+      pointer-events: none;
+      transition: opacity var(--time, 1000ms) var(--delay, $time) cubic-bezier(0.0, 0.0, 0.2, 1);
 
-      &:hover,
-      &:focus {
-        outline: none;
+      &[aria-current="true"] {
+        color: var(--primary_1_sat);
+      }
+
+      .isOpen & {
         opacity: 1;
-        color: var(--primary_1);
+        pointer-events: auto;
+
+        &:hover,
+        &:focus {
+          outline: none;
+          color: var(--primary_1_sat);
+        }
+      }
+
+      @media (--max-md) {
+        margin-top: $spacer-S; /* more space to click */
       }
     }
   }
 
-  .linksList {
-    display: none; /* TODO this */
-  }
+  .burger {
+    &Btn {
+      width: 4.4rem;
+      height: 4.4rem;
+      background: none;
+      border: none;
+      border-radius: 0.2rem;
+      color: inherit;
+      cursor: pointer;
 
-  :global(.toggleBtn) {
-    /* margin-top: -3rem; */
-  }
+      &[aria-pressed="true"],
+      &:focus,
+      &:hover {
+        outline: none;
+        color: var(--primary_1_sat);
+      }
 
-  .menu {
-    margin-right: $spacer-M;
-    outline: 1px dashed #b57070;
-    color: var(--text_1);
-  }
+      &[aria-pressed="true"] {
+        .burgerSvgTop {
+          transform: rotate(-45deg) translate(0.1rem, 0.8rem);
+        }
 
-  /* .toggleMotion {
-    background: transparent;
-    border: none;
-    margin-right: $spacer-M;
-  }
+        .burgerSvgMid {
+          opacity: 0;
+        }
 
-  .motion {
-    width: 1.6rem;
-    height: 1.6rem;
-    background: var(--text_1);
-    border-radius: 50%;
-    display: block;
-    border: 0.2rem solid var(--bg_0);
-    outline: 1px dashed #b57070;
-  } */
+        .burgerSvgBott {
+          transform: rotate(45deg) translate(0.1rem, -0.8rem);
+        }
+      }
+    }
+
+    &Svg {
+      width: 2rem;
+      height: 1.6rem;
+      fill: currentColor;
+      margin: 0 auto;
+
+      &Top,
+      &Mid,
+      &Bott {
+        transform-origin: 50%;
+        transition: transform 250ms ease-in-out, opacity 250ms ease-in-out;
+      }
+
+      &Mid {
+        opacity: 0.7;
+      }
+    }
+  }
 
   /* decorative animation */
   .bubble {
+    position: absolute;
     z-index: -1;
 
     &::before,
@@ -346,11 +355,16 @@
       position: absolute;
       top: 0;
       left: 50%;
-      width: 200vw;
-      height: 200vw;
+      width: 100vw;
+      height: 100vw;
       border-radius: 50%;
       transform: translate(-50%, -50%) scale(0);
       box-sizing: border-box;
+
+      @media (orientation: portrait) {
+        width: 200vw;
+        height: 200vw;
+      }
     }
 
     &::before { background-color: var(--morph_total); }
@@ -376,32 +390,40 @@
       opacity: 1;
     }
     100% {
-      transform:translate(-50%, -50%) scale(1);
+      transform:translate(-50%, -50%) scale(3);
       opacity: 0;
     }
   }
 </style>
 
-<nav class="nav" class:isReady={isCalculated} class:invert={currentSection === 'skills'}>
+<nav class="nav"
+  class:isReady={isCalculated}
+  class:isInverted={currentSection === 'skills'}>
   <span class="bubble" class:wasSelected={wasSelected}></span>
-  <p class="menu">menu</p>
-  <ul class="linksList">
-    {#each pageSections as name}
-      <li
-        class="linksItem"
-        class:isCurrent={currentSection === name}>
-        <a
-          href="#{name}"
-          class="linksAnchor"
-          aria-current={currentSection === name}
-          on:click={e => goToSection(e, name)}>
-          {name}
-        </a>
-      </li>
-    {/each}
-  </ul>
-  <!-- <button class="toggleBtn toggleMotion" on:click={() => true} aria-pressed={hasReducedMotion} aria-label="Reduced Motion">
-    <span class="motion"></span>
-  </button> -->
   <ToggleTheme klass='toggleBtn' />
+  <div class="menu" class:isOpen={isMenuOpen}>
+    <button class="burgerBtn" aria-label="open menu" aria-pressed={isMenuOpen} on:click={handleMenuBtnClick}>
+      <svg class="burgerSvg u-svg" style="display: none;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 16">
+        <rect x="0" y="0" width="20" height="2" rx="1" class="burgerSvgTop" />
+        <rect x="5" y="7" width="15" height="2" rx="1" class="burgerSvgMid" />
+        <rect x="0" y="14" width="20" height="2" rx="1" class="burgerSvgBott" />
+      </svg>
+    </button>
+    <ul class="linksList">
+      {#each pageSections as name}
+        <li
+          class="linksItem"
+          class:isCurrent={currentSection === name}>
+          <a
+            href="#{name}"
+            class="linksAnchor"
+            aria-current={currentSection === name}
+            on:focus={() => isMenuOpen = true }
+            on:click={e => goToSection(e, name)}>
+            {name}
+          </a>
+        </li>
+      {/each}
+    </ul>
+  </div>
 </nav>

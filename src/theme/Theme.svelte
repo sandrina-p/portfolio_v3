@@ -12,7 +12,7 @@
 
     --primary_1: #9b78de;
     --primary_1_smooth: #e9e1f8;
-    --primary_1_sat: #bd99ff;
+    --primary_1_sat: #8e66dc; /* better for small text */
     --primary_1_stronger: #8c00ff;
     --morph_color: rgba(109, 7, 255, 0.1);
     --morph_total: #bfa1f8; /* visual effect when all circles are overlapping */
@@ -28,6 +28,7 @@
     --bg_0: #424043;
     --bg_1: #2e2a2f;
     --primary_1: #9f76ff; /* slightly brigter */
+    --primary_1_sat: #bd99ff;
     --primary_1_smooth: #514371;
     --morph_color: rgba(202, 152, 255, 0.15);
     --morph_total: #9176af;
@@ -64,8 +65,8 @@
   body.js-tabbing {
     a:focus,
     button:focus {
-      outline: 1px solid var(--primary_1) !important;
-      box-shadow: 2px 2px 0px 1px var(--primary_1_stronger) !important;
+      outline: 0.1rem solid var(--primary_1_sat) !important;
+      box-shadow: 0.2rem 0.2rem 0.2rem 0px var(--primary_1) !important;
     }
   }
 
