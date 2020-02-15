@@ -83,6 +83,7 @@
       width: 26rem;
       flex-shrink: 0;
       scroll-snap-align: center;
+      border-radius: 0.3rem;
 
       @media (--max-xs) {
         padding: $spacer-LM $spacer-M $spacer-L;

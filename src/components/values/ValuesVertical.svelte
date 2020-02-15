@@ -19,33 +19,9 @@
   let elWolf;
   let elPeople;
   let animations;
-  let isOnWolfMax = false; // OPTMIZE this...
 
-  let isMount = false; /* wait for Intro animations */
+  let isMount = false;
   let scrollY = 0;
-
-  // ::: Morphose - a circle to a square (dabox)
-  // REVIEW - Maybe this shouldn't be here it's only logic and between Intro and Values
-  const size = 200; // OPTMIZE - get real CSS Variables from circle
-  const distance = 300;
-  const scaleStart = 0.8;
-  $: wInnerWidthHalf = isMount && $_window.innerWidth / 2;
-  // $: distance = isMount && wInnerWidthHalf - (size * 1.5);
-  const morphCircleRatio = 2; // circle progression based on scroll. (it needs to scroll 20px to change 10px)
-  const morphBoxRatio = 150; // nr of scrolled pixels needed to change border-radius from circle to square
-  let isMorphing = true;
-
-  $: offLimit = 0; // isMount && wInnerWidthHalf + (distance * morphCircleRatio) + morphBoxRatio;
-  $: morphZone = 0; // distance && wInnerWidthHalf + distance + size; // size serves as a "gap" to avoid a direct morph from primary to bg when scrolling quickly though it. 
-  $: morphStyle = ''; // morphZone && `width: ${morphZone}px`;
-
-  $: daboxStyle = '';
-    // ($strDabox.progress
-    //   ? `--radius: ${50 - $strDabox.progress * 50}%;` +
-    //     `--opacity: ${1 - $strDabox.progress};`
-    //   : '') +
-    // `--width: var(--width-${currentPart});` +
-    // `--height: var(--height-${currentPart});`;
 
   const styleContainer = Object.keys(valuesData).reduce(
     (styles, part) =>
@@ -224,7 +200,7 @@
     padding: $layout-margin;
     margin-left: calc((100% - var(--title-w, 100%)) - $layout-margin); /* to show only the edge */
     width: 99vw; /* not 100vw, so the title is still on the viewport (by 1vw).
-                    Enough to prevent IO from triggerring to the next part. */
+                    Enough to prevent IO from triggering to the next part. */
     flex-shrink: 0;
     scroll-snap-align: center;
 
@@ -235,6 +211,7 @@
       max-width: 40rem;
       background: var(--bg_1);
       padding: $spacer-L;
+      border-radius: 0.3rem;
       box-shadow: 0.2rem 0.2rem var(--primary_1_smooth);
 
       &-par:not(:last-child) {
@@ -299,6 +276,7 @@
   }
 </style>
 
+<!-- OPTIMIZE - Merge this with ValuesHorizontal -->
 <section
   class="container"
   class:isOnStage
@@ -308,15 +286,16 @@
   <h2 class="sr-only">Values</h2>
 
   <div class="dabox"
-    class:isActive={$strDabox.isActive}
+    class:isActive={$strDabox.isActive} />
+    <!--
     class:isMorphing
-    style={daboxStyle} />
+    style={daboxStyle} /> -->
     <!-- class:isGelly={currentPart === 'ASK' } -->
 
   <!-- Not necessary on mobile, maybe a if mobile? -->
-  <div class="part pMorph" style={morphStyle}>
+  <!-- <div class="part pMorph" style={morphStyle}>
     <Dots pattern='A' isActive={['MORPH', 'DOTS'].includes(currentPart)} />
-  </div>
+  </div> -->
 
   <div class="part pDots">
     <!-- EDIT: removed isOnStage && and add 'MORPH' -->

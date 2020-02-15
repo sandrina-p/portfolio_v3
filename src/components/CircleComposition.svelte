@@ -1,11 +1,8 @@
 <script>
-  import { onMount } from 'svelte'
   import { strCircle } from '../stores/circle.js';
 
   let circleCount = Array(7);
-
   $: state = $strCircle;
-  
 </script>
 
 <style>

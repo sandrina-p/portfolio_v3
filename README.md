@@ -54,6 +54,8 @@ Well... let's say we are 80% done and the other 20% will take 80% of the time.
 - [x] 🐛 Values - when scrolling to fast, clipping values are wrong.
 - [x] 🐛 Contacts - On Safari a horizonal scroll happens on elements with translate (not absolute). Refactor that.
 - [ ] Bundle production mode
+- [ ] Verify 3G slow
+- [ ] Do critical path?
 - [ ] Review test coverage
 - [x] Review Accessibility
 - [ ] Review SEO (Missing favicon)
@@ -61,5 +63,6 @@ Well... let's say we are 80% done and the other 20% will take 80% of the time.
 - [ ] Review manifest
 - [ ] Run Lighthouse
 - [x] Review animations performance
+- [ ] Some basic tracking?
 - [ ] Easter Eggs!?
 - [ ] Review custom properties fallback

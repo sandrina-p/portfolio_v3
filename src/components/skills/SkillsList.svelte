@@ -5,7 +5,7 @@
 
 	const dispatch = createEventDispatcher();
   const colorTypes = {
-    '0': 'var(--primary_1_sat)',
+    '0': 'var(--primary_1)',
     '1': 'var(--primary_2)',
     '2': 'var(--primary_3)',
     '3': 'var(--primary_4)',
@@ -246,7 +246,7 @@
         padding: $spacer-S $spacer-M;
         margin: 0 $spacer-M $spacer-M;
         background: transparent;
-        border-radius: 2px;
+        border-radius: 0.3rem;
         white-space: nowrap;
         flex-shrink: 0;
         width: 14rem;
@@ -264,7 +264,7 @@
           left: 0;
           z-index: -1;
           height: 100%;
-          border-radius: 0.4rem; /* REVIEW borders */
+          border-radius: 0.3rem;
           background-color: var(--text_1);
           opacity: 0.5;
           transform: scale(1, 0.3);

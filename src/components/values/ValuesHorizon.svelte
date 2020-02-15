@@ -41,7 +41,7 @@
 
   $: daboxStyle =
     ($strDabox.progress
-      ? `--radius: ${50 - $strDabox.progress * 50}%;` +
+      ? `--radius: ${currentPart === 'MORPH' ? 50 - $strDabox.progress * 50 + '%' : '3px'};` +
         `--opacity: ${1 - $strDabox.progress};`
       : '') +
     `--width: var(--width-${currentPart});` +

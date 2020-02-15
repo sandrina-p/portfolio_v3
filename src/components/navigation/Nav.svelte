@@ -266,10 +266,12 @@
       color: inherit;
       padding: $spacer-S;
       text-decoration: none;
+      visibility: hidden;
       opacity: 0;
       font-size: $font-S;
       pointer-events: none;
-      transition: opacity var(--time, 1000ms) var(--delay, $time) cubic-bezier(0.0, 0.0, 0.2, 1);
+      transition: opacity var(--time, 1000ms) var(--delay, $time) cubic-bezier(0.0, 0.0, 0.2, 1),
+        visibility 1ms var(--delayVis, 500ms);
 
       &[aria-current="true"] {
         color: var(--primary_1_sat);
@@ -278,6 +280,8 @@
       .isOpen & {
         opacity: 1;
         pointer-events: auto;
+        visibility: visible;
+        --delayVis: 0ms;
 
         &:hover,
         &:focus {
@@ -298,7 +302,7 @@
       height: 4.4rem;
       background: none;
       border: none;
-      border-radius: 0.2rem;
+      border-radius: 0.3rem;
       color: inherit;
       cursor: pointer;
 
@@ -418,7 +422,6 @@
             href="#{name}"
             class="linksAnchor"
             aria-current={currentSection === name}
-            on:focus={() => isMenuOpen = true }
             on:click={e => goToSection(e, name)}>
             {name}
           </a>

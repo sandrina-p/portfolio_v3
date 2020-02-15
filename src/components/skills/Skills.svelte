@@ -21,14 +21,12 @@
     const prevPageSection = prevState.pageCurrentSection;
     const pageSection = state.pageCurrentSection;
 
-    // REVIEW - Should move this index logic to general store?
-    const prevSectionIndex = state.pageSections.indexOf('words');
-    const currentSectionIndex = state.pageSections.indexOf(state.pageCurrentSection);
-
-    if (!isOnStage && currentSectionIndex >= prevSectionIndex) {
-      isOnStage = true;
-      // The "zoom" effect should start before 
+    if (!prevState.isReady && state.isReady) {
       animation = initAnimation();
+    }
+
+    if (prevPageSection !== pageSection && pageSection === 'skills') {
+      animation.verify();
     }
   });
 
