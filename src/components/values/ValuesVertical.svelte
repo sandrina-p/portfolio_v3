@@ -266,7 +266,7 @@
       }
 
       &-line {
-        display: none;
+        display: block;
       }
     }
   }
