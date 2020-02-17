@@ -226,7 +226,9 @@
 <section class="wrapper"
   class:isActive
   style="--progress: {progress}"
-  id="journey"
+  id="journey" tabindex="-1"
+  data-section-offset-v="45"
+  data-section-offset-h="15"
   on:focusin={handleKeyboardFocus}>
   <h2 class="f-mono header" bind:this={elHeader}>
     <span class="sliding">

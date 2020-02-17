@@ -70,6 +70,10 @@
     }
   }
 
+  [tabindex="-1"]:focus {
+    outline: none; /* doesn't affect negatively SR */
+  }
+
   /* ------ Text highlight ------ */
   ::selection {
     background: var(--primary_1_smooth);

@@ -37,7 +37,7 @@
       animation = initAnimation();
     }
     
-    if (prevPageSection !== pageSection && ['journey', 'contact'].includes(pageSection)) {
+    if (prevPageSection !== pageSection && pageSection === 'contact') {
       animation.verify();
     }
   });
@@ -68,7 +68,7 @@
       titleProgress = wWidth - wWidth * percentage + 'px';
 
       if (isCardOnView) {
-          // Update Svg circles (.thing) scales
+          // Update Svg circles (.thing) size
           scale1 = Math.abs((figHalf - ((scrollYpivot * 0.2) % figSize)) * 0.01);
           scale2 = Math.abs((figHalf - (((scrollYpivot - 150) * 0.2) % figSize)) * 0.01);
           scale3 = Math.abs((figHalf - (((scrollYpivot - 300) * 0.2) % figSize)) * 0.01);
@@ -112,7 +112,14 @@
 
     const watchCard = ([{ isIntersecting, boundingClientRect }]) => {
       isCardOnView = isIntersecting;
-      cardScrollPivot = isIntersecting && window.scrollY - ($_window.innerHeight - boundingClientRect.top);
+      if(boundingClientRect.top < $_window.innerHeight/2) {
+        // 99% sure it was triggered by Nav, so we need to ignore card position because it's absolute
+        // and instead use another el as pivot (elFooter) with a more expensive operation.
+        const scrollYAdjusted = window.scrollY + elFooter.getBoundingClientRect().top;
+        cardScrollPivot = isIntersecting && scrollYAdjusted;
+      } else {
+        cardScrollPivot = isIntersecting && window.scrollY - ($_window.innerHeight - boundingClientRect.top);
+      }
     };
 
     const observerFooter = new IntersectionObserver(watchFooter);
@@ -229,16 +236,6 @@
       height: 100%;
       background-color: var(--bg_1);
       z-index: -1; /* be bellow text */
-      transform: scale(var(--cardScale)); 
-      transform-origin: 50% 0;
-      pointer-events: none;
-      visibility: hidden;
-    }
-    &.isCardOnView { 
-      &::before {
-        /* Save GPU memory (+4Mb) */
-        visibility: visible;
-      }
     }
 
     &Child {
@@ -392,6 +389,19 @@
       margin: calc(50vw + ($cardW/2)) auto 0;
       transform: translateY(calc($cardH/-2));
 
+      &::before {
+        transform: scale(var(--cardScale)); 
+        transform-origin: 50% 0;
+        pointer-events: none;
+        visibility: hidden;
+      }
+
+      &.isCardOnView { 
+        &::before {
+          /* Save GPU memory (+4Mb) */
+          visibility: visible;
+        }
+      }
       &Child {
         &:nth-child(1) {
           flex-basis: 50%;
@@ -427,8 +437,9 @@
   class:isOnStage
   class:isVisible
   bind:this={elFooter}
-  id="contact"
-  data-section-offset-h="150"
+  id="contact" tabindex="-1"
+  data-section-offset-v="100"
+  data-section-offset-h="175"
   style="height: {footerHeight}px; --thingSize: {thingProgress}; --titleProgress: {titleProgress}; --cardScale: {cardScale};">
  
   <h3 class="title f-mono">

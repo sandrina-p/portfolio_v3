@@ -315,7 +315,8 @@
 <section class="wrapper"
   class:isOnStage
   class:isOnView
-  id="words"
+  id="words" tabindex="-1"
+  data-section-offset-v="40"
   data-section-offset-h="50">
   <div class="content">
     <header class="header">

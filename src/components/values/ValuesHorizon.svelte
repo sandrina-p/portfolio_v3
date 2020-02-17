@@ -30,6 +30,8 @@
   const distance = 300;
   const scaleStart = 0.8;
   $: wInnerWidthHalf = isMount && $_window.innerWidth / 2;
+  $: clipCenter = wInnerWidthHalf * 0.9; // subtract 5% of IO.
+
   // $: distance = isMount && wInnerWidthHalf - (size * 1.5);
   const morphCircleRatio = 2; // circle progression based on scroll. (it needs to scroll 20px to change 10px)
   const morphBoxRatio = 200; // nr of scrolled pixels needed to change border-radius from circle to square
@@ -117,6 +119,7 @@
     const scaleStartDynamic = scaleStart + (0.2 - (newDistance * 0.2) / distance);
     
     isMorphing = true;
+    currentPart = 'MORPH'; // sanity-check
 
     updateCircle({
       isPaused: isCirclePaused,
@@ -158,8 +161,7 @@
     function handleClipping({ part, entry, scrollPivot }) {
       console.log('clipping', part, '...');
       const clipLimit = entry.boundingClientRect.width + 1; // just for pixel-sanity-check
-      const needsToScroll = wInnerWidthHalf;
-      const awayFromMiddle = window.scrollY - scrollPivot - needsToScroll;
+      const awayFromMiddle = window.scrollY - scrollPivot - clipCenter;
 
       if(part === 'WOLF') {
         // once it passes the middle, it will stay true until the end.

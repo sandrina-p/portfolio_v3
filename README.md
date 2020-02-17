@@ -35,8 +35,8 @@ Well... let's say we are 80% done and the other 20% is taking 80% of the time.
 - [x] Decide where to put contacts
 - [x] Responsive
 - [x] Style text-selection
-- [x] Desing Menu
-- [ ] Navigation (transition between sections) 
+- [x] Design Menu
+- [x] Navigation (transition between sections) 
 - [ ] Review transitions consistency
 - [x] Refine copywrite
 - [ ] Reduced motion

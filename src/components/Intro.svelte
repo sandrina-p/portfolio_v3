@@ -76,7 +76,7 @@
       margin-top: $spacer-M;
       max-width: 24rem;
     }
-  }
+      }
 
   .animation {
     margin-top: $spacer-M;
@@ -118,7 +118,7 @@
   }
 </style>
 
-<div class="intro" id="intro">
+<div class="intro" id="intro" tabindex="-1">
   <div class="content">
     <h1 class="f-mono title" aria-label={intro}>
       {#each intro.split('') as char}

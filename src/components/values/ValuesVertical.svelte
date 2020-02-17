@@ -1,5 +1,5 @@
 <script>
-  import { onMount, afterUpdate } from 'svelte';
+  import { onMount, onDestroy, afterUpdate } from 'svelte';
   import { getInLimit, getIOstatusVertical } from '../../utils';
   import { updateCircle, strCircle } from '../../stores/circle.js';
   import { _window } from '../../stores/responsive.js';
@@ -12,6 +12,7 @@
   const parts = ['MORPH', 'DOTS', 'ASK', 'WOLF', 'PEOPLE', 'FINALLE'];
   $:isOnStage = $strGeneral.isReady && $strGeneral.pageCurrentSection === 'intro';
   
+  let isMount = false;
   let currentPart = 'MORPH';
   let elDots;
   let elAsk;
@@ -26,14 +27,20 @@
   );
 
   onMount(() => {
+    isMount = true;
     animations = initAnimations();
   });
+
+  onDestroy(() => {
+    isMount = false;
+  })
 
   afterUpdate(() => {
     verifyCirclePauseStatus();
   })
 
   afterGeneralUpdate((prevState, state) => {
+    if (!isMount) { return }
     const prevPageSection = prevState.pageCurrentSection;
     const pageSection = state.pageCurrentSection;
 
@@ -178,10 +185,6 @@
     width: 100vw;
     flex-shrink: 0;
     scroll-snap-align: center;
-
-    &:focus {
-      outline: none /* triggered by JS only at focusBox */
-    }
 
     &-text {
       display: block;

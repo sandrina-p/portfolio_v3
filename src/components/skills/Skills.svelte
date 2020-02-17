@@ -115,19 +115,6 @@
     background-color: var(--bg_0);
     transition: background-color 400ms cubic-bezier(0.19, 1, 0.22, 1);
 
-    &::before { /* smooth transition between sections borders, in case we scroll too fast. */
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 8rem;
-      display: block;
-      background: linear-gradient(var(--bg_0) 2px, var(--skills-bg));
-      opacity: 0;
-      transition: opacity 400ms cubic-bezier(0.19, 1, 0.22, 1);
-    }
-
     :global(.dark) & {
       --skills-bg: var(--bg_1);
     }
@@ -218,10 +205,11 @@
   class="wrapper"
   class:uAppear={isVisible}
   class:uAppearSoon={!isVisible}
-  id="skills"
+  id="skills" tabindex="-1"
   on:focusin={handleKeyboardFocus}
+  data-section-offset-v="75"
   data-section-offset-h="5">
-
+  <!-- 80 = 50 paddingTop + 10 skills visible -->
   <header class="header"
     style="--colorTabSelected: {colorType};"
     bind:this={elTitle}>

@@ -47,7 +47,7 @@
       // TODO/OPTIMIZE. [*CODE_SHAME*]
       console.warn('The page changed between mobile/desktop. Reloading...')
       location.reload(); // Okay... this is the part I'm less proud off.
-      // Maybe I could show a banner to gently warn about danger and ask for a refresh.
+      // Maybe I could show a banner to gently warn about this and count 3 2 1 before refresh.
     } else {
       setNavigationData();
     }
@@ -66,6 +66,8 @@
   function verifyPageSection() {
     isRICScheduled = false;
     const currentY = window.scrollY;
+
+    if(isMenuOpen) { isMenuOpen = false; }
 
     for (let i = navPivotsLg - 1; i >= 0; i--) {
       if (currentY < navPivots[i].y) {
@@ -112,7 +114,8 @@
     // When recalculating the nav on page resize, we should ignore the horizonSpace
     // so all the math matches correctly. Explaining this is hard.
     const horizonSpaceInPixels = horizonSpace === '100vh' ? wHeight : parseFloat(horizonSpace);
-    const anullPrevHorizon = horizonSpaceInPixels - wHeight;
+    const anullPrevHorizon = isDesktop ? horizonSpaceInPixels : 0;
+    const newHorizonSpace = isDesktop ? horizonOffset + Math.round(wWidth / 2) : horizonOffset;
 
     const newNavPivots = $strGeneral.pageSections.map(section => {
       if (section === 'intro') {
@@ -121,10 +124,9 @@
 
       const elSection = document.getElementById(section);
       const sectionTop = scrollY + elSection.getBoundingClientRect().top;
-
       return {
         name: section,
-        y: Math.round(horizonOffset + sectionTop - anullPrevHorizon),
+        y: Math.round(newHorizonSpace + sectionTop - anullPrevHorizon),
         offset: Math.round((elSection.getAttribute(dataSection) || 0)/100 * wHeight)
       };
     });
@@ -134,12 +136,7 @@
     isCalculated = true;
 
     dispatch('calculated', {
-      horizonSpace: isDesktop
-        // horizonOffset may not exist when isDesktop.
-        // it means valuesHorizon isn't loaded yet, so we pass 100vh to avoid
-        // showing the other sections while Values is still loading.
-        ? horizonOffset ? `${horizonOffset + Math.round(wWidth / 2)}px` : '100vh'
-        : 0
+      horizonSpace: isDesktop ? `${newHorizonSpace}px` : 0
 		});
   }
 
@@ -150,14 +147,20 @@
       return false;
     }
 
-    console.log('pageSection changing to:', pageSection);
+    console.log('nav clicked at:', pageSection);
 
     const pivot = navPivots.find(p => p.name === pageSection);
     const to = pageSection !== 'intro' ? pivot.y + pivot.offset : 0;
 
     wasSelected = pageSection;
+    isMenuOpen = false;
 
-    document.getElementById(pageSection).focus(); // Help keyboard users
+    document.getElementById(pageSection).focus({ preventScroll: true }); // Help keyboard users
+
+    if(!$matchMq.md) {
+      window.scroll({ top: to, behavior: 'smooth' });
+      return
+    }
 
     setTimeout(() => {
       console.log('scrolled by click');
@@ -184,19 +187,11 @@
 
   .nav {
     position: fixed;
-    top: $spacer-M;
-    right: $spacer-M;
+    top: 0; right: 0;
+    padding: $spacer-M $spacer-M 0 0;
     display: flex;
     color: var(--text_1);
     z-index: 5; /* above everything */
-
-    &.isInverted {
-      color: var(--text_invert);
-    }
-
-    :global(.dark) &.isInverted {
-      color: var(--text_1);
-    }
   }
 
   :global(.toggleBtn),
@@ -206,21 +201,21 @@
   }
 
   .isReady {
-    $time: 75ms;
-    $delay: 500ms; /* IntroTip fadeout time * 2 */
+    $introDelay: 500ms; /* IntroTip fadeout time * 2 */
 
     :global(.toggleBtn),
     .menu {
       opacity: 1;
       pointer-events: auto;
       transition:
-        opacity 1000ms $delay cubic-bezier(0.0, 0.0, 0.2, 1),
-        transform 1000ms $delay cubic-bezier(0.19, 1, 0.22, 1);
+        opacity 1000ms $introDelay cubic-bezier(0.0, 0.0, 0.2, 1),
+        transform 1000ms $introDelay cubic-bezier(0.19, 1, 0.22, 1);
     }
   }
 
   :global(.toggleBtn) {
     margin-right: $spacer-S;
+    z-index: 2; /* above open menu */
   }
 
   .menu {
@@ -228,6 +223,8 @@
   }
 
   .links {
+    $openDelay: 75ms;
+
     &List {
       position: absolute;
       margin: 0;
@@ -236,27 +233,50 @@
       right: 0;
       display: block;
       text-align: right;
+      padding-right: $spacer-XS;
+
+      &::before { /* links bg */
+        --timeBg: calc($openDelay*3);
+        content: '';
+        width: calc(100% + $spacer-M*4); /* enough to cover toggleTheme */
+        height: calc(100% + $spacer-M*5);
+        display: block;
+        position: absolute;
+        background: var(--bg_1);
+        border-bottom-left-radius: 3px;
+        top: calc($spacer-M * -4);
+        right: calc($spacer-M * -1);
+        z-index: -1;
+        transform: translateY(-100%);
+        transition: transform 200ms 200ms ease-out;
+
+        .isOpen & {
+          transition: transform 500ms cubic-bezier(0.0, 0.0, 0.2, 1);
+          transform: translateY(0);
+        }
+      }
     }
 
     &Item {
       --time: 300ms;
-      &:nth-child(1) { --delay: calc($time*5); }
-      &:nth-child(2) { --delay: calc($time*4); }
-      &:nth-child(3) { --delay: calc($time*3); }
-      &:nth-child(4) { --delay: calc($time*2); }
-      &:nth-child(5) { --delay: calc($time*1); }
+      &:nth-child(1) { --delay: calc($openDelay*3); }
+      &:nth-child(2) { --delay: calc($openDelay*2.5); }
+      &:nth-child(3) { --delay: calc($openDelay*2); }
+      &:nth-child(4) { --delay: calc($openDelay*1.5); }
+      &:nth-child(5) { --delay: calc($openDelay*1); }
 
       .isOpen & {
         --time: 1000ms;
-        &:nth-child(1) { --delay: calc($time*1); }
-        &:nth-child(2) { --delay: calc($time*2); }
-        &:nth-child(3) { --delay: calc($time*3); }
-        &:nth-child(4) { --delay: calc($time*4); }
-        &:nth-child(5) { --delay: calc($time*5); }
+        &:nth-child(1) { --delay: calc($openDelay*1); }
+        &:nth-child(2) { --delay: calc($openDelay*2); }
+        &:nth-child(3) { --delay: calc($openDelay*3); }
+        &:nth-child(4) { --delay: calc($openDelay*4); }
+        &:nth-child(5) { --delay: calc($openDelay*5); }
       }
     }
 
     &Anchor {
+      position: relative;
       display: block;
       color: inherit;
       padding: $spacer-S;
@@ -265,10 +285,25 @@
       opacity: 0;
       font-size: $font-S;
       pointer-events: none;
-      transition: opacity var(--time, 1000ms) var(--delay, $time) cubic-bezier(0.0, 0.0, 0.2, 1),
+      transition: opacity var(--time, 1000ms) var(--delay, $openDelay) cubic-bezier(0.0, 0.0, 0.2, 1),
         visibility 1ms var(--delayVis, 500ms);
 
+      &::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        right: -1.2rem;
+        width: 1rem;
+        height: 0.2rem;
+        border-radius: 3px;
+        background-color: currentColor;
+        transform: scale(var(--scale, 0), 1) translate(-50%, -50%);
+        transform-origin: 50%;
+        transition: transform 250ms, background-color 250ms;
+      }
+
       &[aria-current="true"] {
+        --scale: 1;
         color: var(--primary_1_sat);
       }
 
@@ -281,6 +316,7 @@
         &:hover,
         &:focus {
           outline: none;
+          --scale: 1;
           color: var(--primary_1_sat);
         }
       }
@@ -344,60 +380,47 @@
 
   /* decorative animation */
   .bubble {
+    @media(--max-md) {
+      display: none;
+    }
+
     position: absolute;
+    top: 0; right: 0;
     z-index: -1;
 
-    &::before,
     &::after {
       content: '';
       display: block;
       position: absolute;
-      top: 0;
-      left: 50%;
+      top: 0; right: 0;
       width: 100vw;
-      height: 100vw;
-      border-radius: 50%;
-      transform: translate(-50%, -50%) scale(0);
+      height: 100vh;
       box-sizing: border-box;
-
-      @media (orientation: portrait) {
-        width: 200vw;
-        height: 200vw;
-      }
+      opacity: 0;
+      pointer-events: none;
+      background-color: var(--bg_0);
     }
 
-    &::before { background-color: var(--morph_total); }
-    &::after { background-color: var(--bg_0); }
-
     &.wasSelected {
-      &::before,
-      &::after {
+       &::after {
         animation: fancyBubble 1150ms ease-out;
-      }
-
-      &::after {
-        animation-duration: 1400ms;
+        animation-duration: 1000ms;
       }
     }
   }
 
   @keyframes fancyBubble {
-    0% {
-      transform: translate(-50%, -50%) scale(0);
-    }
-    75% {
-      opacity: 1;
-    }
-    100% {
-      transform:translate(-50%, -50%) scale(3);
+    0%, 100% {
       opacity: 0;
+    }
+    45%,
+    70% {
+      opacity: 1;
     }
   }
 </style>
 
-<nav class="nav"
-  class:isReady={isCalculated}
-  class:isInverted={currentSection === 'skills'}>
+<nav class="nav" class:isReady={isCalculated}>
   <span class="bubble" class:wasSelected={wasSelected}></span>
   <ToggleTheme klass='toggleBtn' />
   <div class="menu" class:isOpen={isMenuOpen}>

@@ -103,7 +103,7 @@
         background-color: var(--primary_1);
       }
 
-      &text {
+      &Text {
         width: 11rem;
       }
 
