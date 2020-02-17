@@ -46,10 +46,12 @@ Here's a list of my learnings while building this website. When I release the we
 - 📝 Use SCSS or CSS Variables? - TLDR: they complement each other.
 - 🎈 When using `position:fixed`, you can't add `transform` to that element. It will ignore fixed. Solution: Apply transform to child element. (ex: footer title)
 
-## Accessibility
+
+## HTML/Accessibility
 
 - 🎈`aria-current` to a link to mark it as [the current page link](https://tink.uk/using-the-aria-current-attribute/).
 - 🎈when using smooth scrolling on a#tag we need to handle the focus-changing ourselves because we are override the default scroll behavior.
+- 🎈Use `el.focus()` on a element inside a scrollable container, it will scroll to the element automatically (safari won't!). Useful to scroll between sliders on a scroll-snap container.
 
 ## VSCode
 

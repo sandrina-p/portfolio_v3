@@ -1,14 +1,13 @@
 <script>
-  import { onMount, afterUpdate, onDestroy } from 'svelte';
+  import { onMount, afterUpdate } from 'svelte';
   import { getInLimit, getIOstatusVertical } from '../../utils';
-  import { _window, afterResponsiveUpdate } from '../../stores/responsive.js';
-  import { strDabox, updateDabox } from '../../stores/dabox.js';
   import { updateCircle, strCircle } from '../../stores/circle.js';
-  import { strGeneral, updateGeneral, afterGeneralUpdate } from '../../stores/general.js';
+  import { _window } from '../../stores/responsive.js';
+  import { strGeneral, afterGeneralUpdate } from '../../stores/general.js';
+  import valuesData from '../../data/values.js';
   import Dots from './Dots.svelte';
   import Gelly from './Gelly.svelte';
   import Echo from './Echo.svelte';
-  import valuesData from '../../data/values.js';
 
   const parts = ['MORPH', 'DOTS', 'ASK', 'WOLF', 'PEOPLE', 'FINALLE'];
   $:isOnStage = $strGeneral.isReady && $strGeneral.pageCurrentSection === 'intro';
@@ -20,34 +19,21 @@
   let elPeople;
   let animations;
 
-  let isMount = false;
-  let scrollY = 0;
-
   const styleContainer = Object.keys(valuesData).reduce(
     (styles, part) =>
       (styles += `--width-${part}: ${valuesData[part].width}; --height-${part}: ${valuesData[part].height};`),
     ''
   );
 
-  let styleClip = {}; // a list of clipping for each part
-
   onMount(() => {
-    isMount = true;
-    // window.addEventListener('scroll', verifyMetamorphose, { passive: true });
     animations = initAnimations();
   });
 
-  onDestroy(() => {
-    isMount = false;
-    animations && animations.pause();
-  })
-
   afterUpdate(() => {
-    verifyCirclePauseStatus({ checkCurrent: true });
+    verifyCirclePauseStatus();
   })
 
   afterGeneralUpdate((prevState, state) => {
-    if (!isMount) { return false };
     const prevPageSection = prevState.pageCurrentSection;
     const pageSection = state.pageCurrentSection;
 
@@ -73,21 +59,9 @@
     }
   });
 
-  // Need this if I address [*CODE_SHAME*]
-  // afterResponsiveUpdate((prevState, state) => {
-  //   if(prevState.matchMq.md !== state.matchMq.md) {
-  //    verifyCirclePauseStatus({ checkCurrent: false });
-  //   }
-  // })
-
-  function verifyCirclePauseStatus(checkCurrent) {
+  function verifyCirclePauseStatus() {
     const isPaused = $strCircle.isPaused;
     const includesParts = ['MORPH', 'DOTS'].includes(currentPart);
-
-    if(!checkCurrent) {
-      updateCircle({ isPaused: !includesParts })
-      return
-    }
 
     if (!isPaused && !includesParts) {
       updateCircle({ isPaused: true })
@@ -148,7 +122,14 @@
     }
   }
 
-  $: getBoxClass = partName => '';
+  function focusBox(elPart) {
+    // Browser is smart enough to scroll horizontally to the element being focus.
+    // Update: Safari is not!...
+    // elPart.parentElement.getElementsByClassName('pBox')[0].focus()
+
+    // ...so let's go with option 2:
+    elPart.scroll({ left: $_window.innerWidth, behavior: 'smooth' })
+  }
 </script>
 
 <style>
@@ -156,13 +137,8 @@
     padding-top: 25vw;
     padding-bottom: $spacer-XL;
 
-    /* ValuesHorizon will replace it */
+    /* ValuesHorizon will replace this */
     @media(--md) { display: none; }
-  }
-
-  .dabox,
-  .pMorph {
-    display: none;
   }
 
   .part {
@@ -199,10 +175,13 @@
   .pBox {
     padding: $layout-margin;
     margin-left: calc((100% - var(--title-w, 100%)) - $layout-margin); /* to show only the edge */
-    width: 99vw; /* not 100vw, so the title is still on the viewport (by 1vw).
-                    Enough to prevent IO from triggering to the next part. */
+    width: 100vw;
     flex-shrink: 0;
     scroll-snap-align: center;
+
+    &:focus {
+      outline: none /* triggered by JS only at focusBox */
+    }
 
     &-text {
       display: block;
@@ -226,12 +205,12 @@
   }
 
   .legend {
-    $width: 150%;
+    $width: (100% + $layout-margin*2);
 
     position: absolute;
     bottom: 0;
     left: 100vw;
-    transform: translateX(calc(($width + $layout-margin) * -1));
+    transform: translateX(calc($width * -1));
     white-space: nowrap;
     font-size: $font-M;
     color: var(--text_1);
@@ -239,7 +218,7 @@
     &::after {
       content: '';
       display: block;
-      width: calc($width + $layout-margin);
+      width: calc($width);
       height: 1px;
       background-color: var(--primary_1);
     }
@@ -261,12 +240,12 @@
   .pAsk,
   .pWolf {
     .title {
-      &-part:last-child {
-        color: var(--primary_1);
-      }
-
       &-line {
         display: block;
+
+        &:last-child {
+          color: var(--primary_1);
+        }
       }
     }
   }
@@ -276,34 +255,21 @@
   }
 </style>
 
-<!-- OPTIMIZE - Merge this with ValuesHorizontal -->
+<!-- OPTIMIZE - Markup is very similar to ValuesHorizontal. Maybe merge both? -->
 <section
   class="container"
   class:isOnStage
-  style="{styleContainer} {currentPart === 'MORPH' ? '--scrollSpeed: 0;' : ''}"
+  style={styleContainer}
   data-variant="vertical">
 
   <h2 class="sr-only">Values</h2>
 
-  <div class="dabox"
-    class:isActive={$strDabox.isActive} />
-    <!--
-    class:isMorphing
-    style={daboxStyle} /> -->
-    <!-- class:isGelly={currentPart === 'ASK' } -->
-
-  <!-- Not necessary on mobile, maybe a if mobile? -->
-  <!-- <div class="part pMorph" style={morphStyle}>
-    <Dots pattern='A' isActive={['MORPH', 'DOTS'].includes(currentPart)} />
-  </div> -->
-
   <div class="part pDots">
-    <!-- EDIT: removed isOnStage && and add 'MORPH' -->
     <Dots pattern='B' isActive={['MORPH', 'DOTS', 'ASK'].includes(currentPart)} />
-    <div class="pContent"> <!-- NEW wrapper, add it to horizon -->
-      <h3 class="f-mono title" data-part="DOTS" bind:this={elDots}>Let's connect the dots</h3>
-      <span class="legend">swipe left</span> <!-- NEW add it to horizon -->
-      <p class="pBox {getBoxClass('DOTS')}">
+    <div class="pContent" data-part="DOTS" bind:this={elDots}>
+      <h3 class="f-mono title">Let's connect the dots</h3>
+      <span class="legend" aria-hidden="true" on:click={() => focusBox(elDots)}>Know more</span>
+      <p class="pBox">
         <span class="pBox-text">
           {#each valuesData.DOTS.text as paragraph}
             <span class="pBox-text-par">
@@ -317,13 +283,13 @@
 
   <div class="part pAsk">
     <Gelly isActive={ currentPart === 'ASK' }/>
-    <div class="pContent">
-      <h3 class="f-mono title" data-part="ASK" bind:this={elAsk} style={styleClip.ASK}>
-        <span class="title-part">Ask why</span>
-        <span class="title-part">Understand how</span>
+    <div class="pContent" data-part="ASK" bind:this={elAsk}>
+      <h3 class="f-mono title">
+        <span class="title-line">Ask why</span>
+        <span class="title-line">Understand how</span>
       </h3>
-      <span class="legend">swipe left</span>
-      <p class="pBox {getBoxClass('ASK')}">
+      <span class="legend" aria-hidden="true" on:click={() => focusBox(elAsk)}>Know more</span>
+      <p class="pBox">
         <span class="pBox-text">
           {#each valuesData.ASK.text as paragraph}
             <span class="pBox-text-par">
@@ -336,16 +302,15 @@
   </div>
 
   <div class="part pWolf">
-    <!-- NOTE: activelLevel logic changes based on layout variant -->
-     <!-- OPTIMIZE: Find a more readable way for this nes-nes-ted ternary -->
+    <!-- OPTIMIZE: Find a more readable way for this nes-nes-ted ternary -->
     <Echo
       activeLevel={
         currentPart === 'WOLF' ? 2
           : currentPart === 'PEOPLE'
             ? 3
             : currentPart === 'FINALLE' ? 4 : -1 } />
-    <div class="pContent">
-      <h3 class="f-mono title" data-part="WOLF" bind:this={elWolf} style={styleClip.WOLF}>
+    <div class="pContent" data-part="WOLF" bind:this={elWolf} >
+      <h3 class="f-mono title">
         <span class="title-part">
           <span class="title-line">From a</span>
           <span class="title-line">solo act</span>
@@ -355,8 +320,8 @@
           <span class="title-line">team player</span>
         </span>
       </h3>
-      <span class="legend">swipe left</span>
-      <p class="pBox {getBoxClass('WOLF')}">
+      <span class="legend" aria-hidden="true" on:click={() => focusBox(elWolf)}>Know more</span>
+      <p class="pBox">
         <span class="pBox-text">
           {#each valuesData.WOLF.text as paragraph}
             <span class="pBox-text-par">
@@ -369,12 +334,12 @@
   </div>
 
   <div class="part pPeople" id="nav_valuesEnd">
-    <div class="pContent">
-      <h3 class="f-mono title" data-part="PEOPLE" bind:this={elPeople} style={styleClip.PEOPLE}>
+    <div class="pContent" data-part="PEOPLE" bind:this={elPeople}>
+      <h3 class="f-mono title">
         <span class="title-part">Progress over</span> <span class="title-part">processes</span>
       </h3>
-      <span class="legend">swipe left</span>
-      <p class="pBox {getBoxClass('PEOPLE')}">
+      <span class="legend" aria-hidden="true" on:click={() => focusBox(elPeople)}>Know more</span>
+      <p class="pBox">
         <span class="pBox-text">
           {#each valuesData.PEOPLE.text as paragraph}
             <span class="pBox-text-par">

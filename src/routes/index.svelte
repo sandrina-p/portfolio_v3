@@ -1,6 +1,6 @@
 <script>
   import { onMount, beforeUpdate, afterUpdate } from 'svelte';
-  // import smoothscroll from 'smoothscroll-polyfill';
+  import smoothscroll from 'smoothscroll-polyfill';
   import Intro from '../components/Intro.svelte';
   import IntroTip from '../components/IntroTip.svelte';
   import Nav from '../components/navigation/Nav.svelte';
@@ -26,9 +26,10 @@
 
   onMount(async () => {
     setRIC();
-    // smoothscroll.polyfill(); // REVIEW - Do I really need this?
     initResponsive();
+    smoothscroll.polyfill();
     focusOnlyWhenNeeded();
+
     if ($matchMq.md) {
       await loadValuesHorizon();
     } else {
