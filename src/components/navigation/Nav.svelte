@@ -1,5 +1,5 @@
 <script>
-  import { afterUpdate, createEventDispatcher } from 'svelte';
+  import { createEventDispatcher } from 'svelte';
   import { _window, matchMq, afterResponsiveUpdate } from '../../stores/responsive.js';
   import ToggleTheme from './ToggleTheme.svelte';
   import { strGeneral, updateGeneral, afterGeneralUpdate } from '../../stores/general.js';
@@ -33,12 +33,6 @@
         }, TIMEOUTS.NAV_ANIMATING);
       }
     }
-
-    // OPTMIZE - Need this if I address [*CODE_SHAME*]
-    // if (prevState.isValuesChanging && !state.isValuesChanging) {
-    //   console.warn('isValuesChanging - finished: restarting nav');
-    //   setNavigationData();
-    // }
   });
   
   afterResponsiveUpdate((prevState, state) => {
@@ -213,14 +207,15 @@
 
   .isReady {
     $time: 75ms;
+    $delay: 500ms; /* IntroTip fadeout time * 2 */
 
     :global(.toggleBtn),
     .menu {
       opacity: 1;
       pointer-events: auto;
       transition:
-        opacity 1000ms cubic-bezier(0.0, 0.0, 0.2, 1),
-        transform 1000ms cubic-bezier(0.19, 1, 0.22, 1);
+        opacity 1000ms $delay cubic-bezier(0.0, 0.0, 0.2, 1),
+        transform 1000ms $delay cubic-bezier(0.19, 1, 0.22, 1);
     }
   }
 

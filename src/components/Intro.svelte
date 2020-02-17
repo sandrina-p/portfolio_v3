@@ -9,7 +9,7 @@
 
   onMount(() => {
     setTimeout(() => {
-      updateGeneral({ isReady: true });
+      updateGeneral({ isIntroAnimated: true });
     }, TIMEOUTS.INTRO_ANIMATED);
   });
 </script>
@@ -68,21 +68,13 @@
 
   .text {
     font-size: $font-M;
-    max-width: 25rem;
+    max-width: 32rem;
     opacity: 0;
     animation: laserOn 750ms calc($titleTempo + 50ms * $titleChars) steps(8) forwards;
-
-    @media(--md) {
-      font-size: $font-L2;
-    }
 
     &:nth-of-type(2) {
       margin-top: $spacer-M;
       max-width: 24rem;
-
-      @media(--md) {
-        max-width: 31rem;
-      }
     }
   }
 
@@ -113,6 +105,11 @@
 
     .text {
       max-width: 42rem;
+      font-size: $font-L2;
+      
+      &:nth-of-type(2) {
+        max-width: 31rem;
+      }
     }
 
     .animation {

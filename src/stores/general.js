@@ -14,13 +14,13 @@ const [strGeneral, updateGeneral, afterGeneralUpdate] = createStore({
   //   end: Number, // end of section - edge case for Intro (Intro + Values.svelte).
   // }
 
-  // when Intro animations are done, and user can start to scroll.
-  // ideally, meanwhile, each section has plenty of time to
-  // inform the store about their own pivots.
+  // when Intro animations are done
+  isIntroAnimated: false,
+  // when Values section is fully loaded (in case is async on desktop)
+  isValuesLoaded: false,
+  // isIntroAnimated and isValuesLoaded are true,
+  // everywhing is ready to go!
   isReady: false,
-  // Set to true by index.svelte right after
-  // changing Values variant (horizontal vs vertical)
-  isValuesChanging: false,
 });
 
 export { strGeneral, updateGeneral, afterGeneralUpdate };

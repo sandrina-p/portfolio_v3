@@ -231,4 +231,13 @@
       opacity: 1;
     }
   }
+
+  @keyframes fadeInWithPause {
+    0% {
+      opacity: 0;
+    }
+    40%, 100% {
+      opacity: 1;
+    }
+  }
 </style>

@@ -2,6 +2,7 @@
   import { onMount, beforeUpdate, afterUpdate } from 'svelte';
   // import smoothscroll from 'smoothscroll-polyfill';
   import Intro from '../components/Intro.svelte';
+  import IntroTip from '../components/IntroTip.svelte';
   import Nav from '../components/navigation/Nav.svelte';
   import ValuesVertical from '../components/values/ValuesVertical.svelte';
   import Words from '../components/Words.svelte';
@@ -11,7 +12,7 @@
   import SvgSprite from '../components/SvgSprite.svelte';
   import { getInLimit, setRIC, focusOnlyWhenNeeded } from '../utils';
   import { matchMq, initResponsive, afterResponsiveUpdate } from '../stores/responsive.js';
-  import { strGeneral, updateGeneral } from '../stores/general.js';
+  import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
 
   let scrollY = 0;
   let scrollSpeedCached = 0;
@@ -20,7 +21,6 @@
   let browserClasses = '';
   let checkSpeed = true;
   let horizonSpace = '100vh';
-  let isHorizonRequested = false;
   let ValuesHorizon = null;
   let hasScrolled = false;
 
@@ -30,7 +30,9 @@
     initResponsive();
     focusOnlyWhenNeeded();
     if ($matchMq.md) {
-      await verifyLayoutVariant({ doUpdateGeneral: false });
+      await loadValuesHorizon();
+    } else {
+      updateGeneral({ isValuesLoaded: true });
     }
   });
 
@@ -48,38 +50,13 @@
     }
   });
 
+  async function loadValuesHorizon() {
+    const module = await import('../components/values/ValuesHorizon.svelte');
+    ValuesHorizon = module.default;
 
-  // OPTMIZE - Need this if I address [*CODE_SHAME*]
-  // afterResponsiveUpdate(async (prevState, state) => {
-  //   if(prevState.matchMq.md !== state.matchMq.md) {
-  //     console.warn('Changing values variant!');
-  //     await verifyLayoutVariant()
-  //   }
-  //   return true
-  // })
-
-  async function verifyLayoutVariant({
-    doUpdateGeneral = true 
-  } = {}) {
-    if (doUpdateGeneral) {
-      updateGeneral({ isValuesChanging: true })
-    }
-    if (!isHorizonRequested) {
-      console.log('Loading ValuesHorizon...')
-      document.body.classList.remove('jsGoOn');
-      isHorizonRequested = true
-
-      const module = await import('../components/values/ValuesHorizon.svelte');
-      ValuesHorizon = module.default;
-
-      monitorizeScrollSpeed();
-      window.addEventListener('scroll', handleScroll);
-    } else {
-      console.log('Just re-rendering values.')
-    }
-    if (doUpdateGeneral) {
-      updateGeneral({ isValuesChanging: false })
-    }
+    monitorizeScrollSpeed();
+    window.addEventListener('scroll', handleScroll);
+    updateGeneral({ isValuesLoaded: true });
   }
 
   function monitorizeScrollSpeed() {
@@ -116,10 +93,6 @@
     overflow: hidden;
   }
 
-  .tip {
-    display: none;
-  }
-
   @media (--md) {
     .container {
       position: fixed;
@@ -145,61 +118,6 @@
       margin-top: var(--marginTop, 100vh);
       height: 1px; /* so --marginTop works */
     }
-
-    .tip {
-      display: block;
-      position: absolute;
-      top: 50%;
-      left: 100vw;
-      transform: translateX(calc(-100% + var(--scrollY, 0px)));
-      padding-right: $spacer-MS;
-      white-space: nowrap;
-      visibility: visible;
-      color: var(--text_1);
-
-      &Text {
-        opacity: 0;
-        animation: fadeIn 400ms 2.3s forwards ease-out;
-      }
-
-      &::before {
-        content: '';
-        position: absolute;
-        bottom: 0.1rem; /* with 0, it's not visible on safari */
-        left: 0;
-        height: 0.1rem;
-        width: 100%;
-        background-color: var(--primary_1);
-        transform: translateX(100%);
-        animation: slideIn 500ms 1.7s forwards ease-out;
-      }
-
-      &::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        background: var(--bg_0);
-        opacity: 0;
-        transition: opacity 600ms ease-out;
-      }
-
-      &.isHidden {
-        visibility: hidden;
-        transition: visibility 0ms 1000ms;
-
-        &::after {
-          opacity: 1;
-        }
-      }
-    }
-  }
-  
-  @keyframes slideIn {
-    0% { transform: translateX(100%) }
-    100% { transform: translateX(0) }
   }
 </style>
 
@@ -209,10 +127,8 @@
   style="--scrollY: {scrollY}px; --scrollSpeed: {scrollSpeedCurrent};">
   <div class="horizon" bind:this={elHorizon}>
     <Intro />
-    <span class="tip" aria-hidden="true" class:isHidden={hasScrolled}>
-      <span class="tipText">Start scrolling</span>
-    </span>
-    <svelte:component this={$matchMq.md ? ValuesHorizon : ValuesVertical} />
+    <IntroTip hasScrolled={hasScrolled} />
+    <svelte:component this={$matchMq.md && ValuesHorizon ? ValuesHorizon : ValuesVertical} />
   </div>
 </div>
 <div class="horizonSpace" style="--marginTop: {horizonSpace}"></div>
