@@ -451,7 +451,7 @@
 
   <div class="card" bind:this={ elCard } class:isCardOnView>
     <div class="cardChild" on:focusin={handleKeyboardFocus}>
-      <p class="text">Fell free to <a href={EMAIL_URL} class="u-link">say hi</a>!</p>
+      <p class="text">Fell free to <a href={EMAIL_URL} target="_blank" class="u-link">say hi</a>!</p>
       <p class="text">
         <span class="textLine">It's easy to find me around,</span>
         <span class="textLine">specially if you are a web lover too.</span>
@@ -472,6 +472,6 @@
         </div>
       </div>
     </div>
-    <p class="credits">Built without coffee. Check the <a href={SITE_REPO} class="u-link">source code</a>.</p>
+    <p class="credits">Made without coffee. Check the <a href={SITE_REPO} target="_blank" class="u-link">source code</a>.</p>
   </div>
 </footer>

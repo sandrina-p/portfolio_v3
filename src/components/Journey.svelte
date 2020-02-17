@@ -244,21 +244,21 @@
   <div class="text">
     <p class="p">
       During the last year I have been helping to bring an open source idea to life -
-      <a class="u-link" href="https://github.com/okTurtles/group-income-simple">Group Income</a>.
+      <a class="u-link" target="_blank" href="https://github.com/okTurtles/group-income-simple">Group Income</a>.
       Before that, I was a Senior UI Engineer at
-      <a class="u-link" href="https://www.farfetch.com">Farfetch</a>
-      for a few years.
+      <a class="u-link" target="_blank" href="https://www.farfetch.com">Farfetch</a>
+      for a few years. From time to time, I also challenge myself to give talks or workshops about a topic I'm really into.
     </p>
     <p class="p">
       I always look for ways to merge design and development in my work and my meta-goal has always been the same:
       to create humanly accessible experiences within digital environments.
       In my free time I like to
-      <a class="u-link" href={CODEPEN_URL}>push pixels around</a> and <a class="u-link" href={TWITTER_URL}>share ideias</a> with the community.
+      <a class="u-link" target="_blank" href={CODEPEN_URL}>push pixels around</a> and <a class="u-link" target="_blank" href={TWITTER_URL}>share ideias</a> with the community.
     </p>
     <p class="p">
       Currently,
-      <strong class="f-bold">I am open for new challenges</strong> where I can help people through lines of code.
-      If you feel like we could work together <a class="u-link" href={ EMAIL_URL }>send me an e-mail!</a>
+      <strong class="f-bold">I am open for new challenges</strong> (remote!) where I can help people with lines of code.
+      If you feel like we can excel together <a class="u-link" href={ EMAIL_URL }>get it touch</a>!
     </p>
   </div>
 </section>

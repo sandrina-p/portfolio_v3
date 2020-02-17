@@ -37,7 +37,7 @@
   <ul aria-labelledby="a11y_sn">
     {#each contacts as { name, link }, i}
       <li class="item">
-        <a href={link} class="u-link link">{name}</a>
+        <a href={link} target="_blank" class="u-link link">{name}</a>
       </li>
     {/each}
   </ul>

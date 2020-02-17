@@ -76,7 +76,13 @@
       margin-top: $spacer-M;
       max-width: 24rem;
     }
+
+    @media (--max-xs) {
+      &-br {
+        display: none;
       }
+    }
+  }
 
   .animation {
     margin-top: $spacer-M;

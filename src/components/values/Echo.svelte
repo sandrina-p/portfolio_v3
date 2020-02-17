@@ -20,7 +20,7 @@ export let activeLevel;
 
   .echo {
     --t_x: 0%;
-    --t_y: 1rem; /* initial bottom effect */
+    --t_y: 0; /* initial bottom effect - back to 0 for performance reasons */
     position: absolute;
     top: 50vh;
     left: 50vw;

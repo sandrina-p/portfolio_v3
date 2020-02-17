@@ -345,7 +345,7 @@
                   <svg aria-hidden="true" class="placeIcon {svg} u-svg" style="display: none;">
                     <use xlink:href="#{svg}" />
                   </svg>
-                  <a href={link} class="u-link" aria-label="">{where}</a>
+                  <a href={link} target="_blank" class="u-link">{where}</a>
                 </div>
               </li>
             {/each}

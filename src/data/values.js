@@ -10,14 +10,14 @@ export default {
   },
   DOTS: {
     text: [
-      `Combining design and development processes is one of my expertises. As someone with a background in communication design, I love to <strong>work closely with the design team</strong> and don't let technical constraints compromise the final experience.`,
+      `Combining design and development processes is one of my expertises. As a frontend developer with a background in communication design, I look for ways to empower the design team and prevent technical constraints from compromising the final experience.`,
     ],
     width: '52rem',
-    height: '21rem',
+    height: '22rem',
   },
   ASK: {
     text: [
-      'Clear understanding and open communication are fundamental parts of my process: expect lots of questions - questions that help clear barriers, unpack assumptions and spark <a class="u-link" target="_blank" rel="noreferrer" href="https://en.wikipedia.org/wiki/Eureka_effect">eureka</a> moments.',
+      'Clear understanding and open communication are fundamental parts of my process: <strong>expect lots of questions</strong> - questions that help clear barriers, unpack assumptions and spark <a class="u-link" target="_blank" rel="noreferrer" href="https://en.wikipedia.org/wiki/Eureka_effect">eureka</a> moments.',
     ],
     width: '32rem',
     height: '32rem',
@@ -25,7 +25,7 @@ export default {
   WOLF: {
     text: [
       'If you wanna go quickly, I can make it happen. As a fast paced learner with a <strong>high quality bar</strong>, I can go solo when needed.',
-      `But if you wanna go far and prefer collaboration over competition, <a class="u-link" href="${EMAIL_URL}">ask me</a> to join your team!`,
+      `But if you wanna go far and prefer collaboration over competition, I'm willing to <a class="u-link" href="${EMAIL_URL}">join your team</a>!`,
     ],
     width: '31.4rem',
     height: '40rem',
