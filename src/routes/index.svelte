@@ -56,7 +56,7 @@
     ValuesHorizon = module.default;
 
     monitorizeScrollSpeed();
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleIndexScroll);
     updateGeneral({ isValuesLoaded: true });
   }
 
@@ -70,7 +70,7 @@
     // }
   }
 
-  function handleScroll() {
+  function handleIndexScroll() {
     const currentY = window.scrollY;
     scrollY = currentY;
     hasScrolled = hasScrolled || window.scrollY > 15 

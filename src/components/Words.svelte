@@ -26,7 +26,10 @@
   });
 </script>
 
-<style>  
+<style>
+  @define-mixin motionDefault { :global(.jsMotionDefault) & { @mixin-content; } }
+  @define-mixin motionReduced { :global(.jsMotionReduced) & { @mixin-content; } }
+
   $headingWidth: 24rem; /* static content luxuries */
   $delayIn0: 200ms;
   $delayIn1: 400ms;
@@ -102,36 +105,45 @@
 
   @media (--max-md) {
     .header {
-      opacity: 0;
-      transform: translateY(3rem);
-      transition: opacity 300ms ease-out, transform 300ms ease-out;
+      @mixin motionDefault {
+        opacity: 0;
+        transform: translateY(3rem);
+        transition: opacity 300ms ease-out, transform 300ms ease-out;
+      }
 
       .isOnStage & {
-        opacity: 1;
-        transform: translateY(0);
-        transition:
-          opacity 1500ms cubic-bezier(0.0, 0.0, 0.2, 1),
-          transform 1000ms cubic-bezier(0.19, 1, 0.22, 1);
+        @mixin motionDefault {
+          opacity: 1;
+          transform: translateY(0);
+          transition:
+            opacity 1500ms cubic-bezier(0.0, 0.0, 0.2, 1),
+            transform 1000ms cubic-bezier(0.19, 1, 0.22, 1);
+        }
       }
     }
 
     .cardItem:nth-child(1),
     .cardItem:nth-child(2) {
-      opacity: 0;
-      transform: translateX(50%);
-      transition: opacity 150ms ease-out, transform 150ms ease-out;
+      @mixin motionDefault {
+        opacity: 0;
+        transform: translateX(50%);
+        transition: opacity 150ms ease-out, transform 150ms ease-out;
+      }
 
       .isOnStage & {
-        opacity: 1;
-        transform: translateX(0);
-        transition:
-          opacity 2000ms cubic-bezier(0.0, 0.0, 0.2, 1),
-          transform 2000ms cubic-bezier(0.19, 1, 0.22, 1);
+        @mixin motionDefault {
+          opacity: 1;
+          transform: translateX(0);
+          transition:
+            opacity 2000ms cubic-bezier(0.0, 0.0, 0.2, 1),
+            transform 2000ms cubic-bezier(0.19, 1, 0.22, 1);
+        }
       }
     }
   }
 
   .title {
+    position: relative; /* appear above ::before */
     font-size: $font-L2;
     margin-bottom: $spacer-L;
   }
@@ -177,6 +189,7 @@
     }
 
     &Type {
+      position: relative; /* appear above ::before */
       text-transform: capitalize;
       color: var(--text_1);
       font-size: $font-S;
@@ -198,31 +211,48 @@
     .wrapper {
       position: relative;
       padding-left: calc((100vw - $cardW + $cardOffset) / 2);
-      opacity: 0;
-      transition: opacity 150ms ease-out;
       background-color: var(--bg_0);
 
+      @mixin motionDefault {
+        opacity: 0;
+        transition: opacity 150ms ease-out;
+      }
+
       &.isOnStage {
-        transition: opacity 500ms;
-        opacity: 1;
+        @mixin motionDefault {
+          transition: opacity 500ms;
+          opacity: 1;
+        }
       }
     }
 
     .content {
       position: relative;
       padding: 75vh 0 $spacer-XL;
-      background-color: var(--bg_0);
+
+      @mixin motionDefault {
+        background-color: var(--bg_0);
+      }
+
+      @mixin motionReduced {
+        padding: 25vh 0;
+      }
     }
 
     .header {
       padding: 0 $spacer-M;
       margin-bottom: calc($spacer-M * 3);
-      opacity: 0;
-      transition: opacity 150ms 0ms ease-out;
+
+      @mixin motionDefault {
+        opacity: 0;
+        transition: opacity 150ms 0ms ease-out;
+      }
 
       .isOnStage & {
-        opacity: 1;
-        transition: opacity 500ms $delayIn0 cubic-bezier(0.0, 0.0, 0.2, 1);
+        @mixin motionDefault {
+          opacity: 1;
+          transition: opacity 500ms $delayIn0 cubic-bezier(0.0, 0.0, 0.2, 1);
+        }
       }
 
       &Title {
@@ -246,17 +276,21 @@
           margin: 0 0 $spacer-M;
         }
 
-        opacity: 0;
-        transition:
-          opacity 150ms 0ms ease-out,
-          transform 150ms ease-out;
-        transform: translateX(20rem);
+        @mixin motionDefault {
+          opacity: 0;
+          transition:
+            opacity 150ms 0ms ease-out,
+            transform 150ms ease-out;
+          transform: translateX(20rem);
+        }
 
         .isOnStage & {
-          opacity: 1;
-          transform: translateX(0);
-          transition: opacity 600ms var(--delay, 0) cubic-bezier(0.0, 0.0, 0.2, 1),
-            transform 600ms var(--delay, 0) cubic-bezier(0.0, 0.0, 0.2, 1);
+          @mixin motionDefault {
+            opacity: 1;
+            transform: translateX(0);
+            transition: opacity 600ms var(--delay, 0) cubic-bezier(0.0, 0.0, 0.2, 1),
+              transform 600ms var(--delay, 0) cubic-bezier(0.0, 0.0, 0.2, 1);
+          }
         }
 
         /* OPTIMIZE - Why each item consumes 1Mb GPU memory? */
@@ -273,12 +307,10 @@
           left: 0;
           height: 100%;
           background-color: var(--bg_1);
-          z-index: -2;
           transform: translateX(calc($off * ($cards * -1) + $off * var(--i)));
           box-shadow: 0.2rem 0.2rem var(--primary_1_smooth);
         }
         
-
         &:nth-child(1) { --i: 1; --delay: $delayIn2; }
         &:nth-child(2) { --i: 2; --delay: calc($delayIn2 + 200ms); }
         &:nth-child(3) { --i: 3; --delay: calc($delayIn2 + 400ms); }

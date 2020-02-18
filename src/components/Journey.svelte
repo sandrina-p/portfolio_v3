@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import { _window, afterResponsiveUpdate } from '../stores/responsive.js';
   import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
+  import { strMotion, afterMotionUpdate } from '../stores/motion.js';
   import { getInLimit, scrollIntoView } from '../utils';
   import { EMAIL_URL, CODEPEN_URL, TWITTER_URL } from '../data/misc.js';
 
@@ -14,17 +15,40 @@
   $: isActive = progress === 1;
 
   afterGeneralUpdate((prevState, state) => {
+    if (!prevState.isReady && state.isReady) {
+      if($strMotion.isReduced) {
+        progress = 1;
+      } else {
+        animation = initAnimation();
+      }
+    }
+
+    if($strMotion.isReduced) { return }
+
     const prevPageSection = prevState.pageCurrentSection;
     const pageSection = state.pageCurrentSection;
-
-    if (!prevState.isReady && state.isReady) {
-      animation = initAnimations();
-    }
 
     if (prevPageSection !== pageSection && pageSection === 'journey') {
       animation.verify();
     }
   });
+
+  afterMotionUpdate((prevState, state) => {
+    // Same as Skills.svelte. Maybe we could abstract it?
+    if(!$strGeneral.isReady) { return }
+
+    if(!prevState.isReduced && state.isReduced) {
+      animation && animation.remove();
+    }
+
+    if(prevState.isReduced && !state.isReduced) {
+      if (animation) {
+        animation.verify()
+      } else {
+        animation = initAnimation();
+      }
+    }
+  })
 
   afterResponsiveUpdate(() => {
     if(!animation) { return }
@@ -32,14 +56,20 @@
     console.warn('Resize: journey updated');
   })
 
-  function initAnimations() {
+  function initAnimation() {
     let scrollPivot;
     let progressOffset = 0;
 
-    function handleScroll() {
+    function handleJourneyScroll() {
       console.log('scrolling journey...');
       const percentage = (window.scrollY - progressOffset - scrollPivot) / goal;
       progress = getInLimit(percentage, 0, 1);
+    }
+
+    function removeAnimation() {
+      window.removeEventListener('scroll', handleJourneyScroll);
+      observer.disconnect();
+      progress = 1;
     }
 
     const watchHeader = ([{ isIntersecting, boundingClientRect }]) => {
@@ -47,16 +77,17 @@
       progressOffset = progressOffset || boundingClientRect.height / 2;
       
       if (isIntersecting) {
-        handleScroll()
-        window.addEventListener('scroll', handleScroll, { passive: true });
+        handleJourneyScroll()
+        window.removeEventListener('scroll', handleJourneyScroll);
+        window.addEventListener('scroll', handleJourneyScroll, { passive: true });
       } else {
-        window.removeEventListener('scroll', handleScroll);
+        window.removeEventListener('scroll', handleJourneyScroll);
       }
     };
 
     const observer = new IntersectionObserver(watchHeader);
 
-    observer.observe(elHeader); // OPTIMIZE - disconnect
+    observer.observe(elHeader);
 
     return {
       verify: () => {
@@ -65,7 +96,8 @@
           isIntersecting: boundingClientRect.top < wHeight,
           boundingClientRect
         }])
-      }
+      },
+      remove: removeAnimation,
     }
   }
 

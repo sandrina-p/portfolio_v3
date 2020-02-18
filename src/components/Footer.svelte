@@ -3,6 +3,7 @@
   import { _window, afterResponsiveUpdate } from '../stores/responsive.js';
   import throttle from 'lodash/throttle';
   import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
+  import { strMotion, afterMotionUpdate } from '../stores/motion.js';
   import { getInLimit, scrollIntoView } from '../utils';
   import { EMAIL_URL, SITE_REPO } from '../data/misc.js';
   import Contacts from './Contacts.svelte';
@@ -15,7 +16,7 @@
   let elFooter;
   let elCard;
 
-  let footerHeight = null;
+  let footerHeight = 'auto';
   let isOnStage = false; // when footer enters the view.
   let isCardOnView = false; // self explanatory
   let isVisible = false; // when everything gets visible.
@@ -24,32 +25,60 @@
   let thingProgress = 0;
   let titleProgress = '100vw';
   let cardScale = 0;
+
   let scale1 = 0;
   let scale2 = 0;
   let scale3 = 0;
   let animation;
 
   afterGeneralUpdate((prevState, state) => {
+    if (!prevState.isReady && state.isReady) {
+      if($strMotion.isReduced) {
+        isOnStage = true;
+        isCardOnView = true;
+        isVisible = true;
+        titleProgress = '0';
+        cardScale = 1;
+      } else {
+        animation = initAnimation();
+      }
+    }
+
+    if($strMotion.isReduced) { return }
+
     const prevPageSection = prevState.pageCurrentSection;
     const pageSection = state.pageCurrentSection;
-
-    if (!prevState.isReady && state.isReady) {
-      animation = initAnimation();
-    }
     
     if (prevPageSection !== pageSection && pageSection === 'contact') {
       animation.verify();
     }
   });
 
+  afterMotionUpdate((prevState, state) => {
+    // Same as Skills.svelte. Maybe we could abstract it?
+    if(!$strGeneral.isReady) { return }
+
+    if(!prevState.isReduced && state.isReduced) {
+      animation && animation.remove();
+    }
+
+    if(prevState.isReduced && !state.isReduced) {
+      if (animation) {
+        animation.verify()
+      } else {
+        animation = initAnimation();
+      }
+    }
+  })
+
   afterResponsiveUpdate(() => {
     if(!animation) { return }
     animation.verify();
-    console.warn('Resize: footer/contacts updated');
+    console.warn('Resize: footer updated');
   })
 
   function initAnimation() {
-    const handleScroll = throttle(handleScrollThrottled, 16);
+    const handleFooterScroll = throttle(handleFooterScrollThrottled, 16);
     const figHalf = figSize / 2;
     let titleGoal;
     let titleScrollPivot;
@@ -57,7 +86,7 @@
     let cardScrollPivot;
     let cardScaleLimit; // define a limit equal to wWidth, so it avoids horizontal scroll when too big.
 
-    function handleScrollThrottled() {
+    function handleFooterScrollThrottled() {
       console.log('scrolling footer...')
       const scrollY = window.scrollY;
       const scrollYpivot = scrollY - titleScrollPivot;
@@ -86,7 +115,25 @@
       }
     }
 
+    function removeAnimation() {
+      window.removeEventListener('scroll', handleFooterScroll);
+      observerFooter.disconnect();
+      observerCard.disconnect();
+
+      setTimeout(() => {
+        isOnStage = true;
+        isCardOnView = true;
+        isVisible = true;
+        titleProgress = '0px';
+        cardScale = 1;
+        footerHeight = 'auto';
+      }, 16) // to be called after any possible scrollThrottled.
+
+    }
+
     const watchFooter = ([{ isIntersecting, boundingClientRect }]) => {
+      isOnStage = isIntersecting;
+
       if (isIntersecting) {
         const wHeightHalf = wHeight/2;
         const cardWidth = elCard.offsetWidth;
@@ -99,14 +146,13 @@
 
         titleGoal = wHeightHalf + wWidth / 2 + cardWidth / 2;
         titleScrollPivot = window.scrollY - ($_window.innerHeight - boundingClientRect.top);
-        isOnStage = isIntersecting;
 
         footerHeight = titleGoal + figSize * 12;
 
-        handleScroll()
-        window.addEventListener('scroll', handleScroll, { passive: true });
+        handleFooterScroll()
+        window.addEventListener('scroll', handleFooterScroll, { passive: true });
       } else {
-        window.removeEventListener('scroll', handleScroll);
+        window.removeEventListener('scroll', handleFooterScroll);
       }
     };
 
@@ -133,7 +179,7 @@
         const boundingClientRectCard = elCard.getBoundingClientRect()
         const boundingClientRectFooter = elFooter.getBoundingClientRect()
 
-        // Verify card first, so handleScroll is runned with the correc value of isCardOnView
+        // Verify card first, so handleFooterScroll is runned with the correc value of isCardOnView
         watchCard([{
           isIntersecting: boundingClientRectCard.top < wHeight,
           boundingClientRect: boundingClientRectCard
@@ -142,7 +188,8 @@
           isIntersecting: boundingClientRectFooter.top < wHeight,
           boundingClientRect: boundingClientRectFooter
         }]);
-      }
+      },
+      remove: removeAnimation,
     }
   }
 
@@ -158,6 +205,9 @@
 </script>
 
 <style>
+  @define-mixin motionDefault { :global(.jsMotionDefault) & { @mixin-content; } }
+  @define-mixin motionReduced { :global(.jsMotionReduced) & { @mixin-content; } }
+
   $cardW: 100%; /* static content luxuries */
   $cardH: auto;
   $cardTop: 11.5rem; /* by eye */
@@ -165,7 +215,7 @@
   .footer {
     position: relative;
     padding: $cardTop $spacer-M 0;
-    min-height: 200vh;
+    min-height: 100vh; /* there's no infinite scroll anymore */
   }
 
   .title,
@@ -261,6 +311,10 @@
       transition:
         opacity 1000ms cubic-bezier(0.0, 0.0, 0.2, 1),
         transform 1000ms cubic-bezier(0.19, 1, 0.22, 1);
+
+      @mixin motionReduced {
+        transition: none;
+      }
     }
   }
 
@@ -281,7 +335,9 @@
     animation-play-state: paused;
 
     .isVisible & {
-      animation-play-state: running;
+      @mixin motionDefault {
+        animation-play-state: running;
+      }
     }
 
     &Itself {
@@ -289,7 +345,10 @@
       width: 100%;
       height: 100%;
       transform-origin: 50% 50%;
-      transform: scale(var(--thingSize));
+
+      @mixin motionDefault {
+        transform: scale(var(--thingSize));
+      }
     }
 
     &Svg {
@@ -299,8 +358,17 @@
       width: 100%;
       height: 100%;
       transform-origin: 50% 50%;
-      transform: scale(calc((var(--scale) * 1)));
-      transition: transform 500ms ease-out;
+      
+      @mixin motionDefault {
+        transition: transform 500ms ease-out;
+        transform: scale(calc((var(--scale) * 1)));
+      }
+
+      @mixin motionReduced {
+        &:nth-child(1) { transform: scale(0.3); }
+        &:nth-child(2) { transform: scale(0.6); }
+        &:nth-child(3) { transform: scale(0.9); }
+      }
 
       &Rect {
         fill: var(--morph_color);
@@ -347,24 +415,42 @@
 
     .title {
       position: relative;
-      top: 100vh; /* put out of view [1] */
-      width: 42rem;
-      padding-left: 0;
       font-size: $font-heading_3;
 
+      @mixin motionReduced {
+        width: $cardW;
+        margin: 0 auto;
+        margin-bottom: -2.5em;
+        transform: translateY(calc(50vh - $cardH));
+      }
+
+      @mixin motionDefault {
+        top: 100vh; /* put out of view [1] */
+        width: 42rem;
+        padding-left: 0;
+      }
+
       :not(.isVisible) & {
-        pointer-events: none; /* so journey text can be selected while title is transforming X. */
+        @mixin motionDefault {
+          pointer-events: none; /* so journey text can be selected while title is transforming X. */
+        }
       }
 
       .isOnStage & {
-        /* [2]...put back on the view */
-        /* can't be sticky because Safari adds scroll when title is transforming X */
-        position: fixed;
-        top: calc(50vh - $cardH/2 - 0.6em);
-        left: calc(50vw - ($cardW/2) + $spacer-L);
+        @mixin motionDefault {
+          /* [2]...put back on the view */
+          /* can't be sticky because Safari adds scroll when title is transforming X */
+          position: fixed;
+          top: calc(50vh - $cardH/2 - 0.6em);
+          left: calc(50vw - ($cardW/2) + $spacer-L);
 
-        .title-content {
+          .title-content {
+            transform: translateX(var(--titleProgress, 100vw));        
           transform: translateX(var(--titleProgress, 100vw));        
+            transform: translateX(var(--titleProgress, 100vw));        
+          transform: translateX(var(--titleProgress, 100vw));        
+            transform: translateX(var(--titleProgress, 100vw));        
+          }
         }
       }
 
@@ -389,6 +475,12 @@
       margin: calc(50vw + ($cardW/2)) auto 0;
       transform: translateY(calc($cardH/-2));
 
+      @mixin motionReduced {
+        position: relative;
+        top: auto;
+        margin-top: 50vh;
+      }
+
       &::before {
         transform: scale(var(--cardScale)); 
         transform-origin: 50% 0;
@@ -402,6 +494,7 @@
           visibility: visible;
         }
       }
+
       &Child {
         &:nth-child(1) {
           flex-basis: 50%;
@@ -440,7 +533,7 @@
   id="contact" tabindex="-1"
   data-section-offset-v="100"
   data-section-offset-h="175"
-  style="height: {footerHeight}px; --thingSize: {thingProgress}; --titleProgress: {titleProgress}; --cardScale: {cardScale};">
+  style="height: {footerHeight === 'auto' ? footerHeight : `${footerHeight}px`}; --thingSize: {thingProgress}; --titleProgress: {titleProgress}; --cardScale: {cardScale};">
  
   <h3 class="title f-mono">
     <span class="title-content">

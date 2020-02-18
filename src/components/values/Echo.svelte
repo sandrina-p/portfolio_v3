@@ -42,6 +42,11 @@ export let activeLevel;
         opacity 300ms var(--delayOpacity) ease-out,
         transform 300ms var(--delayOpacity) ease-out,
         visibility 0ms 600ms;
+
+      @mixin motionReduced {
+        transition: opacity 300ms var(--delayOpacity) ease-out,
+          visibility 0ms 600ms;
+      }
     }
 
     &::after { /* the gradient itself, as a mask */
@@ -54,8 +59,11 @@ export let activeLevel;
       height: 100%;
       transform: rotate(0deg) translate(-50%, -50%);
       transform-origin: 0 0;
-      animation: live 15s infinite linear;
-      animation-play-state: paused;  
+
+      @mixin motionDefault {
+        animation: live 15s infinite linear;
+        animation-play-state: paused;
+      }
     }
 
     &:nth-child(1) { --delayOpacity: 170ms }
@@ -73,14 +81,12 @@ export let activeLevel;
         clip-path 450ms 1ms ease-in-out;
 
       @mixin motionReduced {
-        transition:
-          opacity 700ms ease-in,
-          /* get ready to next phase .isRect */
-          transform 1000ms cubic-bezier(0.19, 1, 0.22, 1),
-          clip-path 450ms 1ms ease-in-out;
+        transition: opacity 700ms ease-in none;
       }
 
-      will-change: clip-path;
+      @mixin motionDefault {
+        will-change: clip-path;
+      }
 
       &:nth-child(1) { --delayOpacity: 250ms }
       /* a small delay to "popup effect" - TODO grow effect. */
@@ -88,9 +94,7 @@ export let activeLevel;
       &:nth-child(3) { --delayOpacity: 250ms }
 
       &::after {
-        @mixin motionDefault {
-          animation-play-state: running;
-        }
+        animation-play-state: running;
       }
     }
 
@@ -129,27 +133,34 @@ export let activeLevel;
         transform 450ms ease-in-out,
         opacity 450ms ease-in-out,
         clip-path 450ms ease-in-out;
-
-      --gut: 0rem; 
-      --ratio: 1;
-      --y: calc(var(--shape2H)/4 * 1.65); /* 1.7 - eye picky */
-      --x: calc(var(--shape2W)/4 * 0.1 - var(--gut)); /* 0.1*4 = size reduction GPU */
-
-      clip-path: inset(var(--y) var(--x));
-
-      &:nth-child(1) {
-        --t_y: 3rem;
-        --t_x: 2rem;
+      
+      @mixin motionReduced {
+        opacity: 0;
+        transition: opacity 450ms ease-in-out;
       }
 
-      &:nth-child(2) {
-        --t_y: -2rem;
-        --t_x: -2rem;
-      }
+      @mixin motionDefault {
+        --gut: 0rem; 
+        --ratio: 1;
+        $y: calc(var(--shape2H)/4 * 1.65); /* 1.7 - eye picky */
+        $x: calc(var(--shape2W)/4 * 0.1 - var(--gut)); /* 0.1*4 = size reduction GPU */
+        
+        clip-path: inset($y $x);
 
-      &:nth-child(3) {
-        --gut: 0.3rem;
-        --t_x: 1rem;
+        &:nth-child(1) {
+          --t_y: 3rem;
+          --t_x: 2rem;
+        }
+
+        &:nth-child(2) {
+          --t_y: -2rem;
+          --t_x: -2rem;
+        }
+
+        &:nth-child(3) {
+          --gut: 0.3rem;
+          --t_x: 1rem;
+        }
       }
     }
 

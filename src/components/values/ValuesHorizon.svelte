@@ -184,6 +184,7 @@
               : window.scrollY - entry.rootBounds.width - entry.boundingClientRect.width,
         };
         clipHandles[part](); // call immediately in case it was reached by keyboard focus.
+        window.removeEventListener('scroll', clipHandles[part]);
         window.addEventListener('scroll', clipHandles[part]);
       } else {
         window.removeEventListener('scroll', clipHandles[part]);
@@ -256,6 +257,9 @@
 </script>
 
 <style>
+  @define-mixin motionDefault { :global(.jsMotionDefault) & { @mixin-content; } }
+  @define-mixin motionReduced { :global(.jsMotionReduced) & { @mixin-content; } }
+
   .container {
     display: flex;
     align-items: center;
@@ -329,6 +333,16 @@
     }
   }
 
+  /* Prevent "grow" animation when changing between section values and words */
+  :not(.isOnStage) {
+    @mixin motionReduced {
+      .dabox {
+        width: var(--width-PEOPLE);
+        height: var(--height-PEOPLE);
+      }
+    }
+  }
+
   .part {
     position: relative;
     min-width: 100vw;
@@ -386,6 +400,11 @@
       .isGone & {
         transition: transform 150ms 0ms ease-out;
         transform: translateY(-2rem);
+      }
+
+      @mixin motionReduced {
+        transition: none;
+        transform: translateY(0);
       }
 
       &-par:not(:last-child) {

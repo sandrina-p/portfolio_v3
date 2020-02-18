@@ -1,5 +1,7 @@
 <script>
   import { onMount } from 'svelte';
+  import { updateMotion } from '../../stores/motion.js';
+
   let isReduced = false;
 
   onMount(() => {
@@ -10,11 +12,11 @@
 
   function setReduced (bool) {
     isReduced = bool;
+    updateMotion({ isReduced })
   }
 
   function toggleMotion() {
     const isNowReduced = !isReduced;
-    setReduced(isNowReduced);
 
     // Don't use .toggle() to avoid possible desync when clicking toooo fast.
     const actionReduced = isNowReduced ? 'add' : 'remove';
@@ -22,9 +24,11 @@
     // https://github.com/sveltejs/svelte/issues/3105
     document.body.classList[actionReduced]('jsMotionReduced');
     document.body.classList[actionDefault]('jsMotionDefault');
+
+    setReduced(isNowReduced);
   }
 
-  export let klass;
+  export let klass = '';
 </script>
 
 <style>

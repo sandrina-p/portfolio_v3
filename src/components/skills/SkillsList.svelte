@@ -23,7 +23,7 @@
   })();
   let lvlActive = '0';
   let interactedWith = { '0': true };
-  $: hadClickInAll = Object.keys(interactedWith).length > 2;
+  $: hadClickInAll = !!interactedWith[3] || Object.keys(interactedWith).length > 2;
 
   onMount(() => {
     dispatch('setColorType', {
@@ -48,6 +48,9 @@
 </script>
 
 <style>
+  @define-mixin motionDefault { :global(.jsMotionDefault) & { @mixin-content; } }
+  @define-mixin motionReduced { :global(.jsMotionReduced) & { @mixin-content; } }
+
   $gutter: calc($layout-margin*2);
 
   .main {
@@ -191,7 +194,7 @@
     @for $i from 1 to 24 {
       &:nth-child($i) {
         .pointOrbite {
-          /* WOW discovery: Use @keyframes to create an animation.
+          /* TIL WOW discovery: Use @keyframes to create an animation.
             Use delay to start the animation at X point and use
             "animation-play-state:paused" to always stick there.
             And that's how we create random coordinates in a cleaner way */
@@ -205,14 +208,16 @@
           }
         }
 
-        &, /* blink animation */
-        .pointRotate {
-          animation-delay: calc(1ms * random(-40000, 0));
-        }
-
-        .pointText,
-        .pointStar {
-          transition-delay: calc(1ms * random(0, 250));
+        @mixin motionDefault {
+          &, /* blink animation */
+          .pointRotate {
+            animation-delay: calc(1ms * random(-40000, 0));
+          }
+  
+          .pointText,
+          .pointStar {
+            transition-delay: calc(1ms * random(0, 250));
+          }
         }
       }
     }
@@ -248,10 +253,6 @@
         width: 14rem;
         margin: 0 0 $spacer-L;
 
-        opacity: 0;
-        transform: translateY(1rem);
-        transition: opacity 150ms ease-out, transform 150ms ease-out;
-
         &::before {
           content: '';
           position: absolute;
@@ -265,7 +266,10 @@
           opacity: 0.5;
           transform: scale(1, 0.2);
           transform-origin: 0 75%;
-          transition: background 250ms ease-out, transform 250ms ease-out;
+
+          @mixin motionDefault {
+            transition: background 250ms ease-out, transform 250ms ease-out;
+          }
         }
 
         &:hover,
@@ -285,9 +289,16 @@
             opacity: 1;
             background-color: var(--colorType);
             transform: scale(1, 1);
-            transition: transform 400ms cubic-bezier(0.28, 0.67, 0, 1.29);
+
+            @mixin motionDefault {
+              transition: transform 400ms cubic-bezier(0.28, 0.67, 0, 1.29);
+            }
           }
         }
+
+        opacity: 0;
+        transform: translateY(1rem);
+        transition: opacity 150ms ease-out, transform 150ms ease-out;
 
         :global(.uAppear) &.isVisible {
           opacity: 1;
@@ -302,6 +313,10 @@
           &:nth-child(2) { --delay: calc(200ms + $time*2); }
           &:nth-child(3) { --delay: calc(200ms + $time*3); }
           &:nth-child(3) { --delay: calc(200ms + $time*4); }
+
+          @mixin motionReduced {
+            transition: none;
+          }
         }
       }
     }
@@ -350,8 +365,11 @@
       left: 0;
       opacity: 0.5;
       transition: opacity 250ms ease;
-      animation: blink 10s infinite ease;
       width: auto;
+
+      @mixin motionDefault {
+        animation: blink 10s infinite ease;
+      }
 
       &.isActive {
         opacity: 1;
@@ -366,6 +384,10 @@
         .isActive & {
           transition-timing-function: $animate-bounce;
           transform: scale(1);
+
+          @mixin motionReduced {
+            transition: none;
+          }
         }
       }
 
@@ -373,6 +395,10 @@
         animation: rotateItself 20s infinite linear;
 
         :not(:global(.uAppear)) & {
+          animation-play-state: paused;
+        }
+
+        @mixin motionReduced {
           animation-play-state: paused;
         }
       }

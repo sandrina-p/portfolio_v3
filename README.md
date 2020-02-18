@@ -39,7 +39,7 @@ Well... let's say we are 80% done and the other 20% is taking 80% of the time.
 - [x] Navigation (transition between sections) 
 - [ ] Review transitions consistency
 - [x] Refine copywrite
-- [ ] Reduced motion
+- [ ] Reduced motion (80% done)
   - intro: Remove circle animation
   - intro: Pause dots animations
   - intro: gelly and echo are simply opacity effect.

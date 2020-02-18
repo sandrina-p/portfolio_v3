@@ -23,7 +23,7 @@
     document.body.classList[action]('dark');
   }
 
-  export let klass;
+  export let klass = '';
 </script>
 
 <style>

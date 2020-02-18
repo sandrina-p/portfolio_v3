@@ -4,6 +4,7 @@
   import { getInLimit, scrollIntoView } from '../../utils';
   import { _window, matchMq, afterResponsiveUpdate } from '../../stores/responsive.js';
   import { strGeneral, updateGeneral, afterGeneralUpdate } from '../../stores/general.js';
+  import { strMotion, afterMotionUpdate } from '../../stores/motion.js';
   import { GITHUB_URL, CODEPEN_URL, SITE_REPO } from '../../data/misc.js';
 
   $: wHeight = $_window && $_window.innerHeight;
@@ -11,28 +12,52 @@
   let elTitle;
 
   let isVisible = false;
-  let isOnStage = false;
   let animation;
   let progressN = 0; // title scale
   let progressY = 0; // title translate
   let colorType = null;
 
   afterGeneralUpdate((prevState, state) => {
+    if (!prevState.isReady && state.isReady) {
+      if($strMotion.isReduced) {
+        isVisible = true;
+        progressN = 0;
+        progressY = 0;
+      } else {
+        animation = initAnimation();
+      }
+    }
+
+    if($strMotion.isReduced) { return }
+
     const prevPageSection = prevState.pageCurrentSection;
     const pageSection = state.pageCurrentSection;
-
-    if (!prevState.isReady && state.isReady) {
-      animation = initAnimation();
-    }
 
     if (prevPageSection !== pageSection && pageSection === 'skills') {
       animation.verify();
     }
   });
 
+  afterMotionUpdate((prevState, state) => {
+    // Same as Journey.svelte. Maybe we could abstract it?
+    if(!$strGeneral.isReady) { return }
+
+    if(!prevState.isReduced && state.isReduced) {
+      animation && animation.remove();
+    }
+
+    if(prevState.isReduced && !state.isReduced) {
+      if (animation) {
+        animation.verify()
+      } else {
+        animation = initAnimation();
+      }
+    }
+  })
+
   afterResponsiveUpdate(() => {
     if(!animation) { return }
-    animation && animation.verify();
+    animation.verify();
     console.warn('Resize: skills updated');
   })
 
@@ -51,13 +76,21 @@
       +--------------------+
     */
 
-    function handleScroll() {
+    function handleSkillsScroll() {
       console.log('scrolling skills...');
       const scrollY = window.scrollY;
       const fromStart = scrollY - startAt;
       progressN = getInLimit(fromStart/range, 0, 1);
       progressY = `${(range - progressN*range/1) * -1}px`
       isVisible = progressN === 1;
+    }
+
+    function removeAnimation() {
+      window.removeEventListener('scroll', handleSkillsScroll);
+      observer.disconnect();
+      progressN = 1;
+      progressY = '0px'
+      isVisible = 1;
     }
 
     const watchTitle = ([{ isIntersecting, boundingClientRect }]) => {
@@ -67,10 +100,11 @@
       range = endsAt - startAt;
 
       if (isIntersecting) {
-        handleScroll()
-        window.addEventListener('scroll', handleScroll, { passive: true });
+        handleSkillsScroll()
+        window.removeEventListener('scroll', handleSkillsScroll);
+        window.addEventListener('scroll', handleSkillsScroll, { passive: true });
       } else {
-        window.removeEventListener('scroll', handleScroll);
+        window.removeEventListener('scroll', handleSkillsScroll);
       }
     };
 
@@ -85,7 +119,8 @@
           isIntersecting: boundingClientRect.top < wHeight,
           boundingClientRect,
         }])
-      }
+      },
+      remove: removeAnimation,
     }
   }
 
@@ -105,6 +140,9 @@
 </script>
 
 <style>
+  @define-mixin motionDefault { :global(.jsMotionDefault) & { @mixin-content; } }
+  @define-mixin motionReduced { :global(.jsMotionReduced) & { @mixin-content; } }
+
   .wrapper {
     --skills-bg: var(--bg_invert);
     position: relative;
@@ -120,17 +158,13 @@
     }
 
     &.uAppear {
-      background-color: #1b1b1b; /* var(--bg_invert) - fallback css variables */
+      background-color: #1b1b1b; /* var(--bg_invert) - manual fallback css variables */
       background-color: var(--skills-bg);
 
       &::before {
         opacity: 1;
       }
     }
-    /* 
-    @media (--md) {
-      padding-bottom: 10vh; -- no need, too big on taller screens
-    } */
   }
 
   .header {
@@ -139,6 +173,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    @mixin motionReduced {
+      margin-top: 0; /* visually better */
+    }
     
     &Title {
       position: relative;

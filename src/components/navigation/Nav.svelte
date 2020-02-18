@@ -20,7 +20,7 @@
   afterGeneralUpdate((prevState, state) => {
     if (!prevState.isReady && state.isReady) {
       setNavigationData();
-      window.addEventListener('scroll', handleScroll);
+      window.addEventListener('scroll', handleNavScroll);
     }
 
     const prevPageSection = prevState.pageCurrentSection;
@@ -35,6 +35,8 @@
       }
     }
   });
+
+  // TODO - recalculate nav when motion changes.
   
   afterResponsiveUpdate((prevState, state) => {
     if(prevState.matchMq.md !== state.matchMq.md) {
@@ -54,7 +56,7 @@
     }
   })
 
-  function handleScroll() {
+  function handleNavScroll() {
     if (isRICScheduled) { return; }
 
     isRICScheduled = true;
