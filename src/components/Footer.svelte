@@ -458,13 +458,9 @@
       }
 
       @mixin motionDefault {
-        margin-top: 100vh; /* put out of view [1] */
+        top: 100vh; /* put out of view [1] */
         width: 42rem;
         padding-left: 0;
-
-        /* - [2] Workaround: hide it to give time to toggle motion re-render everywhere.
-        Otherwise, we'll see the title on the screen (intro) for a fr/s. */
-        /* opacity: 0; */
       }
 
       :not(.isVisible) & {
@@ -473,16 +469,15 @@
         }
       }
 
-      .isOnStage & {
+      /* need the 2nd class to prevent fixed position while out of contacts.
+      this was causing a bug when toggling reduce motion. It would appear on screen for a fr/s  */
+      .isOnStage.isSectionContact & {
         @mixin motionDefault {
           /* [2]...put back on the view */
           /* can't be sticky because Safari adds scroll when title is transforming X */
-          margin-top: 0;
           position: fixed;
           top: calc(50vh - $cardH/2 - 0.6em);
           left: calc(50vw - ($cardW/2) + $spacer-L);
-          /* opacity: 1; [2] */
-          /* transition: opacity 0ms 500ms; */
 
           .title-content {
             transform: translateX(var(--titleProgress, 100vw));       
@@ -564,6 +559,7 @@
   class="footer"
   class:isOnStage
   class:isVisible
+  class:isSectionContact={['journey', 'contact'].includes($strGeneral.pageCurrentSection)}
   bind:this={elFooter}
   id="contact" tabindex="-1"
   data-section-offset-v="100"

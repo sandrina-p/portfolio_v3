@@ -210,6 +210,7 @@
       position: relative;
       padding-left: calc((100vw - $cardW + $cardOffset) / 2);
       background-color: var(--bg_0);
+      overflow: hidden; /* avoid scroll on safari */
 
       @mixin motionDefault {
         opacity: 0;
