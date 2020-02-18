@@ -5,24 +5,18 @@
   const options = ['sharing', 'writing', 'talking'];
   const ledText = options[0];
   let isOnStage = false; // on viewport or passed the viewport
-  let isOnView = false; // on viewport
 
   afterGeneralUpdate((prevState, state) => {
-    // REVIEW - Should move this index logic to general store?
     const thisSectionIndex = state.pageSections.indexOf('words');
     const currentSectionIndex = state.pageSections.indexOf(state.pageCurrentSection);
-    
 
     if (!isOnStage && currentSectionIndex >= thisSectionIndex) {
-      // OPTIMIZE - better placement of section on viewport
       isOnStage = true;
     }
 
     if (isOnStage && currentSectionIndex < thisSectionIndex) {
       isOnStage = false;
     }
-
-    isOnView = currentSectionIndex === thisSectionIndex;
   });
 </script>
 
@@ -228,14 +222,15 @@
 
     .content {
       position: relative;
-      padding: 75vh 0 $spacer-XL;
+      padding: 0 0 $spacer-XL;
 
       @mixin motionDefault {
+        padding-top: 75vh;
         background-color: var(--bg_0);
       }
 
       @mixin motionReduced {
-        padding: 25vh 0;
+        padding-top: 25vh;
       }
     }
 
@@ -293,9 +288,6 @@
           }
         }
 
-        /* OPTIMIZE - Why each item consumes 1Mb GPU memory? */
-        /* .isOnView & {} */
-
         $cards: 4;
         $off: calc(((100vw - $cardW + $cardOffset) / 2) / $cards); /* holy moly */
 
@@ -346,7 +338,6 @@
 
 <section class="wrapper"
   class:isOnStage
-  class:isOnView
   id="words" tabindex="-1"
   data-section-offset-v="40"
   data-section-offset-h="50">

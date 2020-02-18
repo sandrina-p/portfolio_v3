@@ -80,6 +80,7 @@
   function initAnimation() {
     const handleFooterScroll = throttle(handleFooterScrollThrottled, 16);
     const figHalf = figSize / 2;
+    let isObserving = true;
     let titleGoal;
     let titleScrollPivot;
     let cardGoal;
@@ -116,6 +117,8 @@
     }
 
     function removeAnimation() {
+      console.debug('footer: Remove animation');
+      isObserving = false;
       window.removeEventListener('scroll', handleFooterScroll);
       observerFooter.disconnect();
       observerCard.disconnect();
@@ -134,6 +137,8 @@
     const watchFooter = ([{ isIntersecting, boundingClientRect }]) => {
       isOnStage = isIntersecting;
 
+      window.removeEventListener('scroll', handleFooterScroll);
+
       if (isIntersecting) {
         const wHeightHalf = wHeight/2;
         const cardWidth = elCard.offsetWidth;
@@ -151,8 +156,6 @@
 
         handleFooterScroll()
         window.addEventListener('scroll', handleFooterScroll, { passive: true });
-      } else {
-        window.removeEventListener('scroll', handleFooterScroll);
       }
     };
 
@@ -176,6 +179,13 @@
 
     return {
       verify: () => {
+        if (!isObserving) {
+          console.debug('footer: Verify animation');
+          isObserving = true;
+          observer.observe(elFooter);
+          observer.observe(elCard);
+          return;
+        }
         const boundingClientRectCard = elCard.getBoundingClientRect()
         const boundingClientRectFooter = elFooter.getBoundingClientRect()
 

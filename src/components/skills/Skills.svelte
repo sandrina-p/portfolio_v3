@@ -63,6 +63,7 @@
 
 
   function initAnimation() {
+    let isObserving = true;
     let startAt; // where animation starts
     let endsAt; // where it ends
     let range; // the space where "zoom magic" happens
@@ -86,8 +87,10 @@
     }
 
     function removeAnimation() {
+      console.debug('skills: Remove animation');
       window.removeEventListener('scroll', handleSkillsScroll);
       observer.disconnect();
+      isObserving = false;
       progressN = 1;
       progressY = '0px'
       isVisible = 1;
@@ -99,21 +102,26 @@
       endsAt = topScreen - wHeight / 4; // 25vh - same as $paddingTop
       range = endsAt - startAt;
 
+      window.removeEventListener('scroll', handleSkillsScroll);
+
       if (isIntersecting) {
         handleSkillsScroll()
-        window.removeEventListener('scroll', handleSkillsScroll);
         window.addEventListener('scroll', handleSkillsScroll, { passive: true });
-      } else {
-        window.removeEventListener('scroll', handleSkillsScroll);
       }
     };
 
     const observer = new IntersectionObserver(watchTitle);
 
-    observer.observe(elTitle); // OPTIMIZE - disconnect
+    observer.observe(elTitle);
 
     return {
       verify: () => {
+        if (!isObserving) {
+          console.debug('skills: Verify animation');
+          isObserving = true;
+          observer.observe(elTitle);
+          return;
+        }
         const boundingClientRect = elTitle.getBoundingClientRect();
         watchTitle([{
           isIntersecting: boundingClientRect.top < wHeight,

@@ -57,6 +57,7 @@
   })
 
   function initAnimation() {
+    let isObserving = true;
     let scrollPivot;
     let progressOffset = 0;
 
@@ -67,6 +68,8 @@
     }
 
     function removeAnimation() {
+      console.debug('journey: Remove animation');
+      isObserving = false;
       window.removeEventListener('scroll', handleJourneyScroll);
       observer.disconnect();
       progress = 1;
@@ -76,12 +79,11 @@
       scrollPivot = window.scrollY - ($_window.innerHeight - boundingClientRect.top);
       progressOffset = progressOffset || boundingClientRect.height / 2;
       
+      window.removeEventListener('scroll', handleJourneyScroll);
+
       if (isIntersecting) {
         handleJourneyScroll()
-        window.removeEventListener('scroll', handleJourneyScroll);
         window.addEventListener('scroll', handleJourneyScroll, { passive: true });
-      } else {
-        window.removeEventListener('scroll', handleJourneyScroll);
       }
     };
 
@@ -91,6 +93,12 @@
 
     return {
       verify: () => {
+        if (!isObserving) {
+          console.debug('journey: Verify animation');
+          isObserving = true;
+          observer.observe(elHeader);
+          return;
+        }
         const boundingClientRect = elHeader.getBoundingClientRect()
         watchHeader([{
           isIntersecting: boundingClientRect.top < wHeight,

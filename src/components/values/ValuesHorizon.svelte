@@ -9,6 +9,7 @@
   import Gelly from './Gelly.svelte';
   import Echo from './Echo.svelte';
   import valuesData from '../../data/values.js';
+  import debounce from 'lodash/debounce';
 
   const parts = ['MORPH', 'DOTS', 'ASK', 'WOLF', 'PEOPLE', 'FINALLE'];
   $:isOnStage = $strGeneral.isReady && $strGeneral.pageCurrentSection === 'intro';
@@ -20,8 +21,6 @@
   let elPeople;
   let animations;
   let isOnWolfMax = false; // OPTMIZE this...
-
-  let isMount = false; /* wait for Intro animations */
   let scrollY = 0;
 
   // ::: Morphose - a circle to a square (dabox)
@@ -29,15 +28,14 @@
   const size = 200; // OPTMIZE - get real CSS Variables from circle
   const distance = 300;
   const scaleStart = 0.8;
-  $: wInnerWidthHalf = isMount && $_window.innerWidth / 2;
+  $: wInnerWidthHalf = $_window && $_window.innerWidth / 2;
   $: clipCenter = wInnerWidthHalf * 0.9; // subtract 5% of IO.
 
-  // $: distance = isMount && wInnerWidthHalf - (size * 1.5);
   const morphCircleRatio = 2; // circle progression based on scroll. (it needs to scroll 20px to change 10px)
   const morphBoxRatio = 200; // nr of scrolled pixels needed to change border-radius from circle to square
   let isMorphing = true;
 
-  $: offLimit = isMount && wInnerWidthHalf + (distance * morphCircleRatio) + morphBoxRatio;
+  $: offLimit = $_window && wInnerWidthHalf + (distance * morphCircleRatio) + morphBoxRatio;
   $: morphZone = distance && wInnerWidthHalf + distance + size; // size serves as a "gap" to avoid a direct morph from primary to bg when scrolling quickly though it. 
   $: morphStyle = morphZone && `width: ${morphZone}px`;
 
@@ -58,19 +56,14 @@
   let styleClip = {}; // a list of clipping for each part
 
   onMount(() => {
-    isMount = true;
+    const sanityCheckDebounced = debounce(sanityCheck, 500);
+
     window.addEventListener('scroll', verifyMetamorphose, { passive: true });
+    window.addEventListener('scroll', sanityCheckDebounced, { passive: true });
     animations = initAnimations();
   });
 
-  onDestroy(() => {
-    isMount = false;
-    animations && animations.pause();
-    window.removeEventListener('scroll', verifyMetamorphose);
-  })
-
   afterGeneralUpdate((prevState, state) => {
-    if (!isMount) { return false };
     const prevPageSection = prevState.pageCurrentSection;
     const pageSection = state.pageCurrentSection;
 
@@ -97,6 +90,18 @@
     }
   });
 
+  function sanityCheck() {
+    // When people scroll too fast back to the top of the page (specially Safari),
+    // the last scroll point might not be totally correct causing currentPart
+    // to have an incorrect values -most of the times "DOTS" part.
+    // So, we need to double check that one last time after a few ms:
+    console.debug('ValuesHorizon: currentPart sanity check');
+    if(currentPart !== 'MORPH' && window.scrollY === 0) {
+      console.debug('Triggered!');
+      currentPart = 'MORPH';
+    }
+  }
+
   function verifyMetamorphose() {
     // Metamorphose the initial circle into a square (dabox)
     // 🐻 with me, it's going to be a fun ride!
@@ -119,7 +124,6 @@
     const scaleStartDynamic = scaleStart + (0.2 - (newDistance * 0.2) / distance);
     
     isMorphing = true;
-    currentPart = 'MORPH'; // sanity-check
 
     updateCircle({
       isPaused: isCirclePaused,
@@ -174,6 +178,8 @@
     }
 
     function verifyClippingStatus(part, status, entry) {
+      window.removeEventListener('scroll', clipHandles[part]);
+
       if (['enterLeft', 'enterRight'].includes(status)) {
         clipArgs[part] = {
           part: part,
@@ -184,10 +190,7 @@
               : window.scrollY - entry.rootBounds.width - entry.boundingClientRect.width,
         };
         clipHandles[part](); // call immediately in case it was reached by keyboard focus.
-        window.removeEventListener('scroll', clipHandles[part]);
         window.addEventListener('scroll', clipHandles[part]);
-      } else {
-        window.removeEventListener('scroll', clipHandles[part]);
       }
     }
 
