@@ -10,7 +10,7 @@ export default {
   },
   DOTS: {
     text: [
-      `Combining design and development processes is one of my expertises. As a frontend developer with a background in communication design, I look for ways to empower the design team and prevent technical constraints from compromising the final experience.`,
+      `Combining design and development processes is one of my expertises. As a frontend developer, I do my best to empower designers and prevent technical constraints from compromising the user experience.`,
     ],
     width: '52rem',
     height: '22rem',

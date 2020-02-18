@@ -500,6 +500,7 @@
       <button
         class="tabBtn"
         class:isVisible={id !== '3' || hadClickInAll}
+        tabIndex={id !== '3' || hadClickInAll ? '0' : '-1' }
         style="--colorType: {colorTypes[id]}"
         aria-expanded={lvlActive === id}
         on:click={() => updateSkill(id)}>

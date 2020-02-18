@@ -59,11 +59,8 @@ export let activeLevel;
       height: 100%;
       transform: rotate(0deg) translate(-50%, -50%);
       transform-origin: 0 0;
-
-      @mixin motionDefault {
-        animation: live 15s infinite linear;
-        animation-play-state: paused;
-      }
+      animation: live 15s infinite linear;
+      animation-play-state: paused;
     }
 
     &:nth-child(1) { --delayOpacity: 170ms }
@@ -94,7 +91,9 @@ export let activeLevel;
       &:nth-child(3) { --delayOpacity: 250ms }
 
       &::after {
-        animation-play-state: running;
+        @mixin motionDefault {
+          animation-play-state: running;
+        }
       }
     }
 

@@ -1,21 +1,22 @@
 <script>
   import { createEventDispatcher } from 'svelte';
   import { _window, matchMq, afterResponsiveUpdate } from '../../stores/responsive.js';
+  import { strGeneral, updateGeneral, afterGeneralUpdate } from '../../stores/general.js';
+  import { afterMotionUpdate } from '../../stores/motion.js';
   import ToggleTheme from './ToggleTheme.svelte';
   import ToggleMotion from './ToggleMotion.svelte';
-  import { strGeneral, updateGeneral, afterGeneralUpdate } from '../../stores/general.js';
   import { TIMEOUTS } from '../../utils';
 
+	const dispatch = createEventDispatcher();
   $: currentSection = $strGeneral.pageCurrentSection;
   let pageSections = $strGeneral.pageSections;
   let navPivots = $strGeneral.pageSections.map(section => ({ name: section }));
   $: navPivotsLg = navPivots.length;
   let isCalculated = false;
-  let wasSelected = null; // when the link is clicked, trigger the fancyBubble
+  let wasSelected = null; // when the link is clicked, trigger the fancyTransition
   let isRICScheduled = false;
   let isMenuOpen = false;
 
-	const dispatch = createEventDispatcher();
 
   afterGeneralUpdate((prevState, state) => {
     if (!prevState.isReady && state.isReady) {
@@ -36,7 +37,13 @@
     }
   });
 
-  // TODO - recalculate nav when motion changes.
+  afterMotionUpdate((prevState, state) => {
+    if($strGeneral.isReady && (prevState.isReduced !== state.isReduced)) {
+      // Some heights/margin/paddings change around,
+      // so let's make sure nav is on point.
+      setNavigationData();
+    }
+  });
   
   afterResponsiveUpdate((prevState, state) => {
     if(prevState.matchMq.md !== state.matchMq.md) {
@@ -190,40 +197,30 @@
   @define-mixin motionReduced { :global(.jsMotionReduced) & { @mixin-content; } }
 
   $itemW: 6rem;
+  $openDelay: 75ms;
+  $introDelay: 250ms; /* IntroTip fadeout time * 2 */
 
   .nav {
     position: fixed;
     top: 0; right: 0;
     padding: $spacer-M $spacer-M 0 0;
     display: flex;
-    color: var(--text_1);
+    color: var(--text_0);
     z-index: 5; /* above everything */
-  }
-
-  :global(.toggleBtn),
-  .menu {
+ 
     opacity: 0;
     pointer-events: none;
-  }
 
-  .isReady {
-    $introDelay: 500ms; /* IntroTip fadeout time * 2 */
-
-    :global(.toggleBtn),
-    .menu {
+    &.isReady {
       opacity: 1;
       pointer-events: auto;
       transition:
         opacity 1000ms $introDelay cubic-bezier(0.0, 0.0, 0.2, 1),
         transform 1000ms $introDelay cubic-bezier(0.19, 1, 0.22, 1);
-
-      @mixin motionReduced {
-        transition-duration: 0ms;
-      }
     }
   }
 
-  :global(.toggleBtn) {
+  :global(.btnTheme) {
     margin-right: $spacer-S;
     z-index: 2; /* above open menu */
   }
@@ -232,8 +229,7 @@
     position: relative;
   }
 
-  .links {
-    $openDelay: 75ms;
+  .drawer {
     position: absolute;
     margin: 0;
     padding: 0;
@@ -241,12 +237,17 @@
     right: 0;
     display: block;
     text-align: right;
+    pointer-events: none;
     padding-right: $spacer-XS;
 
-    &::before { /* links bg */
+    .isOpen & {
+      pointer-events: auto;
+    }
+
+    &::before { /* actual bg */
       --timeBg: calc($openDelay*3);
       content: '';
-      width: calc(100% + $spacer-M*4); /* enough to cover toggleTheme */
+      width: calc(100% + $spacer-S*5);
       height: calc(100% + $spacer-M*5);
       display: block;
       position: absolute;
@@ -265,51 +266,27 @@
         transform: translateY(0);
       }
     }
+  }
 
-    &Item {
-      --time: 300ms;
-      &:nth-child(1) { --delay: calc($openDelay*3); }
-      &:nth-child(2) { --delay: calc($openDelay*2.5); }
-      &:nth-child(3) { --delay: calc($openDelay*2); }
-      &:nth-child(4) { --delay: calc($openDelay*1.5); }
-      &:nth-child(5) { --delay: calc($openDelay*1); }
-
-      .isOpen & {
-        --time: 1000ms;
-        &:nth-child(1) { --delay: calc($openDelay*1); }
-        &:nth-child(2) { --delay: calc($openDelay*2); }
-        &:nth-child(3) { --delay: calc($openDelay*3); }
-        &:nth-child(4) { --delay: calc($openDelay*4); }
-        &:nth-child(5) { --delay: calc($openDelay*5); }
-      }
-    }
-
+  .links {
     &Anchor {
       position: relative;
-      display: block;
+      display: inline-block;
       color: inherit;
-      padding: $spacer-S;
+      padding: calc($spacer-S + $spacer-XS) $spacer-S;
       text-decoration: none;
-      visibility: hidden;
-      opacity: 0;
-      font-size: $font-S;
-      pointer-events: none;
-
-      @mixin motionDefault {
-        transition: opacity var(--time, 1000ms) var(--delay, $openDelay) cubic-bezier(0.0, 0.0, 0.2, 1),
-          visibility 1ms var(--delayVis, 500ms);
-      }
+      font-size: $font-L;
 
       &::before {
         content: '';
         position: absolute;
         top: 50%;
-        right: -1.2rem;
-        width: 0.8rem;
+        right: -3.1rem;
+        width: $spacer-M;
         height: 0.2rem;
         border-radius: 3px;
         background-color: currentColor;
-        transform: scale(var(--scale, 0), 1) translate(-50%, -50%);
+        transform: scale(var(--scale, 0), 1) translateX(-50%);
         transform-origin: 50%;
 
         @mixin motionDefault {
@@ -323,11 +300,6 @@
       }
 
       .isOpen & {
-        opacity: 1;
-        pointer-events: auto;
-        visibility: visible;
-        --delayVis: 0ms;
-
         &:hover,
         &:focus {
           outline: none;
@@ -339,6 +311,55 @@
       @media (--max-md) {
         margin-top: $spacer-S; /* more space to click */
       }
+    }
+  }
+
+  .linksAnchor,
+  .line,
+  :global(.btnMotion) {
+    visibility: hidden;
+    pointer-events: none;
+    opacity: 0;
+
+    @mixin motionDefault {
+      transition: opacity var(--time, 1000ms) var(--delay, $openDelay) cubic-bezier(0.0, 0.0, 0.2, 1),
+        visibility 1ms var(--delayVis, 500ms);
+    }
+
+    .isOpen & {
+      opacity: 1;
+      pointer-events: auto;
+      visibility: visible;
+      --delayVis: 0ms;
+    }
+  }
+
+  .linksItem {
+    --time: 300ms;
+    &:nth-child(1) { --delay: calc($openDelay*3); }
+    &:nth-child(2) { --delay: calc($openDelay*2.5); }
+    &:nth-child(3) { --delay: calc($openDelay*2); }
+    &:nth-child(4) { --delay: calc($openDelay*1.5); }
+    &:nth-child(5) { --delay: calc($openDelay*1); }
+
+    .isOpen & {
+      --time: 1000ms;
+      &:nth-child(1) { --delay: calc($openDelay*1); }
+      &:nth-child(2) { --delay: calc($openDelay*2); }
+      &:nth-child(3) { --delay: calc($openDelay*3); }
+      &:nth-child(4) { --delay: calc($openDelay*4); }
+      &:nth-child(5) { --delay: calc($openDelay*5); }
+    }
+  }
+
+  .line,
+  :global(.btnMotion) {
+    --time: 300ms;
+    --delay: calc($openDelay*1);
+
+    .isOpen & {
+      --time: 1000ms;
+      --delay: calc($openDelay*6);
     }
   }
 
@@ -418,17 +439,21 @@
 
     &.wasSelected {
        &::after {
-        animation: fancyBubble 1150ms ease-out;
+        animation: fancyTransition 1150ms ease-out;
         animation-duration: 1000ms;
       }
     }
   }
 
-  .toggleMotion {
-    outline: 1px dashed red;
+  .line {
+    display: block;
+    border-bottom: 0.1rem solid var(--morph_total);
+    padding-top: $spacer-S;
+    margin: 0 $spacer-S $spacer-M;
   }
 
-  @keyframes fancyBubble {
+  @keyframes fancyTransition {
+    /* not that fancy afterwall... */
     0%, 100% {
       opacity: 0;
     }
@@ -441,8 +466,9 @@
 
 <nav class="nav" class:isReady={isCalculated}>
   <span class="bubble" class:wasSelected={wasSelected}></span>
-  <ToggleTheme klass='toggleBtn' />
+  <ToggleTheme klass='btnTheme' />
   <div class="menu" class:isOpen={isMenuOpen}>
+
     <button class="burgerBtn" aria-label="open menu" aria-pressed={isMenuOpen} on:click={handleMenuBtnClick}>
       <svg class="burgerSvg u-svg" style="display: none;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 16">
         <rect x="0" y="0" width="20" height="2" rx="1" class="burgerSvgTop" />
@@ -450,24 +476,25 @@
         <rect x="0" y="14" width="20" height="2" rx="1" class="burgerSvgBott" />
       </svg>
     </button>
-    <ul class="links">
-      {#each pageSections as name}
-        <li
-          class="linksItem"
-          class:isCurrent={currentSection === name}>
-          <a
-            href="#{name}"
-            class="linksAnchor"
-            aria-current={currentSection === name}
-            on:click={e => goToSection(e, name)}>
-            {name}
-          </a>
-        </li>
-      {/each}
-      <li class="toggleMotion linksAnchor">
-        <!-- TODO THIS -->
-        <ToggleMotion />
-      </li>
-    </ul>
+
+    <div class="drawer">
+      <ul class="links">
+        {#each pageSections as name}
+          <li
+            class="linksItem"
+            class:isCurrent={currentSection === name}>
+            <a
+              href="#{name}"
+              class="linksAnchor"
+              aria-current={currentSection === name}
+              on:click={e => goToSection(e, name)}>
+              {name}
+            </a>
+          </li>
+        {/each}
+      </ul>
+      <span class="line"></span>
+      <ToggleMotion klass='btnMotion'/>
+    </div>
   </div>
 </nav>

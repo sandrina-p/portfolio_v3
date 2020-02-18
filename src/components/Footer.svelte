@@ -5,8 +5,9 @@
   import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
   import { strMotion, afterMotionUpdate } from '../stores/motion.js';
   import { getInLimit, scrollIntoView } from '../utils';
-  import { EMAIL_URL, SITE_REPO } from '../data/misc.js';
+  import { EMAIL_URL } from '../data/misc.js';
   import Contacts from './Contacts.svelte';
+  import TimeLoad from './TimeLoad.svelte';
 
   $: wWidth = $_window && $_window.innerWidth;
   $: wHeight = $_window && $_window.innerHeight;
@@ -154,8 +155,10 @@
 
         footerHeight = titleGoal + figSize * 12;
 
-        handleFooterScroll()
+        handleFooterScroll();
         window.addEventListener('scroll', handleFooterScroll, { passive: true });
+      } else {
+        isVisible = false;
       }
     };
 
@@ -182,8 +185,8 @@
         if (!isObserving) {
           console.debug('footer: Verify animation');
           isObserving = true;
-          observer.observe(elFooter);
-          observer.observe(elCard);
+          observerFooter.observe(elFooter);
+          observerCard.observe(elCard);
           return;
         }
         const boundingClientRectCard = elCard.getBoundingClientRect()
@@ -225,7 +228,11 @@
   .footer {
     position: relative;
     padding: $cardTop $spacer-M 0;
-    min-height: 100vh; /* there's no infinite scroll anymore */
+    min-height: 100vh;
+
+    @mixin motionDefault {
+      min-height: 200vh; /* enough to scroll from nav click */
+    }
   }
 
   .title,
@@ -375,9 +382,9 @@
       }
 
       @mixin motionReduced {
-        &:nth-child(1) { transform: scale(0.3); }
+        &:nth-child(1) { transform: scale(0.9); }
         &:nth-child(2) { transform: scale(0.6); }
-        &:nth-child(3) { transform: scale(0.9); }
+        &:nth-child(3) { transform: scale(0.3); }
       }
 
       &Rect {
@@ -409,9 +416,25 @@
     .title {
       padding-left: 1.4rem;
     }
+
     .card {
       padding-right: 1.4rem;
       padding-left: 1.4rem;
+    }
+  }
+
+  @media (--max-md) {
+    .card {
+      @mixin motionReduced {
+        padding-top: $spacer-XL;
+        padding-bottom: $spacer-XL;
+      }
+    }
+
+    .thing {
+      @mixin motionReduced {
+        display: none;
+      }
     }
   }
 
@@ -435,9 +458,13 @@
       }
 
       @mixin motionDefault {
-        top: 100vh; /* put out of view [1] */
+        margin-top: 100vh; /* put out of view [1] */
         width: 42rem;
         padding-left: 0;
+
+        /* - [2] Workaround: hide it to give time to toggle motion re-render everywhere.
+        Otherwise, we'll see the title on the screen (intro) for a fr/s. */
+        /* opacity: 0; */
       }
 
       :not(.isVisible) & {
@@ -450,16 +477,15 @@
         @mixin motionDefault {
           /* [2]...put back on the view */
           /* can't be sticky because Safari adds scroll when title is transforming X */
+          margin-top: 0;
           position: fixed;
           top: calc(50vh - $cardH/2 - 0.6em);
           left: calc(50vw - ($cardW/2) + $spacer-L);
+          /* opacity: 1; [2] */
+          /* transition: opacity 0ms 500ms; */
 
           .title-content {
-            transform: translateX(var(--titleProgress, 100vw));        
-          transform: translateX(var(--titleProgress, 100vw));        
-            transform: translateX(var(--titleProgress, 100vw));        
-          transform: translateX(var(--titleProgress, 100vw));        
-            transform: translateX(var(--titleProgress, 100vw));        
+            transform: translateX(var(--titleProgress, 100vw));       
           }
         }
       }
@@ -500,8 +526,7 @@
 
       &.isCardOnView { 
         &::before {
-          /* Save GPU memory (+4Mb) */
-          visibility: visible;
+          visibility: visible; /* Save GPU memory (+4Mb) */
         }
       }
 
@@ -575,6 +600,6 @@
         </div>
       </div>
     </div>
-    <p class="credits">Made without coffee. Check the <a href={SITE_REPO} target="_blank" class="u-link">source code</a>.</p>
+    <p class="credits">Made without coffee. <TimeLoad /></p>
   </div>
 </footer>

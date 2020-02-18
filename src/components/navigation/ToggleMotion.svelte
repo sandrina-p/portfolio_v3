@@ -24,6 +24,7 @@
     // https://github.com/sveltejs/svelte/issues/3105
     document.body.classList[actionReduced]('jsMotionReduced');
     document.body.classList[actionDefault]('jsMotionDefault');
+    document.body.classList.remove('jsMotionInitial');
 
     setReduced(isNowReduced);
   }
@@ -32,19 +33,31 @@
 </script>
 
 <style>
-  .toggleMotion {
+  @define-mixin motionDefault { :global(.jsMotionDefault) & { @mixin-content; } }
+  @define-mixin motionReduced { :global(.jsMotionReduced) & { @mixin-content; } }
+
+  $size: 1.8rem;
+
+  .btn {
     position: relative;
     background: transparent;
     border: none;
-    /* width: 4.4rem; */
-    /* height: 4.4rem; */
     padding: 0;
-    color: var(--text_1);
+    color: inherit;
     cursor: pointer;
     white-space: nowrap;
+    font-size: $font-M;
+    font-family: inherit;
+    font-weight: 300;
+    padding: calc($spacer-S + $spacer-XS) $spacer-S;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
 
     &:hover {
-      /* color: var(--primary_1); */
+      .btnDecor {
+        border-color: var(--primary_1);
+      }
     }
 
     &:focus {
@@ -52,30 +65,43 @@
     }
 
     &[aria-pressed="true"] {
-      
+      .btnDecor::before {
+        background-color: var(--primary_1);
+        --ty: 50%;
+      }
     }
-  }
 
-  .icon {
-    width: 80%;
-    height: 80%;
-    margin: 0 auto;
-
-    &Part {
-      fill: currentColor;
-      stroke: var(--bg_0);
-      stroke-width: 2px;
-
-      &:nth-child(1) { fill: grey; }
-      &:nth-child(2) { fill: #5b5b5b; }
+    &Decor {
+      position: relative;
+      display: block;
+      width: calc($size*1.5);
+      height: $size;
+      border: 1px solid var(--text_0);
+      border-radius: $size;
+      margin-left: 0.8rem;
+      box-sizing: content-box;
+      
+      &::before {
+        content: '';
+        position: absolute;
+        display: block;
+        width: $size;
+        height: $size;
+        border-radius: 50%;
+        box-sizing: border-box;
+        border: 2px solid var(--bg_1);
+        background-color: var(--text_0);
+        transform: translateX(var(--ty, 0));
+        transition: background-color 250ms, transform 250ms cubic-bezier(0.0, 0.0, 0.2, 1); /* irony */
+      }
     }
   }
 </style>
 
-<button class="toggleMotion {klass}"
+<button class="btn {klass}"
   on:click={toggleMotion}
-  aria-pressed={isReduced}
-  aria-label="Animations reduced">
-  Motion: {isReduced ? 'Off' : 'On' }
+  aria-pressed={isReduced}>
+  Reduced motion
+  <span class="btnDecor"></span>
 </button>
 

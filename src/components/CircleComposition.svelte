@@ -96,9 +96,12 @@
         rotate(calc(0deg + var(--rotatePivot))); /* 1 */
 
       @mixin motionReduced {
-        animation-name: circleMoveWow;
         animation-play-state: paused;
-        animation-delay: calc((var(--speed) * -1) - (-$i * var(--delay)) - 2.8s);
+      }
+
+      :global(.jsMotionReduced.jsMotionInitial) & {
+        /* first render on the perfect spot to be pretty */
+        animation-delay: calc((var(--speed) * -1) - (-$i * var(--delay)) - 2.7s);
       }
     }
   }

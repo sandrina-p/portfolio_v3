@@ -35,7 +35,8 @@
       }
       // Set the prefered motion. Remaining logic at ToggleMotion.svelte
       var motionClass = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'jsMotionReduced' : 'jsMotionDefault'
-      document.body.classList.add(motionClass);
+      document.body.classList.add(motionClass, 'jsMotionInitial');
+      
 
       // Detect current browser. Needed for some CSS animations otimizations.
       (function setBrowsers() {

@@ -65,15 +65,16 @@
     left: var(--left);
     opacity: var(--opacity, 1);
     background-color: var(--primary_1);
-
-    @mixin motionDefault {
-      animation: live 5s alternate-reverse infinite ease-in-out;
-      animation-play-state: paused;
-    }
+    animation: live 5s alternate-reverse infinite ease-in-out;
 
     .dots.isActive & {
       animation-play-state: running;
+
+      @mixin motionReduced {
+        animation-play-state: paused;
+      }
     }
+
 
     &:nth-child(1) {
       --size: 1.2rem; --top: 20%; --left: 0%;

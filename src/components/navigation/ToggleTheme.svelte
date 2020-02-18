@@ -95,13 +95,13 @@
       </mask>
     </defs>
     <circle class="sunCenter" r="3" cx="12" cy="12" mask="url(#hole)" />
-    <rect class="sunRay" x="12.5" y="5.9" width="1.5" height={sunH} rx=".5" transform="rotate(-180 12.5 5.9)" />
-    <rect class="sunRay" x="11" y="18.8" width="1.5" height={sunH} rx=".5" />
-    <rect class="sunRay" x="18.2" y="13.1" width="1.5" height={sunH} rx=".5" transform="rotate(-90 18.2 13)" />
-    <rect class="sunRay" x="5.2" y="11.6" width="1.5" height={sunH} rx=".5" transform="rotate(90 5.2 11.6)" />
-    <rect class="sunRay" x="15.6" y="17.6" width="1.5" height={sunH} rx=".5" transform="rotate(-45 15.6 17.6)" />
-    <rect class="sunRay" x="7.6" y="7.2" width="1.5" height={sunH} rx=".5" transform="rotate(135 7.6 7.2)" />
-    <rect class="sunRay" x="16.8" y="8.3" width="1.5" height={sunH} rx=".5" transform="rotate(-135 16.8 8.3)" />
-    <rect class="sunRay" x="6.6" y="16.3" width="1.5" height={sunH} rx=".5" transform="rotate(45 6.6 16.3)" />
+    <rect class="sunRay" x="12.5" y="5.9" width="1.5" height={sunH} rx="1" transform="rotate(-180 12.5 5.9)" />
+    <rect class="sunRay" x="11" y="18.8" width="1.5" height={sunH} rx="1" />
+    <rect class="sunRay" x="18.2" y="13.1" width="1.5" height={sunH} rx="1" transform="rotate(-90 18.2 13)" />
+    <rect class="sunRay" x="5.2" y="11.6" width="1.5" height={sunH} rx="1" transform="rotate(90 5.2 11.6)" />
+    <rect class="sunRay" x="15.6" y="17.6" width="1.5" height={sunH} rx="1" transform="rotate(-45 15.6 17.6)" />
+    <rect class="sunRay" x="7.6" y="7.2" width="1.5" height={sunH} rx="1" transform="rotate(135 7.6 7.2)" />
+    <rect class="sunRay" x="16.8" y="8.3" width="1.5" height={sunH} rx="1" transform="rotate(-135 16.8 8.3)" />
+    <rect class="sunRay" x="6.6" y="16.3" width="1.5" height={sunH} rx="1" transform="rotate(45 6.6 16.3)" />
   </svg>
 </button>

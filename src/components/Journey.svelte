@@ -287,17 +287,16 @@
       <a class="u-link" target="_blank" href="https://github.com/okTurtles/group-income-simple">Group Income</a>.
       Before that, I was a Senior UI Engineer at
       <a class="u-link" target="_blank" href="https://www.farfetch.com">Farfetch</a>
-      for a few years. From time to time, I also challenge myself to give talks or workshops about a topic I'm really into.
+      for a few years. From time to time, I also challenge myself to give talks and workshops about a topic I'm really into.
     </p>
     <p class="p">
-      I always look for ways to merge design and development in my work and my meta-goal has always been the same:
-      to create humanly accessible experiences within digital environments.
-      In my free time I like to
-      <a class="u-link" target="_blank" href={CODEPEN_URL}>push pixels around</a> and <a class="u-link" target="_blank" href={TWITTER_URL}>share ideias</a> with the community.
+      Create humanly accessible experiences within digital environments has been my meta-goal since I can remember.
+      In my free time I have fun
+      <a class="u-link" target="_blank" href={CODEPEN_URL}>pushing pixels around</a> and <a class="u-link" target="_blank" href={TWITTER_URL}>share ideias</a> with the community.
     </p>
     <p class="p">
       Currently,
-      <strong class="f-bold">I am open for new challenges</strong> (remote!) where I can help people with lines of code.
+      <strong class="f-bold">I'm open for new challenges</strong> (remote!) where I can help people with lines of code.
       If you feel like we can excel together <a class="u-link" href={ EMAIL_URL }>get it touch</a>!
     </p>
   </div>

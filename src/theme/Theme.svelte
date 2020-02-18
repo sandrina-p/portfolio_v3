@@ -1,4 +1,7 @@
 <style global>
+  @define-mixin motionDefault { :global(.jsMotionDefault) & { @mixin-content; } }
+  @define-mixin motionReduced { :global(.jsMotionReduced) & { @mixin-content; } }
+
   :root {
     --w-height: 100vw; /* JS will change this */
 
@@ -30,8 +33,8 @@
     --primary_1: #9f76ff; /* slightly brigter */
     --primary_1_sat: #bd99ff;
     --primary_1_smooth: #514371;
-    --morph_color: rgba(202, 152, 255, 0.15);
-    --morph_total: #9176af;
+    --morph_color: rgba(159, 117, 255, 0.19);
+    --morph_total: #624c90;
   }
 
   /* ************************************ */
@@ -158,11 +161,6 @@
 
     &:hover {
       outline: none;
-
-      &::before {
-        transition-duration: 250ms ease-in-out;
-        transform: scale(1, 1);
-      }
     }
 
     @media (--md) {
@@ -178,9 +176,12 @@
         background-color: var(--primary_1);
         opacity: 0.2;
         transform: scale(1, 0.3);
-        transition: transform 75ms ease-out;
         transform-origin: 0 100%;
         z-index: -1;
+
+        @mixin motionDefault {
+          transition: transform 75ms ease-out;
+        }
       }
     }
   }

@@ -57,6 +57,10 @@
       align-items: stretch;
 
       @media (--max-md) {
+        @mixin motionReduced {
+          padding-bottom: 25vh;
+        }
+
         /* scroll margin on the end */
         &::after {
           display: block;
@@ -231,6 +235,7 @@
 
       @mixin motionReduced {
         padding-top: 25vh;
+        padding-bottom: 25vh;
       }
     }
 

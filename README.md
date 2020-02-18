@@ -39,15 +39,8 @@ Well... let's say we are 80% done and the other 20% is taking 80% of the time.
 - [x] Navigation (transition between sections) 
 - [ ] Review transitions consistency
 - [x] Refine copywrite
-- [ ] Reduced motion (80% done)
-  - intro: Remove circle animation
-  - intro: Pause dots animations
-  - intro: gelly and echo are simply opacity effect.
-  - words: has no animations/opacity. a simple go over.
-  - skills: remove zoom effect and opacities.
-  - skills: remove starts rotation and remove delays.
-  - journey: show it all without fades.
-  - contacts: remove _all_ animations, includind svg scroll.
+- [x] Reduced motion
+- [ ] Review tablet (bah!)
 
 ### Development
 - [x] 🐛 Resize recalculation.
