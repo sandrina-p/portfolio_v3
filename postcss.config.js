@@ -7,6 +7,23 @@ for (let bp in breakpoints) {
   customMedia[`--${bp}`] = breakpoints[bp];
 }
 
+const mixins = {
+  motionDefault: function(mixin, dir) {
+    return {
+      ':global(.jsMotionDefault) &': {
+        '@mixin-content': {},
+      },
+    };
+  },
+  motionReduced: function(mixin, dir) {
+    return {
+      ':global(.jsMotionReduced) &': {
+        '@mixin-content': {},
+      },
+    };
+  },
+};
+
 module.exports = {
   plugins: {
     'postcss-preset-env': {
@@ -20,7 +37,7 @@ module.exports = {
       },
     },
     'postcss-for': {},
-    'postcss-mixins': {},
+    'postcss-mixins': { mixins }, // QUESTION / REVIE - Why isn't this working...
     'postcss-random': { round: true },
     'postcss-nested': {},
     'postcss-simple-vars': {

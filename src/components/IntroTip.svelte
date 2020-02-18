@@ -13,6 +13,9 @@
 </script>
 
 <style>
+  @define-mixin motionDefault { :global(.jsMotionDefault) & { @mixin-content; } }
+  @define-mixin motionReduced { :global(.jsMotionReduced) & { @mixin-content; } }
+
   .tip {
     display: block;
     position: absolute;
@@ -31,6 +34,8 @@
       display: block;
       opacity: 0;
       animation: fadeIn 400ms 2.3s forwards ease-out;
+
+      @mixin motionReduced { animation-delay: -10s; }
 
       &Status {
         position: absolute;
@@ -70,6 +75,8 @@
       width: 100%;
       transform: translateX(100%);
       animation: slideIn 500ms 1.7s forwards ease-out;
+
+      @mixin motionReduced { animation-delay: -10s; }
     }
 
     /* Mask to hide */

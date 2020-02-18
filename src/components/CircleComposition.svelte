@@ -6,6 +6,8 @@
 </script>
 
 <style>
+  @define-mixin motionReduced { :global(.jsMotionReduced) & { @mixin-content; } }
+
   .container {
     --size: 17rem;
     --speed: 4.5s;
@@ -92,6 +94,12 @@
       transform: translateX(0)
         scale(var(--scaleStart))
         rotate(calc(0deg + var(--rotatePivot))); /* 1 */
+
+      @mixin motionReduced {
+        animation-name: circleMoveWow;
+        animation-play-state: paused;
+        animation-delay: calc((var(--speed) * -1) - (-$i * var(--delay)) - 2.8s);
+      }
     }
   }
 

@@ -52,6 +52,7 @@ Here's a list of my learnings while building this website. When I release the we
 - 🎈`aria-current` to a link to mark it as [the current page link](https://tink.uk/using-the-aria-current-attribute/).
 - 🎈when using smooth scrolling on a#tag we need to handle the focus-changing ourselves because we are override the default scroll behavior.
 - 🎈Use `el.focus()` on a element inside a scrollable container, it will scroll to the element automatically (safari won't!). Useful to scroll between sliders on a scroll-snap container.
+- 🎈Use `animation-delay: -99s;` to start the animation from the end and stick at it. Useful to handle motion-reduced without disabling animations.
 
 ## VSCode
 

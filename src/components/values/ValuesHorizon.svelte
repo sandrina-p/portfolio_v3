@@ -278,6 +278,7 @@
     border-radius: var(--radius, 50%);
     transform: translate(calc(var(--scrollY) - 50%), -50%);
     /* TODO - speed up this when going to FINALLE */
+    /* REVIEW - How could motionReduced behave here? */
     transition:
       width 400ms ease-in-out,
       height 400ms ease-in-out,
@@ -285,7 +286,7 @@
     will-change: width, height; /* I'm sorry */
     z-index: 1;
 
-    visibility: hidden; /* reduce GPU*/
+    visibility: hidden; /* reduce GPU */
 
     .isOnStage & {
       visibility: visible;
@@ -317,7 +318,7 @@
 
     &::before {
       background-color: var(--bg_1);
-      /* in case I want to add skew effect again */
+      /* NOTE: in case I want to add skew effect again */
       /* transition: transform 300ms;
       transform: skew(calc(var(--scrollSpeed) * -0.1deg)); */
     }

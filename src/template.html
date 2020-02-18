@@ -26,11 +26,17 @@
     <script>
       // NOTE: Do not modify the DOM inside #sapper!
       // Otherwise Svelte hydratation won't work properly.
+      
       // -------
+
       // Set the prefered theme. Remaining logic at ToggleTheme.svelte
       if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
         document.body.classList.add('dark');
       }
+      // Set the prefered motion. Remaining logic at ToggleMotion.svelte
+      var motionClass = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'jsMotionReduced' : 'jsMotionDefault'
+      document.body.classList.add(motionClass);
+
       // Detect current browser. Needed for some CSS animations otimizations.
       (function setBrowsers() {
         var browsers = {

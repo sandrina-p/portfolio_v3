@@ -3,6 +3,9 @@ export let activeLevel;
 </script>
 
 <style>
+  @define-mixin motionDefault { :global(.jsMotionDefault) & { @mixin-content; } }
+  @define-mixin motionReduced { :global(.jsMotionReduced) & { @mixin-content; } }
+
   .echos {
     position: fixed;
     top: 0; left: 0;
@@ -20,7 +23,7 @@ export let activeLevel;
 
   .echo {
     --t_x: 0%;
-    --t_y: 0; /* initial bottom effect - back to 0 for performance reasons */
+    --t_y: 0%; /* initial bottom effect - back to 0 for performance reasons */
     position: absolute;
     top: 50vh;
     left: 50vw;
@@ -69,6 +72,14 @@ export let activeLevel;
         transform 1000ms var(--delayOpacity) cubic-bezier(0.19, 1, 0.22, 1),
         clip-path 450ms 1ms ease-in-out;
 
+      @mixin motionReduced {
+        transition:
+          opacity 700ms ease-in,
+          /* get ready to next phase .isRect */
+          transform 1000ms cubic-bezier(0.19, 1, 0.22, 1),
+          clip-path 450ms 1ms ease-in-out;
+      }
+
       will-change: clip-path;
 
       &:nth-child(1) { --delayOpacity: 250ms }
@@ -77,7 +88,9 @@ export let activeLevel;
       &:nth-child(3) { --delayOpacity: 250ms }
 
       &::after {
-        animation-play-state: running;
+        @mixin motionDefault {
+          animation-play-state: running;
+        }
       }
     }
 

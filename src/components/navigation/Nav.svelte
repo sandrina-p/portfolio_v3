@@ -2,6 +2,7 @@
   import { createEventDispatcher } from 'svelte';
   import { _window, matchMq, afterResponsiveUpdate } from '../../stores/responsive.js';
   import ToggleTheme from './ToggleTheme.svelte';
+  import ToggleMotion from './ToggleMotion.svelte';
   import { strGeneral, updateGeneral, afterGeneralUpdate } from '../../stores/general.js';
   import { TIMEOUTS } from '../../utils';
 
@@ -183,6 +184,9 @@
 </script>
 
 <style>
+  @define-mixin motionDefault { :global(.jsMotionDefault) & { @mixin-content; } }
+  @define-mixin motionReduced { :global(.jsMotionReduced) & { @mixin-content; } }
+
   $itemW: 6rem;
 
   .nav {
@@ -210,6 +214,10 @@
       transition:
         opacity 1000ms $introDelay cubic-bezier(0.0, 0.0, 0.2, 1),
         transform 1000ms $introDelay cubic-bezier(0.19, 1, 0.22, 1);
+
+      @mixin motionReduced {
+        transition-duration: 0ms;
+      }
     }
   }
 
@@ -224,36 +232,35 @@
 
   .links {
     $openDelay: 75ms;
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    top: 4.4rem; /* btn height */
+    right: 0;
+    display: block;
+    text-align: right;
+    padding-right: $spacer-XS;
 
-    &List {
-      position: absolute;
-      margin: 0;
-      padding: 0;
-      top: 4.4rem; /* btn height */
-      right: 0;
+    &::before { /* links bg */
+      --timeBg: calc($openDelay*3);
+      content: '';
+      width: calc(100% + $spacer-M*4); /* enough to cover toggleTheme */
+      height: calc(100% + $spacer-M*5);
       display: block;
-      text-align: right;
-      padding-right: $spacer-XS;
+      position: absolute;
+      background: var(--bg_1);
+      border-bottom-left-radius: 3px;
+      top: calc($spacer-M * -4);
+      right: calc($spacer-M * -1);
+      z-index: -1;
+      transform: translateY(-100%);
+      transition: transform 200ms 200ms ease-out;
 
-      &::before { /* links bg */
-        --timeBg: calc($openDelay*3);
-        content: '';
-        width: calc(100% + $spacer-M*4); /* enough to cover toggleTheme */
-        height: calc(100% + $spacer-M*5);
-        display: block;
-        position: absolute;
-        background: var(--bg_1);
-        border-bottom-left-radius: 3px;
-        top: calc($spacer-M * -4);
-        right: calc($spacer-M * -1);
-        z-index: -1;
-        transform: translateY(-100%);
-        transition: transform 200ms 200ms ease-out;
+      @mixin motionReduced { transition: none !important; }
 
-        .isOpen & {
-          transition: transform 500ms cubic-bezier(0.0, 0.0, 0.2, 1);
-          transform: translateY(0);
-        }
+      .isOpen & {
+        transition: transform 500ms cubic-bezier(0.0, 0.0, 0.2, 1);
+        transform: translateY(0);
       }
     }
 
@@ -285,21 +292,27 @@
       opacity: 0;
       font-size: $font-S;
       pointer-events: none;
-      transition: opacity var(--time, 1000ms) var(--delay, $openDelay) cubic-bezier(0.0, 0.0, 0.2, 1),
-        visibility 1ms var(--delayVis, 500ms);
+
+      @mixin motionDefault {
+        transition: opacity var(--time, 1000ms) var(--delay, $openDelay) cubic-bezier(0.0, 0.0, 0.2, 1),
+          visibility 1ms var(--delayVis, 500ms);
+      }
 
       &::before {
         content: '';
         position: absolute;
         top: 50%;
         right: -1.2rem;
-        width: 1rem;
+        width: 0.8rem;
         height: 0.2rem;
         border-radius: 3px;
         background-color: currentColor;
         transform: scale(var(--scale, 0), 1) translate(-50%, -50%);
         transform-origin: 50%;
-        transition: transform 250ms, background-color 250ms;
+
+        @mixin motionDefault {
+          transition: transform 250ms, background-color 250ms;
+        }
       }
 
       &[aria-current="true"] {
@@ -409,6 +422,10 @@
     }
   }
 
+  .toggleMotion {
+    outline: 1px dashed red;
+  }
+
   @keyframes fancyBubble {
     0%, 100% {
       opacity: 0;
@@ -431,7 +448,7 @@
         <rect x="0" y="14" width="20" height="2" rx="1" class="burgerSvgBott" />
       </svg>
     </button>
-    <ul class="linksList">
+    <ul class="links">
       {#each pageSections as name}
         <li
           class="linksItem"
@@ -445,6 +462,10 @@
           </a>
         </li>
       {/each}
+      <li class="toggleMotion linksAnchor">
+        <!-- TODO THIS -->
+        <ToggleMotion />
+      </li>
     </ul>
   </div>
 </nav>

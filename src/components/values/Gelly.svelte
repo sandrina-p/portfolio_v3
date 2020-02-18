@@ -3,6 +3,9 @@
 </script>
 
 <style>
+  @define-mixin motionDefault { :global(.jsMotionDefault) & { @mixin-content; } }
+  @define-mixin motionReduced { :global(.jsMotionReduced) & { @mixin-content; } }
+
   .gellyArea {
     --scale: 0;
     position: fixed;
@@ -16,8 +19,13 @@
     pointer-events: none;
 
     :global(.jsGoOn) & {
-      transition: transform 400ms ease-in, visibility 0ms 400ms;
+      transition: transform 400ms ease-in, opacity 400ms ease-in, visibility 0ms 400ms;
       will-change: transform;
+    }
+
+    @mixin motionReduced {
+      opacity: 0;
+      --scale: 1;
     }
 
     &.isActive {
@@ -26,10 +34,19 @@
       will-change: unset;
       transition:
         visibility 0ms 0ms,
+        opacity 1000ms 200ms cubic-bezier(0.17, 0.55, 0.24, 1.01),
         transform 1000ms 200ms cubic-bezier(0.17, 0.55, 0.24, 1.01);
 
       .gellyItself {
         animation-play-state: running;
+      }
+
+      @mixin motionReduced {
+        opacity: 1;
+
+        .gellyItself {
+          animation-play-state: paused;
+        }
       }
     }
 

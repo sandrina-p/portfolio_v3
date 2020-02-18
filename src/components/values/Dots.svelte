@@ -4,6 +4,8 @@
 </script>
 
 <style>
+  @define-mixin motionDefault { :global(.jsMotionDefault) & { @mixin-content; } }
+
   .dots {
     position: absolute;
     height: 100vh;
@@ -63,8 +65,11 @@
     left: var(--left);
     opacity: var(--opacity, 1);
     background-color: var(--primary_1);
-    animation: live 5s alternate-reverse infinite ease-in-out;
-    animation-play-state: paused;
+
+    @mixin motionDefault {
+      animation: live 5s alternate-reverse infinite ease-in-out;
+      animation-play-state: paused;
+    }
 
     .dots.isActive & {
       animation-play-state: running;

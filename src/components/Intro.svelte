@@ -19,6 +19,9 @@
   $titleTempo: 200ms; 
   $circleSizeHalf: 10rem;
 
+  @define-mixin motionDefault { :global(.jsMotionDefault) & { @mixin-content; } }
+  @define-mixin motionReduced { :global(.jsMotionReduced) & { @mixin-content; } }
+
   .intro {
     padding: calc($layout-margin*2) $layout-margin 0;
     min-height: var(--w-height);
@@ -43,6 +46,10 @@
       font-size: $font-heading_2;
     }
 
+    &-char:nth-child(4) {
+      display: block; /* linebreak */
+    }
+
     &-char {
       opacity: 0;
       animation: laserOn 500ms steps(8) forwards;
@@ -52,10 +59,6 @@
         $titleTempo: 200ms;
 
         &:nth-of-type($i) {
-          @if $i == 4 {
-            display: block; /* linebreak */
-          }
-
           @if $i < 4 {
             animation-delay: calc($titleTempo + 50ms * ($i - 1));
           } @else {
@@ -63,7 +66,12 @@
           }
         }
       }
+
+      @mixin motionReduced {
+        animation-delay: -99s !important;
+      }
     }
+
   }
 
   .text {
@@ -77,11 +85,7 @@
       max-width: 24rem;
     }
 
-    @media (--max-xs) {
-      &-br {
-        display: none;
-      }
-    }
+    @mixin motionReduced { animation-delay: -9s; }
   }
 
   .animation {
@@ -89,6 +93,8 @@
     position: relative;
     opacity: 0;
     animation: fadeIn 1000ms calc($titleTempo + 50ms * $titleChars) forwards;
+    
+    @mixin motionReduced { animation-delay: -9s; }
   }
 
   @media (--md) {

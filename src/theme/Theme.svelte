@@ -43,8 +43,10 @@
   body {
     background-color: var(--bg_0);
     color: var(--text_0);
-    /* smooth transition between themes */
-    transition: color 0.2s ease-out, background-color 0.2s ease-out;
+    @mixin motionDefault {
+      /* smooth transition between themes */
+      transition: color 0.2s ease-out, background-color 0.2s ease-out;
+    }
     
     font-family: 'IBM Plex Sans', sans-serif;
     font-size: $font-M;
