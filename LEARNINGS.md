@@ -56,7 +56,7 @@ Here's a list of my learnings while building this website. When I release the we
 
 ## VSCode
 
-- Finally did the switch from Atom to VSCode because of lack of Svelte syntax support...
+- Finally did the switch from Atom to VSCode because of lack of Svelte syntax support... not sure if it was a good decision.
 - How to [add multiline tabs to VScode](https://stackoverflow.com/a/57441591/4737729) (can't believe this isn't possible in a easier way)
 
 
