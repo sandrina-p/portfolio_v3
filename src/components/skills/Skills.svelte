@@ -57,8 +57,10 @@
 
   afterResponsiveUpdate(() => {
     if(!animation) { return }
-    animation.verify();
-    console.warn('Resize: skills updated');
+    setTimeout(() => {
+      animation.verify();
+      console.warn('Resize: skills updated');
+    }, 0) // execute after svelte update.
   })
 
 

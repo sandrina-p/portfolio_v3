@@ -74,8 +74,10 @@
 
   afterResponsiveUpdate(() => {
     if(!animation) { return }
-    animation.verify();
-    console.warn('Resize: footer updated');
+    setTimeout(() => {
+      animation.verify();
+      console.warn('Resize: footer updated');
+    }, 0) // execute after svelte update.
   })
 
   function initAnimation() {

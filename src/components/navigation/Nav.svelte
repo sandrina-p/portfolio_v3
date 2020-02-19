@@ -49,9 +49,9 @@
     if(prevState.matchMq.md !== state.matchMq.md) {
       // There are so many animations and layout changes and edge cases
       // that the best UX is:
-      // 1. set the scroll back to the beginning */
+      // 1. set the scroll back to the beginning and... */
       window.scrollTo(0, 0);
-      // 2.A and reset/handle/adapt all animations around.
+      // 2.A reset/handle/adapt all animations around.
       // or...!
       // 2.B Just refresh the page, and come back to this later (maybe never?)
       // TODO/OPTIMIZE. [*CODE_SHAME*]

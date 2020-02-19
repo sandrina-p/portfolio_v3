@@ -52,8 +52,10 @@
 
   afterResponsiveUpdate(() => {
     if(!animation) { return }
-    animation.verify();
-    console.warn('Resize: journey updated');
+    setTimeout(() => {
+      animation.verify();
+      console.warn('Resize: journey updated');
+    }, 0) // execute after svelte update.
   })
 
   function initAnimation() {

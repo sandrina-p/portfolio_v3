@@ -181,6 +181,13 @@
 
         @mixin motionDefault {
           transition: transform 75ms ease-out;
+          
+          &:hover {
+            &::before {
+              transition-duration: 250ms ease-in-out;
+              transform: scale(1, 1);
+            }
+          }
         }
       }
     }
