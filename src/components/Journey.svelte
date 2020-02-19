@@ -289,23 +289,23 @@
   <div class="text">
     <p class="p">
       During the last year I have been helping to bring an open source idea to life -
-      <a class="u-link" target="_blank" href="https://github.com/okTurtles/group-income-simple">Group Income</a>.
+      <a class="u-link" rel="noreferrer" target="_blank" href="https://github.com/okTurtles/group-income-simple">Group Income</a>.
       Before that, I was a Senior UI Engineer at
-      <a class="u-link" target="_blank" href="https://www.farfetch.com">Farfetch</a>
+      <a class="u-link" rel="noreferrer" target="_blank" href="https://www.farfetch.com">Farfetch</a>
       for a few years. From time to time, I also challenge myself to give talks and workshops about a topic I'm really into.
     </p>
     <p class="p">
       Create humanly accessible experiences within digital environments has been my meta-goal since I can remember.
       In my free time I have fun
-      <a class="u-link" target="_blank" href={CODEPEN_URL} on:click={() => trackClick('codepen_journey')}>pushing pixels around</a>
+      <a class="u-link" rel="noreferrer" target="_blank" href={CODEPEN_URL} on:click={() => trackClick('codepen_journey')}>pushing pixels around</a>
       and
-      <a class="u-link" target="_blank" href={TWITTER_URL} on:click={() => trackClick('twitter_journey')}>share ideias</a> with the community.
+      <a class="u-link" rel="noreferrer" target="_blank" href={TWITTER_URL} on:click={() => trackClick('twitter_journey')}>share ideias</a> with the community.
     </p>
     <p class="p">
       Currently,
       <strong class="f-bold">I'm open for new challenges</strong> (remote!) where I can help people with lines of code.
       <!-- svelte-ignore -->
-      If you feel like we can excel together <a class="u-link" href={ EMAIL_URL } on:click={() => trackClick('email_journey')}>get it touch</a>!
+      If you feel like we can excel together <a class="u-link" rel="noreferrer" href={ EMAIL_URL } on:click={() => trackClick('email_journey')}>get it touch</a>!
     </p>
   </div>
 </section>

@@ -531,7 +531,7 @@
                 </span>
               </span>
               {#if url && lvlIndex == lvlActive}
-                <a target="_blank" class="pointText u-link" href={url}>{name}</a>
+                <a rel="noreferrer" target="_blank" class="pointText u-link" href={url}>{name}</a>
               {:else}
                 <span class="pointText">{name}</span>
               {/if}

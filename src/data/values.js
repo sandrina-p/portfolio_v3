@@ -17,7 +17,7 @@ export default {
   },
   ASK: {
     text: [
-      'Clear understanding and open communication are fundamental parts of my process: <strong>expect lots of questions</strong> - questions that help clear barriers, unpack assumptions and spark <a class="u-link" target="_blank" rel="noreferrer" href="https://en.wikipedia.org/wiki/Eureka_effect">eureka</a> moments.',
+      'Clear understanding and open communication are fundamental parts of my process: <strong>expect lots of questions</strong> - questions that help clear barriers, unpack assumptions and spark <a class="u-link" rel="noreferrer" target="_blank" href="https://en.wikipedia.org/wiki/Eureka_effect">eureka</a> moments.',
     ],
     width: '32rem',
     height: '32rem',

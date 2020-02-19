@@ -375,7 +375,7 @@
                   <svg aria-hidden="true" class="placeIcon {svg} u-svg" style="display: none;">
                     <use xlink:href="#{svg}" />
                   </svg>
-                  <a href={link} target="_blank"
+                  <a href={link} rel="noreferrer" target="_blank"
                     class="u-link"
                     on:click={() => sendGA('send', 'event', 'click_words', id)}>
                     {where}

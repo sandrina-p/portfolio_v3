@@ -38,7 +38,7 @@
   <ul aria-labelledby="a11y_sn">
     {#each contacts as { name, link }, i}
       <li class="item">
-        <a href={link} target="_blank"
+        <a href={link} rel="noreferrer" target="_blank"
           class="u-link link"
           on:click={() => sendGA('send', 'event', 'click_contacts', name)}
         >{name}</a>

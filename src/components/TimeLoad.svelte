@@ -15,7 +15,7 @@ onMount(() => {
 })
 </script>
 {#if time}
-  <span><a href={SITE_REPO} target="_blank" class="u-link">Code</a> loaded in {time}.</span>
+  <span><a href={SITE_REPO} rel="noreferrer" target="_blank" class="u-link">Code</a> loaded in {time}.</span>
 {:else}
-  <span>View <a href={SITE_REPO} target="_blank" class="u-link">Code</a>.</span>
+  <span>View <a href={SITE_REPO} rel="noreferrer" target="_blank" class="u-link">Code</a>.</span>
 {/if}
