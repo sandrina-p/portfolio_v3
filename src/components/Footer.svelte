@@ -604,4 +604,10 @@
     </div>
     <p class="credits">Made without coffee. <TimeLoad /></p>
   </div>
+  <h4 class="sr-only">Accessibility note for screen readers</h4>
+  <p class="sr-only">
+    This paragraph was written specially for those who are hearing this... that's right, you!
+    If you find anything weird of you feel lost around here, please reach out to me and I'll do my best to make it better for you.
+    The web is awesome and I believe everyone should be able to enjoy it, no matter what!
+  </p>
 </footer>
