@@ -34,8 +34,9 @@
       will-change: unset;
       transition:
         visibility 0ms 0ms,
-        opacity 1000ms 200ms cubic-bezier(0.17, 0.55, 0.24, 1.01),
-        transform 1000ms 200ms cubic-bezier(0.17, 0.55, 0.24, 1.01);
+        /* 400ms delay is important to wait for dabox animation to happen first, so the lag is reduced */
+        opacity 1000ms 400ms cubic-bezier(0.17, 0.55, 0.24, 1.01),
+        transform 1000ms 400ms cubic-bezier(0.17, 0.55, 0.24, 1.01);
 
       .gellyItself {
         animation-play-state: running;
