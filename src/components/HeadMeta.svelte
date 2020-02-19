@@ -1,5 +1,5 @@
 <script>
-  const site = 'https://sandrina-p-beta.netlify.com'
+  const site = 'https://sandrina-p.net'
   const title = 'Sandrina Pereira - UX Enginner';
   const description = `I'm a UX Enginner who helps to turn ideas into accessible experiences.`;
   const coverUrl = `${site}/cover_light.png`;
