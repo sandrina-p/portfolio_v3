@@ -37,7 +37,7 @@ module.exports = {
       },
     },
     'postcss-for': {},
-    'postcss-mixins': { mixins }, // QUESTION / REVIE - Why isn't this working...
+    'postcss-mixins': { mixins }, // QUESTION / REVIEW - Why isn't this working...
     'postcss-random': { round: true },
     'postcss-nested': {},
     'postcss-simple-vars': {
