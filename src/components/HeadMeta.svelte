@@ -1,5 +1,5 @@
 <script>
-  const site = 'https://sandrina-p.net'
+  const site = 'http://sandrina-p.net'
   const title = 'Sandrina Pereira - UX Enginner';
   const description = `I'm a UX Enginner who helps to turn ideas into accessible experiences.`;
   const coverUrl = `${site}/cover_light.png`;
@@ -32,6 +32,6 @@
   <meta property="og:image" content={ coverUrl }>
 
   <script type="application/ld+json">
-[{"@context":"http://schema.org","@type":"WebSite","url":"https://sandrina-p.net","name":"Sandrina Pereira, UX Engineer"}]
+[{"@context":"http://schema.org","@type":"WebSite","url":"http://sandrina-p.net","name":"Sandrina Pereira, UX Engineer"}]
   </script>
 </svelte:head>
