@@ -22,52 +22,48 @@
     %sapper.head%
   </head>
   <body>
-    <!-- Critical JS to be runned before Svelte is loaded. -->
-    <script>
-      // NOTE: Do not modify the DOM inside #sapper!
-      // Otherwise Svelte hydratation won't work properly.
-      
-      // -------
+<!-- Critical JS to be runned before Svelte is loaded. -->
+<!--
+  [1] - Set the default theme. Remaining logic at ToggleTheme.svelte
+  [2] - Set the default motion. Remaining logic at ToggleMotion.svelte
+  [3] - Detect current browser. Needed for some CSS animations otimizations.
+  DO NOT modify any DOM element inside #sapper! Otherwise Svelte hydratation won't work properly.
+-->
+<script>
+/*[1]*/if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) document.body.classList.add('dark');
+/*[2]*/var motionClass = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'jsMotionReduced' : 'jsMotionDefault'
+document.body.classList.add(motionClass, 'jsMotionInitial');
+/*[3]*/(function sb() {
+  var bs = {
+    jsChrome: /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor),
+    jsSafari: !!navigator.userAgent.match(/Version\/[\d\.]+.*Safari/),
+    jsIOS: /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream,
+    jsFF: !!navigator.userAgent.match(/firefox/i),
+  };
+  var m = Object.keys(bs).reduce(function (cl, b) {
+    if (bs[b]) {
+      cl.push(b);
+    }
+    return cl;
+  }, []);
 
-      // Set the prefered theme. Remaining logic at ToggleTheme.svelte
-      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.body.classList.add('dark');
-      }
-      // Set the prefered motion. Remaining logic at ToggleMotion.svelte
-      var motionClass = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'jsMotionReduced' : 'jsMotionDefault'
-      document.body.classList.add(motionClass, 'jsMotionInitial');
-      
+  for (var i = 0, l = m.length; i < l; i++) {
+    document.body.classList.add(m[i]);
+  }
+})();
+</script>
 
-      // Detect current browser. Needed for some CSS animations otimizations.
-      (function setBrowsers() {
-        var browsers = {
-          jsChrome: /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor),
-          jsSafari: !!navigator.userAgent.match(/Version\/[\d\.]+.*Safari/),
-          jsIOS: /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream,
-          jsFF: !!navigator.userAgent.match(/firefox/i),
-        };
-        var matched = Object.keys(browsers).reduce(function (classes, browser) {
-          if (browsers[browser]) {
-            classes.push(browser);
-            return classes;
-          } else {
-            return classes;
-          }
-        }, []);
+<!-- The application will be rendered inside this element,
+    because `src/client.js` references it -->
+<div id="sapper">%sapper.html%</div>
 
-        for (var i = 0; i < matched.length; i++) {
-          document.body.classList.add(matched[i]);
-        }
-      })();
-    </script>
-
-    <!-- The application will be rendered inside this element,
-	     because `src/client.js` references it -->
-    <div id="sapper">%sapper.html%</div>
-
-    <!-- Sapper creates a <script> tag containing `src/client.js`
-	     and anything else it needs to hydrate the app and
-	     initialise the router -->
-    %sapper.scripts%
-  </body>
+<!-- Sapper creates a <script> tag containing `src/client.js`
+    and anything else it needs to hydrate the app and
+    initialise the router -->
+%sapper.scripts%
+<script>
+console.log('%c👋 Oh, hi there, web lover!', 'color:#8e66dc; font-size: 1.5em;');
+console.log('%c✨ Like what you see? You may hire me! \n🐛 Found a bug? Please, let me know by e-mail, twitter, github issue... \n🛠 Btw, this is open-source: https://github.com/sandrina-p/s008080_2019. \n\n Let the debug begin!', 'font-size: 1.2em; line-height: 1.5');
+</script>
+</body>
 </html>

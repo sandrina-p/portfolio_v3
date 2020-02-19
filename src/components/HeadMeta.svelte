@@ -32,11 +32,6 @@
     <meta property="og:image" content={ imageCover }>
 
     <script type="application/ld+json">
-      [{
-        "@context":"http://schema.org",
-        "@type":"WebSite",
-        "url":"https://sandrina-p.net",
-        "name":"Sandrina Pereira, UX Engineer"
-      }]
+[{"@context":"http://schema.org","@type":"WebSite","url":"https://sandrina-p.net","name":"Sandrina Pereira, UX Engineer"}]
     </script>
 </svelte:head>

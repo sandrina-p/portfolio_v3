@@ -48,7 +48,7 @@ Well... let's say we are 80% done and the other 20% is taking 80% of the time.
 - [x] 🐛 Values - when scrolling to fast, clipping values are wrong.
 - [x] 🐛 Contacts - On Safari a horizonal scroll happens on elements with translate (not absolute). Refactor that.
 - [x] Verify slow loading
-- [ ] Bundle production mode
+- [x] Bundle production mode
 - [ ] Review test coverage
 - [x] Review Accessibility
 - [x] Review SEO

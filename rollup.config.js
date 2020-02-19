@@ -70,6 +70,9 @@ export default {
       !dev &&
         terser({
           module: true,
+          compress: {
+            drop_console: true,
+          },
         }),
     ],
 
