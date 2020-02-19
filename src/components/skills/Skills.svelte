@@ -161,13 +161,14 @@
     padding-top: 50vw;
     padding-bottom: 4rem;
     background-color: var(--bg_0);
-    transition: background-color 400ms cubic-bezier(0.19, 1, 0.22, 1);
+    transition: background-color 250ms cubic-bezier(0.19, 1, 0.22, 1);
 
     :global(.dark) & {
       --skills-bg: var(--bg_1);
     }
 
     &.uAppear {
+      transition: background-color 1000ms cubic-bezier(0.19, 1, 0.22, 1);
       background-color: #1b1b1b; /* var(--bg_invert) - manual fallback css variables */
       background-color: var(--skills-bg);
 
@@ -235,10 +236,10 @@
 
         .uAppear & {
           /* TIL: fake opacity without opacity */
-          text-shadow:
+          /* text-shadow:
             0 0 4.5rem var(--skills-bg),
             0 0 4.5rem var(--skills-bg),
-            0 0 3.5rem var(--colorTabSelected);
+            0 0 3.5rem var(--colorTabSelected); */
         }
       }
 

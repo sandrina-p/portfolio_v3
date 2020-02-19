@@ -8,7 +8,7 @@
 <svelte:head>
   <title>{title}</title>
   
-  <meta name="theme-color" content="#52e9d0" />
+  <meta name="theme-color" content="#9f76ff" />
       
   <meta name="keywords" content="UX Engineer, frontend developer, React, CSS, accessibility, usability">
   <meta name="description" content={description}>
