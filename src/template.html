@@ -30,7 +30,9 @@
   DO NOT modify any DOM element inside #sapper! Otherwise Svelte hydratation won't work properly.
 -->
 <script>
-/*[1]*/if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) document.body.classList.add('dark');
+/*[1]*/
+var theme = 'light'
+if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) { theme = 'dark'; document.body.classList.add('dark'); }
 /*[2]*/var motionClass = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'jsMotionReduced' : 'jsMotionDefault'
 document.body.classList.add(motionClass, 'jsMotionInitial');
 /*[3]*/(function sb() {
@@ -65,5 +67,12 @@ document.body.classList.add(motionClass, 'jsMotionInitial');
 console.log('%c👋 Oh, hi there, web lover!', 'color:#8e66dc; font-size: 1.5em;');
 console.log('%c✨ Like what you see? You may hire me! \n🐛 Found a bug? Please, let me know by e-mail, twitter, github issue... \n🛠 Btw, this is open-source: https://github.com/sandrina-p/s008080_2019. \n\n Let the debug begin!', 'font-size: 1.2em; line-height: 1.5');
 </script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script>
+  window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+  ga('create', 'UA-70069700-4', 'auto');
+  ga('send', 'event', 'settings', 'default', theme + '_' + motionClass);
+</script>
+<script async src="https://www.google-analytics.com/analytics.js"></script>
 </body>
 </html>

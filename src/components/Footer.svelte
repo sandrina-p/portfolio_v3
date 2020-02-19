@@ -576,7 +576,12 @@
 
   <div class="card" bind:this={ elCard } class:isCardOnView>
     <div class="cardChild" on:focusin={handleKeyboardFocus}>
-      <p class="text">Fell free to <a href={EMAIL_URL} target="_blank" class="u-link">say hi</a>!</p>
+      <p class="text">Fell free to
+        <a href={EMAIL_URL} target="_blank"
+          on:click={() => ga('send', 'event', 'click_contacts', 'email_hi')}
+          class="u-link"
+        >say hi</a>!
+      </p>
       <p class="text">
         <span class="textLine">It's easy to find me around,</span>
         <span class="textLine">specially if you are a web lover too.</span>

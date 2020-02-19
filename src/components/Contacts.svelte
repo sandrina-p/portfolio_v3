@@ -37,7 +37,10 @@
   <ul aria-labelledby="a11y_sn">
     {#each contacts as { name, link }, i}
       <li class="item">
-        <a href={link} target="_blank" class="u-link link">{name}</a>
+        <a href={link} target="_blank"
+          class="u-link link"
+          on:click={() => ga('send', 'event', 'click_contacts', name)}
+        >{name}</a>
       </li>
     {/each}
   </ul>

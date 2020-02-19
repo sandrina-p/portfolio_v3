@@ -367,14 +367,18 @@
             <span class="sr-only">Date:</span> {date}
           </span>
           <ul class="placeList">
-            {#each places as { type, where, link, svg }}
+            {#each places as { type, where, link, svg, id }}
               <li class="placeItem">
                 <span class="placeType">{type}</span>
                 <div class="placeLink">
                   <svg aria-hidden="true" class="placeIcon {svg} u-svg" style="display: none;">
                     <use xlink:href="#{svg}" />
                   </svg>
-                  <a href={link} target="_blank" class="u-link">{where}</a>
+                  <a href={link} target="_blank"
+                    class="u-link"
+                    on:click={() => ga('send', 'event', 'click_words', id)}>
+                    {where}
+                  </a>
                 </div>
               </li>
             {/each}

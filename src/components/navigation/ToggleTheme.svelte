@@ -11,6 +11,7 @@
   function setDark (isNowDark) {
     sunH = isNowDark ? 0 : 4;
     isDark = isNowDark;
+    ga('send', 'event', 'settings', 'toggle_dark_theme', isNowDark);
   }
 
   function toggleTheme() {

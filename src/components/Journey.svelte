@@ -119,6 +119,10 @@
     })
     animation.verify();
   }
+
+  function trackClick(action) {
+    ga('send', 'event', 'click_contacts', action)
+  }
 </script>
 
 <style>
@@ -293,12 +297,15 @@
     <p class="p">
       Create humanly accessible experiences within digital environments has been my meta-goal since I can remember.
       In my free time I have fun
-      <a class="u-link" target="_blank" href={CODEPEN_URL}>pushing pixels around</a> and <a class="u-link" target="_blank" href={TWITTER_URL}>share ideias</a> with the community.
+      <a class="u-link" target="_blank" href={CODEPEN_URL} on:click={() => trackClick('codepen_journey')}>pushing pixels around</a>
+      and
+      <a class="u-link" target="_blank" href={TWITTER_URL} on:click={() => trackClick('twitter_journey')}>share ideias</a> with the community.
     </p>
     <p class="p">
       Currently,
       <strong class="f-bold">I'm open for new challenges</strong> (remote!) where I can help people with lines of code.
-      If you feel like we can excel together <a class="u-link" href={ EMAIL_URL }>get it touch</a>!
+      <!-- svelte-ignore -->
+      If you feel like we can excel together <a class="u-link" href={ EMAIL_URL } on:click={() => trackClick('email_journey')}>get it touch</a>!
     </p>
   </div>
 </section>

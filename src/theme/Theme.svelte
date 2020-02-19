@@ -1,7 +1,4 @@
 <style global>
-  @define-mixin motionDefault { :global(.jsMotionDefault) & { @mixin-content; } }
-  @define-mixin motionReduced { :global(.jsMotionReduced) & { @mixin-content; } }
-
   :root {
     --text_0: #343434;
     --text_1: #6f6f6f;
@@ -45,7 +42,7 @@
     background-color: var(--bg_0);
     color: var(--text_0);
 
-    @mixin motionDefault {
+    &.jsMotionDefault {
       /* smooth transition between themes */
       transition: color 0.2s ease-out, background-color 0.2s ease-out;
     }
@@ -156,10 +153,18 @@
 
     &:hover {
       outline: none;
+      
     }
 
     @media (--md) {
       white-space: nowrap;
+
+      .jsMotionDefault &:hover {
+          &::before {
+            transition-duration: 250ms ease-in-out;
+            transform: scale(1, 1);
+          }
+      }
 
       &::before {
         content: '';
@@ -174,15 +179,8 @@
         transform-origin: 0 100%;
         z-index: -1;
 
-        @mixin motionDefault {
+        .jsMotionDefault & {
           transition: transform 75ms ease-out;
-          
-          &:hover {
-            &::before {
-              transition-duration: 250ms ease-in-out;
-              transform: scale(1, 1);
-            }
-          }
         }
       }
     }

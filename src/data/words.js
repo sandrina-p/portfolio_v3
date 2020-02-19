@@ -4,6 +4,7 @@ export default [
     date: 'Oct 19',
     places: [
       {
+        id: 'fe_smash',
         type: 'article',
         where: 'Smashing Magazine',
         svg: 'smash',
@@ -11,6 +12,7 @@ export default [
           'https://www.smashingmagazine.com/2019/10/frontend-developers-empower-designers-work/',
       },
       {
+        id: 'fe_zine',
         type: 'zine',
         where: 'Dev.to',
         svg: 'dev',
@@ -23,6 +25,7 @@ export default [
     date: 'Sep 19',
     places: [
       {
+        id: 'cssvar_tricks',
         type: 'article',
         where: 'CSS-Tricks',
         svg: 'css',
@@ -36,6 +39,7 @@ export default [
     date: 'Aug 19',
     places: [
       {
+        id: 'hash_zine',
         type: 'zine',
         where: 'Dev.to',
         svg: 'dev',
@@ -48,12 +52,14 @@ export default [
     date: 'Jun 19',
     places: [
       {
+        id: 'cr_smash',
         type: 'article',
         where: 'Smashing Magazine',
         svg: 'smash',
         link: 'https://www.smashingmagazine.com/2019/06/bringing-healthy-code-review-mindset/',
       },
       {
+        id: 'cr_ruhrjs',
         type: 'talk',
         where: 'RuhrJS 2019',
         svg: 'video',
@@ -61,33 +67,4 @@ export default [
       },
     ],
   },
-  // {
-  //   title: 'I’ve spoken at JSConf and so can you!',
-  //   places: [
-  //     {
-  //       type: 'article',
-  //       where: 'Medium',
-  //       svg: 'medium',
-  //       link: 'https://medium.com/@a_sandrina_p/ive-spoken-at-jsconf-and-so-can-you-a9d92c1439a6',
-  //     },
-  //   ],
-  // },
-  // {
-  //   title: 'How can javascript improve your CSS mixins',
-  //   places: [
-  //     {
-  //       type: 'talk',
-  //       where: 'JSConf Budapest 2017',
-  //       svg: 'video',
-  //       link: 'https://www.youtube.com/watch?v=UUl0BZgjm3o&t=563s',
-  //     },
-  //     {
-  //       type: 'article',
-  //       where: 'Medium',
-  //       svg: 'medium',
-  //       link:
-  //         'https://medium.com/@a_sandrina_p/powerup-your-css-mixins-by-writing-them-with-javascript-825b41728a55',
-  //     },
-  //   ],
-  // },
 ];

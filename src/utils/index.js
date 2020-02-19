@@ -64,6 +64,7 @@ export function scrollIntoView(
 ) {
   if (!['BUTTON', 'A'].includes(event.target.tagName)) {
     // Maybe it was something else?... Strange. Abort and report.
+    ga('send', 'event', 'ups', 'scrollIntoView', xx.className);
     console.warn('scrollIntoView ignored', event.target);
     return false;
   }

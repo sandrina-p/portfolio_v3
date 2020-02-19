@@ -13,6 +13,7 @@
   function setReduced (bool) {
     isReduced = bool;
     updateMotion({ isReduced })
+    ga('send', 'event', 'settings', 'toggle_reduced_motion', isReduced);
   }
 
   function toggleMotion() {

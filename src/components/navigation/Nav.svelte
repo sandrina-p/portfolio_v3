@@ -16,6 +16,7 @@
   let wasSelected = null; // when the link is clicked, trigger the fancyTransition
   let isRICScheduled = false;
   let isMenuOpen = false;
+  let navPath = 'intro' // navigation path to send to GA
 
 
   afterGeneralUpdate((prevState, state) => {
@@ -52,16 +53,30 @@
       // 1. set the scroll back to the beginning and... */
       window.scrollTo(0, 0);
       // 2.A reset/handle/adapt all animations around.
-      // or...!
+      // or...
       // 2.B Just refresh the page, and come back to this later (maybe never?)
+      // Maybe I could show a banner to gently warn about this and count 3 2 1 before refresh.
       // TODO/OPTIMIZE. [*CODE_SHAME*]
       console.warn('The page changed between mobile/desktop. Reloading...')
-      location.reload(); // Okay... this is the part I'm less proud off.
-      // Maybe I could show a banner to gently warn about this and count 3 2 1 before refresh.
+      // Okay... this is the part I'm less proud off.
+      ga('send', 'event', 'ups', 'reload', {
+        hitCallback: function() {
+          location.reload(); 
+        }
+      });
+      // in case ga doesn't fire fast enough.
+      setTimeout(() => { location.reload() }, 1000)
     } else {
       setNavigationData();
     }
   })
+
+  function updateSection(section) {
+    const newPath = navPath + '->' + section
+    ga('send', 'event', 'navigation', newPath);
+    updateGeneral({ pageCurrentSection: section });
+    navPath = newPath;
+  }
 
   function handleNavScroll() {
     if (isRICScheduled) { return; }
@@ -86,7 +101,7 @@
 
       const newCurrentSection = navPivots[i].name;
       if (newCurrentSection !== currentSection) {
-        updateGeneral({ pageCurrentSection: newCurrentSection });
+        updateSection(newCurrentSection)
       }
       break;
     }
@@ -179,7 +194,7 @@
       window.scrollTo(0, to);
 
       setTimeout(() => {
-        updateGeneral({ pageCurrentSection: pageSection });
+        updateSection(`${pageSection}_menu`);
       }, TIMEOUTS.NAV_SCROLLED);
 
     }, TIMEOUTS.NAV_ANIMATING);
