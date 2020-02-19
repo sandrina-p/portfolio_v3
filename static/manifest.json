@@ -1,29 +1,19 @@
 {
-	"background_color": "#f8f3ef",
-	"theme_color": "#9b78de",
+	"background_color": "#424043",
+	"theme_color": "#9f76ff",
 	"name": "Sandrina Pereira - UX Engineer",
 	"short_name": "sandrina-p",
 	"display": "minimal-ui",
 	"start_url": "/",
 	"icons": [
 		{
-			"src": "favicon16.png",
-			"sizes": "16x16",
+			"src": "favicon96.png",
+			"sizes": "96x96",
 			"type": "image/png"
 		},
 		{
-			"src": "favicon32.png",
-			"sizes": "32x32",
-			"type": "image/png"
-		},
-		{
-			"src": "favicon64.png",
-			"sizes": "64x64",
-			"type": "image/png"
-		},
-		{
-			"src": "favicon180.png",
-			"sizes": "180x180",
+			"src": "favicon192.png",
+			"sizes": "192x192",
 			"type": "image/png"
 		},
 		{
