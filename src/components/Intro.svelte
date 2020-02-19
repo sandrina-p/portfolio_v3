@@ -4,7 +4,7 @@
   import CircleComposition from './CircleComposition.svelte';
   import { TIMEOUTS } from '../utils';
 
-  const intro = 'Oh, hi there!';
+  const intro = `Hi, it's Sandrina`;
   let hasntScrollYet = true
 
   onMount(() => {
@@ -15,7 +15,7 @@
 </script>
 
 <style>
-  $titleChars: 13;
+  $titleChars: 17;
   $titleTempo: 200ms; 
   $circleSizeHalf: 10rem;
 
@@ -23,7 +23,7 @@
   @define-mixin motionReduced { :global(.jsMotionReduced) & { @mixin-content; } }
 
   .intro {
-    padding: calc($layout-margin*2) $layout-margin 0;
+    padding: calc($layout-margin*3) $layout-margin 0;
     min-height: var(--w-height);
     display: flex;
     flex-direction: column;
@@ -38,9 +38,13 @@
   }
 
   .title {
-    /* TODO - centralize this * 0.8 thing */
+    /* OPTMIZE - centralize this * 0.8 thing */
     font-size: calc($font-heading_2 * 0.8);
     margin-bottom: $spacer-M;
+
+    @media(--max-xs) {
+      font-size: calc($font-heading_2 * 0.7);
+    }
 
     @media(--md) {
       font-size: $font-heading_2;
@@ -54,8 +58,8 @@
       opacity: 0;
       animation: laserOn 500ms steps(8) forwards;
   
-      /* 13 $titleChars */
-      @for $i from 1 to 13 {
+      /* 17 - $titleChars */
+      @for $i from 1 to 17 {
         $titleTempo: 200ms;
 
         &:nth-of-type($i) {
@@ -76,7 +80,7 @@
 
   .text {
     font-size: $font-M;
-    max-width: 32rem;
+    max-width: 28rem;
     opacity: 0;
     animation: laserOn 750ms calc($titleTempo + 50ms * $titleChars) steps(8) forwards;
 
@@ -92,7 +96,7 @@
     margin-top: $spacer-M;
     position: relative;
     opacity: 0;
-    animation: fadeIn 1000ms calc($titleTempo + 50ms * $titleChars) forwards;
+    animation: fadeIn 1000ms calc($titleTempo + 50ms * ($titleChars+15)) forwards;
     
     @mixin motionReduced { animation-delay: -9s; }
   }
@@ -116,12 +120,8 @@
     }
 
     .text {
-      max-width: 42rem;
+      max-width: 35rem;
       font-size: $font-L2;
-      
-      &:nth-of-type(2) {
-        max-width: 31rem;
-      }
     }
 
     .animation {
@@ -138,12 +138,8 @@
       {/each}
     </h1>
     <p class="text">
-      Let me introduce myself. I love to help
-      turning ideas into accessible experiences.
-    </p>
-    <p class="text">
-      My name is Sandrina Pereira
-      and I'm a UX Engineer.
+      I'm a UX Engineer who helps to turn ideas
+      into accessible experiences.
     </p>
   </div>
   <div class="animation">

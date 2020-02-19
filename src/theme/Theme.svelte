@@ -17,8 +17,8 @@
     --primary_1_smooth: #e9e1f8;
     --primary_1_sat: #8e66dc; /* better for small text */
     --primary_1_stronger: #8c00ff;
-    --morph_color: rgba(109, 7, 255, 0.1);
-    --morph_total: #bfa1f8; /* visual effect when all circles are overlapping */
+    --morph_color: rgba(172, 105, 255, 0.24);
+    --morph_total: #c596ff; /* visual effect when all circles are overlapping */
     --primary_2: #52e9d0;
     --primary_3: #dfb948;
     --primary_4: #ff9d9d;

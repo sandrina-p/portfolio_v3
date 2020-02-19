@@ -1,18 +1,33 @@
 {
-	"background_color": "#ffffff",
-	"theme_color": "#333333",
-	"name": "TODO",
-	"short_name": "TODO",
+	"background_color": "#f8f3ef",
+	"theme_color": "#9b78de",
+	"name": "Sandrina Pereira - UX Engineer",
+	"short_name": "sandrina-p",
 	"display": "minimal-ui",
 	"start_url": "/",
 	"icons": [
 		{
-			"src": "logo-192.png",
-			"sizes": "192x192",
+			"src": "favicon16.png",
+			"sizes": "16x16",
 			"type": "image/png"
 		},
 		{
-			"src": "logo-512.png",
+			"src": "favicon32.png",
+			"sizes": "32x32",
+			"type": "image/png"
+		},
+		{
+			"src": "favicon64.png",
+			"sizes": "64x64",
+			"type": "image/png"
+		},
+		{
+			"src": "favicon180.png",
+			"sizes": "180x180",
+			"type": "image/png"
+		},
+		{
+			"src": "favicon512.png",
 			"sizes": "512x512",
 			"type": "image/png"
 		}

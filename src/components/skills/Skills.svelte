@@ -92,7 +92,7 @@
       observer.disconnect();
       isObserving = false;
       progressN = 1;
-      progressY = '0px'
+      progressY = '0px';
       isVisible = 1;
     }
 

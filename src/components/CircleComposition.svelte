@@ -11,7 +11,7 @@
   .container {
     --size: 17rem;
     --speed: 4.5s;
-    --delay: 150ms;
+    --delay: 200ms;
     --delay-1stframe: 500ms;
     --ease: cubic-bezier(0.48, 0, 0.48, 1);
     --scaleStart: 0.8;
@@ -101,7 +101,7 @@
 
       :global(.jsMotionReduced.jsMotionInitial) & {
         /* first render on the perfect spot to be pretty */
-        animation-delay: calc((var(--speed) * -1) - (-$i * var(--delay)) - 2.7s);
+        animation-delay: calc((var(--speed) * -1) - (-$i * var(--delay)) - 2.6s);
       }
     }
   }

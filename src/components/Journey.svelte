@@ -120,7 +120,7 @@
 </script>
 
 <style>
-  $sectionWidth: 48rem;
+  $sectionWidth: 50rem;
   $headerHeight: 25rem; /* space for text even when rotated */
   $maskWidth: 120vw;
   $paddingTop: 25vh;

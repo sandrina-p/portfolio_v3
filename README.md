@@ -51,9 +51,9 @@ Well... let's say we are 80% done and the other 20% is taking 80% of the time.
 - [ ] Bundle production mode
 - [ ] Review test coverage
 - [x] Review Accessibility
-- [ ] Review SEO (Missing favicon)
+- [x] Review SEO
 - [x] Review HTML
-- [ ] Review manifest
+- [x] Review manifest
 - [ ] Review Lighthouse
 - [x] Review animations performance
 - [ ] Add GA Tracking (for error tracking)
