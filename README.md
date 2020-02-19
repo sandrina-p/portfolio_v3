@@ -1,4 +1,4 @@
-### Oh, hi there!
+# Oh, hi there!
 
 I'm a UX Engineer who helps to turn ideas into accessible experiences.
 
@@ -22,5 +22,5 @@ npm run dev # or yarn dev
 - **Deploy**: [Netlify](https://www.netlify.com/)
 
 
-## Is something missing or wrong?
-Feel free to open an issue or let me know my any other medium (e-mail, twitter, etc...). I'd appreciate! 🙌
+## Is there something missing or wrong?
+Feel free to open an issue or let me know by any other medium (e-mail, twitter, etc...). I'd appreciate! 🙌
