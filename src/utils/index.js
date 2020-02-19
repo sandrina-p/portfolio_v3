@@ -1,9 +1,11 @@
+// Get the value within a range. ex: getInLimit(10, 3, 7) => 7
 export function getInLimit(value, min, max) {
   const theValue = Math.max(min, Math.min(value, max));
 
   return Number(theValue.toFixed(3));
 }
 
+// Util to detect Intersection Observer direction (horizontal scroll)
 export function getIOstatusHorizontal(entry) {
   const threshold = 5; // sometimes edge isn't exactly 0 when triggered.
 
@@ -25,6 +27,7 @@ export function getIOstatusHorizontal(entry) {
   }
 }
 
+// Same as before but with vertical scroll.
 export function getIOstatusVertical(entry) {
   const threshold = 5; // sometimes edge isn't exactly 0 when triggered.
 

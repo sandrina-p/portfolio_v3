@@ -1,6 +1,7 @@
 <script>
   import { onMount, beforeUpdate, afterUpdate } from 'svelte';
   import smoothscroll from 'smoothscroll-polyfill';
+
   import Intro from '../components/Intro.svelte';
   import IntroTip from '../components/IntroTip.svelte';
   import Nav from '../components/navigation/Nav.svelte';
@@ -10,6 +11,7 @@
   import Journey from '../components/Journey.svelte';
   import Footer from '../components/Footer.svelte';
   import SvgSprite from '../components/SvgSprite.svelte';
+  
   import { getInLimit, setRIC, focusOnlyWhenNeeded } from '../utils';
   import { matchMq, initResponsive, afterResponsiveUpdate } from '../stores/responsive.js';
   import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
@@ -37,37 +39,12 @@
     }
   });
 
-  beforeUpdate(() => {
-    if (!$matchMq.md || checkSpeed && $strGeneral.pageCurrentSection !== 'intro') {
-      scrollSpeedCurrent = 0;
-      scrollSpeedCached = null; // prevent wrong speed when using nav links.
-      checkSpeed = false;
-    }
-
-    if ($matchMq.md && !checkSpeed && $strGeneral.pageCurrentSection === 'intro') {
-      scrollSpeedCurrent = 0;
-      checkSpeed = true;
-      monitorizeScrollSpeed();
-    }
-  });
-
   async function loadValuesHorizon() {
     const module = await import('../components/values/ValuesHorizon.svelte');
     ValuesHorizon = module.default;
 
-    monitorizeScrollSpeed();
     window.addEventListener('scroll', handleIndexScroll);
     updateGeneral({ isValuesLoaded: true });
-  }
-
-  function monitorizeScrollSpeed() {
-    // REVIEW - Keep or delete this?
-    // scrollSpeedCurrent = scrollSpeedCached ? scrollSpeedCached - scrollY : 0;
-    // scrollSpeedCached = scrollY;
-
-    // if (checkSpeed) {
-    //   requestAnimationFrame(monitorizeScrollSpeed);
-    // }
   }
 
   function handleIndexScroll() {

@@ -3,8 +3,6 @@
   @define-mixin motionReduced { :global(.jsMotionReduced) & { @mixin-content; } }
 
   :root {
-    --w-height: 100vw; /* JS will change this */
-
     --text_0: #343434;
     --text_1: #6f6f6f;
     --text_invert: #e2e2e2; /* similar to bg but lighter */
@@ -18,7 +16,7 @@
     --primary_1_sat: #8e66dc; /* better for small text */
     --primary_1_stronger: #8c00ff;
     --morph_color: rgba(172, 105, 255, 0.24);
-    --morph_total: #c596ff; /* visual effect when all circles are overlapping */
+    --morph_total: #c28ffc; /* visual effect when all circles are overlapping */
     --primary_2: #52e9d0;
     --primary_3: #dfb948;
     --primary_4: #ff9d9d;
@@ -34,7 +32,7 @@
     --primary_1_sat: #bd99ff;
     --primary_1_smooth: #514371;
     --morph_color: rgba(159, 117, 255, 0.19);
-    --morph_total: #624c90;
+    --morph_total: #8062be;
   }
 
   /* ************************************ */
@@ -46,6 +44,7 @@
   body {
     background-color: var(--bg_0);
     color: var(--text_0);
+
     @mixin motionDefault {
       /* smooth transition between themes */
       transition: color 0.2s ease-out, background-color 0.2s ease-out;
@@ -76,7 +75,7 @@
   }
 
   [tabindex="-1"]:focus {
-    outline: none; /* doesn't affect negatively SR */
+    outline: none; /* it doesn't affect negatively Screen Readers */
   }
 
   /* ------ Text highlight ------ */
@@ -100,8 +99,8 @@
     border: 0;
   }
 
-  /** Font related **/
-  .f-mono {
+  /* ****** Font related ****** */
+  .f-title {
     line-height: 1.2;
     font-weight: 500;
   }
@@ -110,14 +109,11 @@
     font-weight: 500;
   }
 
-  /* Animation to show up... */
+  /* Animation to show up...
+  OPTIMIZE - centralize all "fadeins" around to use a unique global class */
   .uAppear {
     &-0,
-    &-1,
-    &-2,
-    &-3,
-    &-4,
-    &-5 {
+    &-1 {
       opacity: 1;
       transition: opacity 200ms ease-in;
 
@@ -131,14 +127,13 @@
       }
     }
 
-    /* OPTIMIZE - Use variables instead! */
     &-0 {
       .uAppear & {
-        transition-delay: 100ms;
+        transition-delay: 50ms;
       }
     }
 
-    &-3 {
+    &-1 {
       .uAppear & {
         transition-delay: 200ms;
       }
@@ -193,8 +188,8 @@
     }
   }
   
-  .u-carousel { /* only mobile REVIEW - should delete this? */
-    @media (--max-md) {
+  .u-carousel {
+    @media (--max-md) { /* only used on mobile */
       width: 100vw;
       display: flex;
       overflow-x: auto;

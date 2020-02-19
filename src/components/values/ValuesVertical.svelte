@@ -270,7 +270,7 @@
   <div class="part pDots">
     <Dots pattern='B' isActive={['MORPH', 'DOTS', 'ASK'].includes(currentPart)} />
     <div class="pContent" data-part="DOTS" bind:this={elDots}>
-      <h3 class="f-mono title">Let's connect the dots</h3>
+      <h3 class="f-title title">Let's connect the dots</h3>
       <span class="legend" aria-hidden="true" on:click={() => focusBox(elDots)}>Know more</span>
       <p class="pBox">
         <span class="pBox-text">
@@ -287,7 +287,7 @@
   <div class="part pAsk">
     <Gelly isActive={ currentPart === 'ASK' }/>
     <div class="pContent" data-part="ASK" bind:this={elAsk}>
-      <h3 class="f-mono title">
+      <h3 class="f-title title">
         <span class="title-line">Ask why</span>
         <span class="title-line">Understand how</span>
       </h3>
@@ -313,7 +313,7 @@
             ? 3
             : currentPart === 'FINALLE' ? 4 : -1 } />
     <div class="pContent" data-part="WOLF" bind:this={elWolf} >
-      <h3 class="f-mono title">
+      <h3 class="f-title title">
         <span class="title-part">
           <span class="title-line">From a</span>
           <span class="title-line">solo act</span>
@@ -338,7 +338,7 @@
 
   <div class="part pPeople" id="nav_valuesEnd">
     <div class="pContent" data-part="PEOPLE" bind:this={elPeople}>
-      <h3 class="f-mono title">
+      <h3 class="f-title title">
         <span class="title-part">Progress over</span> <span class="title-part">processes</span>
       </h3>
       <span class="legend" aria-hidden="true" on:click={() => focusBox(elPeople)}>Know more</span>

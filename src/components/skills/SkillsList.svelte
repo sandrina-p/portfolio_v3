@@ -515,7 +515,7 @@
         style="--colorType: {colorTypes[lvlIndex]}"
         aria-hidden={lvlIndex != lvlActive}
       >
-        <h3 class="f-mono skillsTitle" id={`skill-${lvlIndex}`}>
+        <h3 class="f-title skillsTitle" id={`skill-${lvlIndex}`}>
           {skills.lists[lvlIndex]}
         </h3>
         <ul aria-labelledby={`skill-${lvlIndex}`}>

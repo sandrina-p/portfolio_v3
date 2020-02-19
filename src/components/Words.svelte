@@ -349,7 +349,7 @@
   data-section-offset-h="50">
   <div class="content">
     <header class="header">
-      <h2 class="f-mono headerTitle" data-io="heading">
+      <h2 class="f-title headerTitle" data-io="heading">
         <span class="headerTitle-part">I've been</span>
         <span
           class="headerTitle-part">
@@ -362,7 +362,7 @@
       {#each words as { title, date, places }, index}
         <li
           class="cardItem">
-          <h3 class="f-mono title">{title}</h3>
+          <h3 class="f-title title">{title}</h3>
           <span class="date">
             <span class="sr-only">Date:</span> {date}
           </span>

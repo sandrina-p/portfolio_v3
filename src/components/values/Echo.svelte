@@ -86,7 +86,7 @@ export let activeLevel;
       }
 
       &:nth-child(1) { --delayOpacity: 250ms }
-      /* a small delay to "popup effect" - TODO grow effect. */
+      /* a small delay to "popup effect" */
       &:nth-child(2) { --delayOpacity: 1ms }
       &:nth-child(3) { --delayOpacity: 250ms }
 

@@ -56,7 +56,7 @@
   });
 
   afterMotionUpdate((prevState, state) => {
-    // Same as Skills.svelte. Maybe we could abstract it?
+    // OPTIMIZE - Same as Skills and Journey. Maybe it could be abstracted
     if(!$strGeneral.isReady) { return }
 
     if(!prevState.isReduced && state.isReduced) {
@@ -194,7 +194,7 @@
         const boundingClientRectCard = elCard.getBoundingClientRect()
         const boundingClientRectFooter = elFooter.getBoundingClientRect()
 
-        // Verify card first, so handleFooterScroll is runned with the correc value of isCardOnView
+        // Verify card first, so handleFooterScroll is runned with the correct value of isCardOnView
         watchCard([{
           isIntersecting: boundingClientRectCard.top < wHeight,
           boundingClientRect: boundingClientRectCard
@@ -250,7 +250,6 @@
     line-height: 1em;
     font-size: calc($font-heading_3 * 0.6);
     z-index: 2; /* above card */
-    /* REVIEW/TODO make this pixel perfect */
     margin-bottom: -1.5em; /* fake position: absolute for sticky, 2em = 2 lines */
 
     &-part {
@@ -568,7 +567,7 @@
   data-section-offset-h="175"
   style="height: {footerHeight === 'auto' ? footerHeight : `${footerHeight}px`}; --thingSize: {thingProgress}; --titleProgress: {titleProgress}; --cardScale: {cardScale};">
  
-  <h3 class="title f-mono">
+  <h3 class="title f-title">
     <span class="title-content">
       <span class="title-part">Well...</span>
       <span class="title-part">That's all for now!</span>

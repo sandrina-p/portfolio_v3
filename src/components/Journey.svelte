@@ -34,7 +34,7 @@
   });
 
   afterMotionUpdate((prevState, state) => {
-    // Same as Skills.svelte. Maybe we could abstract it?
+    // Same as Skills.svelte. Maybe it could be abstracted
     if(!$strGeneral.isReady) { return }
 
     if(!prevState.isReduced && state.isReduced) {
@@ -144,7 +144,6 @@
     margin-bottom: -4rem;
 
     &::before {
-      /* REVIEW/BUG pixel perfect - blacks are not rendered the same! ... */
       content: '';
       position: absolute;
       top: calc($paddingTop * -1);
@@ -272,7 +271,7 @@
   data-section-offset-v="45"
   data-section-offset-h="15"
   on:focusin={handleKeyboardFocus}>
-  <h2 class="f-mono header" bind:this={elHeader}>
+  <h2 class="f-title header" bind:this={elHeader}>
     <span class="sliding">
       <span class="slidingRotate">
         <span class="headerSlide">

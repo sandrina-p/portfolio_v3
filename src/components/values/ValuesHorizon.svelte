@@ -2,7 +2,6 @@
   import { onMount, afterUpdate, onDestroy } from 'svelte';
   import { getInLimit, getIOstatusHorizontal, scrollIntoView } from '../../utils';
   import { _window, afterResponsiveUpdate } from '../../stores/responsive.js';
-  import { strDabox, updateDabox } from '../../stores/dabox.js';
   import { updateCircle } from '../../stores/circle.js';
   import { strGeneral, updateGeneral, afterGeneralUpdate } from '../../stores/general.js';
   import Dots from './Dots.svelte';
@@ -24,7 +23,7 @@
   let scrollY = 0;
 
   // ::: Morphose - a circle to a square (dabox)
-  // REVIEW - Maybe this shouldn't be here it's only logic and between Intro and Values
+  // REVIEW - Maybe this could be a diff component. It's only logic and between Intro and Values
   const size = 200; // OPTMIZE - get real CSS Variables from circle
   const distance = 300;
   const scaleStart = 0.8;
@@ -34,15 +33,19 @@
   const morphCircleRatio = 2; // circle progression based on scroll. (it needs to scroll 20px to change 10px)
   const morphBoxRatio = 200; // nr of scrolled pixels needed to change border-radius from circle to square
   let isMorphing = true;
-
+  let strDabox = {
+    // isActive: Boolean - true when dabox is visible (after circle turns into a square),
+    // progress: Number (0 to 1) - where morph is going on
+  }
   $: offLimit = $_window && wInnerWidthHalf + (distance * morphCircleRatio) + morphBoxRatio;
   $: morphZone = distance && wInnerWidthHalf + distance + size; // size serves as a "gap" to avoid a direct morph from primary to bg when scrolling quickly though it. 
   $: morphStyle = morphZone && `width: ${morphZone}px`;
+  
 
   $: daboxStyle =
-    ($strDabox.progress
-      ? `--radius: ${currentPart === 'MORPH' ? 50 - $strDabox.progress * 50 + '%' : '3px'};` +
-        `--opacity: ${1 - $strDabox.progress};`
+    (strDabox.progress
+      ? `--radius: ${currentPart === 'MORPH' ? 50 - strDabox.progress * 50 + '%' : '3px'};` +
+        `--opacity: ${1 - strDabox.progress};`
       : '') +
     `--width: var(--width-${currentPart});` +
     `--height: var(--height-${currentPart});`;
@@ -111,7 +114,7 @@
     const progress = distance - scrollY / morphCircleRatio;
     const morphProgress = (progress * -1) / morphBoxRatio;
 
-    if (morphProgress > 1 && $strDabox.progress === 1) {
+    if (morphProgress > 1 && strDabox.progress === 1) {
       // metamorphose is completed, there's no point in calculating more stuff....
       isMorphing = false;
       return false;
@@ -135,10 +138,11 @@
         }
       )
     });
-    updateDabox({
+
+    strDabox = {
       isActive: isCirclePaused,
       progress: daboxProgress,
-    });
+    };
   }
 
   function initAnimations() {
@@ -284,7 +288,6 @@
     opacity: 0;
     border-radius: var(--radius, 50%);
     transform: translate(calc(var(--scrollY) - 50%), -50%);
-    /* TODO - speed up this when going to FINALLE */
     /* REVIEW - How could motionReduced behave here? */
     transition:
       width 400ms ease-in-out,
@@ -516,7 +519,7 @@
 </style>
 
 <!--
-  TODO - Merge "Values" variants, so both consume the same HTML. Svelte doesn't make it easy because of classes.
+  TODO - Merge "Values" variants, so both consume the same HTML. Svelte doesn't make it easy because of "scoped" classes.
   
   OPTIMIZE/TODO::
   - Looks like I completely ignored SUIT/BEM conventions ._. -->
@@ -531,10 +534,9 @@
   <h2 class="sr-only">Values</h2>
 
   <div class="dabox"
-    class:isActive={$strDabox.isActive}
+    class:isActive={strDabox.isActive}
     class:isMorphing
     style={daboxStyle} />
-    <!-- class:isGelly={currentPart === 'ASK' } -->
 
   <div class="part pMorph" style={morphStyle}>
     <Dots pattern='A' isActive={isOnStage && ['MORPH', 'DOTS'].includes(currentPart)} />
@@ -542,7 +544,7 @@
 
   <div class="part pDots">
     <Dots pattern='B' isActive={isOnStage && ['DOTS', 'ASK'].includes(currentPart)} />
-    <h3 class="f-mono title" data-part="DOTS" bind:this={elDots}>Let's connect the dots</h3>
+    <h3 class="f-title title" data-part="DOTS" bind:this={elDots}>Let's connect the dots</h3>
     <p class="pBox {getBoxClass('DOTS')}">
       <span class="pBox-text">
         {#each valuesData.DOTS.text as paragraph}
@@ -556,7 +558,7 @@
 
   <div class="part pAsk" on:focusin={ handleKeyboardFocus }>
     <Gelly isActive={ currentPart === 'ASK' }/>
-    <h3 class="f-mono title" data-part="ASK" bind:this={elAsk} style={styleClip.ASK}>
+    <h3 class="f-title title" data-part="ASK" bind:this={elAsk} style={styleClip.ASK}>
       <span class="title-part">Ask why</span>
       <span class="title-part">Understand how</span>
     </h3>
@@ -579,7 +581,7 @@
           : currentPart === 'PEOPLE'
             ? 3
             : currentPart === 'FINALLE' ? 4 : -1 } /> <!-- OPTIMIZE: Find a more readable way for this nes-nes-ted ternary -->
-    <h3 class="f-mono title" data-part="WOLF" bind:this={elWolf} style={styleClip.WOLF}>
+    <h3 class="f-title title" data-part="WOLF" bind:this={elWolf} style={styleClip.WOLF}>
       <span class="title-part">
         <span class="title-line">From a</span>
         <span class="title-line">solo act</span>
@@ -601,7 +603,7 @@
   </div>
 
   <div class="part pPeople" id="nav_valuesEnd">
-    <h3 class="f-mono title" data-part="PEOPLE" bind:this={elPeople} style={styleClip.PEOPLE}>
+    <h3 class="f-title title" data-part="PEOPLE" bind:this={elPeople} style={styleClip.PEOPLE}>
       <span class="title-part">Progress over</span> <span class="title-part">processes</span>
     </h3>
     <p class="pBox {getBoxClass('PEOPLE')}">

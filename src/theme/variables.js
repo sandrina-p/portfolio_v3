@@ -12,7 +12,7 @@ module.exports = {
   'spacer-LM': '4.8rem',
   'spacer-XL': '6.4rem',
 
-  // Typography
+  // Typography - REVIEW - so many....
   'font-S': '1.4rem',
   'font-M': '1.6rem',
   'font-L': '1.8rem',

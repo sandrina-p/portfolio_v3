@@ -7,6 +7,9 @@ export function createStore(initialState = {}) {
   let store = writable(initialState);
   let state;
   let afterUpdateCb = [];
+
+  // Bug: If the component unmounts, this callback will still run.
+  // Not problematic on this project, but to open source this, it needs to be fixed.
   const afterUpdate = fn => afterUpdateCb.push(fn);
 
   const unsubscribe = store.subscribe(value => {

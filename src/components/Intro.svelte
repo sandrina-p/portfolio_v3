@@ -24,7 +24,7 @@
 
   .intro {
     padding: calc($layout-margin*3) $layout-margin 0;
-    min-height: var(--w-height);
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -70,12 +70,13 @@
           }
         }
       }
+    }
 
+    &-char {
       @mixin motionReduced {
         animation-delay: -99s !important;
       }
     }
-
   }
 
   .text {
@@ -132,7 +133,7 @@
 
 <div class="intro" id="intro" tabindex="-1">
   <div class="content">
-    <h1 class="f-mono title" aria-label={intro}>
+    <h1 class="f-title title" aria-label={intro}>
       {#each intro.split('') as char}
         <span class="title-char">{char}</span>
       {/each}

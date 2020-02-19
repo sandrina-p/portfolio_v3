@@ -39,7 +39,7 @@
   });
 
   afterMotionUpdate((prevState, state) => {
-    // Same as Journey.svelte. Maybe we could abstract it?
+    // Same as Journey.svelte. Maybe it could be abstracted
     if(!$strGeneral.isReady) { return }
 
     if(!prevState.isReduced && state.isReduced) {
@@ -261,7 +261,7 @@
   <header class="header"
     style="--colorTabSelected: {colorType};"
     bind:this={elTitle}>
-    <h2 class="headerTitle f-mono"
+    <h2 class="headerTitle f-title"
       style='--progressN: {progressN}; --progressY: {progressY}'>
       skills
     </h2>
