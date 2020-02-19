@@ -1,5 +1,7 @@
 <script>
   import { onMount } from 'svelte';
+  import { sendGA } from '../../utils';
+
   let isDark = false;
   let sunH = 4;
 
@@ -11,7 +13,7 @@
   function setDark (isNowDark) {
     sunH = isNowDark ? 0 : 4;
     isDark = isNowDark;
-    ga('send', 'event', 'settings', 'toggle_dark_theme', isNowDark);
+    sendGA('send', 'event', 'settings', 'toggle_dark_theme', isNowDark);
   }
 
   function toggleTheme() {

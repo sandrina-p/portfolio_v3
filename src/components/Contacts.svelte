@@ -1,7 +1,8 @@
 <script>
   import { EMAIL_URL } from '../data/misc.js';
+  import { sendGA } from '../utils';
 
-  let contacts = [
+  const contacts = [
     {
       name: 'dev.to',
       link: 'http://dev.to/a_sandrina_p',
@@ -39,7 +40,7 @@
       <li class="item">
         <a href={link} target="_blank"
           class="u-link link"
-          on:click={() => ga('send', 'event', 'click_contacts', name)}
+          on:click={() => sendGA('send', 'event', 'click_contacts', name)}
         >{name}</a>
       </li>
     {/each}

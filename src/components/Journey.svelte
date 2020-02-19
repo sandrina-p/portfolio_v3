@@ -3,7 +3,7 @@
   import { _window, afterResponsiveUpdate } from '../stores/responsive.js';
   import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
   import { strMotion, afterMotionUpdate } from '../stores/motion.js';
-  import { getInLimit, scrollIntoView } from '../utils';
+  import { getInLimit, scrollIntoView, sendGA } from '../utils';
   import { EMAIL_URL, CODEPEN_URL, TWITTER_URL } from '../data/misc.js';
 
   let elHeader;
@@ -121,7 +121,7 @@
   }
 
   function trackClick(action) {
-    ga('send', 'event', 'click_contacts', action)
+    sendGA('send', 'event', 'click_contacts', action)
   }
 </script>
 

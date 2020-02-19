@@ -4,7 +4,7 @@
   import throttle from 'lodash/throttle';
   import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
   import { strMotion, afterMotionUpdate } from '../stores/motion.js';
-  import { getInLimit, scrollIntoView } from '../utils';
+  import { getInLimit, scrollIntoView, sendGA } from '../utils';
   import { EMAIL_URL } from '../data/misc.js';
   import Contacts from './Contacts.svelte';
   import TimeLoad from './TimeLoad.svelte';
@@ -578,7 +578,7 @@
     <div class="cardChild" on:focusin={handleKeyboardFocus}>
       <p class="text">Fell free to
         <a href={EMAIL_URL} target="_blank"
-          on:click={() => ga('send', 'event', 'click_contacts', 'email_hi')}
+          on:click={() => sendGA('send', 'event', 'click_contacts', 'email_hi')}
           class="u-link"
         >say hi</a>!
       </p>

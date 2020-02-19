@@ -1,6 +1,7 @@
 <script>
   import { onMount, afterUpdate } from 'svelte';
   import words from '../data/words.js';
+  import { sendGA } from '../utils';
   import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
   const options = ['sharing', 'writing', 'talking'];
   const ledText = options[0];
@@ -376,7 +377,7 @@
                   </svg>
                   <a href={link} target="_blank"
                     class="u-link"
-                    on:click={() => ga('send', 'event', 'click_words', id)}>
+                    on:click={() => sendGA('send', 'event', 'click_words', id)}>
                     {where}
                   </a>
                 </div>

@@ -1,5 +1,6 @@
 <script>
   import { onMount } from 'svelte';
+  import { sendGA } from '../../utils';
   import { updateMotion } from '../../stores/motion.js';
 
   let isReduced = false;
@@ -13,7 +14,7 @@
   function setReduced (bool) {
     isReduced = bool;
     updateMotion({ isReduced })
-    ga('send', 'event', 'settings', 'toggle_reduced_motion', isReduced);
+    sendGA('send', 'event', 'settings', 'toggle_reduced_motion', isReduced);
   }
 
   function toggleMotion() {

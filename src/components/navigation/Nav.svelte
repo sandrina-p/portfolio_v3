@@ -5,9 +5,10 @@
   import { afterMotionUpdate } from '../../stores/motion.js';
   import ToggleTheme from './ToggleTheme.svelte';
   import ToggleMotion from './ToggleMotion.svelte';
-  import { TIMEOUTS } from '../../utils';
+  import { TIMEOUTS, sendGA } from '../../utils';
 
-	const dispatch = createEventDispatcher();
+  const dispatch = createEventDispatcher();
+  const sectionsId = $strGeneral.pageSectionsId || {};
   $: currentSection = $strGeneral.pageCurrentSection;
   let pageSections = $strGeneral.pageSections;
   let navPivots = $strGeneral.pageSections.map(section => ({ name: section }));
@@ -16,8 +17,7 @@
   let wasSelected = null; // when the link is clicked, trigger the fancyTransition
   let isRICScheduled = false;
   let isMenuOpen = false;
-  let navPath = 'intro' // navigation path to send to GA
-
+  let navPath = '0' // navigation path to send to GA
 
   afterGeneralUpdate((prevState, state) => {
     if (!prevState.isReady && state.isReady) {
@@ -59,7 +59,7 @@
       // TODO/OPTIMIZE. [*CODE_SHAME*]
       console.warn('The page changed between mobile/desktop. Reloading...')
       // Okay... this is the part I'm less proud off.
-      ga('send', 'event', 'ups', 'reload', {
+      sendGA('send', 'event', 'ups', 'reload', {
         hitCallback: function() {
           location.reload(); 
         }
@@ -68,14 +68,15 @@
       setTimeout(() => { location.reload() }, 1000)
     } else {
       setNavigationData();
+      sendGA('send', 'event', 'resize', 'to_desktop', state.matchMq.md);
     }
   })
 
   function updateSection(section) {
-    const newPath = navPath + '->' + section
-    ga('send', 'event', 'navigation', newPath);
+    const newPath = navPath + '_' + sectionsId[section];
     updateGeneral({ pageCurrentSection: section });
     navPath = newPath;
+    sendGA('send', 'event', 'navigation', newPath);
   }
 
   function handleNavScroll() {

@@ -49,6 +49,13 @@ export function getIOstatusVertical(entry) {
   }
 }
 
+// Middleware for ga function.
+export function sendGA(...args) {
+  console.debug('Sending tracker:', ...args);
+  // ga - global function
+  ga(...args);
+}
+
 // Similar to how Element.scrollIntoView() works but with custom position
 // taking in account possible animations within this element.
 // ex: scroll 10px from top
@@ -64,8 +71,8 @@ export function scrollIntoView(
 ) {
   if (!['BUTTON', 'A'].includes(event.target.tagName)) {
     // Maybe it was something else?... Strange. Abort and report.
-    ga('send', 'event', 'ups', 'scrollIntoView', xx.className);
     console.warn('scrollIntoView ignored', event.target);
+    sendGA('send', 'event', 'ups', 'scrollIntoView', event.target.className);
     return false;
   }
 
