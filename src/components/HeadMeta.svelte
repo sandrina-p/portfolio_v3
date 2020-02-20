@@ -33,4 +33,10 @@
   <script type="application/ld+json">
 [{"@context":"http://schema.org","@type":"WebSite","url":"http://sandrina-p.net","name":"Sandrina Pereira, UX Engineer"}]
   </script>
+
+  <script async src="https://www.google-analytics.com/analytics.js"></script>
+  <script>
+    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+    ga('create', '__GA_ID__', 'auto'); // Key at rollup.config.js
+  </script>
 </svelte:head>
