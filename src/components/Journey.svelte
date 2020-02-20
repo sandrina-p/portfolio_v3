@@ -303,9 +303,9 @@
     </p>
     <p class="p">
       Currently,
-      <strong class="f-bold">I'm open for new challenges</strong> (remote!) where I can help people with lines of code.
+      <strong class="f-bold">I'm open to new challenges</strong> (remote!) where I can help people with lines of code.
       <!-- svelte-ignore -->
-      If you feel like we can excel together <a class="u-link" rel="noreferrer" href={ EMAIL_URL } on:click={() => trackClick('email_journey')}>get it touch</a>!
+      If you feel like we can excel together <a class="u-link" rel="noreferrer" href={ EMAIL_URL } on:click={() => trackClick('email_journey')}>get in touch</a>!
     </p>
   </div>
 </section>
