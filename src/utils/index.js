@@ -49,9 +49,9 @@ export function getIOstatusVertical(entry) {
   }
 }
 
-// Middleware for ga function.
+// Middleware for Google Analytics.
 export function sendGA(...args) {
-  console.debug('Sending tracker:', ...args);
+  console.debug('ga() called:', ...args);
   // ga - global function
   ga(...args);
 }

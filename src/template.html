@@ -63,16 +63,15 @@ document.body.classList.add(motionClass, 'jsMotionInitial');
     and anything else it needs to hydrate the app and
     initialise the router -->
 %sapper.scripts%
+
 <script>
 console.log('%c👋 Oh, hi there, web lover!', 'color:#8e66dc; font-size: 1.5em;');
 console.log('%c✨ Like what you see? You may hire me! \n🐛 Found a bug? Please, let me know by e-mail, twitter, github issue... \n🛠 Btw, this is open-source: https://github.com/sandrina-p/s008080_2019. \n\n Let the debug begin!', 'font-size: 1.2em; line-height: 1.5');
 </script>
-<!-- Global site tag (gtag.js) - Google Analytics -->
+
+<!-- GA is added on Netlify to avoid trackers during development -->
 <script>
-  window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-  ga('create', 'UA-70069700-4', 'auto');
-  ga('send', 'event', 'settings', 'default', theme + '_' + motionClass);
+  window.ga = function() { return }
 </script>
-<script async src="https://www.google-analytics.com/analytics.js"></script>
 </body>
 </html>
