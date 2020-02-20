@@ -1,19 +1,21 @@
-describe('Sapper template app', () => {
-	beforeEach(() => {
-		cy.visit('/')
-	});
+// 🛠 Uhh, I'll get there during this month!
 
-	it('has the correct <h1>', () => {
-		cy.contains('h1', 'Great success!')
-	});
+describe('Essencials', () => {
+  /*
+		- Page loads shows intro text
+		- Scroll shows the values into the viewport
+		- Articles nr are correct
+		- Skills button interactions
+		- Journey is there
+		- Footer links are valid.
+	*/
+});
 
-	it('navigates to /about', () => {
-		cy.get('nav a').contains('about').click();
-		cy.url().should('include', '/about');
-	});
-
-	it('navigates to /blog', () => {
-		cy.get('nav a').contains('blog').click();
-		cy.url().should('include', '/blog');
-	});
+describe('Navigation', () => {
+  /*
+		- Clicking nav links go to the expected place
+		- Toggle theme works.
+		- Toggle reduced motion works.
+		- When scrolling between sections, menu is updated.
+	*/
 });
