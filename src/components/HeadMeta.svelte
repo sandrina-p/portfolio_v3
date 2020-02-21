@@ -14,9 +14,7 @@
   <meta name="description" content={description}>
   
   <meta name="image" content={ coverUrl }>
-  <link rel="icon" type="image/png" href="favicon64.png" sizes="64x64">
   <link rel="icon" type="image/png" href="favicon192.png" sizes="192x192">
-  <link rel="icon" type="image/png" href="favicon512.png" sizes="512x512">
   <link rel="apple-touch-icon" href="favicon512.png" sizes="512x512">
 
   <meta name="twitter:card" content="summary_large_image">
