@@ -35,6 +35,7 @@ var theme = 'light'
 if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) { theme = 'dark'; document.body.classList.add('dark'); }
 /*[2]*/var motionClass = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'jsMotionReduced' : 'jsMotionDefault'
 document.body.classList.add(motionClass, 'jsMotionInitial');
+ga('send', 'event', 'settings', 'default', theme + '_' + motionClass);
 /*[3]*/(function sb() {
   var bs = {
     jsChrome: /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor),
