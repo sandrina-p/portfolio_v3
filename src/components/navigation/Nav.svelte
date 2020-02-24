@@ -1,5 +1,6 @@
 <script>
   import { createEventDispatcher } from 'svelte';
+  import debounce from 'lodash/debounce';
   import { _window, matchMq, afterResponsiveUpdate } from '../../stores/responsive.js';
   import { strGeneral, updateGeneral, afterGeneralUpdate } from '../../stores/general.js';
   import { afterMotionUpdate } from '../../stores/motion.js';
@@ -17,12 +18,20 @@
   let wasSelected = null; // when the link is clicked, trigger the fancyTransition
   let isRICScheduled = false;
   let isMenuOpen = false;
-  let navPath = '0' // navigation path to send to GA
+  let navPath = '' // navigation path to send to GA
+
+  // avoid too much events when navigating through menu or people "playing" with transitions.
+  const trackNavPath = debounce((section, isFromMenu) => {
+    const newPath = navPath + '_' + sectionsId[section] + (isFromMenu ? '-menu' : '');
+    navPath = newPath;
+    sendGA('send', 'event', 'navigation', 'section', newPath)
+  }, 1000);
 
   afterGeneralUpdate((prevState, state) => {
     if (!prevState.isReady && state.isReady) {
       setNavigationData();
       window.addEventListener('scroll', handleNavScroll);
+      navPath = `${$matchMq.lg ? 'desktop' : 'mobile'}_0`
     }
 
     const prevPageSection = prevState.pageCurrentSection;
@@ -72,11 +81,9 @@
     }
   })
 
-  function updateSection(section, isFromMenu) {
-    const newPath = navPath + '_' + sectionsId[section] + (isFromMenu ? '-menu' : '');
+  function updateSection(section) {
     updateGeneral({ pageCurrentSection: section });
-    navPath = newPath;
-    sendGA('send', 'event', 'navigation', 'section', newPath);
+    trackNavPath(section, wasSelected);
   }
 
   function handleNavScroll() {
@@ -195,7 +202,7 @@
       window.scrollTo(0, to);
 
       setTimeout(() => {
-        updateSection(pageSection, true);
+        updateSection(pageSection);
       }, TIMEOUTS.NAV_SCROLLED);
 
     }, TIMEOUTS.NAV_ANIMATING);
