@@ -22,7 +22,7 @@
     %sapper.head%
   </head>
   <body>
-<style>.g-msg { display: none; position: relative; font-size: 18px; text-align: center; border: 2px dashed red; padding: 8px;  background: #f8f3ef; color: #343434; z-index: 7; }</style>
+<style>.g-msg { display: none; position: relative; width: 100%; font-size: 18px; text-align: center; border: 2px dashed red; padding: 8px;  background: #f8f3ef; color: #343434; z-index: 7; }</style>
 <div id="isOld" class="g-msg"></div>  
 
 <!-- Critical JS to be runned before Svelte is loaded. -->
@@ -63,6 +63,7 @@ ga('send', 'event', 'settings', 'default', theme + '_' + motionClass);
 if (isOld) {
   var elIsOld = document.getElementById('isOld');
   elIsOld.style.display = 'block';
+  elIsOld.style.position = 'fixed';
   elIsOld.innerHTML = 'Wow, your browser seems ancient and this website might not work as expected.' + '<br/>' + 'Fear not, you can still reach me by <a href="mailto:a.sandrina.p@gmail.com" class="u-link">e-mail</a>!'
   ga('send', 'event', 'settings', 'default', 'isOld!');
 }
