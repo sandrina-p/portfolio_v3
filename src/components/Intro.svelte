@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import { strGeneral, updateGeneral } from '../stores/general.js';
   import CircleComposition from './CircleComposition.svelte';
+  import UpdateMessage from './UpdateMessage.svelte';
   import { TIMEOUTS } from '../utils';
 
   const intro = `Hi, it's Sandrina`;
@@ -148,6 +149,7 @@
       I'm a UX Engineer who helps to turn ideas
       into accessible experiences.
     </p>
+    <UpdateMessage />
   </div>
   <div class="animation">
     <CircleComposition />
