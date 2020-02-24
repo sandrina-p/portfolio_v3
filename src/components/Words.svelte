@@ -57,7 +57,7 @@
       padding: $spacer-L $layout-margin;
       align-items: stretch;
 
-      @media (--max-md) {
+      @media (--max-lg) {
         @mixin motionReduced {
           padding-bottom: 25vh;
         }
@@ -92,7 +92,7 @@
         max-width: 72vw; /* so next card is visible */
       }
 
-      @media (--max-md) {
+      @media (--max-lg) {
         box-shadow: 0.2rem 0.2rem var(--primary_1_smooth);
       }
 
@@ -102,7 +102,7 @@
     }
   }
 
-  @media (--max-md) {
+  @media (--max-lg) {
     .header {
       @mixin motionDefault {
         opacity: 0;
@@ -122,7 +122,8 @@
     }
 
     .cardItem:nth-child(1),
-    .cardItem:nth-child(2) {
+    .cardItem:nth-child(2),
+    .cardItem:nth-child(3) {
       @mixin motionDefault {
         opacity: 0;
         transform: translateX(50%);
@@ -203,7 +204,7 @@
   }
   
 
-  @media (--md) {
+  @media (--lg) {
     $cardW: 90rem;
     $cardOffset: 9rem;
 

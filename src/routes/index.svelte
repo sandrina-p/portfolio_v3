@@ -32,7 +32,7 @@
     smoothscroll.polyfill();
     focusOnlyWhenNeeded();
 
-    if ($matchMq.md) {
+    if ($matchMq.lg) {
       await loadValuesHorizon();
     } else {
       updateGeneral({ isValuesLoaded: true });
@@ -71,7 +71,7 @@
     overflow: hidden;
   }
 
-  @media (--md) {
+  @media (--lg) {
     .container {
       position: fixed;
       top: 0;
@@ -106,7 +106,7 @@
   <div class="horizon" bind:this={elHorizon}>
     <Intro />
     <IntroTip hasScrolled={hasScrolled} />
-    <svelte:component this={$matchMq.md && ValuesHorizon ? ValuesHorizon : ValuesVertical} />
+    <svelte:component this={$matchMq.lg && ValuesHorizon ? ValuesHorizon : ValuesVertical} />
   </div>
 </div>
 <div class="horizonSpace" style="--marginTop: {horizonSpace}"></div>

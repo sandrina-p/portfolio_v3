@@ -47,7 +47,7 @@
   });
   
   afterResponsiveUpdate((prevState, state) => {
-    if(prevState.matchMq.md !== state.matchMq.md) {
+    if(prevState.matchMq.lg !== state.matchMq.lg) {
       // There are so many animations and layout changes and edge cases
       // that the best UX is:
       // 1. set the scroll back to the beginning and... */
@@ -68,7 +68,7 @@
       setTimeout(() => { location.reload() }, 1000)
     } else {
       setNavigationData();
-      sendGA('send', 'event', 'resize', 'to_desktop', state.matchMq.md);
+      sendGA('send', 'event', 'resize', 'to_desktop', state.matchMq.lg);
     }
   })
 
@@ -130,7 +130,7 @@
   }
 
   function setNavigationData() {
-    const isDesktop = $matchMq.md;
+    const isDesktop = $matchMq.lg;
     const wWidth = $_window.innerWidth;
     const wHeight = $_window.innerHeight;
     const scrollY = window.scrollY; 
@@ -183,7 +183,7 @@
 
     document.getElementById(pageSection).focus({ preventScroll: true }); // Help keyboard users
 
-    if(!$matchMq.md) {
+    if(!$matchMq.lg) {
       window.scroll({ top: to, behavior: 'smooth' });
       return
     }
@@ -324,7 +324,7 @@
         }
       }
 
-      @media (--max-md) {
+      @media (--max-lg) {
         margin-top: $spacer-S; /* more space to click */
       }
     }
@@ -432,7 +432,7 @@
 
   /* decorative animation */
   .bubble {
-    @media(--max-md) {
+    @media(--max-lg) {
       display: none;
     }
 

@@ -153,7 +153,6 @@
 
     &:hover {
       outline: none;
-      
     }
 
     @media (--md) {
@@ -187,7 +186,7 @@
   }
   
   .u-carousel {
-    @media (--max-md) { /* only used on mobile */
+    @media (--max-lg) { /* only used on mobile */
       width: 100vw;
       display: flex;
       overflow-x: auto;

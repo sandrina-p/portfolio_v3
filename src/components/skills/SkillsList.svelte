@@ -1,7 +1,8 @@
 <script>
   import { onMount, createEventDispatcher } from 'svelte';
   import skills from '../../data/skills.js';
-  import {  matchMq } from '../../stores/responsive.js';
+  import { matchMq } from '../../stores/responsive.js';
+  import { sendGA } from '../../utils';
 
 	const dispatch = createEventDispatcher();
   const colorTypes = {
@@ -23,6 +24,7 @@
   })();
   let lvlActive = '0';
   let interactedWith = { '0': true };
+  let clickPath = '0' // navigation path to send to GA
   $: hadClickInAll = !!interactedWith[3] || Object.keys(interactedWith).length > 2;
 
   onMount(() => {
@@ -38,10 +40,13 @@
     dispatch('setColorType', {
       colorType: colorTypes[id]
     });
+    const newPath = clickPath + '_' + id;
+    clickPath = newPath
+    sendGA('send', 'event', 'click_skills', newPath);
   }
 
   function handlePointClick(list) {
-    if($matchMq.md) {
+    if($matchMq.lg) {
       updateSkill(list[0])
     }
   }
@@ -70,7 +75,7 @@
       color: var(--text_0);
     }
 
-    @media (--max-md) {
+    @media (--max-lg) {
       &::before { /* slider shadow */
         content: '';
         position: absolute;
@@ -140,7 +145,7 @@
       margin-right: $gutter;
     }
 
-    @media(--max-md) {
+    @media(--max-lg) {
       /* Not worth mentioning on mobile */
       [data-tool='Git'],
       [data-tool='SEO'],
@@ -224,6 +229,29 @@
   }
 
   @media (--md) {
+    .skillsLvl {
+      margin-right: $layout-margin;
+    }
+  }
+
+  @media (width: 64em) { /* exactly ipad horizontal */
+    .skills {
+      padding-right: calc($layout-margin/2);
+      padding-left: calc($layout-margin/2 + $spacer-XL/2); /* visually ballanced */
+
+      &::after {
+        display: none;
+      }
+    }
+
+    .skillsLvl {
+      max-width: calc((100vw - ($layout-margin)) / 4);
+      margin-right: 0;
+      padding-right: $spacer-XL;
+    }
+  }
+
+  @media (--lg) {
     .main {
       margin-top: $spacer-XL;
     }

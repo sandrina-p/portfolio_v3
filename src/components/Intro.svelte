@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import { strGeneral, updateGeneral } from '../stores/general.js';
   import CircleComposition from './CircleComposition.svelte';
+  import NoScriptMsg from './NoScriptMsg.svelte';
   import { TIMEOUTS } from '../utils';
 
   const intro = `Hi, it's Sandrina`;
@@ -46,7 +47,7 @@
       font-size: calc($font-heading_2 * 0.7);
     }
 
-    @media(--md) {
+    @media(--lg) {
       font-size: $font-heading_2;
     }
 
@@ -115,7 +116,7 @@
     }
 
     .content {
-      width: calc(50vw - $layout-margin - $circleSizeHalf);
+      width: calc(50vw - $layout-margin);
       margin-bottom: 15vh;
       flex-grow: 0;
     }
@@ -127,6 +128,12 @@
 
     .animation {
       margin-top: 0;
+    }
+  }
+
+  @media(--lg) {
+    .content {
+      width: calc(50vw - $layout-margin - $circleSizeHalf);
     }
   }
 </style>
@@ -142,6 +149,7 @@
       I'm a UX Engineer who helps to turn ideas
       into accessible experiences.
     </p>
+    <NoScriptMsg />
   </div>
   <div class="animation">
     <CircleComposition />

@@ -78,7 +78,7 @@ export let activeLevel;
         clip-path 450ms 1ms ease-in-out;
 
       @mixin motionReduced {
-        transition: opacity 700ms ease-in none;
+        transition: opacity 700ms ease-in;
       }
 
       @mixin motionDefault {
@@ -172,7 +172,7 @@ export let activeLevel;
       }
     }
 
-    @media (--max-md) {
+    @media (--max-lg) {
       &.isActive {
         &:nth-child(1) { --delayOpacity: 250ms }
         &:nth-child(2) { --delayOpacity: 450ms }
@@ -180,21 +180,34 @@ export let activeLevel;
       }
 
       .echos:not(.isRect) & {
-        &:nth-child(1) { --scale: 1.5; }
-        &:nth-child(2) { --scale: 2.2; }
-        &:nth-child(3) { --scale: 3; }
+          &:nth-child(1) { --scale: 1.5; }
+          &:nth-child(2) { --scale: 2.2; }
+          &:nth-child(3) { --scale: 3; }
+      }
+
+      .echos & {
+        /* OPTIMIZE - find a way to not duplicate this. */
+        @mixin motionReduced {
+          &:nth-child(1) { --scale: 1.5; }
+          &:nth-child(2) { --scale: 2.2; }
+          &:nth-child(3) { --scale: 3; }
+        }
       }
 
       .isRect & {
-        &:nth-child(1) { --t_y: -2rem; --t_x: -6rem; }
-        &:nth-child(2) { --t_y: -3rem; --t_x: 4rem; }
-        &:nth-child(3) { --t_y: 0rem; --t_x: -5rem; }
+        @mixin motionDefault {
+          &:nth-child(1) { --t_y: -2rem; --t_x: -6rem; }
+          &:nth-child(2) { --t_y: -3rem; --t_x: 4rem; }
+          &:nth-child(3) { --t_y: 0rem; --t_x: -5rem; }
+        }
       }
 
       .isGone & {
-        transition: opacity 500ms ease-in-out,
-          visibility 0ms 500ms;
-        opacity: 0;
+        @mixin motionDefault {
+          transition: opacity 500ms ease-in-out,
+            visibility 0ms 500ms;
+          opacity: 0;
+        }
       }
     }
   }

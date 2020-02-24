@@ -271,7 +271,7 @@
     display: flex;
     align-items: center;
 
-    @media(--max-md) {
+    @media(--max-lg) {
       display: none; /* ValuesVertical will replace this */
     }
   }

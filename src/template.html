@@ -22,18 +22,24 @@
     %sapper.head%
   </head>
   <body>
+<style>.g-msg { display: none; position: relative; width: 100%; font-size: 18px; text-align: center; border: 2px dashed red; padding: 8px;  background: #f8f3ef; color: #343434; z-index: 7; }</style>
+<div id="isOld" class="g-msg"></div>  
+
 <!-- Critical JS to be runned before Svelte is loaded. -->
 <!--
   [1] - Set the default theme. Remaining logic at ToggleTheme.svelte
-  [2] - Set the default motion. Remaining logic at ToggleMotion.svelte
+  [2] - Set the default motion. Tablet is always reduced just in case. Remaining logic at ToggleMotion.svelte
   [3] - Detect current browser. Needed for some CSS animations otimizations.
   DO NOT modify any DOM element inside #sapper! Otherwise Svelte hydratation won't work properly.
 -->
 <script>
+var isOld = !window.fetch || !window.matchMedia;
 /*[1]*/
 var theme = 'light'
-if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) { theme = 'dark'; document.body.classList.add('dark'); }
-/*[2]*/var motionClass = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'jsMotionReduced' : 'jsMotionDefault'
+if (!isOld && window.matchMedia('(prefers-color-scheme: dark)').matches) { theme = 'dark'; document.body.classList.add('dark'); }
+/*[2]*/var motionClass = isOld ||
+  (window.matchMedia('(prefers-reduced-motion: reduce)').matches || window.matchMedia('(min-width: 48em) and (max-width: 64em)').matches)
+  ? 'jsMotionReduced' : 'jsMotionDefault';
 document.body.classList.add(motionClass, 'jsMotionInitial');
 ga('send', 'event', 'settings', 'default', theme + '_' + motionClass);
 /*[3]*/(function sb() {
@@ -54,6 +60,13 @@ ga('send', 'event', 'settings', 'default', theme + '_' + motionClass);
     document.body.classList.add(m[i]);
   }
 })();
+if (isOld) {
+  var elIsOld = document.getElementById('isOld');
+  elIsOld.style.display = 'block';
+  elIsOld.style.position = 'fixed';
+  elIsOld.innerHTML = 'Wow, your browser seems ancient and this website might not work as expected.' + '<br/>' + 'Fear not, you can still reach me by <a href="mailto:a.sandrina.p@gmail.com" class="u-link">e-mail</a>!'
+  ga('send', 'event', 'settings', 'default', 'isOld!');
+}
 </script>
 
 <!-- The application will be rendered inside this element,
@@ -67,7 +80,7 @@ ga('send', 'event', 'settings', 'default', theme + '_' + motionClass);
 
 <script>
 console.log('%c👋 Oh, hi there, web lover!', 'color:#8e66dc; font-size: 1.5em;');
-console.log('%c✨ Like what you see? You may hire me! \n🐛 Found a bug? Please, let me know by e-mail, twitter, github issue... \n🛠 Btw, this is open-source: https://github.com/sandrina-p/s008080_2019. \n\n Let the debug begin!', 'font-size: 1.2em; line-height: 1.5');
+console.log('%c✨ Like what you see? We could work together! \n🐛 Found a bug? Please, let me know by e-mail, twitter, github issue... \n🛠 Btw, this is open-source: https://github.com/sandrina-p/personal_website_v3. \n\n Let the debug begin!', 'font-size: 1.2em; line-height: 1.5');
 </script>
 </body>
 </html>

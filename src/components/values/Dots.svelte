@@ -15,7 +15,7 @@
     pointer-events: none;
     visibility: hidden;
 
-    @media(--md) {
+    @media(--lg) {
       z-index: 1;
     }
 
@@ -113,7 +113,7 @@
       animation-delay: -2s;
     }
 
-    @media (--max-md) {
+    @media (--max-lg) {
       &:nth-child(1) { --top: 17%; --left: 76%; }
       &:nth-child(3) { --top: 40%; --left: 88%; }
       &:nth-child(4) { display: none; }

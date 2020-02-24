@@ -102,7 +102,7 @@
     }
   }
 
-  @media (--md) {
+  @media (--lg) {
     .tip {
       top: 50%;
 
@@ -124,7 +124,7 @@
 </style>
 
 <span class="tip" aria-hidden="true"
-  class:isHidden={hasScrolled || ($strGeneral.isReady && !$matchMq.md)}>
+  class:isHidden={hasScrolled || ($strGeneral.isReady && !$matchMq.lg)}>
   <span class="tipText">
     <span class="tipTextStatus asLoading" class:isActive={!$strGeneral.isReady}>
       Loading...

@@ -126,7 +126,8 @@
 </script>
 
 <style>
-  $sectionWidth: 50rem;
+  $textWidth: 50rem;
+  $textWidthEm: 31.25em;
   $headerHeight: 25rem; /* space for text even when rotated */
   $maskWidth: 120vw;
   $paddingTop: 25vh;
@@ -163,7 +164,7 @@
 
     &Slide,
     &Fixed {
-      width: $sectionWidth;
+      width: $textWidth;
       max-width: calc(100vw - $layout-margin*2);
     }
 
@@ -229,7 +230,7 @@
   }
 
   .text {
-    width: $sectionWidth;
+    width: $textWidth;
     max-width: 100vw;
     padding: 0 $layout-margin;
     margin: 0 auto;
@@ -252,10 +253,23 @@
     margin-bottom: $spacer-L;
   }
 
-  @media (--md) {
+  @media (--only-tablet) {
+    .text {
+      padding: 0 5vw; /* REVIEW this and all text sizes */
+    }
+  }
+
+  @media (--max-lg) {
+    .wrapper {
+      margin-bottom: $spacer-XL;
+    }
+  }
+
+  @media (--lg) {
     .wrapper {
       padding-top: $paddingTop;
     }
+
     .header {
       font-size: $font-heading_3;
       margin-bottom: 0;
@@ -302,10 +316,10 @@
       <a class="u-link" rel="noreferrer" target="_blank" href={TWITTER_URL} on:click={() => trackClick('twitter_journey')}>share ideias</a> with the community.
     </p>
     <p class="p">
-      Currently,
-      <strong class="f-bold">I'm open to new challenges</strong> (remote!) where I can help people with lines of code.
+      In a few months,
+      <strong class="f-bold">I'll be open to new challenges</strong> (remote!) where I can help people with lines of code.
       <!-- svelte-ignore -->
-      If you feel like we can excel together <a class="u-link" rel="noreferrer" href={ EMAIL_URL } on:click={() => trackClick('email_journey')}>get in touch</a>!
+      If you believe we can excel together <a class="u-link" rel="noreferrer" href={ EMAIL_URL } on:click={() => trackClick('email_journey')}>get in touch</a>!
     </p>
   </div>
 </section>
