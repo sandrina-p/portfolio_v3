@@ -37,7 +37,7 @@ var isOld = !window.fetch || !window.matchMedia;
 /*[1]*/
 var theme = 'light'
 if (!isOld && window.matchMedia('(prefers-color-scheme: dark)').matches) { theme = 'dark'; document.body.classList.add('dark'); }
-/*[2]*/var motionClass = !isOld &&
+/*[2]*/var motionClass = isOld ||
   (window.matchMedia('(prefers-reduced-motion: reduce)').matches || window.matchMedia('(min-width: 48em) and (max-width: 64em)').matches)
   ? 'jsMotionReduced' : 'jsMotionDefault';
 document.body.classList.add(motionClass, 'jsMotionInitial');
@@ -62,7 +62,7 @@ ga('send', 'event', 'settings', 'default', theme + '_' + motionClass);
 })();
 if (isOld) {
   var elIsOld = document.getElementById('isOld');
-  elIsOld.style = 'display: block';
+  elIsOld.style.display = 'block';
   elIsOld.innerHTML = 'Wow, your browser seems ancient and this website might not work as expected.' + '<br/>' + 'Fear not, you can still reach me by <a href="mailto:a.sandrina.p@gmail.com" class="u-link">e-mail</a>!'
   ga('send', 'event', 'settings', 'default', 'isOld!');
 }
