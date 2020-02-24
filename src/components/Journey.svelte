@@ -126,7 +126,8 @@
 </script>
 
 <style>
-  $sectionWidth: 50rem;
+  $textWidth: 50rem;
+  $textWidthEm: 31.25em;
   $headerHeight: 25rem; /* space for text even when rotated */
   $maskWidth: 120vw;
   $paddingTop: 25vh;
@@ -163,7 +164,7 @@
 
     &Slide,
     &Fixed {
-      width: $sectionWidth;
+      width: $textWidth;
       max-width: calc(100vw - $layout-margin*2);
     }
 
@@ -229,7 +230,7 @@
   }
 
   .text {
-    width: $sectionWidth;
+    width: $textWidth;
     max-width: 100vw;
     padding: 0 $layout-margin;
     margin: 0 auto;
@@ -252,17 +253,23 @@
     margin-bottom: $spacer-L;
   }
 
-  @media (--md) {
+  @media (--max-lg) {
+    .wrapper {
+      margin-bottom: $spacer-XL;
+    }
+  }
+
+  @media (--lg) {
     .wrapper {
       padding-top: $paddingTop;
     }
+
     .header {
       font-size: $font-heading_3;
       margin-bottom: 0;
     }
 
     .text {
-      padding: 0;
       font-size: $font-L;
     }
   }

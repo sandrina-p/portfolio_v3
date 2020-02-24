@@ -41,7 +41,7 @@
   }
 
   function handlePointClick(list) {
-    if($matchMq.md) {
+    if($matchMq.lg) {
       updateSkill(list[0])
     }
   }
@@ -70,7 +70,7 @@
       color: var(--text_0);
     }
 
-    @media (--max-md) {
+    @media (--max-lg) {
       &::before { /* slider shadow */
         content: '';
         position: absolute;
@@ -140,7 +140,7 @@
       margin-right: $gutter;
     }
 
-    @media(--max-md) {
+    @media(--max-lg) {
       /* Not worth mentioning on mobile */
       [data-tool='Git'],
       [data-tool='SEO'],
@@ -223,7 +223,7 @@
     }
   }
 
-  @media (--md) {
+  @media (--lg) {
     .main {
       margin-top: $spacer-XL;
     }

@@ -46,7 +46,7 @@
       font-size: calc($font-heading_2 * 0.7);
     }
 
-    @media(--md) {
+    @media(--lg) {
       font-size: $font-heading_2;
     }
 
@@ -127,6 +127,12 @@
 
     .animation {
       margin-top: 0;
+    }
+  }
+
+  @media(--only-tablet) {
+    .content {
+      width: calc(50vw - $layout-margin);
     }
   }
 </style>

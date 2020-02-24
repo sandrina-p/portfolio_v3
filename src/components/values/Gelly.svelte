@@ -17,6 +17,7 @@
     transform-origin: 100% 100%;
     visibility: hidden;
     pointer-events: none;
+    z-index: -1; /* be under ask and dots part */
 
     :global(.jsGoOn) & {
       transition: transform 400ms ease-in, opacity 400ms ease-in, visibility 0ms 400ms;
@@ -51,7 +52,7 @@
       }
     }
 
-    @media (--md) {
+    @media (--lg) {
       right: auto;
       left: calc(var(--scrollY) + 60vw);
       width: 40rem;
@@ -86,7 +87,7 @@
     0%, 100% { border-radius: 65% 68% 77% 50% / 59% 76% 58% 75%; } 
     20% { border-radius: 40% 58% 46% 54% / 50% 60% 41% 50%; } 
     40% { border-radius: 40% 60% 46% 54% / 50% 60% 41% 50%; } 
-    60% { border-radius: 56% 44% 60% 30% / 56% 44% 60% 30%; } 
+    60% { border-radius: 56% 44% 60% 30% / 56% 44% 60% 49%; } 
     80% { border-radius: 51% 52% 68% 36% / 56% 43% 60% 47%; } 
   }
 

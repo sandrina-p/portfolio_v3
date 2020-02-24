@@ -145,7 +145,7 @@
     padding-bottom: $spacer-XL;
 
     /* ValuesHorizon will replace this */
-    @media(--md) { display: none; }
+    @media(--lg) { display: none; }
   }
 
   .part {
@@ -174,7 +174,8 @@
     flex-shrink: 0;
     scroll-snap-align: center;
 
-    &-part {
+    &-part,
+    &-line {
       display: block;
     }
   }
@@ -227,7 +228,6 @@
     }
   }
 
-
   .pDots {
     --title-w: 25rem;
   }
@@ -243,9 +243,7 @@
   .pAsk,
   .pWolf {
     .title {
-      &-line {
-        display: block;
-
+      &-part {
         &:last-child {
           color: var(--primary_1);
         }
@@ -255,6 +253,26 @@
 
   .pPeople {
     --title-w: 30rem;
+  }
+
+  @media (--md) {
+    .container {
+      padding-top: $spacer-XL;
+    }
+
+    .part {
+      position: relative;
+      padding: $spacer-XL 0;
+    }
+
+    .pBox {
+      width: 50vw;
+      margin-left: calc(50vw - var(--title-w, 100%) - $layout-margin - 1px);  /* 1px - remove 1px scroll on safari ipad */
+    }
+
+    .legend {
+      display: none;
+    }
   }
 </style>
 
@@ -288,8 +306,8 @@
     <Gelly isActive={ currentPart === 'ASK' }/>
     <div class="pContent" data-part="ASK" bind:this={elAsk}>
       <h3 class="f-title title">
-        <span class="title-line">Ask why</span>
-        <span class="title-line">Understand how</span>
+        <span class="title-part">Ask why</span>
+        <span class="title-part">Understand how</span>
       </h3>
       <span class="legend" aria-hidden="true" on:click={() => focusBox(elAsk)}>Know more</span>
       <p class="pBox">

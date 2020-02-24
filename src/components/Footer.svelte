@@ -424,7 +424,12 @@
     }
   }
 
-  @media (--max-md) {
+  @media (--max-lg) {
+    .footer {
+      margin: 0 auto;
+      max-width: 34rem;
+    }
+
     .card {
       @mixin motionReduced {
         padding-top: $spacer-XL;
@@ -439,7 +444,7 @@
     }
   }
 
-  @media (--md) {
+  @media (--lg) {
     $cardW: 70rem; /* static content luxuries */
     $cardH: 30rem;
 

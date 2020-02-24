@@ -34,8 +34,10 @@
 var theme = 'light'
 if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) { theme = 'dark'; document.body.classList.add('dark'); }
 /*[2]*/var motionClass = window.matchMedia && (
-  window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
-  window.matchMedia('(min-width: 48em) and (max-width: 64em)')) ? 'jsMotionReduced' : 'jsMotionDefault';
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    // || window.matchMedia('(min-width: 48em) and (max-width: 64em)').matches
+  )
+  ? 'jsMotionReduced' : 'jsMotionDefault';
 document.body.classList.add(motionClass, 'jsMotionInitial');
 ga('send', 'event', 'settings', 'default', theme + '_' + motionClass);
 /*[3]*/(function sb() {

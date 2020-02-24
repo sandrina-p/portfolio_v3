@@ -21,8 +21,8 @@
     if (!prevState.isReady && state.isReady) {
       if($strMotion.isReduced) {
         isVisible = true;
-        progressN = 0;
-        progressY = 0;
+        progressN = 1;
+        progressY = '0px';
       } else {
         animation = initAnimation();
       }
@@ -95,7 +95,7 @@
       isObserving = false;
       progressN = 1;
       progressY = '0px';
-      isVisible = 1;
+      isVisible = true;
     }
 
     const watchTitle = ([{ isIntersecting, boundingClientRect }]) => {
@@ -156,7 +156,7 @@
   .wrapper {
     --skills-bg: var(--bg_invert);
     position: relative;
-    min-height: 100vh;
+    min-height: 120vh;
     overflow: hidden;
     padding-top: 50vw;
     padding-bottom: 4rem;
@@ -224,23 +224,19 @@
 
   @media (--md) {
     $paddingTop: 25vh; /* enough to cover all in black I guess */
-
     .wrapper {
-      padding-top: $paddingTop;
+      padding-top: 25vw;
+    }
+  }
+
+  @media (--lg) {
+    .wrapper {
       min-height: 100vh;
     }
 
     .header {
       &Title {
         font-size: $font-heading_0;
-
-        .uAppear & {
-          /* TIL: fake opacity without opacity */
-          /* text-shadow:
-            0 0 4.5rem var(--skills-bg),
-            0 0 4.5rem var(--skills-bg),
-            0 0 3.5rem var(--colorTabSelected); */
-        }
       }
 
       &Desc {
