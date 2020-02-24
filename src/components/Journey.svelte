@@ -270,6 +270,7 @@
     }
 
     .text {
+      padding: 0;
       font-size: $font-L;
     }
   }

@@ -253,8 +253,8 @@
   id="skills" tabindex="-1"
   on:focusin={handleKeyboardFocus}
   data-section-offset-v="75"
-  data-section-offset-h="5">
-  <!-- 80 = 50 paddingTop + 10 skills visible -->
+  data-section-offset-h="35">
+  <!-- 75 = 50 paddingTop + 25 skills visible -->
   <header class="header"
     style="--colorTabSelected: {colorType};"
     bind:this={elTitle}>
