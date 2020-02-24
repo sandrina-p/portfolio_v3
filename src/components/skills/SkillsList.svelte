@@ -1,7 +1,8 @@
 <script>
   import { onMount, createEventDispatcher } from 'svelte';
   import skills from '../../data/skills.js';
-  import {  matchMq } from '../../stores/responsive.js';
+  import { matchMq } from '../../stores/responsive.js';
+  import { sendGA } from '../../utils';
 
 	const dispatch = createEventDispatcher();
   const colorTypes = {
@@ -23,6 +24,7 @@
   })();
   let lvlActive = '0';
   let interactedWith = { '0': true };
+  let clickPath = '0' // navigation path to send to GA
   $: hadClickInAll = !!interactedWith[3] || Object.keys(interactedWith).length > 2;
 
   onMount(() => {
@@ -38,6 +40,9 @@
     dispatch('setColorType', {
       colorType: colorTypes[id]
     });
+    const newPath = clickPath + '_' + id;
+    clickPath = newPath
+    sendGA('send', 'event', 'click_skills', newPath);
   }
 
   function handlePointClick(list) {
