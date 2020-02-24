@@ -313,7 +313,7 @@
       In my free time I have fun
       <a class="u-link" rel="noreferrer" target="_blank" href={CODEPEN_URL} on:click={() => trackClick('codepen_journey')}>pushing pixels around</a>
       and
-      <a class="u-link" rel="noreferrer" target="_blank" href={TWITTER_URL} on:click={() => trackClick('twitter_journey')}>share ideias</a> with the community.
+      <a class="u-link" rel="noreferrer" target="_blank" href={TWITTER_URL} on:click={() => trackClick('twitter_journey')}>share ideas</a> with the community.
     </p>
     <p class="p">
       In a few months,
