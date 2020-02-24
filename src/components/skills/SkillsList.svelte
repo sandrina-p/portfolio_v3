@@ -34,6 +34,8 @@
   })
 
   function updateSkill(id) {
+    if (lvlActive === id) { return false }
+
     interactedWith[id] = true;
     lvlActive = id;
 
