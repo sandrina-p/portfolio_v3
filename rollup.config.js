@@ -55,7 +55,7 @@ export default {
             [
               '@babel/preset-env',
               {
-                targets: '> 0.25%, not dead, iOS 9',
+                targets: '> 0.25%, not dead',
               },
             ],
           ],
