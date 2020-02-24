@@ -253,6 +253,12 @@
     margin-bottom: $spacer-L;
   }
 
+  @media (--only-tablet) {
+    .text {
+      padding: 0 5vw; /* REVIEW this and all text sizes */
+    }
+  }
+
   @media (--max-lg) {
     .wrapper {
       margin-bottom: $spacer-XL;

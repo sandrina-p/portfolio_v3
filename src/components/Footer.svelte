@@ -424,7 +424,7 @@
     }
   }
 
-  @media (--max-lg) {
+  @media (--max-md) {
     .footer {
       margin: 0 auto;
       max-width: 34rem;
@@ -444,7 +444,7 @@
     }
   }
 
-  @media (--lg) {
+  @media (--md) {
     $cardW: 70rem; /* static content luxuries */
     $cardH: 30rem;
 

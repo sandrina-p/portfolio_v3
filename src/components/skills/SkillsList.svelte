@@ -228,6 +228,29 @@
     }
   }
 
+  @media (--only-tablet) {
+    .skillsLvl {
+      margin-right: $layout-margin;
+    }
+  }
+
+  @media (width: 64em) { /* exactly ipad horizontal */
+    .skills {
+      padding-right: calc($layout-margin/2);
+      padding-left: calc($layout-margin/2 + $spacer-XL/2); /* visually ballanced */
+
+      &::after {
+        display: none;
+      }
+    }
+
+    .skillsLvl {
+      max-width: calc((100vw - ($layout-margin)) / 4);
+      margin-right: 0;
+      padding-right: $spacer-XL;
+    }
+  }
+
   @media (--lg) {
     .main {
       margin-top: $spacer-XL;

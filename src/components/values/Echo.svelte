@@ -78,7 +78,7 @@ export let activeLevel;
         clip-path 450ms 1ms ease-in-out;
 
       @mixin motionReduced {
-        transition: opacity 700ms ease-in none;
+        transition: opacity 700ms ease-in;
       }
 
       @mixin motionDefault {
@@ -180,7 +180,14 @@ export let activeLevel;
       }
 
       .echos:not(.isRect) & {
-        @mixin motionDefault {
+          &:nth-child(1) { --scale: 1.5; }
+          &:nth-child(2) { --scale: 2.2; }
+          &:nth-child(3) { --scale: 3; }
+      }
+
+      .echos & {
+        /* OPTIMIZE - find a way to not duplicate this. */
+        @mixin motionReduced {
           &:nth-child(1) { --scale: 1.5; }
           &:nth-child(2) { --scale: 2.2; }
           &:nth-child(3) { --scale: 3; }
