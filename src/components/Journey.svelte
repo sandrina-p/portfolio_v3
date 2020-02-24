@@ -121,7 +121,7 @@
   }
 
   function trackClick(action) {
-    sendGA('send', 'event', 'click_contacts', action)
+    sendGA('send', 'event', 'click', 'contacts', action)
   }
 </script>
 

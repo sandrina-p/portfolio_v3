@@ -72,8 +72,8 @@
     }
   })
 
-  function updateSection(section, fromMenu) {
-    const newPath = navPath + '_' + sectionsId[section] + (fromMenu ? '-menu' : '');
+  function updateSection(section, isFromMenu) {
+    const newPath = navPath + '_' + sectionsId[section] + (isFromMenu ? '-menu' : '');
     updateGeneral({ pageCurrentSection: section });
     navPath = newPath;
     sendGA('send', 'event', 'navigation', 'section', newPath);

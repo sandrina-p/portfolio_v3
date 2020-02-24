@@ -42,7 +42,7 @@
     });
     const newPath = clickPath + '_' + id;
     clickPath = newPath
-    sendGA('send', 'event', 'click_skills', newPath);
+    sendGA('send', 'event', 'click', 'skills', newPath);
   }
 
   function handlePointClick(list) {

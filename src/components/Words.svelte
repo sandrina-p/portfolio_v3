@@ -378,7 +378,7 @@
                   </svg>
                   <a href={link} rel="noreferrer" target="_blank"
                     class="u-link"
-                    on:click={() => sendGA('send', 'event', 'click_words', id)}>
+                    on:click={() => sendGA('send', 'event', 'click' , 'words', id)}>
                     {where}
                   </a>
                 </div>

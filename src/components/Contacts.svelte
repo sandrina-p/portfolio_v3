@@ -40,7 +40,7 @@
       <li class="item">
         <a href={link} rel="noreferrer" target="_blank"
           class="u-link link"
-          on:click={() => sendGA('send', 'event', 'click_contacts', name)}
+          on:click={() => sendGA('send', 'event', 'click', 'contacts', name)}
         >{name}</a>
       </li>
     {/each}
