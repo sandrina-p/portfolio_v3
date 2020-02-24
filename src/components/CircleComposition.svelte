@@ -41,16 +41,16 @@
       }
     }
 
+    @media(--md) {
+      transform: rotate(90deg) translateY(calc(-25vw - 50%));
+    }
+
     @media (--max-lg) {
       .circle:nth-child(2),
       .circle:nth-child(4),
       .circle:nth-child(6) {
         visibility: hidden; /* Save memory */
       }
-    }
-
-    @media(--only-tablet) {
-      transform: rotate(90deg) translateY(calc(-25vw - 50%));
     }
 
     @media (--lg) {

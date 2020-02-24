@@ -228,7 +228,7 @@
     }
   }
 
-  @media (--only-tablet) {
+  @media (--md) {
     .skillsLvl {
       margin-right: $layout-margin;
     }

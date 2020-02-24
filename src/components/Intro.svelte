@@ -116,7 +116,7 @@
     }
 
     .content {
-      width: calc(50vw - $layout-margin - $circleSizeHalf);
+      width: calc(50vw - $layout-margin);
       margin-bottom: 15vh;
       flex-grow: 0;
     }
@@ -131,9 +131,9 @@
     }
   }
 
-  @media(--only-tablet) {
+  @media(--lg) {
     .content {
-      width: calc(50vw - $layout-margin);
+      width: calc(50vw - $layout-margin - $circleSizeHalf);
     }
   }
 </style>
