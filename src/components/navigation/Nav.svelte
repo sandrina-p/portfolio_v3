@@ -68,15 +68,15 @@
       setTimeout(() => { location.reload() }, 1000)
     } else {
       setNavigationData();
-      sendGA('send', 'event', 'resize', 'to_desktop', state.matchMq.lg);
+      sendGA('send', 'event', 'resize', 'desktop_from_to', `${prevState.matchMq.lg}_${state.matchMq.lg}`);
     }
   })
 
-  function updateSection(section) {
-    const newPath = navPath + '_' + sectionsId[section];
+  function updateSection(section, fromMenu) {
+    const newPath = navPath + '_' + sectionsId[section] + (fromMenu ? '-menu' : '');
     updateGeneral({ pageCurrentSection: section });
     navPath = newPath;
-    sendGA('send', 'event', 'navigation', newPath);
+    sendGA('send', 'event', 'navigation', 'section', newPath);
   }
 
   function handleNavScroll() {
@@ -195,7 +195,7 @@
       window.scrollTo(0, to);
 
       setTimeout(() => {
-        updateSection(`${pageSection}_menu`);
+        updateSection(pageSection, true);
       }, TIMEOUTS.NAV_SCROLLED);
 
     }, TIMEOUTS.NAV_ANIMATING);
