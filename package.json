@@ -1,7 +1,10 @@
 {
-  "name": "sandrina-pereira-website",
-  "description": "UX Engineer helping to turn ideas into accessible experiences",
+  "name": "sandrina-p.net",
+  "description": "Sandrina's portfolio",
   "version": "0.0.1",
+  "author": "Sandrina Pereira <a.sandrina.p@gmail.com> (https://sandrina-p.net)",
+  "repository": "https://github.com/sandrina-p/portfolio_v3",
+  "license": "MIT",
   "scripts": {
     "dev": "sapper dev",
     "build": "sapper build --legacy",
