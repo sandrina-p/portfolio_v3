@@ -2,7 +2,7 @@
   const site = 'http://sandrina-p.net'
   const title = 'Sandrina Pereira - UX Engineer';
   const description = `I'm a UX Engineer who helps to turn ideas into accessible experiences.`;
-  const coverUrl = `${site}/cover_light.png`;
+  const coverUrl = `${site}/cover_light-2.png`;
 </script>
 
 <svelte:head>
@@ -27,6 +27,9 @@
   <meta property="og:title" content={ title }>
   <meta property="og:description" content={ description }>
   <meta property="og:image" content={ coverUrl }>
+
+  <meta property="og:site_name" content={ title }>
+  <meta name="twitter:image:alt" content="website cover">
 
   <script type="application/ld+json">
 [{"@context":"http://schema.org","@type":"WebSite","url":"http://sandrina-p.net","name":"Sandrina Pereira, UX Engineer"}]
