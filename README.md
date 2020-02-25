@@ -4,7 +4,12 @@ I'm a UX Engineer who helps to turn ideas into accessible experiences.
 
 ----
 
-This is the source code of my personal website. It was a fun ride that took me around 5 months on and off during my free time. During the journey I took notes of some of my major [Learnings](LEARNINGS.md).
+This is the source code of my personal website. It was a fun ride that took me around 5 months on and off during my free time. During the journey I took notes of some of my major techincal [Learnings](LEARNINGS.md). 
+
+Some funny facts about it:
+- All animations are CSS based powered with [CSS Variables](https://developer.mozilla.org/en-US/docs/Web/CSS/--*). No libraries used.
+- This is a portfolio without images or project showcase. I hope the code itself and [Codepen](https://codepen.io/sandrina-p) can make up for it.
+- Designing it was way harder than implementing it!
 
 ## Run it locally
 
