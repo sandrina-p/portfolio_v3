@@ -3,4 +3,4 @@ export const EMAIL_URL =
 export const GITHUB_URL = 'http://github.com/sandrina-p';
 export const CODEPEN_URL = 'https://codepen.io/sandrina-p';
 export const TWITTER_URL = 'https://twitter.com/a_sandrina_p';
-export const SITE_REPO = 'https://github.com/sandrina-p/personal_website_v3';
+export const SITE_REPO = 'https://github.com/sandrina-p/portfolio_v3';
