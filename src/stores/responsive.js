@@ -11,6 +11,7 @@ This is, its values (width, height, etc...) are automatically updated when a res
 import { get, readable, writable } from 'svelte/store';
 import debounce from 'lodash/debounce';
 import breakpoints from '../theme/breakpoints';
+import { sendGA } from '../utils';
 
 let privateIsCalculated = false;
 const debounceResize = debounce(handleResize, 250);
@@ -65,9 +66,19 @@ function handleResize() {
   const { innerWidth, innerHeight } = window;
   if (innerWidth === preW.innerWidth) {
     const diffHeight = Math.abs(innerHeight - preW.innerHeight);
-    if (innerHeight > innerWidth && diffHeight < 100) {
-      // Probably it's a phone/tablet. https://stackoverflow.com/questions/8898412/iphone-ipad-triggering-unexpected-resize-events
+    const didToggleBars = diffHeight < 170;
+
+    if (didToggleBars) {
       return;
+    } else {
+      // Probably was on a mobile device https://stackoverflow.com/questions/8898412/iphone-ipad-triggering-unexpected-resize-events
+      sendGA(
+        'send',
+        'event',
+        'resize',
+        'mobile_from_to',
+        `${innerWidth}-${preW.innerHeight}-${innerHeight}`
+      );
     }
   }
   updateResponsiveData();
