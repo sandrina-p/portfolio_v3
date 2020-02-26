@@ -132,7 +132,7 @@
   $maskWidth: 120vw;
   $paddingTop: 25vh;
 
-  .wrapper {
+  .wrapperJn {
     position: relative;
     padding-top: 0;
     --rotate: -4deg;
@@ -260,13 +260,13 @@
   }
 
   @media (--max-lg) {
-    .wrapper {
+    .wrapperJn {
       margin-bottom: $spacer-XL;
     }
   }
 
   @media (--lg) {
-    .wrapper {
+    .wrapperJn {
       padding-top: $paddingTop;
     }
 
@@ -282,7 +282,7 @@
   }
 </style>
 
-<section class="wrapper"
+<section class="wrapperJn"
   class:isActive
   style="--progress: {progress}"
   id="journey" tabindex="-1"

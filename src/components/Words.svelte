@@ -208,7 +208,7 @@
     $cardW: 90rem;
     $cardOffset: 9rem;
 
-    .wrapper {
+    .wrapperW {
       position: relative;
       padding-left: calc((100vw - $cardW + $cardOffset) / 2);
       background-color: var(--bg_0);
@@ -344,7 +344,7 @@
   }
 </style>
 
-<section class="wrapper"
+<section class="wrapperW"
   class:isOnStage
   id="words" tabindex="-1"
   data-section-offset-v="40"

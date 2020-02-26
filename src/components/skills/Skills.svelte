@@ -153,7 +153,7 @@
   @define-mixin motionDefault { :global(.jsMotionDefault) & { @mixin-content; } }
   @define-mixin motionReduced { :global(.jsMotionReduced) & { @mixin-content; } }
 
-  .wrapper {
+  .wrapperSk {
     --skills-bg: var(--bg_invert);
     position: relative;
     min-height: 120vh;
@@ -224,13 +224,13 @@
 
   @media (--md) {
     $paddingTop: 25vh; /* enough to cover all in black I guess */
-    .wrapper {
+    .wrapperSk {
       padding-top: 25vw;
     }
   }
 
   @media (--lg) {
-    .wrapper {
+    .wrapperSk {
       min-height: 100vh;
     }
 
@@ -247,7 +247,7 @@
 </style>
 
 <section
-  class="wrapper"
+  class="wrapperSk"
   class:uAppear={isVisible}
   class:uAppearSoon={!isVisible}
   id="skills" tabindex="-1"
