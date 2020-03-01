@@ -14,7 +14,11 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
-import './commands'
+import './commands';
 
-// Alternatively you can use CommonJS syntax:
-// require('./commands')
+// Abort tests on first fail
+afterEach(function() {
+  if (this.currentTest.state === 'failed') {
+    Cypress.runner.stop();
+  }
+});

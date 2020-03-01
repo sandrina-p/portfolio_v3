@@ -288,7 +288,8 @@
   id="journey" tabindex="-1"
   data-section-offset-v="45"
   data-section-offset-h="15"
-  on:focusin={handleKeyboardFocus}>
+  on:focusin={handleKeyboardFocus}
+  data-cy="journey">
   <h2 class="f-title header" bind:this={elHeader}>
     <span class="sliding">
       <span class="slidingRotate">

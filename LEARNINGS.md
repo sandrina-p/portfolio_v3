@@ -54,6 +54,11 @@ Here's a list of my learnings while building this website. When I release the we
 - 🎈Use `el.focus()` on a element inside a scrollable container, it will scroll to the element automatically (safari won't!). Useful to scroll between sliders on a scroll-snap container.
 - 🎈Use `animation-delay: -99s;` to start the animation from the end and stick at it. Useful to handle motion-reduced without disabling animations.
 
+## Cypress
+- ❓I can't use visual regression... Each snapshot seems to causes a page refresh and the output is always a blank layout... Followed [this tutorial](https://docs.cypress.io/guides/tooling/visual-testing.html#Tooling) and [this one](https://medium.com/norwich-node-user-group/visual-regression-testing-with-cypress-io-and-cypress-image-snapshot-99c520ccc595)
+- 🎈Using `cy.get('title').should('contain', 'Hello world');`, if it fails doesn't say what's the diff. Use `cy.get('title').invoke('text').should(...` will show the diff in case it fails. 
+
+
 ## VSCode
 
 - Finally did the switch from Atom to VSCode because of lack of Svelte syntax support... not sure if it was a good decision.

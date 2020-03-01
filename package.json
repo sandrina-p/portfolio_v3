@@ -12,11 +12,11 @@
     "start": "node __sapper__/build",
     "cy:run": "cypress run",
     "cy:open": "cypress open",
-    "test": "run-p --race dev cy:run",
-    "ngrok": "/Users/sandrina-p/Documents/git/ngrok http 3000"
+    "test": "run-p --race dev cy:run"
   },
   "dependencies": {
     "compression": "^1.7.1",
+    "cypress": "3.x",
     "polka": "next",
     "sirv": "^0.4.0",
     "smoothscroll-polyfill": "^0.4.4"
@@ -32,6 +32,7 @@
     "eslint": "^6.6.0",
     "eslint-config-prettier": "^6.5.0",
     "eslint-config-standard": "^14.0.0",
+    "eslint-plugin-cypress": "^2.10.3",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-node": "^9.1.0",
     "eslint-plugin-prettier": "^3.1.1",

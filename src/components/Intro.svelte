@@ -146,8 +146,7 @@
       {/each}
     </h1>
     <p class="text">
-      I'm a UX Engineer who helps to turn ideas
-      into accessible experiences.
+      I'm a UX Engineer who helps to turn ideas into accessible experiences.
     </p>
     <NoScriptMsg />
   </div>

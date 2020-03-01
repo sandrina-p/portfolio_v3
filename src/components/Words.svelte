@@ -3,9 +3,9 @@
   import words from '../data/words.js';
   import { sendGA } from '../utils';
   import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
-  const options = ['sharing', 'writing', 'talking'];
-  const ledText = options[0];
-  let isOnStage = false; // on viewport or passed the viewport
+  // const options = ['sharing', 'writing', 'talking']; // TODO Animation - Later maybe...
+  // const ledText = options[0];
+  let isOnStage = false; // in viewport or passed the viewport
 
   afterGeneralUpdate((prevState, state) => {
     const thisSectionIndex = state.pageSections.indexOf('words');
@@ -348,19 +348,17 @@
   class:isOnStage
   id="words" tabindex="-1"
   data-section-offset-v="40"
-  data-section-offset-h="50">
+  data-section-offset-h="50"
+  data-cy="words">
   <div class="content">
     <header class="header">
       <h2 class="f-title headerTitle" data-io="heading">
         <span class="headerTitle-part">I've been</span>
-        <span
-          class="headerTitle-part">
-          {ledText}
-        </span>
+        <span class="headerTitle-part">sharing</span>
       </h2>
       <p class="headerDescription">As a self-taught developer, giving back to the community is a joy!</p>
     </header>
-    <ul class="cardList u-carousel">
+    <ul class="cardList u-carousel" data-cy="cards">
       {#each words as { title, date, places }, index}
         <li
           class="cardItem">
