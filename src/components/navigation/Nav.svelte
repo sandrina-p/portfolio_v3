@@ -476,7 +476,7 @@
   }
 
   @keyframes fancyTransition {
-    /* not that fancy afterwall... */
+    /* not that fancy after all... */
     0%, 100% {
       opacity: 0;
     }

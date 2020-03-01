@@ -281,11 +281,12 @@
   class="container"
   class:isOnStage
   style={styleContainer}
-  data-variant="vertical">
+  data-variant="vertical"
+  data-cy="valuesV">
 
   <h2 class="sr-only">Values</h2>
 
-  <div class="part pDots">
+  <div class="part pDots" data-cy="dots">
     <Dots pattern='B' isActive={['MORPH', 'DOTS', 'ASK'].includes(currentPart)} />
     <div class="pContent" data-part="DOTS" bind:this={elDots}>
       <h3 class="f-title title">Let's connect the dots</h3>
@@ -302,7 +303,7 @@
     </div>
   </div>
 
-  <div class="part pAsk">
+  <div class="part pAsk" data-cy="ask">
     <Gelly isActive={ currentPart === 'ASK' }/>
     <div class="pContent" data-part="ASK" bind:this={elAsk}>
       <h3 class="f-title title">
@@ -322,7 +323,7 @@
     </div>
   </div>
 
-  <div class="part pWolf">
+  <div class="part pWolf" data-cy="wolf">
     <!-- OPTIMIZE: Find a more readable way for this nes-nes-ted ternary -->
     <Echo
       activeLevel={
@@ -354,7 +355,7 @@
     </div>
   </div>
 
-  <div class="part pPeople" id="nav_valuesEnd">
+  <div class="part pPeople" id="nav_valuesEnd" data-cy="people">
     <div class="pContent" data-part="PEOPLE" bind:this={elPeople}>
       <h3 class="f-title title">
         <span class="title-part">Progress over</span> <span class="title-part">processes</span>

@@ -570,6 +570,7 @@
   id="contact" tabindex="-1"
   data-section-offset-v="100"
   data-section-offset-h="175"
+  data-cy="contact"
   style="height: {footerHeight === 'auto' ? footerHeight : `${footerHeight}px`}; --thingSize: {thingProgress}; --titleProgress: {titleProgress}; --cardScale: {cardScale};">
  
   <h3 class="title f-title">
@@ -612,7 +613,7 @@
   <h4 class="sr-only">Accessibility note for screen readers</h4>
   <p class="sr-only">
     This paragraph was written specially for those who are hearing this... that's right, you!
-    If you find anything weird of you feel lost around here, please reach out to me and I'll do my best to make it better for you.
+    If you find anything weird or you feel lost around here, please reach out to me and I'll do my best to make it better for you.
     The web is awesome and I believe everyone should be able to enjoy it, no matter what!
   </p>
 </footer>

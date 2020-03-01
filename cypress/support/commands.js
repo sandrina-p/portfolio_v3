@@ -7,19 +7,13 @@
 // commands please read more here:
 // https://on.cypress.io/custom-commands
 // ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add("login", (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add("drag", { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add("dismiss", { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This is will overwrite an existing command --
-// Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+
+/* Get element by data-test attribute and other attributes
+ ex:
+ cy.getByDT('login')            //  cy.get([data-test="login"])
+ cy.getByDT('login', 'button')  //  cy.get('button[data-test="login"]')
+ cy.getByDT('login', '.error')  //  cy.get('.error[data-test="login"]')
+*/
+Cypress.Commands.add('getByDT', (element, otherSelector = '') => {
+  return cy.get(`${otherSelector}[data-cy="${element}"]`);
+});
