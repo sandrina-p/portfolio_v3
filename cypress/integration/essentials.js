@@ -82,7 +82,7 @@ describe('Essentials', () => {
       cy.getByDT('dots')
         .scrollIntoView()
         .within(() => {
-          cy.get('h3').should('contain', "Let's connect the dots");
+          cy.get('h3').should('contain', "Let's connect the dotts");
           // No need to assert it all... just make sure it starts well.
           cy.get('p').should('contain', 'Combining design and development proce');
         });
