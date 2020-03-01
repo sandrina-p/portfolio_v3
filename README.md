@@ -19,6 +19,9 @@ npm install # or yarn
 
 # Run in dev mode
 npm run dev # or yarn dev
+
+# Run tests
+npm run cy:run # or yarn cy:run
 ```
 
 ## Stack

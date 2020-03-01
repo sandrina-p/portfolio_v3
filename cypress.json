@@ -2,5 +2,6 @@
   "baseUrl": "http://localhost:3000",
   "video": true,
   "videoUploadOnPasses": false,
-  "trashAssetsBeforeRuns": true
+  "trashAssetsBeforeRuns": true,
+  "projectId": "tsczsa"
 }
