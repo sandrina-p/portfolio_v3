@@ -1,4 +1,5 @@
-  /* http://meyerweb.com/eric/tools/css/reset/
+<style global>
+/* http://meyerweb.com/eric/tools/css/reset/
    v2.0 | 20110126
    License: none (public domain)
   */
@@ -45,3 +46,4 @@
     border-collapse: collapse;
     border-spacing: 0;
   }
+  </style>
