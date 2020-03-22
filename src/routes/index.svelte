@@ -99,7 +99,10 @@
   }
 </style>
 
+<header>
 <Nav on:calculated={handleNavCalculated} horizonSpace={horizonSpace} />
+</header>
+<main>
 <div
   class="container"
   style="--scrollY: {scrollY}px; --scrollSpeed: {scrollSpeedCurrent};">
@@ -114,4 +117,5 @@
 <Skills />
 <Journey />
 <Footer />
+</main>
 <SvgSprite />

@@ -6,6 +6,4 @@
 
 <HeadMeta />
 <Theme />
-<main>
-  <slot />
-</main>
+<slot />
