@@ -4,15 +4,24 @@
   import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
   import { strMotion, afterMotionUpdate } from '../stores/motion.js';
   import { getInLimit, scrollIntoView, sendGA } from '../utils';
-  import { EMAIL_URL, CODEPEN_URL, TWITTER_URL } from '../data/misc.js';
+  import { EMAIL_URL, CODEPEN_URL, TWITTER_URL, SITE_URL } from '../data/misc.js';
 
   let elHeader;
   let progress = 0;
   let animation;
+  let workshopUrl = '/workshop-a11y-fundamentals'
 
   $: wHeight = $_window && $_window.innerHeight;
   $: goal = wHeight / 2;
   $: isActive = progress === 1;
+
+  onMount(() => {
+    // NOTE / OPTIMIZE: Turn the URL into an absolute path to force a total refresh.
+    // At the moment this website isn't optimized to work as a SPA (because of all animations around)
+    // so to prevent any bug, force a total refresh by changing the href to absolute URL.
+    // P.S. The first render needs to have the relative URL so Sapper can "crawl" it and export the page.
+    workshopUrl = `${SITE_URL}${workshopUrl}`
+  })
 
   afterGeneralUpdate((prevState, state) => {
     if (!prevState.isReady && state.isReady) {
@@ -307,7 +316,7 @@
       <a class="u-link" rel="noreferrer" target="_blank" href="https://github.com/okTurtles/group-income-simple">Group Income</a>.
       Before that, I was a Senior UI Engineer at
       <a class="u-link" rel="noreferrer" target="_blank" href="https://www.farfetch.com">Farfetch</a>
-      for a few years. From time to time, I also challenge myself to give talks and workshops about a topic I'm really into.
+      for a few years. From time to time, I also challenge myself to give talks and <a class="u-link" href={workshopUrl} >workshops</a> about a topic I'm really into.
     </p>
     <p class="p">
       Create humanly accessible experiences within digital environments has been my meta-goal since I can remember.

@@ -421,7 +421,7 @@
 <p class="f-title subtitle hithere">The web is awesome and everyone should be able to enjoy it.</p>
 
 <p class="p">
-  Hi there, I'm <a href="https://sandrina-p.net" rel="noreferrer" class="u-link">Sandrina Pereira</a> and I believe that making the web accessible is our duty as web developers.
+  Hi there, I'm <a href={ SITE_URL } rel="noreferrer" class="u-link">Sandrina Pereira</a> and I believe that making the web accessible is our duty as web developers.
 </p>
 <p class="p">
   Because of the current events <span class="(#stayHome)">🦠</span> I decided to make a remote version of my workshop for the first time ever! 
@@ -473,7 +473,7 @@
   <p class="card-txt field-tip">
     This <strong>workshop is totally free</strong>! There are 30 available spots, subject to approval.
     <br/>
-    If you have any question, feel free to send me an e-mail to <a class="u-link" href={ MAIL_TO }>a.sandrina.p@gmail.com</a>.  
+    If you have any questions, feel free to send me an e-mail at <a class="u-link" href={ MAIL_TO }>a.sandrina.p@gmail.com</a>.  
   </p>
 
   <label class="field" class:error={errors.name}>
@@ -551,7 +551,7 @@
   </h2>
   <p class="p">
     I'll get back to you in a few days (up to one week) with more details about the workshop!
-    If you have any questions, feel free to send me an e-mail to <a class="u-link" href={ MAIL_TO }>a.sandrina.p@gmail.com</a>.
+    If you have any questions, feel free to send me an e-mail at <a class="u-link" href={ MAIL_TO }>a.sandrina.p@gmail.com</a>.
   </p>
 
   <span class="divider"></span>
@@ -579,7 +579,7 @@
 </main>
 
 <footer class="footer">
-  <p>Made without coffee by <a class="u-link" href="https://sandrina-p.net" rel="noreferrer">Sandrina Pereira</a>.</p>
+  <p>Made without coffee by <a class="u-link" href={ SITE_URL } rel="noreferrer">Sandrina Pereira</a>.</p>
   <Contacts />
 </footer>
 
