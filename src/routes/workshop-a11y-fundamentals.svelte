@@ -560,7 +560,7 @@
       <input type="checkbox" name="slot" value="morning"
         on:change={(e) => handleChange(e, 'time')}
         bind:group={ formTime }
-      > 9 PM - 1 PM <a class="u-link" target="_blank" href="https://everytimezone.com/s/5659d1ce">(UTC+1 See timezone)</a>
+      > 9 AM - 1 PM <a class="u-link" target="_blank" href="https://everytimezone.com/s/5659d1ce">(UTC+1 See timezone)</a>
     </label>
 
     <label class="field-checkbox">
