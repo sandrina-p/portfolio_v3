@@ -457,7 +457,7 @@
 
 <main class="wrapper">
 <h1 class="f-title title">Accessibility Fundamentals</h1>
-<p class="rw">Remote Workshop <span class="rw-d">•</span> April 22th <span class="rw-d">•</span> <span class="rw-t">4 Hours</span></p>
+<p class="rw">Remote Workshop <span class="rw-d">•</span> April 22nd <span class="rw-d">•</span> <span class="rw-t">4 Hours</span></p>
 
 <p class="f-title subtitle hithere">The web is awesome and everyone should be able to enjoy it.</p>
 
@@ -551,7 +551,7 @@
   </label>
 
   <fieldset class="field">
-    <span class="field-label">What time slots work for you on April 22th?</span>
+    <span class="field-label">What time slots work for you on April 22nd?</span>
     <span class="field-tip">
       This will help me to decide what's the best slot for most of the people.
     </span>
