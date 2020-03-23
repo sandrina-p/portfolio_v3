@@ -2,6 +2,7 @@
   import { onMount, beforeUpdate, afterUpdate } from 'svelte';
   import smoothscroll from 'smoothscroll-polyfill';
 
+  import HeadMeta from '../components/HeadMeta.svelte';
   import Intro from '../components/Intro.svelte';
   import IntroTip from '../components/IntroTip.svelte';
   import Nav from '../components/navigation/Nav.svelte';
@@ -12,6 +13,7 @@
   import Footer from '../components/Footer.svelte';
   import SvgSprite from '../components/SvgSprite.svelte';
   
+  import { SITE_URL } from '../data/misc';
   import { getInLimit, setRIC, focusOnlyWhenNeeded } from '../utils';
   import { matchMq, initResponsive, afterResponsiveUpdate } from '../stores/responsive.js';
   import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
@@ -99,7 +101,21 @@
   }
 </style>
 
+<HeadMeta
+  site={ SITE_URL }
+  title='Sandrina Pereira - UX Engineer'
+  description={`I'm a UX Engineer who helps to turn ideas into accessible experiences.`}
+  coverUrl={`${SITE_URL}/cover_light-2.png`}
+/>
+<svelte:head>
+  <script type="application/ld+json">
+    [{"@context":"http://schema.org","@type":"WebSite","url":"https://sandrina-p.net","name":"Sandrina Pereira, UX Engineer"}]
+  </script>
+</svelte:head>
+<header>
 <Nav on:calculated={handleNavCalculated} horizonSpace={horizonSpace} />
+</header>
+<main>
 <div
   class="container"
   style="--scrollY: {scrollY}px; --scrollSpeed: {scrollSpeedCurrent};">
@@ -114,4 +130,5 @@
 <Skills />
 <Journey />
 <Footer />
+</main>
 <SvgSprite />

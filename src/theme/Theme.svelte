@@ -10,6 +10,7 @@
 
     --primary_1: #9b78de;
     --primary_1_smooth: #e9e1f8;
+    --primary_1_highlight: #e9e1f8;
     --primary_1_sat: #8e66dc; /* better for small text */
     --primary_1_stronger: #8c00ff;
     --morph_color: rgba(172, 105, 255, 0.24);
@@ -17,6 +18,8 @@
     --primary_2: #52e9d0;
     --primary_3: #dfb948;
     --primary_4: #ff9d9d;
+
+    --error: #d52424;
   }
 
   body.dark {
@@ -25,11 +28,12 @@
     --text_invert: #343434; /* same as defautl text_0 */
     --bg_0: #424043;
     --bg_1: #2e2a2f;
-    --primary_1: #9f76ff; /* slightly brigter */
-    --primary_1_sat: #bd99ff;
+    --primary_1_sat: #a687ff;
     --primary_1_smooth: #514371;
+    --primary_1_highlight: #aaa3ba;
     --morph_color: rgba(159, 117, 255, 0.19);
     --morph_total: #8062be;
+    --error: #ff9d9d;
   }
 
   /* ************************************ */
@@ -77,10 +81,10 @@
 
   /* ------ Text highlight ------ */
   ::selection {
-    background: var(--primary_1_smooth);
+    background: var(--primary_1_highlight);
   }
   ::-moz-selection {
-    background: var(--primary_1_smooth);
+    background: var(--primary_1_highlight);
   }
 
   /* ************************************ */

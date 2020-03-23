@@ -1,8 +1,8 @@
 <script>
-  const site = 'http://sandrina-p.net'
-  const title = 'Sandrina Pereira - UX Engineer';
-  const description = `I'm a UX Engineer who helps to turn ideas into accessible experiences.`;
-  const coverUrl = `${site}/cover_light-2.png`;
+  export let site
+  export let title
+  export let description 
+  export let coverUrl 
 </script>
 
 <svelte:head>
@@ -30,10 +30,6 @@
 
   <meta property="og:site_name" content={ title }>
   <meta name="twitter:image:alt" content="website cover">
-
-  <script type="application/ld+json">
-[{"@context":"http://schema.org","@type":"WebSite","url":"http://sandrina-p.net","name":"Sandrina Pereira, UX Engineer"}]
-  </script>
 
   <script async src="https://www.google-analytics.com/analytics.js"></script>
   <script>
