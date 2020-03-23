@@ -1,7 +1,8 @@
 <script>
+  import HeadMeta from '../components/HeadMeta.svelte';
   import ToggleTheme from '../components/navigation/ToggleTheme.svelte';
   import Contacts from '../components/Contacts.svelte';
-  import { TWITTER_URL } from '../data/misc.js';
+  import { TWITTER_URL, SITE_URL } from '../data/misc.js';
 
   const emailRegex = /(^$|^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$)/;
   const MAIL_TO = 'mailto:a.sandrina.p@gmail.com?subject=Workshop%20-%20Accessibility%20Fundamentals&body=So,%20I%20was%20checking%20your%20"Accessibility%20Fundamentals"%20workshop%20and...';
@@ -169,6 +170,11 @@
     font-size: $font-L2;
     font-weight: 500;
     color: var(--primary_1_sat);
+
+    &-d {
+      font-weight: 300;
+      color: var(--text_0);
+    }
   }
 
   .list {
@@ -341,8 +347,67 @@
   }
 </style>
 
+<HeadMeta
+  site={ `${SITE_URL}/workshop-a11y-fundamentals` }
+  title="Accessibility Fundamentals - Workshop"
+  description="In this workshop we'll explore every common accessibility no-nos and learn how to make them work properly for everyone using a mouse or a keyboard."
+  coverUrl={ `${SITE_URL}/cover_a11y.png` }
+/>
+
 <svelte:head>
-	<title>Accessibility Fundamentals - Workshop</title>
+<script type="application/ld+json">[
+{
+  "@context": "http://schema.org",
+  "@type": "WebSite",
+  "url": "https://sandrina-p.net/workshop-a11y-fundamentals",
+  "name": "Accessibility Fundamentals - Workshop",
+  "alternateName": "A11Y Fundamentals"
+}, {
+  "@context": "http://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+    "@type": "ListItem",
+    "position": 1,
+    "item": {
+      "@id": "https://sandrina-p.net/workshop-a11y-fundamentals",
+      "name": "Accessibility Fundamentals - Workshop",
+      "image": "https://sandrina-p.net/cover_a11y.png"
+    }
+  }]
+},
+{
+  "@context": "http://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sandrina-p.net/workshop-a11y-fundamentals"
+  },
+  "headline": "Accessibility Fundamentals - Workshop",
+  "image": {
+    "@type": "ImageObject",
+    "url": "https://sandrina-p.net/cover_a11y.png",
+    "height": 1280,
+    "width": 640
+  },
+  "datePublished": "2020-03-23",
+  "dateModified": "2020-03-23",
+  "author": {
+    "@type": "Person",
+    "name": "Sandrina Pereira"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Sandrina Pereira",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sandrina-p.net/favicon192.png",
+      "width": 192,
+      "height": 192
+    }
+  },
+  "description": "In this workshop we'll explore every common accessibility no-nos and learn how to make them work properly for everyone using a mouse or a keyboard."
+}
+ ]</script>
 </svelte:head>
 
 <header class="header">
@@ -351,7 +416,7 @@
 
 <main class="wrapper">
 <h1 class="f-title title">Accessibility Fundamentals</h1>
-<p class="rw">Remote Workshop | April 22th</p>
+<p class="rw">Remote Workshop <span class="rw-d">•</span> April 22th <span class="rw-d">•</span> 4 Hours</p>
 
 <p class="f-title subtitle hithere">The web is awesome and everyone should be able to enjoy it.</p>
 
@@ -364,7 +429,7 @@
   
 <p class="p">
   This workshop will be full of little big exercises.
-  We will explore some of the most common accessibility no-nos and how to make them work
+  We will explore every common accessibility no-nos and how to make them work
   properly for everyone using a mouse or a keyboard.
   Additionally, I will show you how to use a screen reader, and show you that there's no reason to be afraid of using it!
 </p>
@@ -406,7 +471,7 @@
   <h3 class="f-title card-title">Want to join? Mark your spot!</h3>
 
   <p class="card-txt field-tip">
-    This <strong>workshop is totally free</strong>! There are 30 available spots, subject to my approval.
+    This <strong>workshop is totally free</strong>! There are 30 available spots, subject to approval.
     <br/>
     If you have any question, feel free to send me an e-mail to <a class="u-link" href={ MAIL_TO }>a.sandrina.p@gmail.com</a>.  
   </p>
@@ -477,7 +542,9 @@
     {!isSubmitting ? 'Join the workshop' : 'Sending...'}
   </button>
 </form>
+
 {:else}
+
 <div class="card">
   <h2 class="f-title card-title">
     That's all! <span aria-hidden="true">🎉</span>
