@@ -1,6 +1,7 @@
 <script>
   import HeadMeta from '../components/HeadMeta.svelte';
   import ToggleTheme from '../components/navigation/ToggleTheme.svelte';
+  import Nav from '../components/navigation/Nav.svelte';
   import Contacts from '../components/Contacts.svelte';
   import { TWITTER_URL, SITE_URL } from '../data/misc.js';
 
@@ -141,11 +142,42 @@
     padding: $spacer-M $spacer-M 0 0;
   }
 
+  :global(.toggleTheme) {
+    z-index: 2;
+
+    /* BUG: Somethings wrong with Safari on this page...
+    The mask doesnt work. Workaround: use ::after */
+    :global(.sunMoon) { display: none }
+
+    &::after {
+      content: '';
+      width: 6px;
+      height: 6px;
+      display: block;
+      background: var(--bg_0);
+      position: absolute;
+      top: 16px;
+      right: 14px;
+      transform-origin: 50% 50%;
+      transform: scale(0);
+      border-radius: 50%;
+      transition: transform 200ms ease-out, fill 200ms ease-out;
+    }
+
+    &[aria-pressed="true"]::after {
+      transform: scale(3);
+    }
+
+  }
+
   .wrapper {
     margin: 0 auto;
     max-width: 65rem;
-    padding: 3rem 1rem;
-    font-size: $font-L;
+    padding: $spacer-L $spacer-M;
+
+    @media (--md) {
+      font-size: $font-L;
+    }
   }
 
   .title {
@@ -174,6 +206,10 @@
     &-d {
       font-weight: 300;
       color: var(--text_0);
+    }
+
+    &-t {
+      white-space: nowrap;
     }
   }
 
@@ -206,8 +242,12 @@
   .card {
     background: var(--bg_1);
     margin: $spacer-XL 0;
-    padding: $spacer-LM $spacer-L;
+    padding: $spacer-L $spacer-M;
     border-radius: 3px;
+
+    @media (--md) {
+      padding: $spacer-LM $spacer-L;
+    }
 
     &-title {
       font-size: $font-XL;
@@ -411,12 +451,13 @@
 </svelte:head>
 
 <header class="header">
-  <ToggleTheme />
+  <ToggleTheme klass="toggleTheme" />
+  <!-- <Nav on:calculated={() => true} horizonSpace="10000" /> -->
 </header>
 
 <main class="wrapper">
 <h1 class="f-title title">Accessibility Fundamentals</h1>
-<p class="rw">Remote Workshop <span class="rw-d">•</span> April 22th <span class="rw-d">•</span> 4 Hours</p>
+<p class="rw">Remote Workshop <span class="rw-d">•</span> April 22th <span class="rw-d">•</span> <span class="rw-t">4 Hours</span></p>
 
 <p class="f-title subtitle hithere">The web is awesome and everyone should be able to enjoy it.</p>
 
