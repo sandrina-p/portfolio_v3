@@ -584,6 +584,7 @@
     <div class="cardChild" on:focusin={handleKeyboardFocus}>
       <p class="text">Feel free to
         <a href={EMAIL_URL}
+          target="_blank"
           on:click={() => sendGA('send', 'event', 'click', 'contacts', 'email_hi')}
           class="u-link"
         >say hi</a>!

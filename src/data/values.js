@@ -25,7 +25,7 @@ export default {
   WOLF: {
     text: [
       'If you wanna go quickly, I can make it happen. As a fast paced learner with a <strong>high quality bar</strong>, I can go solo when needed.',
-      `But if you wanna go far and prefer collaboration over competition, I'm willing to <a class="u-link" href="${EMAIL_URL}">join your team</a>!`,
+      `But if you wanna go far and prefer collaboration over competition, I'm willing to <a class="u-link" href="${EMAIL_URL}" target="_blank">join your team</a>!`,
     ],
     width: '31.4rem',
     height: '40rem',
