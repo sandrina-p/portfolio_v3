@@ -232,20 +232,19 @@ describe('Essentials', () => {
       cy.get('.card').within(() => {
         cy.get('p')
           .eq(0)
-          .should('contain', 'Feel free to');
+          .should('contain', 'Feel free to say hi');
 
         cy.get('p')
           .eq(1)
           .should('contain', "It's easy to find me around, specially if you are a web lover too.");
 
-        cy.get('a').should('have.length', 6);
+        cy.get('a').should('have.length', 5);
 
-        assertLink(cy.get('a').eq(0), 'say hi', 'mailto:');
-        assertLink(cy.get('a').eq(1), 'dev.to', 'dev.to');
-        assertLink(cy.get('a').eq(2), 'codepen', 'codepen.io');
-        assertLink(cy.get('a').eq(3), 'twitter', 'twitter.com');
-        assertLink(cy.get('a').eq(4), 'e-mail', 'mailto:');
-        assertLink(cy.get('a').eq(5), 'Code', 'portfolio_v3');
+        assertLink(cy.get('a').eq(0), 'dev.to', 'dev.to');
+        assertLink(cy.get('a').eq(1), 'codepen', 'codepen.io');
+        assertLink(cy.get('a').eq(2), 'twitter', 'twitter.com');
+        assertLink(cy.get('a').eq(3), 'e-mail', 'mailto:');
+        assertLink(cy.get('a').eq(4), 'Code', 'portfolio_v3');
 
         cy.get('.credits')
           .invoke('text')
