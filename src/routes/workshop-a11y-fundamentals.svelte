@@ -85,6 +85,7 @@
   async function handleSubmit(event) {
     if (isSubmitting) { return }
     console.log(formName, formEmail, formReason, formTime)
+    hasInlineError = false;
 
     if (!formName) {
       errors.name = 'Your name is required.';
