@@ -147,6 +147,10 @@
     display: block !important;
   }
 
+  .u-nowrap {
+    white-space: nowrap;
+  }
+
   .u-link {
     position: relative;
 

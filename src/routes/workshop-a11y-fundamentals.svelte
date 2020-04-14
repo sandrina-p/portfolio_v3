@@ -8,21 +8,23 @@
   const emailRegex = /(^$|^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$)/;
   const MAIL_TO = 'mailto:a.sandrina.p@gmail.com?subject=Workshop%20-%20Accessibility%20Fundamentals&body=So,%20I%20was%20checking%20your%20"Accessibility%20Fundamentals"%20workshop%20and...';
 
-  let isSubmitting = false;
-  let isSubmitted = false;
-  let hasInlineError = false;
+  let isFormSubmitting = false;
+  let isFormSubmitted = false;
+  let formErrorMsg = '';
   
-  let formName = '';
-  let formEmail = '';
-  let formReason = '';
-  let formTime = [];
+  let hasInlineError = false;
+
+  let first_name = '';
+  let email_address = '';
+  // let formReason = '';
+  // let form_time = [];
 
   let warnings = {}
   let errors = {
     name: false,
     email: false,
-    reason: false,
-    time: false,
+    // reason: false,
+    // time: false,
   }
 
   // TODO - DRY these validations... on a next workshop maybe!
@@ -40,14 +42,14 @@
           errors.email = ''
         }
         break;
-      case 'reason':
-        if (errors.reason && !!value) {
-          errors.reason = ''
-        }
-        if (value.length >= 350) {
-          warnings.reason = "That's enough Shakespeare 🧐"
-        }
-        break;
+      // case 'reason':
+      //   if (errors.reason && !!value) {
+      //     errors.reason = ''
+      //   }
+      //   if (value.length >= 350) {
+      //     warnings.reason = "That's enough Shakespeare 🧐"
+      //   }
+      //   break;
       case 'time':
         if (errors.time) {
           errors.time = ''
@@ -72,66 +74,66 @@
           errors.email = 'Your e-mail is required.'
         }
         break;
-      case 'reason':
-        if (value.length < 15) {
-          errors.reason = "Don't be shy, tell me more."
-        }
-        break;
+      // case 'reason':
+      //   if (value.length < 15) {
+      //     errors.reason = "Don't be shy, tell me more."
+      //   }
+      //   break;
       default:
         break;
     }
   }
 
   async function handleSubmit(event) {
-    if (isSubmitting) { return }
-    console.log(formName, formEmail, formReason, formTime)
+    if (isFormSubmitting) { return }
+    console.log(first_name, email_address)
     hasInlineError = false;
 
-    if (!formName) {
+    if (!first_name) {
       errors.name = 'Your name is required.';
       hasInlineError = true;
     }
 
-    if (!formEmail) {
+    if (!email_address) {
       errors.email = 'Your e-mail is required.';
       hasInlineError = true;
-    } else if (!formEmail.match(emailRegex)) {
+    } else if (!email_address.match(emailRegex)) {
       errors.email = 'Your e-mail does not seem valid.';
       hasInlineError = true;
     }
 
-    if (formReason.length < 15) {
-      errors.reason = "Don't be shy, tell me more.";
-      hasInlineError = true;
-    }
+    // if (formReason.length < 15) {
+    //   errors.reason = "Don't be shy, tell me more.";
+    //   hasInlineError = true;
+    // }
 
-    if (!formTime.length) {
-      errors.time = 'Select a time slot.';
-      hasInlineError = true;
-    } else if (formTime.length > 1 && formTime.includes('none')) {
-      errors.time = 'You seem undecided... You can either pick "None" or a time slot, but not both.';
-      hasInlineError = true;
-    }
+    // if (!form_time.length) {
+    //   errors.time = 'Select a time slot.';
+    //   hasInlineError = true;
+    // } else if (form_time.length > 1 && form_time.includes('none')) {
+    //   errors.time = 'You seem undecided... You can either pick "None" or a time slot, but not both.';
+    //   hasInlineError = true;
+    // }
 
     if (hasInlineError) { return }
 
-    isSubmitting = true;
+    isFormSubmitting = true;
 
     try {
-      await fetch('https://api.formik.com/submit/sandrina-p/accessibility-fundamentals-2', {
+      await fetch('https://app.convertkit.com/forms/1318242/subscriptions', {
         method: 'POST',
         headers: {
+          Accept: 'application/json',
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({formName, formEmail, formReason, formTime}),
+        body: JSON.stringify({first_name, email_address}),
       });
     } catch (e) {
-      isSubmitting = false;
-      console.error('Error! :(', e);
-      return 
+      console.error('Error on submit!', e)
+      formErrorMsg = e.message;
     }
-    isSubmitting = false;
-    isSubmitted = true;
+    isFormSubmitting = false;
+    isFormSubmitted = true;
   }
 </script>
 
@@ -235,7 +237,7 @@
     margin-bottom: $spacer-M;
 
     strong {
-      display: block;
+      /* display: block; */
       font-weight: 500;
     }
   }
@@ -243,6 +245,7 @@
   .card {
     background: var(--bg_1);
     margin: $spacer-XL 0;
+    max-width: 44rem;
     padding: $spacer-L $spacer-M;
     border-radius: 3px;
 
@@ -253,20 +256,25 @@
     &-title {
       font-size: $font-XL;
       margin-bottom: $spacer-M;
-
-      span {
-        color: var(--primary_1_sat);
-      }
     }
 
     &-txt {
       margin-bottom: 2.4rem;
 
-      strong { font-weight: 600; }
+      /* strong { font-weight: 600; } */
     }
   }
 
-  .ascii {
+  .feedbackMsg {
+    font-size: $font-L2;
+    padding: $spacer-M 0 $spacer-M;
+  }
+
+  .feedbackTip {
+    font-size: $font-M;
+  }
+
+  /* .ascii {
     font-family: monospace;
     font-size: 2.9vw;
     margin: $spacer-MS 0;
@@ -275,15 +283,15 @@
     @media(--md) {
       font-size: $font-L;
     }
-  }
+  } */
 
   .field {
     display: block;
     margin-bottom: $spacer-MS;
 
     &.error {
-      .field-input,
-      .field-textarea {
+      .field-input {
+      /* .field-textarea { */
         border-color: var(--error);
       }
     }
@@ -298,8 +306,8 @@
       font-size: $font-S;
     }
 
-    &-input,
-    &-textarea {
+    /* &-textarea, */
+    &-input {
       display: block;
       margin: $spacer-S 0;
       width: 100%;
@@ -322,14 +330,13 @@
       }
     }
 
-    &-textarea {
+    /* &-textarea {
       max-width: none;
       height: auto;
       resize: vertical;
-    }
+    } */
 
-    &-error,
-    &-info {
+    &-error {
       display: block;
       font-size: $font-M;
     }
@@ -338,15 +345,15 @@
       color: var(--error);
     }
 
-    &-info {
+    /* &-info {
       color: var(--text_0);
       font-style: italic;
-    }
+    } */
 
-    &-checkbox {
+    /* &-checkbox {
       display: block;
       margin-top: $spacer-S;
-    }
+    } */
   }
 
   .btn-submit {
@@ -370,12 +377,12 @@
     }
   }
 
-  .divider {
+  /* .divider {
     display: block;
     border-bottom: 1px solid var(--primary_1);
     opacity: 0.5;
     margin: $spacer-L 0;
-  }
+  } */
 
   .footer {
     text-align: center;
@@ -385,6 +392,14 @@
     p {
       margin-bottom: $spacer-S;
     }
+  }
+
+  .u-danger {
+    color: var(--error);
+  }
+
+  .u-primary {
+    color: var(--primary_1_sat);
   }
 </style>
 
@@ -446,7 +461,7 @@
       "height": 192
     }
   },
-  "description": "In this workshop we'll explore every common accessibility no-nos and learn how to make them work properly for everyone using a mouse or a keyboard."
+  "description": "In this workshop we'll explore every common web accessibility no-nos and learn how to make them work properly for everyone using a mouse or a keyboard."
 }
  ]</script>
 </svelte:head>
@@ -457,33 +472,36 @@
 </header>
 
 <main class="wrapper">
-<h1 class="f-title title">Accessibility Fundamentals</h1>
-<p class="rw">Remote Workshop <span class="rw-d">•</span> April 22nd <span class="rw-d">•</span> <span class="rw-t">4 Hours</span></p>
+<h1 class="f-title title">Web Accessibility Fundamentals</h1>
+<p class="rw">Remote Workshop <span class="rw-d">•</span> <span class="rw-t">4 Hours</span></p>
 
 <p class="f-title subtitle hithere">The web is awesome and everyone should be able to enjoy it.</p>
 
 <p class="p">
   Hi there, I'm <a href={ SITE_URL } rel="noreferrer" class="u-link">Sandrina Pereira</a> and I believe that making the web accessible is our duty as web developers.
 </p>
+
 <p class="p">
-  Because of the current events <span class="(#stayHome)">🦠</span> I decided to make a remote version of my workshop for the first time ever! 
+  This workshop will be packed with little big discoveries!
+  We will explore every common accessibility no-nos and how to make them inclusive for as many people as possible using a mouse or a keyboard.
 </p>
-  
 <p class="p">
-  This workshop will be full of little big exercises.
-  We will explore every common accessibility no-nos and how to make them work
-  properly for everyone using a mouse or a keyboard.
-  Additionally, I will show you how to use a screen reader, and show you that there's no reason to be afraid of using it!
+  We'll cover multiple design patterns and development techniques that you can apply in your own projects right away.
 </p>
+<p class="p">
+  Additional, you'll learn how to use a screen reader, and I'll show you that there's no reason to be afraid of using it!
+</p>
+<br/>
+<!-- If you want to build inclusive applications, as a developer or designer, then this workshop is for you! -->
 <p class="p">
   By the end of the workshop, you will: 
 </p>
 <ul class="list as-check">
   <li>Understand why web accessibility matters;</li>
-  <li>Know how to build accessible web pages;</li>
   <li>Be able to identify accessibility issues;</li>
+  <li>Know how to build accessible web pages;</li>
   <li>Know how to use accessibility tools;</li>
-  <li>Find out that building accessible websites isn’t as hard as it sounds <span aria-hidden="true">;)</span></li>
+  <li>Find out that building inclusive websites isn’t as hard as it sounds <span aria-hidden="true">;)</span></li>
 </ul>
 
 
@@ -502,20 +520,18 @@
 <h2 class="f-title subtitle">Pre-requisites</h2>
 
 <ul class="list">
-  <li>Basic understanding of HTML and CSS (Javascript is a bonus);</li>
+  <li>Understanding of HTML and CSS (Javascript is a bonus);</li>
   <li>A modern browser installed: Chrome or Firefox are recommended;</li>
-  <li>Have <a class="u-link" href="https://zoom.us" rel="noreferrer">Zoom</a> installed for the video call;</li>
+  <li>Have good internet connection for the video call;</li>
   <li>Be willing to learn something different!</li>
 </ul>
 
-{#if !isSubmitted}
+{#if !isFormSubmitted}
 <form class="card" on:submit|preventDefault={handleSubmit}>
-  <h3 class="f-title card-title">Want to join? Mark your spot!</h3>
+  <h3 class="f-title card-title">Want to join? <span class="u-primary">Mark your spot!</h3>
 
   <p class="card-txt field-tip">
-    This <strong>workshop is totally free</strong>! There are 30 available spots, subject to approval.
-    <br/>
-    If you have any questions, feel free to send me an e-mail at <a class="u-link" href={ MAIL_TO }>a.sandrina.p@gmail.com</a>.  
+    Be the first to know when this workshop is scheduled, with access to exclusive discounts!
   </p>
 
   <label class="field" class:error={errors.name}>
@@ -523,7 +539,7 @@
     <input type="text" class="field-input" aria-required
       on:keyup={(e) => handleChange(e, 'name')}
       on:blur={(e) => handleBlur(e, 'name')}
-      bind:value={ formName }
+      bind:value={ first_name }
     >
     {#if errors.name} <span class="field-error">{errors.name}</span> {/if}
   </label>
@@ -533,70 +549,72 @@
     <input type="text" inputmode="email" class="field-input" aria-required
       on:keyup={(e) => handleChange(e, 'email')}
       on:blur={(e) => handleBlur(e, 'email')}
-      bind:value={ formEmail }>
+      bind:value={ email_address }>
     {#if errors.email} <span class="field-error">{errors.email}</span> {/if}
   </label>
 
-  <!-- <span class="divider"></span> -->
-
-  <label class="field" class:error={errors.reason}>
-    <span class="field-label">Why do you want to join the workshop?</span>
-    <span class="field-tip">Your answer will be used to help me approve your spot.</span>
-    <textarea class="field-textarea" rows="5" maxLength="500"
-      on:keyup={(e) => handleChange(e, 'reason')}
-      on:blur={(e) => handleBlur(e, 'reason')}
-      bind:value={ formReason }
-    ></textarea>
-    {#if errors.reason} <span class="field-error">{errors.reason}</span> {/if}
-    {#if warnings.reason} <span class="field-info">{warnings.reason}</span> {/if}
-  </label>
-
-  <fieldset class="field">
-    <span class="field-label">What time slots work for you on April 22nd?</span>
+  <!-- <fieldset class="field">
+    <span class="field-label">What time slots work the best for you?</span>
     <span class="field-tip">
-      This will help me to decide what's the best slot for most of the people.
+      This will help me to decide what's the best schedule for most of the people.
     </span>
     
     <label class="field-checkbox">
       <input type="checkbox" name="slot" value="morning"
         on:change={(e) => handleChange(e, 'time')}
-        bind:group={ formTime }
-      > 9 AM - 1 PM <a class="u-link" target="_blank" href="https://everytimezone.com/s/5659d1ce">(UTC+1 See timezone)</a>
+        bind:group={ form_time }
+      > 9 AM - 1 PM <a class="u-link" target="_blank" href="https://everytimezone.com/s/5659d1ce?t=5e9f8900,1e0">(UTC+1 See timezone)</a>
     </label>
 
     <label class="field-checkbox">
       <input type="checkbox" name="slot" value="afternoon"
         on:change={(e) => handleChange(e, 'time')}
-        bind:group={ formTime }
-      > 2 PM - 6 PM <a class="u-link" target="_blank" href="https://everytimezone.com/s/90385a12">(UTC+1 See timezone)</a>
+        bind:group={ form_time }
+      > 2 PM - 6 PM <a class="u-link" target="_blank" href="https://everytimezone.com/s/a5b961ec">(UTC+1 See timezone)</a>
     </label>
 
     <label class="field-checkbox">
       <input type="checkbox" name="slot" value="none"
         on:change={(e) => handleChange(e, 'time')}
-        bind:group={ formTime }
+        bind:group={ form_time }
       > None 😭 
     </label>
     {#if errors.time} <span class="field-error">{errors.time}</span> {/if}
-  </fieldset>
+  </fieldset> -->
 
-  <button type="submit" disabled={isSubmitting} class="btn-submit">
-    {!isSubmitting ? 'Join the workshop' : 'Sending...'}
+  <button type="submit" disabled={isFormSubmitting} class="btn-submit">
+    {!isFormSubmitting ? 'Reserve your spot' : 'Sending...'}
   </button>
 </form>
 
 {:else}
-
 <div class="card">
-  <h2 class="f-title card-title">
-    That's all! <span aria-hidden="true">🎉</span>
-  </h2>
-  <p class="p">
-    I'll get back to you in a few days (up to one week) with more details about the workshop!
-    If you have any questions, feel free to send me an e-mail at <a class="u-link" href={ MAIL_TO }>a.sandrina.p@gmail.com</a>.
-  </p>
+  {#if !formErrorMsg}
+    <h2 class="f-title card-title">
+      <span class="u-primary">Cool!</span> One last thing...
+    </h2>
+    <p class="p feedbackMsg">
+      Go <strong>check your inbox</strong> to confirm <span class="u-nowrap">your e-mail!</span>
+    </p>
 
-  <span class="divider"></span>
+    <p class="p feedbackTip">
+      Didn't receive an e-mail? Send me one directly at <a class="u-link" href={ MAIL_TO } target="_blank">a.sandrina.p@gmail.com</a> and I'll reserve your spot!
+    </p>
+  {:else}
+    <h2 class="f-title card-title">
+      <span class="u-danger">Ups!</span> Something went wrong...
+    </h2>
+    <p class="p feedbackMsg">
+      Error: {formErrorMsg}
+    </p>
+    <p class="p feedbackTip">
+      Please send me an e-mail directly at <a class="u-link" href={ MAIL_TO } target="_blank">a.sandrina.p@gmail.com</a> reporting the above error and I'll reserve your spot!
+    </p>
+
+
+  <!-- <p>If you have any questions, feel free to send me an e-mail at <a class="u-link" href={ MAIL_TO } target="_blank">a.sandrina.p@gmail.com</a>.</p> -->
+
+  <!-- <span class="divider"></span>
 
   <h2 class="f-title card-title">
     <span>By the way...</span>
@@ -615,7 +633,8 @@
 .                      ↓↓                      .
 .                     A11Y                     .
   </pre>
-  <p>Read more tips like this, by following me on <a class="u-link" href={TWITTER_URL} target="_blank" rel="noreferrer">Twitter</a>!</p>
+  <p>Read more tips like this, by following me on <a class="u-link" href={TWITTER_URL} target="_blank" rel="noreferrer">Twitter</a>!</p> -->
+  {/if}
 </div>
 {/if}
 </main>
