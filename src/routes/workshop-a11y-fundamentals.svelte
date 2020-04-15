@@ -407,7 +407,7 @@
   site={ `${SITE_URL}/workshop-a11y-fundamentals` }
   title="Accessibility Fundamentals - Workshop"
   description="In this workshop we'll explore every common accessibility no-nos and learn how to make them work properly for everyone using a mouse or a keyboard."
-  coverUrl={ `${SITE_URL}/cover_a11y.png` }
+  coverUrl={ `${SITE_URL}/cover_a11y_tba.png` }
 />
 
 <svelte:head>
@@ -427,7 +427,7 @@
     "item": {
       "@id": "https://sandrina-p.net/workshop-a11y-fundamentals",
       "name": "Accessibility Fundamentals - Workshop",
-      "image": "https://sandrina-p.net/cover_a11y.png"
+      "image": "https://sandrina-p.net/cover_a11y_tba.png"
     }
   }]
 },
@@ -441,7 +441,7 @@
   "headline": "Accessibility Fundamentals - Workshop",
   "image": {
     "@type": "ImageObject",
-    "url": "https://sandrina-p.net/cover_a11y.png",
+    "url": "https://sandrina-p.net/cover_a11y_tba.png",
     "height": 1280,
     "width": 640
   },
