@@ -1,5 +1,19 @@
 export default [
   {
+    title: 'Striking a Balance Between Native and Custom Select Elements',
+    date: 'Jun 20',
+    places: [
+      {
+        id: 'sel_smash',
+        type: 'article',
+        where: 'CSS-Tricks',
+        svg: 'css',
+        link:
+          'https://css-tricks.com/striking-a-balance-between-native-and-custom-select-elements/',
+      },
+    ],
+  },
+  {
     title: 'How front-end developers can empower designers’ work',
     date: 'Oct 19',
     places: [
@@ -20,20 +34,20 @@ export default [
       },
     ],
   },
-  {
-    title: 'Using custom properties to wrangle variations in keyframe animations',
-    date: 'Sep 19',
-    places: [
-      {
-        id: 'cssvar_tricks',
-        type: 'article',
-        where: 'CSS-Tricks',
-        svg: 'css',
-        link:
-          'https://css-tricks.com/using-custom-properties-to-wrangle-variations-in-keyframe-animations/',
-      },
-    ],
-  },
+  // {
+  //   title: 'Using custom properties to wrangle variations in keyframe animations',
+  //   date: 'Sep 19',
+  //   places: [
+  //     {
+  //       id: 'cssvar_tricks',
+  //       type: 'article',
+  //       where: 'CSS-Tricks',
+  //       svg: 'css',
+  //       link:
+  //         'https://css-tricks.com/using-custom-properties-to-wrangle-variations-in-keyframe-animations/',
+  //     },
+  //   ],
+  // },
   {
     title: 'Learning hash tables with drawings',
     date: 'Aug 19',

@@ -103,12 +103,7 @@ describe('Essentials', () => {
             .invoke('text')
             .should('contain', 'From a solo act')
             .should('contain', 'to a team player');
-          cy.get('p')
-            .should('contain', 'If you wanna go quickly, I can')
-            .find('a')
-            .should('contain', 'join your team')
-            .and('have.attr', 'href')
-            .and('contains', 'mailto:a.sandrina.p@gmail.com?subje');
+          cy.get('p').should('contain', 'If you wanna go quickly, I can');
         });
 
       cy.log('::: Assert People');
@@ -143,21 +138,24 @@ describe('Essentials', () => {
         //there's a 99.9%% change all the rest is right because this is a loop.
         .eq(0)
         .within(() => {
-          cy.get('h3').should('contain', 'How front-end developers can empower designers’ work');
+          cy.get('h3').should(
+            'contain',
+            'Striking a Balance Between Native and Custom Select Elements'
+          );
 
-          cy.get('.date').should('contain', 'Date: Oct 19');
+          cy.get('.date').should('contain', 'Date: Jun 20');
 
           // Assert links
           cy.get('ul > li')
-            .should('have.length', 2)
+            .should('have.length', 1)
             .eq(0)
             .within(() => {
               cy.get('.placeType').should('contain', 'article');
-              cy.get('.placeIcon').should('have.class', 'smash');
+              cy.get('.placeIcon').should('have.class', 'css');
               cy.get('a')
-                .should('contain', 'Smashing Magazine')
+                .should('contain', 'CSS-Tricks')
                 .and('have.attr', 'href')
-                .and('contain', 'https://www.smashingmagazine.com/2019/10/frontend-devel');
+                .and('contain', 'https://css-tricks.com/striking-a-balance-betwe');
             });
         });
     });
@@ -209,12 +207,13 @@ describe('Essentials', () => {
         cy.get('p').should('have.length', 3);
         cy.get('a').should('have.length', 6);
 
-        assertLink(cy.get('a').eq(0), 'Group Income', 'group-income-simple');
-        assertLink(cy.get('a').eq(1), 'Farfetch', 'farfetch.com');
-        assertLink(cy.get('a').eq(2), 'workshops', 'workshop-a11y-fundamentals');
-        assertLink(cy.get('a').eq(3), 'pushing pixels around', 'codepen.io');
-        assertLink(cy.get('a').eq(4), 'share ideas', 'twitter.com');
-        assertLink(cy.get('a').eq(5), 'get in touch', 'mailto:');
+        assertLink(cy.get('a').eq(0), 'Remote', 'https://remote.com/');
+        assertLink(cy.get('a').eq(1), 'Group Income', 'group-income-simple');
+        assertLink(cy.get('a').eq(2), 'Farfetch', 'farfetch.com');
+        assertLink(cy.get('a').eq(3), 'workshops', 'workshop-a11y-fundamentals');
+        assertLink(cy.get('a').eq(4), 'pushing pixels around', 'codepen.io');
+        assertLink(cy.get('a').eq(5), 'share ideas', 'twitter.com');
+        // assertLink(cy.get('a').eq(5), 'get in touch', 'mailto:');
       });
     });
   });

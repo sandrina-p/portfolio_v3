@@ -312,11 +312,17 @@
   </h2>
   <div class="text">
     <p class="p">
-      During the last year I have been helping to bring an open source idea to life -
+      Since 2019 I've been working fully remote, which is amazing to say the least.
+      Recently I joined
+      <a class="u-link" rel="noreferrer" target="_blank" href="https://remote.com/">Remote</a>.
+      Previously I spent a year helping to bring an open source idea to life -
       <a class="u-link" rel="noreferrer" target="_blank" href="https://github.com/okTurtles/group-income-simple">Group Income</a>.
-      Before that, I was a Senior UI Engineer at
+      Back to office times, I was a Senior UI Engineer at
       <a class="u-link" rel="noreferrer" target="_blank" href="https://www.farfetch.com">Farfetch</a>
-      for a few years. From time to time, I also challenge myself to give talks and <a class="u-link" href={workshopUrl} target="_blank">workshops</a> about a topic I'm really into.
+      for a few years.
+    </p>
+    <p class="p">
+      From time to time, I also challenge myself to write articles, give talks and <a class="u-link" href={workshopUrl} target="_blank">workshops</a> about some topic I'm really into.
     </p>
     <p class="p">
       Create humanly accessible experiences within digital environments has been my meta-goal since I can remember.
@@ -325,11 +331,12 @@
       and
       <a class="u-link" rel="noreferrer" target="_blank" href={TWITTER_URL} on:click={() => trackClick('twitter_journey')}>share ideas</a> with the community.
     </p>
-    <p class="p">
+    <!--
+      [May be useful in the future. I hope not.]
+      <p class="p">
       In a few months,
       <strong class="f-bold">I'll be open to new challenges</strong> (remote!) where I can help people with lines of code.
-      <!-- svelte-ignore -->
       If you believe we can excel together <a class="u-link" rel="noreferrer" target="_blank" href={ EMAIL_URL } on:click={() => trackClick('email_journey')}>get in touch</a>!
-    </p>
+    </p> -->
   </div>
 </section>
