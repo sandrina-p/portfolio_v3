@@ -30,7 +30,7 @@
     --bg_1: #2e2a2f;
     --primary_1_sat: #a687ff;
     --primary_1_smooth: #514371;
-    --primary_1_highlight: #aaa3ba;
+    --primary_1_highlight: #8c00ff;
     --morph_color: rgba(159, 117, 255, 0.19);
     --morph_total: #8062be;
     --error: #ff9d9d;

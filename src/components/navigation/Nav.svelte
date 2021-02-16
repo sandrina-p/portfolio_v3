@@ -393,7 +393,7 @@
       background: none;
       border: none;
       border-radius: 0.3rem;
-      color: inherit;
+      color: var(--text_1);
       cursor: pointer;
 
       &[aria-pressed="true"],
