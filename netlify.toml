@@ -1,0 +1,13 @@
+# explicit commands for building the site
+# and the folder to publish
+[build]
+command = "npm run export"
+publish = "__sapper__/export"
+
+[build.environment]
+  CYPRESS_CACHE_FOLDER = "./node_modules/CypressBinary"
+  #TERM variable for terminal output
+  TERM = "xterm"
+
+[[plugins]]
+  package = "netlify-plugin-cypress"

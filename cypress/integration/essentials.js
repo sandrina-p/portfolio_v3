@@ -138,21 +138,21 @@ describe('Essentials', () => {
         //there's a 99.9%% change all the rest is right because this is a loop.
         .eq(0)
         .within(() => {
-          cy.get('h3').should('contain', 'Remote workshops');
+          cy.get('h3').should('contain', 'Remote Workshops');
 
-          cy.get('.date').should('contain', 'Date: Jun 20');
+          cy.get('.date').should('contain', 'Date: 2021');
 
           // Assert links
           cy.get('ul > li')
-            .should('have.length', 1)
+            .should('have.length', 2)
             .eq(0)
             .within(() => {
-              cy.get('.placeType').should('contain', 'article');
-              cy.get('.placeIcon').should('have.class', 'css');
+              cy.get('.placeType').should('contain', '6-8h workshop');
+              cy.get('.placeIcon').should('have.class', 'bulb');
               cy.get('a')
-                .should('contain', 'CSS-Tricks')
+                .should('contain', 'Web Accessibility Fundamentals')
                 .and('have.attr', 'href')
-                .and('contain', 'https://css-tricks.com/striking-a-balance-betwe');
+                .and('contain', '/workshop-a11y-fundamentals');
             });
         });
     });
@@ -202,14 +202,13 @@ describe('Essentials', () => {
 
       cy.get('.text').within(() => {
         cy.get('p').should('have.length', 3);
-        cy.get('a').should('have.length', 6);
+        cy.get('a').should('have.length', 5);
 
         assertLink(cy.get('a').eq(0), 'Remote', 'https://remote.com/');
         assertLink(cy.get('a').eq(1), 'Group Income', 'group-income-simple');
         assertLink(cy.get('a').eq(2), 'Farfetch', 'farfetch.com');
-        assertLink(cy.get('a').eq(3), 'workshops', 'workshop-a11y-fundamentals');
-        assertLink(cy.get('a').eq(4), 'pushing pixels around', 'codepen.io');
-        assertLink(cy.get('a').eq(5), 'share ideas', 'twitter.com');
+        assertLink(cy.get('a').eq(3), 'pushing pixels around', 'codepen.io');
+        assertLink(cy.get('a').eq(4), 'share ideas', 'twitter.com');
         // assertLink(cy.get('a').eq(5), 'get in touch', 'mailto:');
       });
     });
