@@ -192,7 +192,7 @@
 
 <main class="wrapper">
 <h1 class="f-title title">Web Accessibility Fundamentals</h1>
-<p class="rw">Remote Workshop <span class="rw-d">•</span> <span class="rw-t">4-8 Hours</span></p>
+<p class="rw">Remote Workshop <span class="rw-d">•</span> <span class="rw-t">6-8 Hours</span></p>
 
 <p class="f-title subtitle hithere">The web is awesome and everyone should be able to enjoy it.</p>
 
@@ -244,6 +244,13 @@
   <li>Have good internet connection for the video call;</li>
   <li>Be willing to learn something different!</li>
 </ul>
+
+<h2 class="f-title subtitle">Experience level</h2>
+
+<p class="p">
+  The content will be explained with beginners in mind. Even if you already have some experience, see this workshop as a way to solidify your knowledge and fill any existing gap.
+</p>
+
 
 <WorkshopForm formEndpoint={endpointA11Y} />
 
