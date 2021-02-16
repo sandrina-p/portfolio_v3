@@ -124,7 +124,7 @@
 
 <HeadMeta
   site={ `${SITE_URL}/workshop-a11y-fundamentals` }
-  title="Accessibility Fundamentals - Workshop"
+  title="Web Accessibility Fundamentals - Workshop"
   description="In this workshop we'll explore every common accessibility no-nos and learn how to make them work properly for everyone using a mouse or a keyboard."
   coverUrl={ `${SITE_URL}/cover_a11y_tba.png` }
 />
@@ -135,7 +135,7 @@
   "@context": "http://schema.org",
   "@type": "WebSite",
   "url": "https://sandrina-p.net/workshop-a11y-fundamentals",
-  "name": "Accessibility Fundamentals - Workshop",
+  "name": "Web Accessibility Fundamentals - Workshop",
   "alternateName": "A11Y Fundamentals"
 }, {
   "@context": "http://schema.org",
@@ -145,7 +145,7 @@
     "position": 1,
     "item": {
       "@id": "https://sandrina-p.net/workshop-a11y-fundamentals",
-      "name": "Accessibility Fundamentals - Workshop",
+      "name": "Web Accessibility Fundamentals - Workshop",
       "image": "https://sandrina-p.net/cover_a11y_tba.png"
     }
   }]
@@ -157,7 +157,7 @@
     "@type": "WebPage",
     "@id": "https://sandrina-p.net/workshop-a11y-fundamentals"
   },
-  "headline": "Accessibility Fundamentals - Workshop",
+  "headline": "Web Accessibility Fundamentals - Workshop",
   "image": {
     "@type": "ImageObject",
     "url": "https://sandrina-p.net/cover_a11y_tba.png",
