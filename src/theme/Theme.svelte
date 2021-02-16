@@ -163,7 +163,7 @@
       outline: none;
     }
 
-    @media (--md) {
+    @media (--lg) { /* keep lg so long links work on "words" section */
       white-space: nowrap;
 
       .jsMotionDefault &:hover {

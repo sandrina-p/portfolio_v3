@@ -3,8 +3,6 @@
   import words from '../data/words.js';
   import { sendGA } from '../utils';
   import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
-  // const options = ['sharing', 'writing', 'talking']; // TODO Animation - Later maybe...
-  // const ledText = options[0];
   let isOnStage = false; // in viewport or passed the viewport
 
   afterGeneralUpdate((prevState, state) => {
@@ -200,6 +198,12 @@
       height: 1.8rem;
       margin-right: $spacer-S;
       opacity: 0.8;
+
+      :global(&.bulb) {
+        fill: var(--text_0);
+        height: 1.8rem;
+        transform: translateY(3px);
+      }
     }
   }
   
@@ -377,7 +381,7 @@
                   <a href={link} rel="noreferrer" target="_blank"
                     class="u-link"
                     on:click={() => sendGA('send', 'event', 'click' , 'words', id)}>
-                    {where}
+                    <span class="placeLinkWhere">{where}</span>
                   </a>
                 </div>
               </li>

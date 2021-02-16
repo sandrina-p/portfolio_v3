@@ -138,10 +138,7 @@ describe('Essentials', () => {
         //there's a 99.9%% change all the rest is right because this is a loop.
         .eq(0)
         .within(() => {
-          cy.get('h3').should(
-            'contain',
-            'Striking a Balance Between Native and Custom Select Elements'
-          );
+          cy.get('h3').should('contain', 'Remote workshops');
 
           cy.get('.date').should('contain', 'Date: Jun 20');
 

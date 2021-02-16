@@ -1,5 +1,25 @@
 export default [
   {
+    title: 'Remote Workshops',
+    date: '2021',
+    places: [
+      {
+        id: 'w_A11Y',
+        type: '6-8h workshop',
+        where: 'Web Accessibility Fundamentals',
+        svg: 'bulb',
+        link: `/workshop-a11y-fundamentals`,
+      },
+      {
+        id: 'w_testing',
+        type: '8h workshop',
+        where: 'Javascript Testing Fundamentals',
+        svg: 'bulb',
+        link: `/workshop-js-testing-fundamentals`,
+      },
+    ],
+  },
+  {
     title: 'Striking a Balance Between Native and Custom Select Elements',
     date: 'Jun 20',
     places: [
@@ -48,19 +68,19 @@ export default [
   //     },
   //   ],
   // },
-  {
-    title: 'Learning hash tables with drawings',
-    date: 'Aug 19',
-    places: [
-      {
-        id: 'hash_zine',
-        type: 'zine',
-        where: 'Dev.to',
-        svg: 'dev',
-        link: 'https://dev.to/a_sandrina_p/learning-hash-tables-with-drawings-99o',
-      },
-    ],
-  },
+  // {
+  //   title: 'Learning hash tables with drawings',
+  //   date: 'Aug 19',
+  //   places: [
+  //     {
+  //       id: 'hash_zine',
+  //       type: 'zine',
+  //       where: 'Dev.to',
+  //       svg: 'dev',
+  //       link: 'https://dev.to/a_sandrina_p/learning-hash-tables-with-drawings-99o',
+  //     },
+  //   ],
+  // },
   {
     title: 'Bringing a healthy code review mindset to your team',
     date: 'Jun 19',

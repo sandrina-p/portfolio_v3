@@ -9,19 +9,10 @@
   let elHeader;
   let progress = 0;
   let animation;
-  let workshopUrl = '/workshop-a11y-fundamentals'
 
   $: wHeight = $_window && $_window.innerHeight;
   $: goal = wHeight / 2;
   $: isActive = progress === 1;
-
-  onMount(() => {
-    // NOTE / OPTIMIZE: Turn the URL into an absolute path to force a total refresh.
-    // At the moment this website isn't optimized to work as a SPA (because of all animations around)
-    // so to prevent any bug, force a total refresh by changing the href to absolute URL.
-    // P.S. The first render needs to have the relative URL so Sapper can "crawl" it and export the page.
-    workshopUrl = `${SITE_URL}${workshopUrl}`
-  })
 
   afterGeneralUpdate((prevState, state) => {
     if (!prevState.isReady && state.isReady) {
@@ -322,7 +313,7 @@
       for a few years.
     </p>
     <p class="p">
-      From time to time, I also challenge myself to write articles, give talks and <a class="u-link" href={workshopUrl} target="_blank">workshops</a> about some topic I'm really into.
+      From time to time, I also challenge myself to write articles, do public speaking and give workshops about some topic I'm really into.
     </p>
     <p class="p">
       Create humanly accessible experiences within digital environments has been my meta-goal since I can remember.
