@@ -52,7 +52,7 @@ export default {
       list: ['2'],
     },
     {
-      name: 'ReasonML',
+      name: 'TypeScript',
       list: ['2'],
     },
 
@@ -62,7 +62,7 @@ export default {
     },
     {
       name: 'Enzyme',
-      list: ['0'],
+      list: ['1'],
     },
     {
       name: 'Cypress',
@@ -70,9 +70,8 @@ export default {
     },
     {
       name: 'Testing Library',
-      list: ['2'],
+      list: ['0'],
     },
-
     {
       name: 'Git',
       list: ['0'],

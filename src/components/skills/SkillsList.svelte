@@ -468,12 +468,12 @@
       @mixin coord React Native, 63rem, 5rem;
       @mixin coord WebGL, 3rem, 22rem;
       @mixin coord NodeJS, 68rem, 13rem;
-      @mixin coord ReasonML, 20rem, 10rem;
+      @mixin coord TypeScript, 20rem, 10rem;
 
       @mixin coord Jest, 10rem, 12rem;
-      @mixin coord Enzyme, -5rem, 7rem;
+      @mixin coord Testing Library, -5rem, 7rem;
       @mixin coord Cypress, -1rem, 15rem;
-      @mixin coord Testing Library, 75rem, 3rem;
+      @mixin coord Enzyme, 75rem, 2.5rem;
 
       @mixin coord Git, 15rem, -1rem;
       @mixin coord Netlify, 56rem, 18rem;
