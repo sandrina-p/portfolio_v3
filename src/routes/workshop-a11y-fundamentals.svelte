@@ -248,7 +248,7 @@
 <h2 class="f-title subtitle">Experience level</h2>
 
 <p class="p">
-  The content will be explained with beginners in mind. Even if you already have some experience, see this workshop as a way to solidify your knowledge and fill any existing gap.
+  The content will be explained with beginners in mind. Even if you already have some experience, you can look at this workshop as a way to solidify your knowledge and fill any existing gap.
 </p>
 
 
