@@ -6,6 +6,8 @@
   import { getInLimit, scrollIntoView, sendGA } from '../utils';
   import { EMAIL_URL, CODEPEN_URL, TWITTER_URL, SITE_URL } from '../data/misc.js';
 
+  const workshopUrl = '/workshop-a11y-fundamentals'
+
   let elHeader;
   let progress = 0;
   let animation;
@@ -304,8 +306,8 @@
   <div class="text">
     <p class="p">
       Since 2019 I've been working fully remote, which is amazing to say the least.
-      Recently I joined
-      <a class="u-link" rel="noreferrer" target="_blank" href="https://remote.com/">Remote</a>.
+      In 2020 I joined
+      <a class="u-link" rel="noreferrer" target="_blank" href="https://remote.com/">Remote</a> where I'm the team lead responsible for our product foundations.
       Previously I spent a year helping to bring an open source idea to life -
       <a class="u-link" rel="noreferrer" target="_blank" href="https://github.com/okTurtles/group-income-simple">Group Income</a>.
       Back to office times, I was a Senior UI Engineer at
@@ -313,10 +315,10 @@
       for a few years.
     </p>
     <p class="p">
-      From time to time, I also challenge myself to write articles, do public speaking and give workshops about some topic I'm really into.
+      From time to time, I also challenge myself to write articles, do public speaking and <a class="u-link" href={workshopUrl} target="_blank">I give workshops</a> about some topic I'm really into.
     </p>
     <p class="p">
-      Create humanly accessible experiences within digital environments has been my meta-goal since I can remember.
+      Create humanly accessible experiences within the digital environments has been my meta-goal since I can remember.
       In my free time I have fun
       <a class="u-link" rel="noreferrer" target="_blank" href={CODEPEN_URL} on:click={() => trackClick('codepen_journey')}>pushing pixels around</a>
       and
