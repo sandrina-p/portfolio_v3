@@ -201,7 +201,7 @@
 
 <main class="wrapper">
 <h1 class="f-title title">Web Accessibility Fundamentals</h1>
-<p class="rw">Remote Workshop <span class="rw-d">•</span> <span class="rw-t">9 Hours</span></p>
+<p class="rw">Remote Workshop <span class="rw-d">•</span> <span class="rw-t">3 x 3hours</span></p>
 
 <p class="p">
   Hi there, I'm <a href={ SITE_URL } rel="noreferrer" class="u-link">Sandrina Pereira</a> and I believe that making the web accessible is our duty as web creators.
@@ -251,17 +251,18 @@
 
 
 <h2 class="f-title subtitle">Modules</h2>
+<p class="p">The workshop will be given through 3 sessions of 3 hours each.</p>
 <ol class="list">
   <li>
-    <strong class="b">Part #1: Accessible by default</strong>
+    <strong class="b"><span aria-hidden="true">#1:</span> Accessible by default</strong>
     <p class="p">Appearance (colors, proportions, motions) and page semantics.</p>
   </li>
   <li>
-    <strong class="b">Part #2: Keyboard navigation</strong>
+    <strong class="b"><span aria-hidden="true">#2:</span> Keyboard navigation</strong>
     <p class="p">Interactive elements, hiding techniques, navigation shortcuts.</p>
   </li>
   <li>
-    <strong class="b">Part #3: Screen readers</strong>
+    <strong class="b"><span aria-hidden="true">#3:</span> Screen readers</strong>
     <p class="p">Meaningful content, landmarks, forms and common design patterns.</p>
   </li>
 </ol>
