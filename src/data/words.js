@@ -5,7 +5,7 @@ export default [
     places: [
       {
         id: 'w_A11Y',
-        type: '6-8h workshop',
+        type: '9h workshop',
         where: 'Web Accessibility Fundamentals',
         svg: 'bulb',
         link: `/workshop-a11y-fundamentals`,

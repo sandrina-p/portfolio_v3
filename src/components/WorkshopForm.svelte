@@ -129,7 +129,7 @@
           Accept: 'application/json',
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({first_name, email_address }),
+        body: JSON.stringify({first_name, email_address, form_time }),
       });
     } catch (e) {
       console.error('Error on submit!', e)

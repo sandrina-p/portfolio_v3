@@ -79,6 +79,7 @@
     font-size: $font-L2;
     font-weight: 500;
     color: var(--primary_1_sat);
+    margin-bottom: $spacer-LM;
 
     &-d {
       font-weight: 300;
@@ -105,10 +106,18 @@
         margin-right: $spacer-S;
       }
     }
+
+    .p {
+      margin: calc($spacer-XS * -1) 0 $spacer-S;
+    }
   }
 
   .p {
     margin-bottom: $spacer-M;
+  }
+
+  .b {
+    font-weight: 500;
   }
 
   .footer {
@@ -192,13 +201,14 @@
 
 <main class="wrapper">
 <h1 class="f-title title">Web Accessibility Fundamentals</h1>
-<p class="rw">Remote Workshop <span class="rw-d">•</span> <span class="rw-t">6-8 Hours</span></p>
+<p class="rw">Remote Workshop <span class="rw-d">•</span> <span class="rw-t">9 Hours</span></p>
+
+<p class="p">
+  Hi there, I'm <a href={ SITE_URL } rel="noreferrer" class="u-link">Sandrina Pereira</a> and I believe that making the web accessible is our duty as web creators.
+</p>
 
 <p class="f-title subtitle hithere">The web is awesome and everyone should be able to enjoy it.</p>
 
-<p class="p">
-  Hi there, I'm <a href={ SITE_URL } rel="noreferrer" class="u-link">Sandrina Pereira</a> and I believe that making the web accessible is our duty as web developers.
-</p>
 
 <p class="p">
   This workshop will be packed with little big discoveries!
@@ -219,38 +229,75 @@
   <li>Understand why web accessibility matters;</li>
   <li>Be able to identify accessibility issues;</li>
   <li>Know how to build accessible web pages;</li>
-  <li>Know how to use accessibility tools;</li>
+  <li>Know how to audit and use accessibility evalution tools;</li>
   <li>Find out that building inclusive websites isn’t as hard as it sounds <span aria-hidden="true">;)</span></li>
 </ul>
 
-
 <h2 class="f-title subtitle">Topics</h2>
 <ul class="list">
-  <li>Accessibility Overview: guidelines and myths;</li>
+  <li>Demystify Accessibility myths;</li>
+  <li>Disabilies types spectrum;</li>
+  <li>WCAG - Layers of Guidance;</li>
+  <li>Comformance Levels;</li>
   <li>Common accessibility no-nos;</li>
   <li>Semantic markup;</li>
   <li>Keyboard navigation;</li>
   <li>Screen readers;</li>
   <li>ARIA attributes;</li>
+  <li>Landmarks;</li>
   <li>Accessibility debugging tools;</li>
   <li>Whatever question you have!</li>
 </ul>
+
+
+<h2 class="f-title subtitle">Modules</h2>
+<ol class="list">
+  <li>
+    <strong class="b">Part #1: Accessible by default</strong>
+    <p class="p">Appearance (colors, proportions, motions) and page semantics.</p>
+  </li>
+  <li>
+    <strong class="b">Part #2: Keyboard navigation</strong>
+    <p class="p">Interactive elements, hiding techniques, navigation shortcuts.</p>
+  </li>
+  <li>
+    <strong class="b">Part #3: Screen readers</strong>
+    <p class="p">Meaningful content, landmarks, forms and common design patterns.</p>
+  </li>
+</ol>
+
+<h2 class="f-title subtitle">Workshop Dynamics</h2>
+<p class="p">The workshop consists in a set of challenges with detailed resources.</p>
+<p class="p">Each challenge introduces a new topic, followed by a hands-on exercise for you to apply the concepts learned.</p>
+<p class="p">After each exercise, we'll go through the solution together and I will clarify any question that you may have.</p>
 
 <h2 class="f-title subtitle">Pre-requisites</h2>
 
 <ul class="list">
   <li>Understanding of HTML and CSS (Javascript is a bonus);</li>
   <li>A modern browser installed: Chrome or Firefox are recommended;</li>
-  <li>Have good internet connection for the video call;</li>
+  <li>A good internet connection with <a class="u-link" href="http://zoom.com/" rel="noreferrer">Zoom</a> installed for the video call;</li>
   <li>Be willing to learn something different!</li>
 </ul>
 
 <h2 class="f-title subtitle">Experience level</h2>
 
 <p class="p">
-  The content will be explained with beginners in mind. Even if you already have some experience, you can look at this workshop as a way to solidify your knowledge and fill any existing gap.
+  The content will be explained with beginners in mind. Even if you already have some experience, as frontend, designer or QA, you can look at this workshop as a way to solidify your knowledge and fill any existing gap.
 </p>
 
+<div data-easter-egg="Past atendees feedback" style="display: none">
+  <h2 hidden class="f-title subtitle">Past atendees feedback</h2>
+  <p>Note: I'm to shy to do this shameless plug, but glad that you found it:</p>
+  <q>Really liked the format of the training, with briefings and exercises for each, making it not boring at all.</q>
+  <q>The only thing that I would change it's the duration of the workshop, maybe more time to try to do everything</q>
+  <q>The quiz, in the end, was a nice and fun way to wrap up! Overall, really enjoying it, thanks!</q>
+  <q>It was one of the most brilliant introductions to a11y from a FE perspective, and the pace was balanced.</q>
+  <q>The content and the pace were good, also your knowledge on this topic is really remarkable, it was really an enjoyable moment.</q>
+  <q>Honestly, I really liked it. The only thing that I would change it's the duration of the workshop, maybe more time to try to do everything</q>
+  <q>You rock sandrina, it was a pleasure ! We leave with the will to speak with you for hours about development.</q>
+  <q>I enjoyed the workshop overall, you are a cool trainer, very accessible and very knowledgeable on the matter.</q>
+</div>
 
 <WorkshopForm formEndpoint={endpointA11Y} />
 
