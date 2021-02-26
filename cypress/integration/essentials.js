@@ -111,7 +111,7 @@ describe('Essentials', () => {
         .scrollIntoView()
         .within(() => {
           cy.get('h3').should('contain', 'Progress over processes');
-          cy.get('p').should('contain', 'I feel myself in a constant search for dis');
+          cy.get('p').should('contain', 'I find myself in a constant search for dis');
         });
     });
   });
@@ -147,7 +147,7 @@ describe('Essentials', () => {
             .should('have.length', 2)
             .eq(0)
             .within(() => {
-              cy.get('.placeType').should('contain', '6-8h workshop');
+              cy.get('.placeType').should('contain', '9h workshop');
               cy.get('.placeIcon').should('have.class', 'bulb');
               cy.get('a')
                 .should('contain', 'Web Accessibility Fundamentals')
@@ -202,13 +202,13 @@ describe('Essentials', () => {
 
       cy.get('.text').within(() => {
         cy.get('p').should('have.length', 3);
-        cy.get('a').should('have.length', 5);
+        cy.get('a').should('have.length', 6);
 
         assertLink(cy.get('a').eq(0), 'Remote', 'https://remote.com/');
         assertLink(cy.get('a').eq(1), 'Group Income', 'group-income-simple');
         assertLink(cy.get('a').eq(2), 'Farfetch', 'farfetch.com');
-        assertLink(cy.get('a').eq(3), 'pushing pixels around', 'codepen.io');
-        assertLink(cy.get('a').eq(4), 'share ideas', 'twitter.com');
+        assertLink(cy.get('a').eq(4), 'pushing pixels around', 'codepen.io');
+        assertLink(cy.get('a').eq(5), 'share ideas', 'twitter.com');
         // assertLink(cy.get('a').eq(5), 'get in touch', 'mailto:');
       });
     });
