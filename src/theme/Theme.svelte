@@ -26,7 +26,7 @@
     --text_0: #e2e2e2; /* same as --text_invert */
     --text_1: #adadad;
     --text_invert: #343434; /* same as defautl text_0 */
-    --bg_0: #424043;
+    --bg_0: #3a383b;
     --bg_1: #2e2a2f;
     --primary_1_sat: #a687ff;
     --primary_1_smooth: #514371;
