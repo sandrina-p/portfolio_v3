@@ -25,14 +25,14 @@ export default {
   WOLF: {
     text: [
       'If you wanna go quickly, I can make it happen. As a fast paced learner with a <strong>high quality bar</strong>, I can go solo when needed.',
-      `But if you wanna go far and prefer collaboration over competition, then we may be a match made in heaven!`,
+      `But if you wanna go far and <strong>prefer collaboration over competition</strong>, then we may be a match made in heaven!`,
     ],
     width: '31.4rem',
     height: '40rem',
   },
   PEOPLE: {
     text: [
-      'I feel myself in a constant search for disruptive but pragmatic solutions. Not one for tradition, <strong>striving for innovation</strong>  is my default while helping those around me to go beyond best practices and product requirements.',
+      'I find myself in a constant search for disruptive but pragmatic solutions. Not one for tradition, <strong>striving for innovation</strong>  is my default while helping those around me to go beyond best practices and loose requirements.',
     ],
     width: '67rem',
     height: '15rem',
