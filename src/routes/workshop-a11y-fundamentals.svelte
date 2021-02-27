@@ -236,7 +236,7 @@
 <h2 class="f-title subtitle">Topics</h2>
 <ul class="list">
   <li>Demystify Accessibility myths;</li>
-  <li>Disabilies types spectrum;</li>
+  <li>Disability types spectrum;</li>
   <li>WCAG - Layers of Guidance;</li>
   <li>Comformance Levels;</li>
   <li>Common accessibility no-nos;</li>
@@ -255,7 +255,7 @@
 <ol class="list">
   <li>
     <strong class="b"><span aria-hidden="true">#1:</span> Accessible by default</strong>
-    <p class="p">Appearance (colors, proportions, motions) and page semantics.</p>
+    <p class="p">Appearance (color, size, motion) and semantics.</p>
   </li>
   <li>
     <strong class="b"><span aria-hidden="true">#2:</span> Keyboard navigation</strong>
