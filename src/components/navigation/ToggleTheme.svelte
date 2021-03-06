@@ -17,13 +17,14 @@
   }
 
   function toggleTheme() {
-    const isNowDark = !isDark;
-    setDark(isNowDark);
+    const isDarkNext = !isDark;
+    setDark(isDarkNext);
 
     // Don't use .toggle() to avoid possible desync when clicking toooo fast.
-    const action = isNowDark ? 'add' : 'remove';
+    const action = isDarkNext ? 'add' : 'remove';
     // https://github.com/sveltejs/svelte/issues/3105
     document.body.classList[action]('dark');
+    window.localStorage.setItem('theme', isDarkNext ? 'dark' : 'light')
   }
 
   export let klass = '';
