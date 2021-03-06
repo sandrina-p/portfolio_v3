@@ -66,7 +66,7 @@
   }
 </script>
 
-<style>
+<style lang="postcss">
   /* prevent scroll while the page is loading */
   :global(body:not(.jsGoOn)) {
     height: 100%;

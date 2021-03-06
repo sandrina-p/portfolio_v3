@@ -127,7 +127,7 @@
   }
 </script>
 
-<style>
+<style lang="postcss">
   $textWidth: 50rem;
   $textWidthEm: 31.25em;
   $headerHeight: 25rem; /* space for text even when rotated */

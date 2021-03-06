@@ -5,8 +5,12 @@
   $: state = $strCircle;
 </script>
 
-<style>
-  @define-mixin motionReduced { :global(.jsMotionReduced) & { @mixin-content; } }
+<style lang="postcss">
+  @define-mixin motionReduced {
+    :global(.jsMotionReduced) & {
+      @mixin-content;
+    }
+  }
 
   .container {
     --size: 17rem;
@@ -23,11 +27,11 @@
     --distance: 20rem; /* change on xs */
     height: var(--size);
     width: var(--distance); /* for shitty browsers, the animation distance is based on the width */
-    
+
     margin-bottom: calc(var(--size) / 2);
     transform-origin: 0 0;
     transform: rotate(90deg) translateY(calc(-40vw - 50%)); /* to the bottom, always centered */
-    
+
     :global(.jsFF) &,
     :global(.jsChrome) & {
       width: calc(var(--size));
@@ -41,7 +45,7 @@
       }
     }
 
-    @media(--md) {
+    @media (--md) {
       transform: rotate(90deg) translateY(calc(-25vw - 50%));
     }
 
@@ -70,7 +74,7 @@
     stroke-width: 1;
     fill: var(--fill);
     animation: circleMoveExpensiveAndBoring var(--speed) var(--ease) infinite alternate-reverse;
-  
+
     :global(.jsChrome) & {
       animation-name: circleMoveExpensive;
     }
@@ -112,13 +116,10 @@
 
   @keyframes circleMoveWow {
     from {
-      transform: translateX(0)
-        scale(var(--scaleStart))
-        rotate(calc(0deg + var(--rotatePivot)));
+      transform: translateX(0) scale(var(--scaleStart)) rotate(calc(0deg + var(--rotatePivot)));
     }
     to {
-      transform: translateX(var(--distance))
-        scale(var(--scaleEnd))
+      transform: translateX(var(--distance)) scale(var(--scaleEnd))
         rotate(calc(var(--rotate) + var(--rotatePivot)));
     }
   }
@@ -127,22 +128,23 @@
     - https://stackoverflow.com/questions/59051548/css-animation-with-css-variables-and-keyframes-not-updating-on-safari */
   @keyframes circleMoveExpensive {
     from {
-      transform: translateX(0)
-        scale(var(--scaleStart))
-        rotate(calc(0deg + var(--rotatePivot)));
-        color: #000; /* force repaint */
+      transform: translateX(0) scale(var(--scaleStart)) rotate(calc(0deg + var(--rotatePivot)));
+      color: #000; /* force repaint */
     }
     to {
-      transform: translateX(var(--distance))
-        scale(var(--scaleEnd))
+      transform: translateX(var(--distance)) scale(var(--scaleEnd))
         rotate(calc(var(--rotate) + var(--rotatePivot)));
     }
   }
 
   /* At least it moves, based on parent width! */
   @keyframes circleMoveExpensiveAndBoring {
-    from { margin-left: 0; }
-    to { margin-left: 100%; }
+    from {
+      margin-left: 0;
+    }
+    to {
+      margin-left: 100%;
+    }
   }
 </style>
 

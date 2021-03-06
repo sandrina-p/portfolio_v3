@@ -139,7 +139,7 @@
   }
 </script>
 
-<style>
+<style lang="postcss">
   .container {
     padding-top: 25vw;
     padding-bottom: $spacer-XL;

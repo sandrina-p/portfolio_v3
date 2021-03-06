@@ -20,9 +20,10 @@ Here's a list of my learnings while building this website. When I release the we
 - 🎈Functions can be reactive too (as variables!)
 - 🐛 BUG: Svelte removes written classes when they are added through `@html` (ex: Values.svelte -> .sBox strong).
 - 🎈Child components are PureComponents by default!
-- 🎈how to log a reactive variable each time it changes: `$: foo, console.log('value:', foo);` 
+- 🎈how to log a reactive variable each time it changes: `$: foo, console.log('value:', foo);`
 - 🎈 props cant have numbers! `isLevel1` -> `isLevelOne`. But you know what? This made me find a better solution: `level="1"`
 - 🐛Bug: Svelte does a poor hydratation causing issues with CSS Animations. [Sapper#1088](https://github.com/sveltejs/sapper/issues/1088). Workaround: Use a Svelte fork!
+- ❓Question: Still in 2021 is a pain to lint / format the code properly on VSCode -.-
 
 ## Javascript
 
@@ -46,7 +47,6 @@ Here's a list of my learnings while building this website. When I release the we
 - 📝 Use SCSS or CSS Variables? - TLDR: they complement each other.
 - 🎈 When using `position:fixed`, you can't add `transform` to that element. It will ignore fixed. Solution: Apply transform to child element. (ex: footer title)
 
-
 ## HTML/Accessibility
 
 - 🎈`aria-current` to a link to mark it as [the current page link](https://tink.uk/using-the-aria-current-attribute/).
@@ -55,19 +55,18 @@ Here's a list of my learnings while building this website. When I release the we
 - 🎈Use `animation-delay: -99s;` to start the animation from the end and stick at it. Useful to handle motion-reduced without disabling animations.
 
 ## Cypress
-- ❓I can't use visual regression... Each snapshot seems to causes a page refresh and the output is always a blank layout... Followed [this tutorial](https://docs.cypress.io/guides/tooling/visual-testing.html#Tooling) and [this one](https://medium.com/norwich-node-user-group/visual-regression-testing-with-cypress-io-and-cypress-image-snapshot-99c520ccc595)
-- 🎈Using `cy.get('title').should('contain', 'Hello world');`, if it fails doesn't say what's the diff. Use `cy.get('title').invoke('text').should(...` will show the diff in case it fails. 
 
+- ❓I can't use visual regression... Each snapshot seems to causes a page refresh and the output is always a blank layout... Followed [this tutorial](https://docs.cypress.io/guides/tooling/visual-testing.html#Tooling) and [this one](https://medium.com/norwich-node-user-group/visual-regression-testing-with-cypress-io-and-cypress-image-snapshot-99c520ccc595)
+- 🎈Using `cy.get('title').should('contain', 'Hello world');`, if it fails doesn't say what's the diff. Use `cy.get('title').invoke('text').should(...` will show the diff in case it fails.
 
 ## VSCode
 
 - Finally did the switch from Atom to VSCode because of lack of Svelte syntax support... not sure if it was a good decision.
 - How to [add multiline tabs to VScode](https://stackoverflow.com/a/57441591/4737729) (can't believe this isn't possible in a easier way)
 
-
----
 ---
 
+---
 
 ## Welcome back Sandrina, happy 2020!
 
@@ -75,6 +74,7 @@ Yes, you, miss Sandrina! I hope you come back to this project only in 2020. We b
 Now with a fresh mind, let's finish this up! Here's a quick recap:
 
 ### What's missing:
+
 Well... a bunch of stuff, here and there, but it's okay! I won't list everything because if I did, you would feel overwhelmed and stressed with all of those tiny details missing just to do a "landing page".
 So, instead I'll leave you with a couple of starting points. I'm sure you'll remember the rest as you go.
 

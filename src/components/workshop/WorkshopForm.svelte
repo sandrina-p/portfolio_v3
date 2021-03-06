@@ -1,20 +1,15 @@
 <script>
-  import HeadMeta from '../components/HeadMeta.svelte';
-  import ToggleTheme from '../components/navigation/ToggleTheme.svelte';
-  import Nav from '../components/navigation/Nav.svelte';
-  import Contacts from '../components/Contacts.svelte';
-  import { TWITTER_URL, SITE_URL } from '../data/misc.js';
-
   // props
   export let formEndpoint;
 
   const emailRegex = /(^$|^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$)/;
-  const MAIL_TO = 'mailto:a.sandrina.p@gmail.com?subject=Workshop%20-%20Accessibility%20Fundamentals&body=So,%20I%20was%20checking%20your%20"Accessibility%20Fundamentals"%20workshop%20and...';
+  const MAIL_TO =
+    'mailto:a.sandrina.p@gmail.com?subject=Workshop%20-%20Accessibility%20Fundamentals&body=So,%20I%20was%20checking%20your%20"Accessibility%20Fundamentals"%20workshop%20and...';
 
   let isFormSubmitting = false;
   let isFormSubmitted = false;
   let formErrorMsg = '';
-  
+
   let hasInlineError = false;
 
   let first_name = '';
@@ -22,27 +17,27 @@
   // let formReason = '';
   let form_time = [];
 
-  let warnings = {}
+  let warnings = {};
   let errors = {
     name: null,
     email: null,
     // reason: null,
     time: null,
-  }
+  };
 
   // TODO - DRY these validations... on a next workshop maybe!
 
   function handleChange(e, field) {
-    const value = e.target.value
+    const value = e.target.value;
     switch (field) {
       case 'name':
         if (errors.name && !!value) {
-          errors.name = ''
+          errors.name = '';
         }
         break;
       case 'email':
         if (errors.email && !!value) {
-          errors.email = ''
+          errors.email = '';
         }
         break;
       // case 'reason':
@@ -55,7 +50,7 @@
       //   break;
       case 'time':
         if (errors.time) {
-          errors.time = ''
+          errors.time = '';
         }
         break;
       default:
@@ -64,17 +59,17 @@
   }
 
   function handleBlur(e, field) {
-    const value = e.target.value
+    const value = e.target.value;
 
     switch (field) {
       case 'name':
         if (!value) {
-          errors.name = 'Your name is required.'
+          errors.name = 'Your name is required.';
         }
         break;
       case 'email':
         if (!value) {
-          errors.email = 'Your e-mail is required.'
+          errors.email = 'Your e-mail is required.';
         }
         break;
       // case 'reason':
@@ -88,8 +83,10 @@
   }
 
   async function handleSubmit(event) {
-    if (isFormSubmitting) { return }
-    console.log(first_name, email_address)
+    if (isFormSubmitting) {
+      return;
+    }
+    console.log(first_name, email_address);
     hasInlineError = false;
 
     if (!first_name) {
@@ -114,11 +111,14 @@
       errors.time = 'Select a time slot.';
       hasInlineError = true;
     } else if (form_time.length > 1 && form_time.includes('none')) {
-      errors.time = 'You seem undecided... You can either pick "None" or a time slot, but not both.';
+      errors.time =
+        'You seem undecided... You can either pick "None" or a time slot, but not both.';
       hasInlineError = true;
     }
 
-    if (hasInlineError) { return }
+    if (hasInlineError) {
+      return;
+    }
 
     isFormSubmitting = true;
 
@@ -127,12 +127,12 @@
         method: 'POST',
         headers: {
           Accept: 'application/json',
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify({first_name, email_address, form_time }),
+        body: JSON.stringify({ first_name, email_address, form_time }),
       });
     } catch (e) {
-      console.error('Error on submit!', e)
+      console.error('Error on submit!', e);
       formErrorMsg = e.message;
     }
     isFormSubmitting = false;
@@ -185,7 +185,7 @@
 
     &.error {
       .field-input {
-      /* .field-textarea { */
+        /* .field-textarea { */
         border-color: var(--error);
       }
     }
@@ -281,92 +281,121 @@
 </style>
 
 {#if !isFormSubmitted}
-<form class="card" on:submit|preventDefault={handleSubmit}>
-  <h3 class="f-title card-title">Want to join? <span class="u-primary">Mark your spot!</h3>
+  <form class="card" on:submit|preventDefault={handleSubmit}>
+    <h3 class="f-title card-title">
+      Want to join?
+      <span class="u-primary">Mark your spot!</span>
+    </h3>
 
-  <p class="card-txt field-tip">
-    Be the first to know when this workshop is scheduled, with access to exclusive discounts!
-  </p>
+    <p class="card-txt field-tip">
+      Be the first to know when this workshop is scheduled, with access to exclusive discounts!
+    </p>
 
-  <label class="field" class:error={errors.name}>
-    <span class="field-label">Your name</span>
-    <input type="text" class="field-input" aria-required
-      aria-invalid={!!errors.name}
-      on:keyup={(e) => handleChange(e, 'name')}
-      on:blur={(e) => handleBlur(e, 'name')}
-      bind:value={ first_name }
-    >
-    {#if errors.name} <span class="field-error">{errors.name}</span> {/if}
-  </label>
-
-  <label class="field" class:error={errors.email}>
-    <span class="field-label">Your e-mail</span>
-    <input type="text" inputmode="email" class="field-input" aria-required
-      aria-invalid={!!errors.email}
-      on:keyup={(e) => handleChange(e, 'email')}
-      on:blur={(e) => handleBlur(e, 'email')}
-      bind:value={ email_address }>
-    {#if errors.email} <span class="field-error">{errors.email}</span> {/if}
-  </label>
-
-  <fieldset class="field">
-    <legend class="field-label">What time slots work the best for you?</legend>
-    <span class="field-tip">
-      This will help me to decide what's the best schedule for most of the people.
-    </span>
-    
-    <label class="field-checkbox">
-      <input type="checkbox" name="slot" value="morning"
-        on:change={(e) => handleChange(e, 'time')}
-        bind:group={ form_time }
-      > 9 AM - 1 PM UTC</label>
-
-    <label class="field-checkbox">
-      <input type="checkbox" name="slot" value="afternoon"
-        on:change={(e) => handleChange(e, 'time')}
-        bind:group={ form_time }
-      > 2 PM - 6 PM UTC</label>
-
-    <label class="field-checkbox">
-      <input type="checkbox" name="slot" value="none"
-        on:change={(e) => handleChange(e, 'time')}
-        bind:group={ form_time }
-      > None 😭 
+    <label class="field" class:error={errors.name}>
+      <span class="field-label">Your name</span>
+      <input
+        type="text"
+        class="field-input"
+        aria-required
+        aria-invalid={!!errors.name}
+        on:keyup={e => handleChange(e, 'name')}
+        on:blur={e => handleBlur(e, 'name')}
+        bind:value={first_name} />
+      {#if errors.name}
+        <span class="field-error">{errors.name}</span>
+      {/if}
     </label>
-    {#if errors.time} <span class="field-error">{errors.time}</span> {/if}
-  </fieldset>
 
-  <button type="submit" disabled={isFormSubmitting} class="btn-submit">
-    {!isFormSubmitting ? 'Reserve your spot' : 'Sending...'}
-  </button>
-</form>
+    <label class="field" class:error={errors.email}>
+      <span class="field-label">Your e-mail</span>
+      <input
+        type="text"
+        inputmode="email"
+        class="field-input"
+        aria-required
+        aria-invalid={!!errors.email}
+        on:keyup={e => handleChange(e, 'email')}
+        on:blur={e => handleBlur(e, 'email')}
+        bind:value={email_address} />
+      {#if errors.email}
+        <span class="field-error">{errors.email}</span>
+      {/if}
+    </label>
 
+    <fieldset class="field">
+      <legend class="field-label">What time slots work the best for you?</legend>
+      <span class="field-tip">
+        This will help me to decide what's the best schedule for most of the people.
+      </span>
+
+      <label class="field-checkbox">
+        <input
+          type="checkbox"
+          name="slot"
+          value="morning"
+          on:change={e => handleChange(e, 'time')}
+          bind:group={form_time} />
+        9 AM - 1 PM UTC
+      </label>
+
+      <label class="field-checkbox">
+        <input
+          type="checkbox"
+          name="slot"
+          value="afternoon"
+          on:change={e => handleChange(e, 'time')}
+          bind:group={form_time} />
+        2 PM - 6 PM UTC
+      </label>
+
+      <label class="field-checkbox">
+        <input
+          type="checkbox"
+          name="slot"
+          value="none"
+          on:change={e => handleChange(e, 'time')}
+          bind:group={form_time} />
+        None 😭
+      </label>
+      {#if errors.time}
+        <span class="field-error">{errors.time}</span>
+      {/if}
+    </fieldset>
+
+    <button type="submit" disabled={isFormSubmitting} class="btn-submit">
+      {!isFormSubmitting ? 'Reserve your spot' : 'Sending...'}
+    </button>
+  </form>
 {:else}
-<div class="card">
-  {#if !formErrorMsg}
-    <h2 class="f-title card-title">
-      <span class="u-primary">Cool!</span> One last thing...
-    </h2>
-    <p class="p feedbackMsg">
-      Go <strong>check your inbox</strong> to confirm <span class="u-nowrap">your e-mail!</span>
-    </p>
+  <div class="card">
+    {#if !formErrorMsg}
+      <h2 class="f-title card-title">
+        <span class="u-primary">Cool!</span>
+        One last thing...
+      </h2>
+      <p class="p feedbackMsg">
+        Go
+        <strong>check your inbox</strong>
+        to confirm
+        <span class="u-nowrap">your e-mail!</span>
+      </p>
 
-    <p class="p feedbackTip">
-      Didn't receive an e-mail? Send me one directly at <a class="u-link" href={ MAIL_TO } target="_blank">a.sandrina.p@gmail.com</a> and I'll reserve your spot!
-    </p>
-  {:else}
-    <h2 class="f-title card-title">
-      <span class="u-danger">Ups!</span> Something went wrong...
-    </h2>
-    <p class="p feedbackMsg">
-      Error: {formErrorMsg}
-    </p>
-    <p class="p feedbackTip">
-      Please send me an e-mail directly at <a class="u-link" href={ MAIL_TO } target="_blank">a.sandrina.p@gmail.com</a> reporting the above error and I'll reserve your spot!
-    </p>
-  {/if}
-</div>
+      <p class="p feedbackTip">
+        Didn't receive an e-mail? Send me one directly at
+        <a class="u-link" href={MAIL_TO} target="_blank">a.sandrina.p@gmail.com</a>
+        and I'll reserve your spot!
+      </p>
+    {:else}
+      <h2 class="f-title card-title">
+        <span class="u-danger">Ups!</span>
+        Something went wrong...
+      </h2>
+      <p class="p feedbackMsg">Error: {formErrorMsg}</p>
+      <p class="p feedbackTip">
+        Please send me an e-mail directly at
+        <a class="u-link" href={MAIL_TO} target="_blank">a.sandrina.p@gmail.com</a>
+        reporting the above error and I'll reserve your spot!
+      </p>
+    {/if}
+  </div>
 {/if}
-
-
-

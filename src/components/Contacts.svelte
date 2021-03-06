@@ -6,7 +6,6 @@
     {
       name: 'dev.to',
       link: 'http://dev.to/a_sandrina_p',
-
     },
     {
       name: 'codepen',
@@ -23,7 +22,7 @@
   ];
 </script>
 
-<style>
+<style lang="postcss">
   .item {
     display: inline-block;
 
@@ -33,15 +32,19 @@
   }
 </style>
 
-<div class="{$$props.class}">
+<div class={$$props.class}>
   <h4 class="sr-only" id="a11y_sn">Social Stuff</h4>
   <ul aria-labelledby="a11y_sn">
     {#each contacts as { name, link }, i}
       <li class="item">
-        <a href={link} rel="noreferrer" target="_blank"
+        <a
+          href={link}
+          rel="noreferrer"
+          target="_blank"
           class="u-link link"
-          on:click={() => sendGA('send', 'event', 'click', 'contacts', name)}
-        >{name}</a>
+          on:click={() => sendGA('send', 'event', 'click', 'contacts', name)}>
+          {name}
+        </a>
       </li>
     {/each}
   </ul>

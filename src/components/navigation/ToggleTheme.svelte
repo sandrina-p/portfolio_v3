@@ -29,7 +29,7 @@
   export let klass = '';
 </script>
 
-<style>
+<style lang="postcss">
   .toggleTheme {
     position: relative;
     background: transparent;

@@ -19,7 +19,7 @@
   });
 </script>
 
-<style>
+<style lang="postcss">
   @define-mixin motionDefault { :global(.jsMotionDefault) & { @mixin-content; } }
   @define-mixin motionReduced { :global(.jsMotionReduced) & { @mixin-content; } }
 

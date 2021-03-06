@@ -15,7 +15,7 @@
   });
 </script>
 
-<style>
+<style lang="postcss">
   $titleChars: 17;
   $titleTempo: 200ms; 
   $circleSizeHalf: 10rem;

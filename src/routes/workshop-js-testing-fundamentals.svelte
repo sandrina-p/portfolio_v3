@@ -4,12 +4,12 @@
   import Nav from '../components/navigation/Nav.svelte';
   import Contacts from '../components/Contacts.svelte';
   import { TWITTER_URL, SITE_URL } from '../data/misc.js';
-  import WorkshopForm from '../components/WorkshopForm.svelte';
+  import WorkshopForm from '../components/workshop/WorkshopForm.svelte';
 
   const endpointTesting = 'https://app.convertkit.com/forms/2045201/subscriptions'
 </script>
 
-<style>
+<style lang="postcss">
   /* TODO/REFACTOR WET same as workshop-*.svelte */
   .header {
     position: fixed;
