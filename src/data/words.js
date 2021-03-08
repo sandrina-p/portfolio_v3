@@ -1,7 +1,7 @@
 export default [
   {
-    title: 'Breaking text on a specific word and Screen Readers implications',
-    date: "Sep '20",
+    title: 'Online Workshops',
+    date: '2021',
     places: [
       {
         id: 'lines_br',

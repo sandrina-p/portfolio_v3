@@ -282,7 +282,6 @@
         cursor: pointer;
         color: inherit;
         padding: $spacer-S $spacer-M;
-        margin: 0 $spacer-M $spacer-M;
         background: transparent;
         border-radius: 0.3rem;
         white-space: nowrap;

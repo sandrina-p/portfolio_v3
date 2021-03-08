@@ -137,7 +137,7 @@ describe('Essentials', () => {
         //there's a 99.9%% change all the rest is right because this is a loop.
         .eq(1)
         .within(() => {
-          cy.get('h3').should('contain', 'How front-end developers can empower designers’ work');
+          cy.get('h3').should('contain', 'Online Workshops');
 
           cy.get('.date').should('contain', "Oct '19");
 

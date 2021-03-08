@@ -38,6 +38,7 @@
     justify-content: center;
     background: transparent;
     border: none;
+    border-radius: 3px;
     width: 4.4rem;
     height: 4.4rem;
     padding: 0;
