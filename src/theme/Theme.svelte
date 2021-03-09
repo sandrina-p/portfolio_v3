@@ -8,13 +8,13 @@
     --bg_invert: #2e2a2f; /* #same as .dark bg_1; */
     --bg_invert_transparent: #2e2a2f00; /* for safari... */
 
-    --primary_1: #9b78de;
+    --primary_1: #8E38FF; /* #9b78de; */
     --primary_1_smooth: #e9e1f8;
     --primary_1_highlight: #e9e1f8;
-    --primary_1_sat: #8e66dc; /* better for small text */
     --primary_1_stronger: #8c00ff;
     --morph_color: rgba(172, 105, 255, 0.24);
     --morph_total: #c28ffc; /* visual effect when all circles are overlapping */
+    --primary_1_pair: #ff7d1e; /* ~orange // var(--primary_1_stronger); */
     --primary_2: #52e9d0;
     --primary_3: #dfb948;
     --primary_4: #ff9d9d;
@@ -28,11 +28,12 @@
     --text_invert: #343434; /* same as defautl text_0 */
     --bg_0: #3a383b;
     --bg_1: #2e2a2f;
-    --primary_1_sat: #a687ff;
+    --primary_1: #c272ff;
     --primary_1_smooth: #514371;
-    --primary_1_highlight: #8c00ff;
-    --morph_color: rgba(159, 117, 255, 0.19);
-    --morph_total: #8062be;
+    --primary_1_highlight: #cb8eff45;
+    --primary_1_pair: var(--primary_2);
+    --morph_color: rgba(215, 117, 255, 0.19);
+    --morph_total: #9c5fb8;
     --error: #ff9d9d;
   }
 
@@ -70,8 +71,9 @@
   body.js-tabbing {
     a:focus,
     button:focus {
-      outline: 0.1rem solid var(--primary_1_sat) !important;
-      box-shadow: 0.2rem 0.2rem 0.2rem 0px var(--primary_1) !important;
+      outline: none;
+      border-radius: 3px;
+      box-shadow: var(--bg_0) 0 0 0 2px, var(--primary_1_pair) 0 0 0 4px;
     }
   }
 
@@ -162,15 +164,30 @@
     &:hover {
       outline: none;
     }
+  
+    @media (--max-lg) {
+      &:hover {
+        color: var(--primary_1);
+      }
+  
+      body.js-tabbing &:focus {
+        border-radius: 3px;
+      }
+    }
 
     @media (--lg) { /* keep lg so long links work on "words" section */
       white-space: nowrap;
 
-      .jsMotionDefault &:hover {
+      .jsMotionDefault &:hover,
+      body.js-tabbing &:focus {
           &::before {
             transition-duration: 250ms ease-in-out;
             transform: scale(1, 1);
           }
+      }
+
+       body.js-tabbing &:focus {
+        outline: none !important;
       }
 
       &::before {

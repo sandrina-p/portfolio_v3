@@ -263,7 +263,7 @@
 
     &:hover,
     &:focus {
-      background-color: var(--primary_1_sat);
+      background-color: var(--primary_1);
     }
 
     &[disabled] {
@@ -276,7 +276,7 @@
   }
 
   .u-primary {
-    color: var(--primary_1_sat);
+    color: var(--primary_1);
   }
 </style>
 

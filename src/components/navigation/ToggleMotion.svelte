@@ -57,6 +57,7 @@
     align-items: center;
 
     &:hover {
+      color: var(--primary_1);
       .btnDecor {
         border-color: var(--primary_1);
       }
@@ -93,7 +94,7 @@
       border-radius: 50%;
       box-sizing: border-box;
       border: 2px solid var(--bg_1);
-      background-color: var(--text_0);
+      background-color: var(--text_1);
       transform: translateX(var(--ty, 0));
       transition: background-color 250ms, transform 250ms cubic-bezier(0.0, 0.0, 0.2, 1); /* irony */
     }

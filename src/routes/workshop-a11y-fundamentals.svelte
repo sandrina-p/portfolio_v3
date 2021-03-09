@@ -80,7 +80,7 @@
   .rw {
     font-size: $font-L2;
     font-weight: 500;
-    color: var(--primary_1_sat);
+    color: var(--primary_1);
     margin-bottom: $spacer-LM;
 
     &-d {

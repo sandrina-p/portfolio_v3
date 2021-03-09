@@ -319,7 +319,7 @@
 
       &[aria-current="true"] {
         --scale: 1;
-        color: var(--primary_1_sat);
+        color: var(--primary_1);
       }
 
       .isOpen & {
@@ -327,7 +327,7 @@
         &:focus {
           outline: none;
           --scale: 1;
-          color: var(--primary_1_sat);
+          color: var(--primary_1);
         }
       }
 
@@ -400,7 +400,7 @@
       &:focus,
       &:hover {
         outline: none;
-        color: var(--primary_1_sat);
+        color: var(--primary_1);
       }
 
       &[aria-pressed="true"] {
