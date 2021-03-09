@@ -124,6 +124,7 @@
     .text {
       max-width: 35rem;
       font-size: $font-L2;
+      color: var(--text_1);
     }
 
     .animation {
