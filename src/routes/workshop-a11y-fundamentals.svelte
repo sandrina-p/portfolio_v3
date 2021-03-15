@@ -6,7 +6,7 @@
   import SvgSprite from '../components/SvgSprite.svelte';
   import Contacts from '../components/Contacts.svelte';
   import { focusOnlyWhenNeeded } from '../utils';
-
+  import Accordion from '../components/workshop/Accordion.svelte'
   import { TWITTER_URL, SITE_URL } from '../data/misc.js';
   
   const modules = [
@@ -47,7 +47,7 @@
   const price = "000 EUR" // TODO DEFINE PRICE
 
   const eventHour = '16:00 - 19:00'
-  const eventTZ = 'UTC (DLS)'
+  const eventTZ = 'UTC'
 
   onMount(async () => {
     focusOnlyWhenNeeded();
@@ -67,7 +67,6 @@
     //     code: 'CET' // CENTRAL EUROPE
     //   }
     // }
-
   });
   
 </script>
@@ -94,10 +93,62 @@
     }
   }
 
+  .t-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    &Title {
+    }
+
+    &Mantra {
+      color: var(--primary_1);
+      text-align: center;
+      font-size: $font-L2;
+      max-width: 35rem;
+      line-height: 1.2;
+    }
+
+    &Kicker {
+      display: block;
+      order: -1;
+      margin: $spacer-L 0;
+      text-transform: uppercase;
+      color: var(--text_1);
+      letter-spacing: 0.2em;
+      font-size: $font-S;
+    }
+
+    &About {
+      margin-top: $spacer-L;
+      text-align: center;
+    }
+
+    &Creator {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text_1);
+
+      &Pic {
+        width: 2.4rem;
+        height: 2.4rem;
+        margin: 0 $spacer-XS;
+        border-radius: 50%;
+        overflow: hidden;
+      }
+
+      &Name {
+        color: var(--primary_1);
+      }
+    }
+
+  }
+
   .t-title {
-    font-size: 4rem;
+    font-size: 3.8rem;
     font-weight: 500;
-    margin: $spacer-L 0 $spacer-M;
 
     @media (--max-xs) {
       font-size: calc(4rem * 0.7);
@@ -110,6 +161,7 @@
 
     &.asH2 {
       font-size: 3.6rem;
+      margin: $spacer-L 0 $spacer-M;
     }
 
     &.asH3 {
@@ -118,6 +170,16 @@
     }
   }
 
+  .t-separator {
+    display: block;
+    height: 170px;
+    background: linear-gradient(to bottom, rgba(var(--bg_1_rgb),1) 0%, rgba(var(--bg_1_rgb),0) 100%);
+    width: 100vw;
+    margin-left: calc((100vw - 100%) / -2);
+    margin-top: $spacer-XL;
+    margin-bottom: calc($spacer-XL * -1);
+
+  }
 
   .t-hook {
     font-size: $font-XL;
@@ -162,6 +224,7 @@
   .t-card {
     padding: $spacer-M;
     background-color: var(--bg_1);
+    border-radius: 3px;
     box-shadow: 0.2rem 0.2rem var(--primary_1_smooth);
 
     & + .t-card {
@@ -182,7 +245,11 @@
     &Title {
       font-size: $font-XL;
       font-weight: 500;
-      margin: $spacer-S 0;
+      margin: $spacer-M 0 $spacer-S;
+
+      :global(.dark) & {
+        color: white;
+      }
     }
 
     &Pitch {
@@ -229,7 +296,7 @@
       border: none;
       text-decoration: none;
       cursor: pointer;
-      background: var(--primary_1_sat);
+      background: var(--primary_1);
       color: var(--bg_1);
       border-radius: 0.3rem;
 
@@ -238,7 +305,7 @@
       &:hover,
       &:focus {
         outline: none;
-        filter: saturate(1.2);
+        filter: saturate(2);
       }
 
       :global(.dark) & {
@@ -257,10 +324,57 @@
     font-size: $font-L2;
     font-weight: 500;
     margin-bottom: $spacer-S;
-
+    
+    :global(.dark) & {
+      color: white;
+    }
+    
     &Prefix {
       color: var(--primary_1);
       margin-right: $spacer-S;
+    }
+  }
+
+  .t-process {
+    text-align: center;
+
+    &Flow {
+      display: flex;
+      justify-content: center;
+      color: var(--primary_1);
+
+      &Ix {
+        &:not(:first-child) {
+          &::before {
+            content: '→'; /*'›';*/
+            margin: 0 $spacer-S;
+            color: var(--text_1);
+          }
+        }
+      }
+    }
+
+
+    @media (max-width: 28em) {
+      font-size: $font-S;
+      
+      &FlowIx:last-child {
+        display: none;
+      }
+    }
+  }
+
+  .faq {
+    &Area {
+      width: 100vw;
+      margin-left: calc((100vw - 100%) / -2);
+    }
+    &List {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: $spacer-M;
+      max-width: 950px;
+      margin: auto;
     }
   }
 
@@ -349,17 +463,20 @@
 </header>
 
 <main class="wrapper blogpost">
-  <h1 class="t-title">Web Accessibility Fundamentals</h1>
-  <p class="t-mantra">The web is awesome and everyone should be able to enjoy it.</p>
+  <header class="t-hero">
+    <h1 class="t-heroTitle t-title">Web Accessibility Fundamentals</h1>
+    <p class="t-heroMantra">The web is awesome and everyone should be able to enjoy it.</p>
+    <span class="t-heroKicker">Online Workshop</span>
+    <div class="t-heroAbout">
+      <p>April 11-13 · {eventHour} {eventTZ}</p>
+      <p class="t-heroCreator">with <img src="/sandrinap.jpg" alt=""  class="t-heroCreatorPic" /> <span class="t-heroCreatorName">Sandrina Pereira</span></p>
+    </div>
+  </header>
 
-  <!-- <p class="rw">
-    Online Workshop
-    <span class="rw-d">•</span>
-    <span class="rw-t">3 x 3hours</span>
-  </p> -->
+  <span class="t-separator"></span>
 
   <p class="t-p">
-    Let’s be honest, as web creators, we are still leaving accessibility as an afterthought. Learning how to create performant web apps using modern UI libraries sounds way more exciting, I understand you....
+    Let’s be honest, as web creators, we are still leaving accessibility as an afterthought. Learning how to create web apps using modern UI libraries sounds way more exciting, <i>I understand you...</i>
   </p>
 
   <h2 class="t-hook">
@@ -460,14 +577,26 @@
     Workshop dynamics
   </h3>
   <p class="t-p">
-    In each challenge, I’ll introduce you a new topic with detailed resources. 
+    In each challenge, I’ll introduce you to a new topic with detailed resources. 
   </p>
   <p class="t-p">
-    Then, I’ll give you an hands-on exercise for you to apply the concepts learned. You can solve it alone or collaborating with a group of 2-3 people.
+    Then, you'll have a hands-on exercise to apply the concepts learned. You can solve it by yourself or in collaboration with a group of 2-3 people.
   </p>
   <p class="t-p">
-    Afterwards, we go through the solution together, and I’ll clarify the questions that you might have.
+    Afterwards, we go through the solution together, and I’ll clarify any question that you might have.
   </p>
+
+  <div class="t-card t-process">
+    <ul class="t-processFlow">
+      <li class="t-processFlowIx">theory</li> 
+      <li class="t-processFlowIx">practice</li> 
+      <li class="t-processFlowIx">review</li> 
+      <li class="t-processFlowIx">clarify</li> 
+      <li class="t-processFlowIx">repeat</li> 
+    </ul>
+    <p>An interactive and effective way of learning together.</p>
+  </div>
+
 
   <h3 class="t-title asH3">
     Who is this workshop for?
@@ -546,6 +675,86 @@
   <h2 class="t-hook">
     F.A.Q.
   </h2>
+
+  <div class="faqArea">
+    <ul class="faqList">
+    <li>
+        <Accordion summary="What does A11Y mean?">
+          A11Y stands for 'accessibility'.
+          The irony about the word "accessibility" itself is that it's not very easy to pronounce.
+          So, it was created this abbreviation: A + 11 characters + Y, which has a more friendly homophone of "ally".
+        </Accordion>
+      </li>
+
+      <li>
+        <Accordion summary="Will the workshop be recorded?">
+          No, it won't be recorded, but you’ll have access to all the materials shared.
+        </Accordion>
+      </li>
+
+
+      <li>
+        <Accordion summary="What materials are provided?">
+                <!-- TODO list -->
+          - The materials slides (+ 50 slides);
+          - Codebase with all the mentioned resources;
+          - Exercises, including the solutions explained;
+        </Accordion>
+      </li>
+
+      <li>
+        <Accordion summary="I know A11Y. Will I learn something new?">
+          Oh, yeah. Even me, every time I give this workshop I always learn something new. Unless you are an A11Y expert, I’m confident that you’ll have an eureka moment somewhere.
+        </Accordion>
+      </li>
+
+      <li>
+        <Accordion summary="Is the workshop accessible?">
+          The video meeting can be captioned and the exercises briefings are fully accessible. If you have any accessibility concern, please reach out to me, and we can arrange it together.
+        </Accordion>
+      </li>
+
+      <li>
+        <Accordion summary="What screen reader will I use?">
+                        <!-- TODO list -->
+
+          You can use the one that suits you the best. I own a Mac, which means I’ll be using Voice Over.
+          During an online workshop it's not practical to help everyone using a SR (screen reader). For that reason, please take some minutes to practice in advance.
+              * Mac: You'll be using VoiceOver. Watch this VO introduction.
+              * Windows: Install NVDA and watch this NVDA introduction.
+              * Linux: Install Orca and watch this Orca introduction.
+              * SR keyboard shortcuts: VO and NVDA and Orca.
+          A few days before the workshop, I will send you these guides for you to practice.
+        </Accordion>
+      </li>
+
+      <li>
+        <Accordion summary="Is there any discounts available?">
+          The workshop is in Early Bird price for a couple of weeks. After that, there won’t be discounts available. I understand that the cost of this workshop can be too high for some people. If you are a student you can reach out to me.
+        </Accordion>
+      </li>
+
+      <li>
+        <Accordion summary="Can I buy a ticket to my team?">
+          You can but keep it mind that 1 ticket is for o 
+            <!-- TODO CLARIFY THIS -->
+          per person/seat. Besides these public events, I also provide customised trainings. You can contact me to discuss private sessions options.
+        </Accordion>
+      </li>
+
+      <li>
+        <Accordion summary="Can I ask you questions after the workshop?">
+          Of course! I will happly clarify your questions during the following week prior to the workshop.
+        </Accordion>
+      </li>
+
+      <li>
+        <Accordion summary="Is there a Code of Conduct?">
+          Yes, mine is pretty simple: Be kind and treat each other with respect and understanding. There’s zero tolerance for unkind behavior.
+        </Accordion>
+      </li>
+    </ul>
+  </div>
   
   <!-- TODO FAQ LIST -->
 </main>
