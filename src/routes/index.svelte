@@ -104,7 +104,7 @@
 <HeadMeta
   site={ SITE_URL }
   title='Sandrina Pereira - UX Engineer'
-  description={`I'm a UX Engineer who helps to turn ideas into accessible experiences.`}
+  description={`I'm a UX Frontend Engineer who helps to turn ideas into accessible experiences.`}
   coverUrl={`${SITE_URL}/cover_light-2.png`}
 />
 <svelte:head>

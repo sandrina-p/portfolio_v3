@@ -1,6 +1,6 @@
 # Oh, hi there!
 
-I'm a UX Engineer who helps to turn ideas into accessible experiences.
+I'm a UX Frontend Engineer who helps to turn ideas into accessible experiences.
 
 ----
 

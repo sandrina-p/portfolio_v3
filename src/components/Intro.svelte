@@ -82,14 +82,9 @@
 
   .text {
     font-size: $font-M;
-    max-width: 28rem;
+    max-width: 31rem;
     opacity: 0;
     animation: laserOn 750ms calc($titleTempo + 50ms * $titleChars) steps(8) forwards;
-
-    &:nth-of-type(2) {
-      margin-top: $spacer-M;
-      max-width: 24rem;
-    }
 
     @mixin motionReduced { animation-delay: -9s; }
   }
@@ -122,7 +117,7 @@
     }
 
     .text {
-      max-width: 35rem;
+      max-width: 40rem;
       font-size: $font-L2;
       color: var(--text_1);
     }
@@ -147,7 +142,7 @@
       {/each}
     </h1>
     <p class="text">
-      I'm a UX Engineer who helps to turn ideas into accessible experiences.
+      I'm a UX Frontend Engineer <span class="u-nowrap">who helps</span> to turn ideas into accessible experiences.
     </p>
     <NoScriptMsg />
   </div>
