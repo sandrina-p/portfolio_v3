@@ -7,6 +7,9 @@
   import { EMAIL_URL, CODEPEN_URL, TWITTER_URL, SITE_URL } from '../data/misc.js';
 
   const workshopUrl = '/workshop-a11y-fundamentals'
+  const smashingUrl = 'https://www.smashingmagazine.com/author/sandrina-pereira/'
+  const cssTricksUrl = 'https://css-tricks.com/author/sandrinapereira/'
+  const speakUrl = 'https://medium.com/@a_sandrina_p/ive-spoken-at-jsconf-and-so-can-you-a9d92c1439a6'
 
   let elHeader;
   let progress = 0;
@@ -305,24 +308,41 @@
   </h2>
   <div class="text">
     <p class="p">
-      Since 2019 I've been working fully remote, which is amazing to say the least.
       In 2020 I joined
-      <a class="u-link" rel="noreferrer" target="_blank" href="https://remote.com/">Remote</a> where I'm the team lead responsible for our product foundations.
-      Previously I spent a year helping to bring an open source idea to life -
-      <a class="u-link" rel="noreferrer" target="_blank" href="https://github.com/okTurtles/group-income-simple">Group Income</a>.
-      Back to office times, I was a Senior UI Engineer at
+      <a class="u-link" rel="noreferrer" target="_blank" href="https://remote.com/">Remote</a> where I'm the team lead responsible for the technical foundations of our product.
+      <!-- Previously, I spent a year helping to bring an open source idea to life -
+      <axx class="u-link" rel="noreferrer" target="_blank" href="https://github.com/okTurtles/group-income-simple">Group Income</a>. -->
+      Back to office times, I was a Senior Frontend Developer at
       <a class="u-link" rel="noreferrer" target="_blank" href="https://www.farfetch.com">Farfetch</a>
-      for a few years.
+      for a few years, guiding multiple teams to level up their knowledge within the React ecosystem, around accessibility, performance and JS testing.
+    </p>
+
+    <p class="p">
+      Although I've been a developer my entire carrer, I proudly hold a degree in Comunication Design and post-grad in Digital Experience Design.
+      Honestly, that's one of my secrets to succeed as a self-taught frontend engineer.
     </p>
     <p class="p">
-      From time to time, I also challenge myself to write articles, do public speaking and <a class="u-link" href={workshopUrl} target="_blank">I give workshops</a> about some topic I'm really into.
+      I love giving back to the community. I started with pushing pixels around on
+      <a class="u-link" rel="noreferrer" target="_blank" href={CODEPEN_URL} on:click={() => trackClick('codepen_journey')}>Codepen</a>
+      and share ideas on
+      <a class="u-link" rel="noreferrer" target="_blank" href={TWITTER_URL} on:click={() => trackClick('twitter_journey')}>Twitter</a>.
     </p>
     <p class="p">
-      Create humanly accessible experiences within the digital environments has been my meta-goal since I can remember.
-      In my free time I have fun
-      <a class="u-link" rel="noreferrer" target="_blank" href={CODEPEN_URL} on:click={() => trackClick('codepen_journey')}>pushing pixels around</a>
+      From time to time, I write articles, and had the pleasure to write for 
+      <a class="u-link" rel="noreferrer" target="_blank" href={cssTricksUrl} on:click={() => trackClick('csstricks_journey')}>CSS-Tricks</a> 
       and
-      <a class="u-link" rel="noreferrer" target="_blank" href={TWITTER_URL} on:click={() => trackClick('twitter_journey')}>share ideas</a> with the community.
+      <a class="u-link" rel="noreferrer" href={smashingUrl} target="_blank" on:click={() => trackClick('smashing_journey')}>Smashing Magazine</a>.
+    
+      In the past, I explored the world of <a class="u-link" rel="noreferrer" href={speakUrl} target="_blank" on:click={() => trackClick('speakJSConf_journey')}>public speaking</a> a few times, but to be honest, the anxiety around it was way too big for me.
+    </p>
+    
+    <p class="p">
+      All of this made me find my sweet spot: I've been giving workshops for the last 3 years about topics that I'm really into! Currently
+      <a class="u-link" rel="noreferrer" href={workshopUrl} target="_blank" on:click={() => trackClick('a11y_journey')}>Web Accessibility</a> is my main focus.
+    </p>
+
+    <p class="p">
+      Since I can remember, my meta-goal has been creating humanly inclusive experiences within digital environments. And this has been my journey around it.
     </p>
     <!--
       [May be useful in the future. I hope not.]

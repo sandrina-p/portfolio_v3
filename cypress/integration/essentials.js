@@ -201,14 +201,19 @@ describe('Essentials', () => {
         .should('contain', "Here's my journey");
 
       cy.get('.text').within(() => {
-        cy.get('p').should('have.length', 3);
-        cy.get('a').should('have.length', 6);
+        cy.get('p').should('have.length', 6);
+        cy.get('a').should('have.length', 8);
 
         assertLink(cy.get('a').eq(0), 'Remote', 'https://remote.com/');
-        assertLink(cy.get('a').eq(1), 'Group Income', 'group-income-simple');
-        assertLink(cy.get('a').eq(2), 'Farfetch', 'farfetch.com');
-        assertLink(cy.get('a').eq(4), 'pushing pixels around', 'codepen.io');
-        assertLink(cy.get('a').eq(5), 'share ideas', 'twitter.com');
+        // assertLink(cy.get('a').eq(1), 'Group Income', 'group-income-simple');
+        assertLink(cy.get('a').eq(1), 'Farfetch', 'farfetch.com');
+        assertLink(cy.get('a').eq(2), 'Codepen', 'codepen.io');
+        assertLink(cy.get('a').eq(3), 'Twitter', 'twitter.com');
+        // assertLink(cy.get('a').eq(6), 'Twitter', 'twitter.com');
+        // assertLink(cy.get('a').eq(7), 'Twitter', 'twitter.com');
+        // assertLink(cy.get('a').eq(8), 'Twitter', 'twitter.com');
+        assertLink(cy.get('a').eq(7), 'Web Accessibility', '/workshop-a11y-fundamentals');
+
         // assertLink(cy.get('a').eq(5), 'get in touch', 'mailto:');
       });
     });
