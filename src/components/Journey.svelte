@@ -10,10 +10,12 @@
   const smashingUrl = 'https://www.smashingmagazine.com/author/sandrina-pereira/'
   const cssTricksUrl = 'https://css-tricks.com/author/sandrinapereira/'
   const speakUrl = 'https://medium.com/@a_sandrina_p/ive-spoken-at-jsconf-and-so-can-you-a9d92c1439a6'
+  const mentorUrl = 'https://mentorcruise.com/mentor/SandrinaPereira/'
 
   let elHeader;
   let progress = 0;
   let animation;
+  let isSkillsVisible = false;
 
   $: wHeight = $_window && $_window.innerHeight;
   $: goal = wHeight / 2;
@@ -35,6 +37,10 @@
 
     if (prevPageSection !== pageSection && pageSection === 'journey') {
       animation.verify();
+    }
+
+    if (prevState.isSkillsVisible !== state.isSkillsVisible) {
+      isSkillsVisible = state.isSkillsVisible
     }
   });
 
@@ -72,6 +78,10 @@
       console.log('scrolling journey...');
       const percentage = (window.scrollY - progressOffset - scrollPivot) / goal;
       progress = getInLimit(percentage, 0, 1);
+
+      if(progress === 1) {
+        isSkillsVisible = true
+      }
     }
 
     function removeAnimation() {
@@ -80,6 +90,7 @@
       window.removeEventListener('scroll', handleJourneyScroll);
       observer.disconnect();
       progress = 1;
+      isSkillsVisible = true;
     }
 
     const watchHeader = ([{ isIntersecting, boundingClientRect }]) => {
@@ -161,6 +172,14 @@
       height: $paddingTop;
       width: 100%;
       background-color: var(--bg_invert);
+      opacity: 0;
+      /* Same speed as Skills. TODO reuse var or something */
+      transition: opacity 250ms cubic-bezier(0.19, 1, 0.22, 1);
+
+      .uAppear & {
+        transition: opacity 1000ms cubic-bezier(0.19, 1, 0.22, 1);
+        opacity: 1;
+      }
 
       :global(.dark) & {
         background-color: var(--bg_1);
@@ -289,6 +308,7 @@
 
 <section class="wrapperJn"
   class:isActive
+  class:uAppear={isSkillsVisible}
   style="--progress: {progress}"
   id="journey" tabindex="-1"
   data-section-offset-v="45"
@@ -318,31 +338,39 @@
     </p>
 
     <p class="p">
-      Although I've been a developer my entire carrer, I proudly hold a degree in Comunication Design and post-grad in Digital Experience Design.
+      Although I've been a developer my entire career, I proudly hold a degree in Communication Design and post-grad in Digital Experience Design.
       Honestly, that's one of my secrets to succeed as a self-taught frontend engineer.
     </p>
     <p class="p">
-      I love giving back to the community. I started with pushing pixels around on
+      Over the years I've been giving back to the community. I started by pushing pixels around on 
       <a class="u-link" rel="noreferrer" target="_blank" href={CODEPEN_URL} on:click={() => trackClick('codepen_journey')}>Codepen</a>
-      and share ideas on
-      <a class="u-link" rel="noreferrer" target="_blank" href={TWITTER_URL} on:click={() => trackClick('twitter_journey')}>Twitter</a>.
+      just for fun.
+      <!-- <a class="u-link" rel="noreferrer" target="_blank" href={TWITTER_URL} on:click={() => trackClick('twitter_journey')}>Twitter</a>. -->
     </p>
     <p class="p">
-      From time to time, I write articles, and had the pleasure to write for 
+      From time to time, I write articles and I had the pleasure to write for 
       <a class="u-link" rel="noreferrer" target="_blank" href={cssTricksUrl} on:click={() => trackClick('csstricks_journey')}>CSS-Tricks</a> 
       and
       <a class="u-link" rel="noreferrer" href={smashingUrl} target="_blank" on:click={() => trackClick('smashing_journey')}>Smashing Magazine</a>.
-    
-      In the past, I explored the world of <a class="u-link" rel="noreferrer" href={speakUrl} target="_blank" on:click={() => trackClick('speakJSConf_journey')}>public speaking</a> a few times, but to be honest, the anxiety around it was way too big for me.
+      I also explored the world of <a class="u-link" rel="noreferrer" href={speakUrl} target="_blank" on:click={() => trackClick('speakJSConf_journey')}>public speaking</a> a few times, pushing myself outside of my comfort zone.
     </p>
     
     <p class="p">
-      All of this made me find my sweet spot: I've been giving workshops for the last 3 years about topics that I'm really into! Currently
-      <a class="u-link" rel="noreferrer" href={workshopUrl} target="_blank" on:click={() => trackClick('a11y_journey')}>Web Accessibility</a> is my main focus.
+      Solving problems is cool, but I aim to simplify existing solutions.
+      For the last years I've been <a class="u-link" rel="noreferrer" href={mentorUrl} target="_blank" on:click={() => trackClick('smashing_journey')}>mentoring online</a>,
+      which allowed me to refine my approach of teaching new topics in a clear and effective way.   
+    </p>
+    
+    <p class="p">
+      All of these experiences lead me to find my sweet spot: 
+      For the last 3 years I've been giving workshops about multiple topics. 
+      Currenly my focus is on creating awareness of why
+      <a class="u-link" rel="noreferrer" href={workshopUrl} target="_blank" on:click={() => trackClick('a11y_journey')}>Web Accessibility</a>
+      is part of our duties as web creators.
     </p>
 
     <p class="p">
-      Since I can remember, my meta-goal has been creating humanly inclusive experiences within digital environments. And this has been my journey around it.
+      Since I can remember, my meta-goal is to create humanly inclusive experiences within digital environments. And this has been my journey around it.
     </p>
     <!--
       [May be useful in the future. I hope not.]

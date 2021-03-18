@@ -17,6 +17,11 @@
   let progressY = 0; // title translate
   let colorType = null;
 
+  $: {
+    // BUG: It is not called when toggle off motion...
+    updateGeneral({ isSkillsVisible: isVisible })
+  }
+
   afterGeneralUpdate((prevState, state) => {
     if (!prevState.isReady && state.isReady) {
       if($strMotion.isReduced) {
@@ -161,6 +166,7 @@
     padding-top: 50vw;
     padding-bottom: 4rem;
     background-color: var(--bg_0);
+    /* Same speed as Skills. TODO reuse var or something */
     transition: background-color 250ms cubic-bezier(0.19, 1, 0.22, 1);
 
     :global(.dark) & {

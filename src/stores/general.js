@@ -23,6 +23,8 @@ const [strGeneral, updateGeneral, afterGeneralUpdate] = createStore({
   // isIntroAnimated and isValuesLoaded are true,
   // everywhing is ready to go!
   isReady: false,
+  // Skills background/content is visible
+  isSkillsVisible: false,
 });
 
 export { strGeneral, updateGeneral, afterGeneralUpdate };
