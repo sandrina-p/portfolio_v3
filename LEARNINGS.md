@@ -53,6 +53,7 @@ Here's a list of my learnings while building this website. When I release the we
 - 🎈when using smooth scrolling on a#tag we need to handle the focus-changing ourselves because we are override the default scroll behavior.
 - 🎈Use `el.focus()` on a element inside a scrollable container, it will scroll to the element automatically (safari won't!). Useful to scroll between sliders on a scroll-snap container.
 - 🎈Use `animation-delay: -99s;` to start the animation from the end and stick at it. Useful to handle motion-reduced without disabling animations.
+- `rem` vs `px` usage: In this website, everything uses `rem` or another responsive unit. Although some believe we should [use `rem` only for text](https://twitter.com/a_sandrina_p/status/1258133389523259400), I didn't follow that approach on my website for a reason: Aesthetics. This is more than a functional portfolio - it's an "artistic place" where typography and white space play a big role in the website appearance. If the text size changes, its context must change as well, otherwise it won't make sense and some parts would look good (eg The introduction rectangles that contain text; The "skills" sky stars.) However, this does not compromise Accessibility in any way. Regardless of the size/zoom (up to 200%), in desktop, the page is perceivable, operable and understandable :)
 
 ## Cypress
 
