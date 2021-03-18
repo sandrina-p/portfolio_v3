@@ -311,6 +311,7 @@
           left: 0;
           height: 100%;
           background-color: var(--bg_1);
+          border-radius: 0.3rem;
           transform: translateX(calc($off * ($cards * -1) + $off * var(--i)));
           box-shadow: 0.2rem 0.2rem var(--primary_1_smooth);
         }
