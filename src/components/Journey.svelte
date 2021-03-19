@@ -332,9 +332,9 @@
       <a class="u-link" rel="noreferrer" target="_blank" href="https://remote.com/">Remote</a> where I'm the team lead responsible for the technical foundations of our product.
       <!-- Previously, I spent a year helping to bring an open source idea to life -
       <axx class="u-link" rel="noreferrer" target="_blank" href="https://github.com/okTurtles/group-income-simple">Group Income</a>. -->
-      Back to office times, I was a Senior Frontend Developer at
+      Back in office times, I was a Senior Frontend Developer at
       <a class="u-link" rel="noreferrer" target="_blank" href="https://www.farfetch.com">Farfetch</a>
-      for a few years, guiding multiple teams to level up their knowledge within the React ecosystem, around accessibility, performance and JS testing.
+      for a few years, guiding multiple teams to level up their knowledge within the React ecosystem, around accessibility, performance and, JS testing.
     </p>
 
     <p class="p">
@@ -342,29 +342,30 @@
       Honestly, that's one of my secrets to succeed as a self-taught frontend engineer.
     </p>
     <p class="p">
-      Over the years I've been giving back to the community. I started by pushing pixels around on 
+      Over the time, I've been giving back to the community. I started by pushing pixels around on 
       <a class="u-link" rel="noreferrer" target="_blank" href={CODEPEN_URL} on:click={() => trackClick('codepen_journey')}>Codepen</a>
       just for fun.
       <!-- <a class="u-link" rel="noreferrer" target="_blank" href={TWITTER_URL} on:click={() => trackClick('twitter_journey')}>Twitter</a>. -->
     </p>
     <p class="p">
-      From time to time, I write articles and I had the pleasure to write for 
+      I'm an author of 
       <a class="u-link" rel="noreferrer" target="_blank" href={cssTricksUrl} on:click={() => trackClick('csstricks_journey')}>CSS-Tricks</a> 
       and
-      <a class="u-link" rel="noreferrer" href={smashingUrl} target="_blank" on:click={() => trackClick('smashing_journey')}>Smashing Magazine</a>.
+      <a class="u-link" rel="noreferrer" href={smashingUrl} target="_blank" on:click={() => trackClick('smashing_journey')}>Smashing Magazine</a>
+      where I write articles occasionally.
       I also explored the world of <a class="u-link" rel="noreferrer" href={speakUrl} target="_blank" on:click={() => trackClick('speakJSConf_journey')}>public speaking</a> a few times, pushing myself outside of my comfort zone.
     </p>
     
     <p class="p">
       Solving problems is cool, but I aim to simplify existing solutions.
-      For the last years I've been <a class="u-link" rel="noreferrer" href={mentorUrl} target="_blank" on:click={() => trackClick('smashing_journey')}>mentoring online</a>,
-      which allowed me to refine my approach of teaching new topics in a clear and effective way.   
+      I've been <a class="u-link" rel="noreferrer" href={mentorUrl} target="_blank" on:click={() => trackClick('smashing_journey')}>mentoring online</a>,
+      which allowed me to refine my approach to teaching new topics in a clear and effective way.   
     </p>
     
     <p class="p">
       All of these experiences lead me to find my sweet spot: 
       For the last 3 years I've been giving workshops about multiple topics. 
-      Currenly my focus is on creating awareness of why
+      Currently, I'm focused on creating awareness of why
       <a class="u-link" rel="noreferrer" href={workshopUrl} target="_blank" on:click={() => trackClick('a11y_journey')}>Web Accessibility</a>
       is part of our duties as web creators.
     </p>
