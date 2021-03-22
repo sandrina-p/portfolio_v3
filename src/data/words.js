@@ -1,25 +1,27 @@
 export default [
+  // {
+  //   isPromoted: true,
+  //   title: 'Remote Workshops',
+  //   date: '2021',
+  //   places: [
+  //     {
+  //       id: 'w_A11Y',
+  //       type: '9h workshop',
+  //       where: 'Web Accessibility Fundamentals',
+  //       svg: 'bulb',
+  //       link: `/workshop-a11y-fundamentals`,
+  //     },
+  //     {
+  //       id: 'w_testing',
+  //       type: '8h workshop',
+  //       where: 'Javascript Testing Fundamentals',
+  //       svg: 'bulb',
+  //       link: `/workshop-js-testing-fundamentals`,
+  //     },
+  //   ],
+  // },
   {
-    title: 'Remote Workshops',
-    date: '2021',
-    places: [
-      {
-        id: 'w_A11Y',
-        type: '9h workshop',
-        where: 'Web Accessibility Fundamentals',
-        svg: 'bulb',
-        link: `/workshop-a11y-fundamentals`,
-      },
-      {
-        id: 'w_testing',
-        type: '8h workshop',
-        where: 'Javascript Testing Fundamentals',
-        svg: 'bulb',
-        link: `/workshop-js-testing-fundamentals`,
-      },
-    ],
-  },
-  {
+    isPromoted: true,
     title: 'Striking a Balance Between Native and Custom Select Elements',
     date: 'Jun 20',
     places: [
@@ -34,6 +36,7 @@ export default [
     ],
   },
   {
+    isPromoted: true,
     title: 'How front-end developers can empower designers’ work',
     date: 'Oct 19',
     places: [
@@ -54,34 +57,36 @@ export default [
       },
     ],
   },
-  // {
-  //   title: 'Using custom properties to wrangle variations in keyframe animations',
-  //   date: 'Sep 19',
-  //   places: [
-  //     {
-  //       id: 'cssvar_tricks',
-  //       type: 'article',
-  //       where: 'CSS-Tricks',
-  //       svg: 'css',
-  //       link:
-  //         'https://css-tricks.com/using-custom-properties-to-wrangle-variations-in-keyframe-animations/',
-  //     },
-  //   ],
-  // },
-  // {
-  //   title: 'Learning hash tables with drawings',
-  //   date: 'Aug 19',
-  //   places: [
-  //     {
-  //       id: 'hash_zine',
-  //       type: 'zine',
-  //       where: 'Dev.to',
-  //       svg: 'dev',
-  //       link: 'https://dev.to/a_sandrina_p/learning-hash-tables-with-drawings-99o',
-  //     },
-  //   ],
-  // },
   {
+    isPromoted: true,
+    title: 'Using custom properties to wrangle variations in keyframe animations',
+    date: 'Sep 19',
+    places: [
+      {
+        id: 'cssvar_tricks',
+        type: 'article',
+        where: 'CSS-Tricks',
+        svg: 'css',
+        link:
+          'https://css-tricks.com/using-custom-properties-to-wrangle-variations-in-keyframe-animations/',
+      },
+    ],
+  },
+  {
+    title: 'Learning hash tables with drawings',
+    date: 'Aug 19',
+    places: [
+      {
+        id: 'hash_zine',
+        type: 'zine',
+        where: 'Dev.to',
+        svg: 'dev',
+        link: 'https://dev.to/a_sandrina_p/learning-hash-tables-with-drawings-99o',
+      },
+    ],
+  },
+  {
+    isPromoted: true,
     title: 'Bringing a healthy code review mindset to your team',
     date: 'Jun 19',
     places: [
