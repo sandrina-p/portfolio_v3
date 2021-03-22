@@ -11,7 +11,6 @@
   import Skills from '../components/skills/Skills.svelte';
   import Journey from '../components/Journey.svelte';
   import Footer from '../components/Footer.svelte';
-  import SvgSprite from '../components/SvgSprite.svelte';
   
   import { SITE_URL } from '../data/misc';
   import { getInLimit, setRIC, focusOnlyWhenNeeded } from '../utils';
@@ -131,4 +130,3 @@
 <Journey />
 <Footer />
 </main>
-<SvgSprite />
