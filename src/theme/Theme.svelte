@@ -199,8 +199,8 @@
         height: 1.2em;
         background-color: var(--primary_1);
         opacity: 0.2;
-        transform: scale(1, 0.3);
-        transform-origin: 0 100%;
+        transform: scale(1, 0.2);
+        transform-origin: 0 90%;
         z-index: -1;
 
         .jsMotionDefault & {
