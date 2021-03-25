@@ -34,7 +34,7 @@
   let scale1 = 0;
   let scale2 = 0;
   let scale3 = 0;
-  let animation;  
+  let animation;
 
   afterGeneralUpdate((prevState, state) => {
     if (!prevState.isReady && state.isReady) {
@@ -69,7 +69,7 @@
 
     if(prevState.isReduced && !state.isReduced) {
       if (animation) {
-        animation.verify()
+        animation.verify();
       } else {
         animation = initAnimation();
       }
@@ -77,12 +77,6 @@
   })
 
   afterResponsiveUpdate(() => {
-    console.log('xxx')
-    if(isSolo) {
-              animation = initAnimation();
-
-    }
-
     if(!animation) { return }
     setTimeout(() => {
       animation.verify();

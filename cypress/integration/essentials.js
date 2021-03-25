@@ -55,7 +55,6 @@ describe('Essentials', () => {
       cy.get('button.burgerBtn').click();
       // Don't assert theme status because CI is diff from locally
       cy.get('button.toggleTheme').should('have.attr', 'aria-pressed');
-      cy.get('button.toggleTheme').should('have.attr', 'aria-label', 'Dark Theme');
 
       // togglMotion is true by default on tablet
       cy.get('button.toggleMotion').should('have.attr', 'aria-pressed', 'true');
