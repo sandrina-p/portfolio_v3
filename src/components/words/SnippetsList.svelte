@@ -5,21 +5,19 @@
 </script>
 
 <style lang="postcss">
+  .cardItem {
+    border-bottom: 3px solid var(--primary_1_smooth);
+    padding: $spacer-S 0;
+    margin: $spacer-S 0;
+  }
 
-.cardItem {
-  border-bottom: 3px solid var(--primary_1_smooth);
-  padding: $spacer-S 0;
-  margin: $spacer-S 0;
-}
+  .u-link {
+    text-decoration: none;
+  }
 
-.u-link {
-  text-decoration: none;
-}
-
-.short {
-  color: var(--text_1);
-}
-
+  .short {
+    color: var(--text_1);
+  }
 </style>
 
 <ul class="cardList">
