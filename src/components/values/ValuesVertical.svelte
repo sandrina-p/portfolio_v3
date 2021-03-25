@@ -204,6 +204,10 @@
 
       :global(strong) {
         font-weight: 500;
+
+        :global(.dark) & {
+          color: var(--text_s);
+        }
       }
     }
   }

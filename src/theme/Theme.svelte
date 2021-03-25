@@ -26,6 +26,7 @@
   body.dark {
     --text_0: #e2e2e2; /* same as --text_invert */
     --text_1: #adadad;
+    --text_s: #fff; /* for bold text */
     --text_invert: #343434; /* same as defautl text_0 */
     --bg_0: #3a383b;
     --bg_1: #2e2a2f;
@@ -201,7 +202,7 @@
         height: 1.2em;
         background-color: var(--primary_1);
         border-radius: 3px;
-        opacity: 0.2;
+        opacity: 0.3;
         transform: scale(1, 0.2);
         transform-origin: 0 90%;
         z-index: -1;
