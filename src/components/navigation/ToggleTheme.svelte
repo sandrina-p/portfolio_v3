@@ -33,6 +33,9 @@
 <style lang="postcss">
   .toggleTheme {
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background: transparent;
     border: none;
     width: 4.4rem;
@@ -62,7 +65,6 @@
   .sun {
     width: 80%;
     height: 80%;
-    margin: 0 auto;
 
     &Ray,
     &Center {
@@ -89,8 +91,8 @@
 
 <button class="toggleTheme {klass}"
   on:click={toggleTheme}
-  aria-pressed={isDark}
-  aria-label="Dark Theme">
+  aria-pressed={isDark}>
+  <span class="sr-only">Dark theme</span>
   <svg class="sun u-svg" style="display:none;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
     <defs>
       <mask id="hole">
