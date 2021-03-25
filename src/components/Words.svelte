@@ -4,6 +4,8 @@
   import { sendGA } from '../utils';
   import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
   import WordsList from './words/WordsList.svelte'
+  import { SITE_URL } from '../data/misc.js';
+  
   let isOnStage = false; // in viewport or passed the viewport
 
   const wordsPromoted = words.filter(item => item.isPromoted)
@@ -47,6 +49,47 @@
 
     &Description {
       color: var(--text_1);
+    }
+  }
+
+  .cta {
+    display: inline-block;
+    padding: $spacer-S $spacer-M;
+    background: var(--bg_1);
+    border-radius: 3px;
+    box-shadow: 0.2rem 0.2rem var(--primary_1_smooth);
+    font-weight: 500;
+    text-decoration: none;
+    color: var(--text_0);
+
+    margin-top: $spacer-M;
+    margin-left: $spacer-M;
+
+    &::before {
+      transform: scale(1, 0);
+      bottom: 0em;
+      left: 0em;
+      width: 100%;
+      height: 100%;
+      transform-origin: 0 100%;
+    }
+
+    &:hover {
+      &::before {
+        transform: scale(1, 1);
+      }
+    }
+
+    @mixin motionDefault {
+      opacity: 0;
+      transition: opacity 150ms 0ms ease-out;
+    }
+
+    .isOnStage & {
+      @mixin motionDefault {
+        opacity: 1;
+        transition: opacity 500ms calc($delayIn0*6) cubic-bezier(0.0, 0.0, 0.2, 1);
+      }
     }
   }
 
@@ -145,10 +188,15 @@
       </h2>
       <p class="headerDescription">
         <!-- As a self-taught developer, giving back to the community is a joy. -->
-        Solving problems is cool, but explaining the path to the solution is even cooler.
-        <!-- Explaining code through words is a core part of the learning process  -->
+        Solving problems is cool, but explaining the path to the solution is when the insights happen.
       </p>
     </header>
     <WordsList list={wordsPromoted} isOnStage={isOnStage} variant="promoted" />
+
+      <div>
+      <!-- TODO this -->
+      <a href="{SITE_URL}/writing" class="u-link cta">Check all articles</a>
+      <br/>
+    </div>
   </div>
 </section>

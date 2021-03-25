@@ -7,6 +7,8 @@
 </script>
 
 <style lang="postcss">
+  /* REFACTOR. Location of modifiers as-plain as-promoted
+   is not the best... */
   @define-mixin motionDefault { :global(.jsMotionDefault) & { @mixin-content; } }
   @define-mixin motionReduced { :global(.jsMotionReduced) & { @mixin-content; } }
 
@@ -24,15 +26,17 @@
           padding-bottom: 25vh;
         }
 
-        /* scroll margin on the end */
-        &::after {
-          display: block;
-          width: $layout-margin;
-          height: 10rem;
-          background: var(--bg_0);
-          content: '';
-          scroll-snap-align: end;
-          flex-shrink: 0;
+        .as-promoted&{
+          /* scroll margin on the end */
+          &::after {
+            display: block;
+            width: $layout-margin;
+            height: 10rem;
+            background: var(--bg_0);
+            content: '';
+            scroll-snap-align: end;
+            flex-shrink: 0;
+          }
         }
       }
     }
@@ -49,18 +53,15 @@
       border-radius: 0.3rem;
       box-shadow: 0.2rem 0.2rem var(--primary_1_smooth);
 
-      @media (--max-xs) {
-        padding: $spacer-LM $spacer-M $spacer-L;
-        max-width: 72vw; /* so next card is visible */
-      }
-
-      &:not(:last-child) {
-        margin: 0 $spacer-L 0 0;
-      }
-
       .as-promoted& {
-        /* TODO review mobile */
-        width: 26rem;
+        @media (--max-xs) {
+          padding: $spacer-LM $spacer-M $spacer-L;
+          max-width: 72vw; /* so next card is visible */
+        }
+
+        &:not(:last-child) {
+          margin: 0 $spacer-L 0 0;
+        }
       }
     }
   }
@@ -83,6 +84,27 @@
             opacity 2000ms cubic-bezier(0.0, 0.0, 0.2, 1),
             transform 2000ms cubic-bezier(0.19, 1, 0.22, 1);
         }
+      }
+    }
+
+    .as-plain {
+      &.cardList {
+        padding: 0;
+      }
+
+      .cardItem {
+        padding: $spacer-M;
+        margin: $spacer-M 0;
+      }
+
+      .date {
+        position: relative;
+        top: auto;
+      }
+
+      .title {
+        font-size: $font-L;
+        margin-bottom: $spacer-S;
       }
     }
   }
@@ -162,7 +184,7 @@
       }
 
       &Item {
-        padding: $spacer-M;
+        padding: $spacer-MS $spacer-M $spacer-M;
         justify-content: flex-start;
 
         &:not(:last-child) {
@@ -180,7 +202,7 @@
       flex-shrink: 0;
       left: auto;
       margin-left: calc($spacer-M * -5);
-      margin-top: -2rem;
+      margin-top: calc($spacer-M * -1 + 0.2em);
     }
 
     .place {
@@ -249,7 +271,7 @@
   }
 </style>
 
-<ul class="cardList as-{variant} u-carousel"
+<ul class="cardList as-{variant} {variant === 'promoted' ? 'u-carousel' : ''}"
   class:isOnStage
   data-cy="cards"
 >

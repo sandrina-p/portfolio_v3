@@ -144,11 +144,6 @@
     <p class="text">
       I'm a UX Frontend Engineer <span class="u-nowrap">who helps</span> to turn ideas into accessible experiences.
     </p>
-    <div>
-      <!-- TODO this -->
-      <a href="//localhost:3000/writing" class="u-link">Writing</a>
-      <br/>
-    </div>
     <NoScriptMsg />
   </div>
   <div class="animation">
