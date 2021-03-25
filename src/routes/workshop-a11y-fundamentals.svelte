@@ -472,7 +472,7 @@
     text-align: center;
     padding: $spacer-L 0;
     background: var(--bg_1);
-    margin-bottom: $spacer-XL;
+    margin-top: $spacer-XL;
 
     p {
       margin-bottom: $spacer-S;
@@ -578,7 +578,7 @@
 
   <span class="t-separator"></span>
 
-  <p class="t-p">
+  <!-- <p class="t-p">
     Let’s be honest, as web creators, we are still leaving accessibility as an afterthought. Learning how to create web apps using modern UI libraries sounds way more exciting, <i>I understand you...</i>
   </p>
 
@@ -620,7 +620,7 @@
   <p class="t-p">
     Let me teach you how accessibility does not limit your solutions,
     on contrary, it makes them more inclusive.
-  </p>
+  </p> -->
 
   <h2 class="t-title asH2">
       The workshop
