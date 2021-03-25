@@ -184,7 +184,7 @@
       .jsMotionDefault &:hover,
       body.js-tabbing &:focus {
           &::before {
-            transition-duration: 250ms ease-in-out;
+            transition-duration: 350ms ease-in-out;
             transform: scale(1, 1);
           }
       }

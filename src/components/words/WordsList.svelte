@@ -23,7 +23,7 @@
 
       @media (--max-lg) {
         @mixin motionReduced {
-          padding-bottom: 25vh;
+          padding-bottom: var(--words-spce-bottom, 25vh);
         }
 
         .as-promoted&{
@@ -53,7 +53,13 @@
       border-radius: 0.3rem;
       box-shadow: 0.2rem 0.2rem var(--primary_1_smooth);
 
-      .as-promoted& {
+      &:not(:last-child) {
+        margin: 0 0 $spacer-M;
+      }
+
+      .as-promoted & {
+        width: 26rem;
+
         @media (--max-xs) {
           padding: $spacer-LM $spacer-M $spacer-L;
           max-width: 72vw; /* so next card is visible */
@@ -187,8 +193,10 @@
         padding: $spacer-MS $spacer-M $spacer-M;
         justify-content: flex-start;
 
-        &:not(:last-child) {
-          margin: 0 0 $spacer-M;
+        .as-promoted & {
+          &:not(:last-child) {
+            margin: 0 0 $spacer-M;
+          }
         }
       }
     }
