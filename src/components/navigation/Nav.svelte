@@ -492,7 +492,8 @@
   <ToggleTheme klass='btnTheme' />
   <div class="menu" class:isOpen={isMenuOpen}>
 
-    <button class="burgerBtn" aria-label="open menu" aria-pressed={isMenuOpen} on:click={handleMenuBtnClick}>
+    <button class="burgerBtn" aria-pressed={isMenuOpen} on:click={handleMenuBtnClick}>
+      <span class="sr-only">Navigation</span>
       <svg class="burgerSvg u-svg" style="display: none;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 16">
         <rect x="0" y="0" width="20" height="2" rx="1" class="burgerSvgTop" />
         <rect x="5" y="7" width="15" height="2" rx="1" class="burgerSvgMid" />
