@@ -201,15 +201,15 @@ describe('Essentials', () => {
 
       cy.get('.text').within(() => {
         cy.get('p').should('have.length', 7);
-        cy.get('a').should('have.length', 8);
+        cy.get('a').should('have.length', 9);
 
         assertLink(cy.get('a').eq(0), 'Remote', 'https://remote.com/');
-        // assertLink(cy.get('a').eq(1), 'Group Income', 'group-income-simple');
         assertLink(cy.get('a').eq(1), 'Farfetch', 'farfetch.com');
         assertLink(cy.get('a').eq(2), 'Codepen', 'codepen.io');
-        // assertLink(cy.get('a').eq(3), 'Twitter', 'twitter.com');
-        // ....
-        assertLink(cy.get('a').eq(7), 'Web Accessibility', '/workshop-a11y-fundamentals');
+
+        assertLink(cy.get('a').eq(3), 'write articles', '/writing'); // needed for page creation
+
+        assertLink(cy.get('a').eq(8), 'Web Accessibility', '/workshop-a11y-fundamentals');
 
         // assertLink(cy.get('a').eq(5), 'get in touch', 'mailto:');
       });
