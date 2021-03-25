@@ -174,10 +174,15 @@
     &-title {
       font-size: $font-XL;
       margin-bottom: $spacer-S;
+      text-align: center;
+
+      span {
+        white-space: nowrap;
+      }
     }
 
     &-txt {
-      margin-top: 1.6rem;
+      margin-top: $spacer-S;
       max-width: 28rem;
       text-align: center;
     }
@@ -190,6 +195,7 @@
 
   .feedbackTip {
     font-size: $font-M;
+    text-align: center;
   }
 
   .fields-combo {
@@ -201,8 +207,12 @@
     .field {
       margin: 0 $spacer-M;
       flex: 1;
+      min-width: 200px;
+
+      &:nth-child(2) {
+        flex: 2;
+      }
     }
-    
   }
 
   .field {
@@ -332,7 +342,7 @@
 
   <div class="fields-combo">
     <label class="field" class:error={errors.name}>
-      <span class="field-label">Your first name</span>
+      <span class="field-label">Your name</span>
       <input
         type="text"
         class="field-input"
@@ -425,9 +435,8 @@
       </p>
 
       <p class="p feedbackTip">
-        Didn't receive an e-mail? Send me one directly at
-        <a class="u-link" href={MAIL_TO} target="_blank">a.sandrina.p@gmail.com</a>
-        and I'll reserve your spot!
+        Didn't receive an e-mail? Reach me
+        <a class="u-link" href={MAIL_TO} target="_blank">a.sandrina.p@gmail.com</a>.
       </p>
     {:else}
       <h2 class="f-title card-title">

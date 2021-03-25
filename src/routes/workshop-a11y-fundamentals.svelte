@@ -62,14 +62,15 @@
 </script>
 
 <style lang="postcss">
-  $ziHeader: 3;
-  $ziIntro: 4;
+  $ziHeader: 4;
+  $ziIntro: 3;
   $ziLine: 2;
   $width: 650px;
 
   .header {
     position: fixed;
     top: 0;
+    z-index: $ziHeader;
     width: $width;
     max-width: 100%;
     left: 50%;
@@ -170,10 +171,10 @@
           height: 1.4em;
           transform: scale(1, 0);
           transform-origin: 0 80%;
+        }
 
-          &:hover {
-            transform: scale(1, 1); 
-          }
+        &:hover::before {
+          transform: scale(1, 1); 
         }
       }
     }
@@ -194,7 +195,7 @@
 
     &.asH2 {
       font-size: 3.6rem;
-      margin: $spacer-L 0 $spacer-M;
+      margin: $spacer-XL 0 $spacer-M;
     }
 
     &.asH3 {
@@ -203,7 +204,7 @@
     }
   }
 
-  .cta-sticky {
+  /* .cta-sticky {
     position: sticky;
     top: 1.8rem;
     z-index: $ziIntro;
@@ -238,7 +239,7 @@
       }
     }
 
-  }
+  } */
 
   .t-separator {
     display: block;
@@ -330,11 +331,13 @@
     &Pitch {
       color: var(--text_1);
       font-size: $font-M;
+      text-align: center;
     }
 
     &Points {
       display: flex;
       align-items: center;
+      justify-content: center;
       margin: $spacer-M 0 $spacer-L; 
 
       .u-svg {
@@ -361,6 +364,12 @@
           font-size: 0.8em;
         }
       }
+    }
+
+    @media (--max-md) {
+      /* .time-todo {
+        display: none;
+      } */
     }
 
     &Btn {
@@ -443,14 +452,20 @@
     &Area {
       width: 100vw;
       margin-left: calc((100vw - 100%) / -2);
+      padding: 0 $spacer-M;
     }
     &List {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
       gap: $spacer-M;
-      max-width: 950px;
+      width: 950px;
+      max-width: 100%;
       margin: auto;
+      
+      @media (--md) {
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      }
     }
+
   }
 
   .footer {
@@ -747,13 +762,13 @@
     <p class="t-ctaPitch">Get 9 hours, over 3 days, to refine your A11Y knowledge.</p>
 
     <dl class="t-ctaPoints">
-      <dt>
+      <dt class="time-todo">
         <svg aria-hidden="true" class="u-svg" style="display: none;">
           <use xlink:href="#calendar" />
         </svg>
         <span class="sr-only">When:</span>
       </dt>
-      <dd>To be defined (April?)</dd>
+      <dd>Soon</dd>
 
       <dt>
         <svg aria-hidden="true" class="u-svg" style="display: none;">
