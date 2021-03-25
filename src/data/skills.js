@@ -14,7 +14,7 @@ export default {
     },
     {
       name: 'Redux',
-      list: ['0'],
+      list: ['1'],
     },
 
     {
@@ -78,12 +78,12 @@ export default {
     },
     {
       name: 'Netlify',
-      list: ['1', '3'],
+      list: ['3'],
     },
 
     {
       name: 'Parcel',
-      list: ['1', '3'],
+      list: ['3'],
     },
     {
       name: `I'm on Github!`,
