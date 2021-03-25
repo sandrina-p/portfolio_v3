@@ -30,6 +30,7 @@
   $ziHeader: 3;
   $ziIntro: 4;
   $ziLine: 2;
+  $ziContent: 1; /* need to be above footer */
   $width: 780px;
 
   .header {
@@ -122,6 +123,8 @@
   }
 
   .content {
+    position: relative;
+    z-index: $ziContent;
     padding-top: $spacer-M;
 
     @media (--md) {
