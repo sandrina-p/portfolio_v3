@@ -421,6 +421,10 @@
       :global(strong) {
         /* Svelte BUG  - 📝 this exists, but it's dynamic. Use global to persist */
         font-weight: 500;
+
+        :global(.dark) & {
+          color: var(--text_s);
+        }
       }
     }
   }
