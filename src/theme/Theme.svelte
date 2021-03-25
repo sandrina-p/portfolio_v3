@@ -199,7 +199,7 @@
         bottom: 0.05em;
         left: -0.1em;
         width: calc(100% + 0.2em);
-        height: 1.2em;
+        height: 100%;
         background-color: var(--primary_1);
         border-radius: 3px;
         opacity: 0.2;

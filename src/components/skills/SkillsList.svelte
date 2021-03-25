@@ -170,6 +170,13 @@
 
     &Text {
       display: inline-block;
+
+      .u-link {
+        background: var(--bg_1);
+        color: var(--text_0);
+        border-radius: 3px;
+        padding: 0 $spacer-S;
+      }
     }
 
     &Orbite {
@@ -310,10 +317,15 @@
 
         &[aria-expanded='true'] {
           color: var(--text_0);
-          
+
+          &:first-child { /* hardcoded - Rocking at */
+            color: var(--text_invert);
+          }
+
           :global(.dark) & {
             color: var(--text_invert);
           }
+
 
           &::before {
             opacity: 1;
@@ -457,7 +469,7 @@
       }
 
       @mixin coord React, 79rem, 19rem;
-      @mixin coord Redux, 60rem, 10rem;
+      @mixin coord Redux, 55rem, 18rem;
       @mixin coord Vue, 70rem, 23rem;
       @mixin coord Svelte, 4rem, 3rem;
 
@@ -465,7 +477,7 @@
       @mixin coord SCSS, 26rem, 17rem;
       @mixin coord CSS-in-JS, 24rem, 3rem;
 
-      @mixin coord React Native, 63rem, 5rem;
+      @mixin coord React Native, 57rem, 5rem;
       @mixin coord WebGL, 3rem, 22rem;
       @mixin coord NodeJS, 68rem, 13rem;
       @mixin coord TypeScript, 20rem, 10rem;
@@ -560,8 +572,10 @@
                   <span class="pointStar" />
                 </span>
               </span>
-              {#if url && lvlIndex == lvlActive}
-                <a rel="noreferrer" target="_blank" class="pointText u-link" href={url}>{name}</a>
+              {#if url}
+                <span class="pointText">
+                  <a rel="noreferrer" target="_blank" class="u-link" href={url}>{name}</a>
+                </span>
               {:else}
                 <span class="pointText">{name}</span>
               {/if}
