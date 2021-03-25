@@ -1,6 +1,7 @@
 <script>
   // props
   export let formEndpoint;
+  export let excludeBox; // no box/padding/card around. just the form itless.
 
   const emailRegex = /(^$|^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$)/;
   const MAIL_TO =
@@ -25,6 +26,9 @@
     time: null,
   };
 
+  let slots = $$props.$$slots;
+
+
   // TODO - DRY these validations... on a next workshop maybe!
 
   function handleChange(e, field) {
@@ -48,11 +52,11 @@
       //     warnings.reason = "That's enough Shakespeare 🧐"
       //   }
       //   break;
-      case 'time':
-        if (errors.time) {
-          errors.time = '';
-        }
-        break;
+      // case 'time':
+      //   if (errors.time) {
+      //     errors.time = '';
+      //   }
+      //   break;
       default:
         break;
     }
@@ -107,14 +111,14 @@
     //   hasInlineError = true;
     // }
 
-    if (!form_time.length) {
-      errors.time = 'Select a time slot.';
-      hasInlineError = true;
-    } else if (form_time.length > 1 && form_time.includes('none')) {
-      errors.time =
-        'You seem undecided... You can either pick "None" or a time slot, but not both.';
-      hasInlineError = true;
-    }
+    // if (!form_time.length) {
+    //   errors.time = 'Select a time slot.';
+    //   hasInlineError = true;
+    // } else if (form_time.length > 1 && form_time.includes('none')) {
+    //   errors.time =
+    //     'You seem undecided... You can either pick "None" or a time slot, but not both.';
+    //   hasInlineError = true;
+    // }
 
     if (hasInlineError) {
       return;
@@ -129,7 +133,7 @@
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ first_name, email_address, form_time }),
+        body: JSON.stringify({ first_name, email_address, /* form_time */ }),
       });
     } catch (e) {
       console.error('Error on submit!', e);
@@ -152,9 +156,16 @@
   .card {
     background: var(--bg_1);
     margin: $spacer-XL 0;
-    max-width: 44rem;
+    /* max-width: 440px; */
     padding: $spacer-L $spacer-M;
     border-radius: 3px;
+    box-shadow: 2px 2px var(--primary_1_smooth);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
 
     @media (--md) {
       padding: $spacer-LM $spacer-L;
@@ -162,11 +173,18 @@
 
     &-title {
       font-size: $font-XL;
-      margin-bottom: $spacer-M;
+      margin-bottom: $spacer-S;
+      text-align: center;
+
+      span {
+        white-space: nowrap;
+      }
     }
 
     &-txt {
-      margin-bottom: 2.4rem;
+      margin-top: $spacer-S;
+      max-width: 28rem;
+      text-align: center;
     }
   }
 
@@ -177,6 +195,24 @@
 
   .feedbackTip {
     font-size: $font-M;
+    text-align: center;
+  }
+
+  .fields-combo {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: $spacer-L;
+    width: 100%;
+
+    .field {
+      margin: 0 $spacer-M;
+      flex: 1;
+      min-width: 200px;
+
+      &:nth-child(2) {
+        flex: 2;
+      }
+    }
   }
 
   .field {
@@ -251,23 +287,28 @@
   }
 
   .btn-submit {
-    background-color: var(--primary_1);
-    text-align: center;
-    padding: $spacer-S $spacer-MS;
+    position: relative;
     font-size: $font-L;
-    color: #fff;
-    border-radius: 3px;
+    font-weight: 500;
+    padding: $spacer-S $spacer-L;
+    min-height: 44px;
     border: none;
-    margin-top: $spacer-S;
+    text-decoration: none;
     cursor: pointer;
+    background: var(--primary_1);
+    color: var(--bg_1);
+    border-radius: 6px;
+
+    margin: 0 0 $spacer-XS;
 
     &:hover,
     &:focus {
-      background-color: var(--primary_1);
+      outline: none;
+      filter: saturate(2);
     }
 
-    &[disabled] {
-      cursor: not-allowed;
+    :global(.dark) & {
+      color: white;
     }
   }
 
@@ -281,16 +322,25 @@
 </style>
 
 {#if !isFormSubmitted}
-  <form class="card" on:submit|preventDefault={handleSubmit}>
+  <form class:card={!excludeBox} on:submit|preventDefault={handleSubmit}>
     <h3 class="f-title card-title">
       Want to join?
       <span class="u-primary">Mark your spot!</span>
     </h3>
 
-    <p class="card-txt field-tip">
-      Be the first to know when this workshop is scheduled, with access to exclusive discounts!
-    </p>
+    {#if slots}
+      {#if slots.default}
+        <div class="default">
+          <slot />
+        </div>
+      {/if}
+    {:else}
+        <p class="card-txt field-tip">
+          Be the first to know when it's scheduled with Early Bird price
+        </p>
+    {/if}
 
+  <div class="fields-combo">
     <label class="field" class:error={errors.name}>
       <span class="field-label">Your name</span>
       <input
@@ -321,8 +371,9 @@
         <span class="field-error">{errors.email}</span>
       {/if}
     </label>
+  </div>
 
-    <fieldset class="field">
+    <!-- <fieldset class="field">
       <legend class="field-label">What time slots work the best for you?</legend>
       <span class="field-tip">
         This will help me to decide what's the best schedule for most of the people.
@@ -360,11 +411,14 @@
       {#if errors.time}
         <span class="field-error">{errors.time}</span>
       {/if}
-    </fieldset>
+    </fieldset> -->
 
-    <button type="submit" disabled={isFormSubmitting} class="btn-submit">
+    <button type="submit" aria-disabled={isFormSubmitting} class="btn-submit">
       {!isFormSubmitting ? 'Reserve your spot' : 'Sending...'}
     </button>
+    <p class="card-txt field-tip">
+      Be the first to know when it's scheduled with Early Bird price
+    </p>
   </form>
 {:else}
   <div class="card">
@@ -381,9 +435,8 @@
       </p>
 
       <p class="p feedbackTip">
-        Didn't receive an e-mail? Send me one directly at
-        <a class="u-link" href={MAIL_TO} target="_blank">a.sandrina.p@gmail.com</a>
-        and I'll reserve your spot!
+        Didn't receive an e-mail? Reach me
+        <a class="u-link" href={MAIL_TO} target="_blank">a.sandrina.p@gmail.com</a>.
       </p>
     {:else}
       <h2 class="f-title card-title">

@@ -38,14 +38,13 @@
   </style>
   <div id="isOld" class="g-msg"></div>
 
-  <!-- Critical JS to be runned before Svelte is loaded. -->
-  <!--
-  [1] - Set the default theme. Remaining logic at ToggleTheme.svelte
-  [2] - Set the default motion. Tablet is always reduced just in case. Remaining logic at ToggleMotion.svelte
-  [3] - Detect current browser. Needed for some CSS animations otimizations.
-  DO NOT modify any DOM element inside #sapper! Otherwise Svelte hydratation won't work properly.
--->
   <script>
+    // Critical JS to be runned before Svelte is loaded.
+    // 
+    // [1] - Set the default theme. Remaining logic at ToggleTheme.svelte
+    // [2] - Set the default motion. Tablet is always reduced just in case. Remaining logic at ToggleMotion.svelte
+    // [3] - Detect current browser. Needed for some CSS animations otimizations.
+    // DO NOT modify any DOM element inside #sapper! Otherwise Svelte hydratation won't work properly.
     var isOld = !window.fetch || !window.matchMedia;
     /*[1]*/
     var theme = 'light';
@@ -103,13 +102,10 @@
     }
   </script>
 
-  <!-- The application will be rendered inside this element,
-    because `src/client.js` references it -->
-  <div id="sapper">%sapper.html%</div>
+  <div id="sapper">
+    %sapper.html%
+  </div>
 
-  <!-- Sapper creates a <script> tag containing `src/client.js`
-    and anything else it needs to hydrate the app and
-    initialise the router -->
   %sapper.scripts%
 
   <script>

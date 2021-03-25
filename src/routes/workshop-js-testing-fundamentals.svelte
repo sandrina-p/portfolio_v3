@@ -190,7 +190,7 @@
 
 <main class="wrapper">
 <h1 class="f-title title">Javascript Testing Fundamentals</h1>
-<p class="rw">Remote Workshop <span class="rw-d">•</span> <span class="rw-t">8-12 Hours</span></p>
+<p class="rw">Online Workshop <span class="rw-d">•</span> <span class="rw-t">8-12 Hours</span></p>
 
 <p class="f-title subtitle hithere">Using Jest and React Testing Library</p>
 

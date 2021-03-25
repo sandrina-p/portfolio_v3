@@ -24,6 +24,7 @@ Here's a list of my learnings while building this website. When I release the we
 - 🎈 props cant have numbers! `isLevel1` -> `isLevelOne`. But you know what? This made me find a better solution: `level="1"`
 - 🐛Bug: Svelte does a poor hydratation causing issues with CSS Animations. [Sapper#1088](https://github.com/sveltejs/sapper/issues/1088). Workaround: Use a Svelte fork!
 - ❓Question: Still in 2021 is a pain to lint / format the code properly on VSCode -.-
+- 🎈 Svelte [does not support dynamic elemnts](https://github.com/sveltejs/svelte/issues/2324) yet ...
 
 ## Javascript
 

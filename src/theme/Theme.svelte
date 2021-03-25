@@ -204,7 +204,7 @@
         border-radius: 3px;
         opacity: 0.2;
         transform: scale(1, 0.2);
-        transform-origin: 0 100%;
+        transform-origin: 0 95%;
         z-index: -1;
 
         .jsMotionDefault & {

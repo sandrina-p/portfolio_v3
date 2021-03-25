@@ -55,13 +55,14 @@
 
     &::before {
       opacity: 0.5;
+      transform-origin: 0 90%;
     }
 
-      &:hover, &:focus {
-        &::before {
-          opacity: 0.2;
-        }
+    &:hover, &:focus {
+      &::before {
+        opacity: 0.2;
       }
+    }
   }
 
   .wrapper {
@@ -171,7 +172,7 @@
     <p class="p">
       From time to time, I explain code with words or doodles.
     
-      All of these articles were published elsewhere. Some of them I've written for
+      All of these articles were published elsewhere. Some of them I wrote for
       <a class="u-link" rel="noreferrer" target="_blank" href={CSSTRICKS_URL} on:click={() => trackClick('csstricks_journey')}>CSS-Tricks</a> 
       and
       <a class="u-link" rel="noreferrer" href={SMASHING_URL} target="_blank" on:click={() => trackClick('smashing_journey')}>Smashing Magazine</a>.

@@ -203,7 +203,7 @@
         const boundingClientRectCard = elCard.getBoundingClientRect()
         const boundingClientRectFooter = elFooter.getBoundingClientRect()
 
-        // Verify card first, so handleFooterScroll is runned with the correct value of isCardOnView
+        // Verify card first, so handleFooterScroll is run with the correct value of isCardOnView
         watchCard([{
           isIntersecting: boundingClientRectCard.top < wHeight,
           boundingClientRect: boundingClientRectCard
