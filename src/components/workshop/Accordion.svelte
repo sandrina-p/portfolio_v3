@@ -22,6 +22,7 @@
     overflow: hidden;
     transition: height 250ms ease-out;
     font-size: $font-M;
+    cursor: pointer;
   }
 
   :global(.gAccordion) {    

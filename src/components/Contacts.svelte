@@ -2,6 +2,8 @@
   import { EMAIL_URL } from '../data/misc.js';
   import { sendGA } from '../utils';
 
+  export let essentialOnly;
+
   const contacts = [
     {
       name: 'dev.to',
@@ -20,6 +22,8 @@
       link: EMAIL_URL,
     },
   ];
+
+  const contactsList = essentialOnly ? [contacts[2], contacts[3]] :contacts
 </script>
 
 <style lang="postcss">
@@ -35,7 +39,7 @@
 <div class={$$props.class}>
   <h4 class="sr-only" id="a11y_sn">Social Stuff</h4>
   <ul aria-labelledby="a11y_sn">
-    {#each contacts as { name, link }, i}
+    {#each contactsList as { name, link }, i}
       <li class="item">
         <a
           href={link}

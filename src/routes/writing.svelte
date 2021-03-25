@@ -55,13 +55,14 @@
 
     &::before {
       opacity: 0.5;
+      transform-origin: 0 90%;
     }
 
-      &:hover, &:focus {
-        &::before {
-          opacity: 0.2;
-        }
+    &:hover, &:focus {
+      &::before {
+        opacity: 0.2;
       }
+    }
   }
 
   .wrapper {

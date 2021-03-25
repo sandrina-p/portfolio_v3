@@ -7,15 +7,18 @@
   import Contacts from '../components/Contacts.svelte';
   import { focusOnlyWhenNeeded } from '../utils';
   import Accordion from '../components/workshop/Accordion.svelte'
+  import WorkshopForm from '../components/workshop/WorkshopForm.svelte';
   import { TWITTER_URL, SITE_URL } from '../data/misc.js';
-  
+
+  const endpointA11Y = 'https://app.convertkit.com/forms/1318242/subscriptions';
+
   const modules = [
     {
       title: 'Accessibility overview',
       topics: [
         'Demystify accessibility myths.',
         'Disability types spectrum.',
-        'WCAG: principles, layers of guidance, and the law.'
+        'WCAG principles, layers of guidance, and the law.'
       ],
     },
     {
@@ -39,7 +42,7 @@
       topics: [
         'Exploring and solving',
         'Landmarks and forms',
-        'Interactive UI Design Patterns',
+        'Interactive UI Patterns',
       ],
     }
   ]
@@ -51,55 +54,85 @@
 
   onMount(async () => {
     focusOnlyWhenNeeded();
-
-    // TODO convert local tizone.
-    // const friendlyTZ = {
-    //   '-8': {
-    //     code: 'PST' // CAL
-    //   },
-    //   '-5': {
-    //     code: 'EST' // NY / CANADA
-    //   },
-    //   '+1': {
-    //     code: 'WEST' // LONDON / LX
-    //   },
-    //   '+2': {
-    //     code: 'CET' // CENTRAL EUROPE
-    //   }
-    // }
   });
   
+  function trackClick(action) {
+    sendGA('send', 'event', 'click', 'workshop', action)
+  }
 </script>
 
 <style lang="postcss">
+  $ziHeader: 3;
+  $ziIntro: 4;
+  $ziLine: 2;
+  $width: 650px;
+
   .header {
     position: fixed;
     top: 0;
-    right: 0;
-    padding: $spacer-M $spacer-M 0 0;
+    width: $width;
+    max-width: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: $ziHeader;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: $spacer-M;
+  }
+
+  .logo {
+    font-size: 2.1rem;
+    text-decoration: none;
+    font-weight: 500;
+    color: var(--text_0);
+
+    &::before {
+      opacity: 0.5;
+      transform-origin: 0 90%;
+    }
+
+    &:hover, &:focus {
+      &::before {
+        opacity: 0.2;
+      }
+    }
   }
 
   .wrapper {
     margin: 0 auto;
-    max-width: 65rem;
+    max-width: $width;
     padding: $spacer-L $spacer-M;
     
     @media (--md) {
       font-size: $font-L;
     }
 
-    b {
+    strong {
       font-weight: 500;
     }
   }
 
   .t-hero {
+    position: relative;
+    z-index: $ziIntro;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
+    margin-bottom: $spacer-S;
 
     &Title {
+    }
+
+    &Kicker {
+      display: block;
+      order: -1;
+      margin: $spacer-XL 0 $spacer-M;
+      text-transform: uppercase;
+      color: var(--text_1);
+      letter-spacing: 0.2em;
+      font-size: $font-S;
     }
 
     &Mantra {
@@ -108,16 +141,6 @@
       font-size: $font-L2;
       max-width: 35rem;
       line-height: 1.2;
-    }
-
-    &Kicker {
-      display: block;
-      order: -1;
-      margin: $spacer-L 0;
-      text-transform: uppercase;
-      color: var(--text_1);
-      letter-spacing: 0.2em;
-      font-size: $font-S;
     }
 
     &About {
@@ -141,9 +164,19 @@
 
       &Name {
         color: var(--primary_1);
+        text-decoration: none;
+
+        &::before {
+          height: 1.4em;
+          transform: scale(1, 0);
+          transform-origin: 0 80%;
+
+          &:hover {
+            transform: scale(1, 1); 
+          }
+        }
       }
     }
-
   }
 
   .t-title {
@@ -165,20 +198,62 @@
     }
 
     &.asH3 {
-      font-size: $font-L2;
-      margin: $spacer-L 0 $spacer-S;
+      font-size: $font-XL;
+      margin: $spacer-LM 0 $spacer-S;
     }
+  }
+
+  .cta-sticky {
+    position: sticky;
+    top: 1.8rem;
+    z-index: $ziIntro;
+    display: block;
+    width: min-content;
+    margin: 0 auto;
+    text-align: center;
+
+    .u-link {
+      display: inline-block;
+      padding: $spacer-S $spacer-M;
+      background-color: var(--bg_1);
+      border-radius: 3px;
+      box-shadow: 0.2rem 0.2rem var(--primary_1_smooth);
+      font-weight: 500;
+      text-decoration: none;
+      color: var(--text_0);
+      
+      &::before {
+        transform: scale(1, 0);
+        bottom: 0em;
+        left: 0em;
+        width: 100%;
+        height: 100%;
+        transform-origin: 0 100%;
+      }
+  
+      &:hover {
+        &::before {
+          transform: scale(1, 1);
+        }
+      }
+    }
+
   }
 
   .t-separator {
     display: block;
-    height: 170px;
-    background: linear-gradient(to bottom, rgba(var(--bg_1_rgb),1) 0%, rgba(var(--bg_1_rgb),0) 100%);
     width: 100vw;
-    margin-left: calc((100vw - 100%) / -2);
-    margin-top: $spacer-XL;
-    margin-bottom: calc($spacer-XL * -1);
+    height: 170px;
+    
+    /* To match header pixel perfect */
+    position: sticky;
+    top: -90px;
+    z-index: $ziLine;
 
+    background: linear-gradient(to top, rgba(var(--bg_1_rgb),1) 0%, rgba(var(--bg_1_rgb),0) 100%);
+    margin-top: calc($spacer-LM * -2);
+    margin-left: calc((100vw - 100%) / -2);
+    margin-bottom: $spacer-XL;
   }
 
   .t-hook {
@@ -382,6 +457,7 @@
     text-align: center;
     padding: $spacer-L 0;
     background: var(--bg_1);
+    margin-bottom: $spacer-XL;
 
     p {
       margin-bottom: $spacer-S;
@@ -459,8 +535,12 @@
 </svelte:head>
 
 <header class="header">
+  <a href={SITE_URL} class="logo u-link">
+    Sandrina
+  </a>
   <ToggleThemePage />
 </header>
+
 
 <main class="wrapper blogpost">
   <header class="t-hero">
@@ -468,10 +548,18 @@
     <p class="t-heroMantra">The web is awesome and everyone should be able to enjoy it.</p>
     <span class="t-heroKicker">Online Workshop</span>
     <div class="t-heroAbout">
-      <p>April 11-13 · {eventHour} {eventTZ}</p>
-      <p class="t-heroCreator">with <img src="/sandrinap.jpg" alt=""  class="t-heroCreatorPic" /> <span class="t-heroCreatorName">Sandrina Pereira</span></p>
+      <!-- <p>April 11-13 · {eventHour} {eventTZ}</p> -->
+      <p class="t-heroCreator">with <img src="/sandrinap.jpg" alt=""  class="t-heroCreatorPic" />
+        <a class="u-link t-heroCreatorName" rel="noreferrer" href={TWITTER_URL} on:click={() => trackClick('csstricks_journey')}>
+          Sandrina Pereira
+        </a>
+      </p>
     </div>
   </header>
+
+  <div class="cta-sticky">
+    <!-- <button class="u-link">Coming soon!</button> -->
+  </div>
 
   <span class="t-separator"></span>
 
@@ -480,7 +568,7 @@
   </p>
 
   <h2 class="t-hook">
-      A11Y doesn't need to be boring.
+      A11Y doesn't need to be boring
   </h2>
   
     
@@ -502,12 +590,11 @@
   </p>
 
   <p class="t-p">
-    But then you felt overwhelmed, lost,... and ended up giving up.
+    But then you felt overwhelmed, lost,... and left it aside.
   </p>
 
-
   <h2 class="t-hook">
-      Let me simplify it for you.
+      Let me simplify it for you
   </h2>
 
   <p class="t-p">
@@ -530,25 +617,8 @@
     We'll cover multiple design patterns and development techniques that you can apply in your own projects right away.
   </p>
   <p class="t-p">
-    You’ll also learn how screen readers are used, and I'll show you that there's no reason to be afraid of using it!
+    You’ll also learn how screen readers are used, and I'll show you that there's no reason to be afraid of using one!
   </p>
-
-
-  <h3 class="t-title asH3">
-    By the end, you will:
-  </h3>
-  <ul class="t-list asCheck">
-    <li>Realize how web accessibility benefits everyone</li>
-    <li>Be able to identify accessibility issues;</li>
-    <li>Know how to audit and use accessibility audit tools</li>
-    <li>Understand how WCAG is organized</li>
-    <li>Understand how the law is related to WCAG</li>
-    <li>
-      Find out that building inclusive websites isn’t as hard as it sounds
-      <span aria-hidden="true">;)</span>
-    </li>
-  </ul>
-
 
   <h3 class="t-title asH3">
     Topics
@@ -573,17 +643,34 @@
     {/each}
   </ul>
 
+
+  <h3 class="t-title asH3">
+    By the end, you will:
+  </h3>
+  <ul class="t-list asCheck">
+    <li>Realize how web accessibility benefits everyone</li>
+    <li>Understand WCAG principles and how is organized</li>
+    <li>Know how to use accessibility audit tools</li>
+    <li>Quickly identify common accessibility issues</li>
+    <li>Integrate accessibility into your team workflow right away</li>
+    <li>
+      Find out that building inclusive websites isn’t as hard as it sounds
+      <span aria-hidden="true">;)</span>
+    </li>
+  </ul>
+
+
   <h3 class="t-title asH3">
     Workshop dynamics
   </h3>
   <p class="t-p">
-    In each challenge, I’ll introduce you to a new topic with detailed resources. 
+    In each challenge, I’ll introduce you to a new topic in a simplified way, along with <strong>detailed resources</strong>. 
   </p>
   <p class="t-p">
-    Then, you'll have a hands-on exercise to apply the concepts learned. You can solve it by yourself or in collaboration with a group of 2-3 people.
+    Then, you'll have a <strong>hands-on exercise</strong> for you to apply the concepts learned. You can solve it by yourself or by collaborating with a group of 2-3 people.
   </p>
   <p class="t-p">
-    Afterwards, we go through the solution together, and I’ll clarify any question that you might have.
+    Afterwards, we go through the <strong>solution</strong> together, and I’ll <strong>clarify the questions</strong> that you might have.
   </p>
 
   <div class="t-card t-process">
@@ -594,7 +681,7 @@
       <li class="t-processFlowIx">clarify</li> 
       <li class="t-processFlowIx">repeat</li> 
     </ul>
-    <p>An interactive and effective way of learning together.</p>
+    <p>An interactive way of learning together.</p>
   </div>
 
 
@@ -602,13 +689,11 @@
     Who is this workshop for?
   </h3>
   <p class="t-p">
-    It’s aimed for those who want to ensure that their websites are accessible.
+    Web developers are the main audience, but if you are a designer,
+    or a QA expert then this workshop will be valuable for you as well. 
   </p>
   <p class="t-p">
-    Web developers are the main audience, although this is also valuable for designers, QA experts, or anyone interested in web accessibility. 
-  </p>
-  <p class="t-p">
-    The content will be explained with beginners in mind and it gets more advanced as we go through it.
+    The topics will be explained with beginners in mind and it gets more advanced as we go through it.
   </p>
   <p class="t-p">
     Even if you already have some experience into A11Y, you can look at this workshop as a way to solidify your knowledge and fill any existing gap.
@@ -618,10 +703,10 @@
     Pre-requisites
   </h3>
   <ul class="t-list">
-    <li>Basic understanding of HTML and CSS. Javascript is a bonus;</li>
-    <li>A <b>modern browser</b> installed: Chrome or Firefox are recommended;</li>
+    <li>Comfortable with HTML and CSS. Basics of JavaScript is a bonus;</li>
+    <li>A <strong>modern browser</strong> installed: Chrome or Firefox are recommended;</li>
     <li>
-      A <b>good internet connection</b> with
+      A <strong>good internet connection</strong> with
       <a class="u-link" href="http://zoom.com/" rel="noreferrer">Zoom</a>
       installed for the video call;
     </li>
@@ -632,7 +717,7 @@
   </ul>
 
 
-  <article class="t-card t-cta">
+  <!-- <article class="t-card t-cta">
     <h2 class="t-ctaTitle">Join the online workshop!</h2>
     <p class="t-ctaPitch">Get 9 hours, over 3 days, to refine your A11Y knowledge.</p>
 
@@ -643,7 +728,7 @@
         </svg>
         <span class="sr-only">When:</span>
       </dt>
-      <dd>April 13, 14 and 15</dd>
+      <dd>To be defined (April?)</dd>
 
       <dt>
         <svg aria-hidden="true" class="u-svg" style="display: none;">
@@ -656,23 +741,33 @@
 
     <a href="" class="t-ctaBtn">Buy ticket for {price}</a>
     <span class="t-ctaNote">Price is Early Bird</span>
-  </article>
+
+  </article> -->
+  <WorkshopForm formEndpoint={endpointA11Y}>
+    <p class="t-ctaPitch">Get 9 hours, over 3 days, to refine your A11Y knowledge.</p>
+
+    <dl class="t-ctaPoints">
+      <dt>
+        <svg aria-hidden="true" class="u-svg" style="display: none;">
+          <use xlink:href="#calendar" />
+        </svg>
+        <span class="sr-only">When:</span>
+      </dt>
+      <dd>To be defined (April?)</dd>
+
+      <dt>
+        <svg aria-hidden="true" class="u-svg" style="display: none;">
+          <use xlink:href="#clock" />
+        </svg>
+        <span class="sr-only">Hour:</span>
+      </dt>
+      <dd>{eventHour} <span class="tz">{eventTZ}</span></dd>
+    </dl>
+  </WorkshopForm>
 
 
-  <h2 class="t-hook">
-    I'm Sandrina, your instructor
-  </h2>
 
-  <p class="t-p">
-    I’m a Frontend Engineer who helps to turn ideas into accessible experiences.
-  </p>
-
-  <p class="t-p">
-    Some Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem ullam quam assumenda, culpa repudiandae quibusdam laborum nobis eius voluptate adipisci, facilis nihil maiores ut corrupti ab inventore sint, cupiditate accusamus.
-  </p>
-
-
-  <h2 class="t-hook">
+  <h2 class="t-title asH2">
     F.A.Q.
   </h2>
 
@@ -695,16 +790,23 @@
 
       <li>
         <Accordion summary="What materials are provided?">
-                <!-- TODO list -->
-          - The materials slides (+ 50 slides);
-          - Codebase with all the mentioned resources;
-          - Exercises, including the solutions explained;
+         <ul class="t-list">
+          <li>
+            The materials slides (+ 50 slides);
+          </li>
+          <li>
+            Codebase with all the mentioned resources;
+          </li>
+          <li>
+            Exercises, including the solutions explained;
+          </li>
+         </ul>       <!-- TODO list -->
         </Accordion>
       </li>
 
       <li>
         <Accordion summary="I know A11Y. Will I learn something new?">
-          Oh, yeah. Even me, every time I give this workshop I always learn something new. Unless you are an A11Y expert, I’m confident that you’ll have an eureka moment somewhere.
+          Oh, yeah. Even me, every time I give this workshop I always learn something new. Unless you are an A11Y expert, I’m confident that you'll fill some gap.
         </Accordion>
       </li>
 
@@ -720,31 +822,41 @@
 
           You can use the one that suits you the best. I own a Mac, which means I’ll be using Voice Over.
           During an online workshop it's not practical to help everyone using a SR (screen reader). For that reason, please take some minutes to practice in advance.
-              * Mac: You'll be using VoiceOver. Watch this VO introduction.
-              * Windows: Install NVDA and watch this NVDA introduction.
-              * Linux: Install Orca and watch this Orca introduction.
-              * SR keyboard shortcuts: VO and NVDA and Orca.
+          <ul class="t-list">
+            <li>
+              Mac: You'll be using VoiceOver. Watch this VO introduction.
+            </li>
+            <li>
+              Windows: Install NVDA and watch this NVDA introduction.
+            </li>
+            <li>
+              Linux: Install Orca and watch this Orca introduction.
+            </li>
+            <li>
+              SR keyboard shortcuts: VO and NVDA and Orca.
+            </li>
+          </ul>
           A few days before the workshop, I will send you these guides for you to practice.
         </Accordion>
       </li>
 
       <li>
         <Accordion summary="Is there any discounts available?">
-          The workshop is in Early Bird price for a couple of weeks. After that, there won’t be discounts available. I understand that the cost of this workshop can be too high for some people. If you are a student you can reach out to me.
+          The workshop will be in Early Bird price for a week. After that, there won’t be discounts available. I understand that the cost of this workshop can be too high for some people. If you are a student you can reach out to me.
         </Accordion>
       </li>
 
       <li>
         <Accordion summary="Can I buy a ticket to my team?">
-          You can but keep it mind that 1 ticket is for o 
+          You can but keep it mind that 1 ticket is for 1 
             <!-- TODO CLARIFY THIS -->
-          per person/seat. Besides these public events, I also provide customised trainings. You can contact me to discuss private sessions options.
+          person/seat. Besides these public events, I also provide customised trainings. You can contact me to discuss private sessions options.
         </Accordion>
       </li>
 
       <li>
         <Accordion summary="Can I ask you questions after the workshop?">
-          Of course! I will happly clarify your questions during the following week prior to the workshop.
+          Of course! During the workshop, I'll invite to join a Discord community with other attendees to clarify any question.
         </Accordion>
       </li>
 
@@ -764,7 +876,7 @@
     Made without coffee by
     <a class="u-link" href={SITE_URL} rel="noreferrer">Sandrina Pereira</a>.
   </p>
-  <Contacts />
+  <Contacts essentialOnly />
 </footer>
 
 <SvgSprite />
