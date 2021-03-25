@@ -5,6 +5,7 @@
     --text_invert: #e2e2e2; /* similar to bg but lighter */
     --bg_0: #f8f3ef;
     --bg_1: #fff;
+    --bg_1_rgb: 255,255,255;
     --bg_invert: #2e2a2f; /* #same as .dark bg_1; */
     --bg_invert_transparent: #2e2a2f00; /* for safari... */
 
@@ -28,6 +29,7 @@
     --text_invert: #343434; /* same as defautl text_0 */
     --bg_0: #3a383b;
     --bg_1: #2e2a2f;
+    --bg_1_rgb: 46,42,47;
     --primary_1: #c272ff;
     --primary_1_smooth: #514371;
     --primary_1_highlight: #cb8eff45;
@@ -198,6 +200,7 @@
         width: calc(100% + 0.2em);
         height: 1.2em;
         background-color: var(--primary_1);
+        border-radius: 3px;
         opacity: 0.2;
         transform: scale(1, 0.2);
         transform-origin: 0 90%;
