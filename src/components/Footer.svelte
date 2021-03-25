@@ -12,6 +12,10 @@
   $: wWidth = $_window && $_window.innerWidth;
   $: wHeight = $_window && $_window.innerHeight;
 
+  // THOUGHT: Perhaps the logic afterGeneralUpdate should
+  // be outside this component, instead of this ugly override.
+  export let isSolo
+
   const figSize = 200; /* OPTMIZE - access DOM */
 
   let elFooter;
@@ -30,7 +34,7 @@
   let scale1 = 0;
   let scale2 = 0;
   let scale3 = 0;
-  let animation;
+  let animation;  
 
   afterGeneralUpdate((prevState, state) => {
     if (!prevState.isReady && state.isReady) {
@@ -57,7 +61,7 @@
 
   afterMotionUpdate((prevState, state) => {
     // OPTIMIZE - Same as Skills and Journey. Maybe it could be abstracted
-    if(!$strGeneral.isReady) { return }
+    if(!$strGeneral.isReady && !isSolo) { return }
 
     if(!prevState.isReduced && state.isReduced) {
       animation && animation.remove();
@@ -73,12 +77,23 @@
   })
 
   afterResponsiveUpdate(() => {
+    console.log('xxx')
+    if(isSolo) {
+              animation = initAnimation();
+
+    }
+
     if(!animation) { return }
     setTimeout(() => {
       animation.verify();
       console.warn('Resize: footer updated');
     }, 0) // execute after svelte update.
   })
+
+  $: if (wWidth && isSolo) {
+    animation = initAnimation();
+    animation.verify();
+  }
 
   function initAnimation() {
     const handleFooterScroll = throttle(handleFooterScrollThrottled, 16);
@@ -565,7 +580,7 @@
   class="footer"
   class:isOnStage
   class:isVisible
-  class:isSectionContact={['journey', 'contact'].includes($strGeneral.pageCurrentSection)}
+  class:isSectionContact={['journey', 'contact'].includes($strGeneral.pageCurrentSection) || isSolo}
   bind:this={elFooter}
   id="contact" tabindex="-1"
   data-section-offset-v="100"
