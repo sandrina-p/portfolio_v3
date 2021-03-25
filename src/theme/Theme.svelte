@@ -199,12 +199,12 @@
         bottom: 0.05em;
         left: -0.1em;
         width: calc(100% + 0.2em);
-        height: 100%;
+        height: 1.2em;
         background-color: var(--primary_1);
         border-radius: 3px;
         opacity: 0.2;
         transform: scale(1, 0.2);
-        transform-origin: 0 90%;
+        transform-origin: 0 100%;
         z-index: -1;
 
         .jsMotionDefault & {
