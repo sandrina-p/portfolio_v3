@@ -51,6 +51,16 @@
     text-decoration: none;
     font-weight: 500;
     color: var(--text_0);
+
+    &::before {
+      opacity: 0.5;
+    }
+
+      &:hover, &:focus {
+        &::before {
+          opacity: 0.2;
+        }
+      }
   }
 
   .wrapper {

@@ -31,6 +31,10 @@
   $headingWidth: 24rem; /* static content luxuries */
   $delayIn0: 200ms;
 
+  .wrapperW {
+    --words-spce-bottom: 25vh;
+  }
+
   .header {
     padding: 0 $layout-margin;
 
@@ -53,6 +57,27 @@
   }
 
   .cta {
+    margin: calc($spacer-S * -1) 0 $spacer-L 8vw;
+
+    @mixin motionReduced {
+      margin-top: calc(var(--words-spce-bottom) * -1 + $spacer-MS);
+      margin-bottom: calc(var(--words-spce-bottom) * 0.5); /* REFACTOR this calc */
+    }
+
+    @mixin motionDefault {
+      opacity: 0;
+      transition: opacity 350ms 0ms ease-in-out;
+    }
+
+    .isOnStage & {
+      @mixin motionDefault {
+        opacity: 1;
+        transition: opacity 500ms calc($delayIn0*3) cubic-bezier(0.0, 0.0, 0.2, 1);
+      }
+    }
+  }
+
+  .cta .u-link {
     display: inline-block;
     padding: $spacer-S $spacer-M;
     background: var(--bg_1);
@@ -62,33 +87,18 @@
     text-decoration: none;
     color: var(--text_0);
 
-    margin-top: $spacer-M;
-    margin-left: $spacer-M;
-
     &::before {
-      transform: scale(1, 0);
+      transform: scale(0, 1);
       bottom: 0em;
       left: 0em;
       width: 100%;
       height: 100%;
-      transform-origin: 0 100%;
+      transform-origin: 0 0;
     }
 
     &:hover {
       &::before {
         transform: scale(1, 1);
-      }
-    }
-
-    @mixin motionDefault {
-      opacity: 0;
-      transition: opacity 150ms 0ms ease-out;
-    }
-
-    .isOnStage & {
-      @mixin motionDefault {
-        opacity: 1;
-        transition: opacity 500ms calc($delayIn0*6) cubic-bezier(0.0, 0.0, 0.2, 1);
       }
     }
   }
@@ -171,6 +181,20 @@
         font-size: $font-heading_2;
       }
     }
+
+    .cta {
+      margin: $spacer-M 0;
+
+      @mixin motionReduced {
+        margin: $spacer-M 0;
+      }
+
+      .isOnStage & {
+        @mixin motionDefault {
+          transition: opacity 500ms calc($delayIn0*8) cubic-bezier(0.0, 0.0, 0.2, 1);
+        }
+      }
+    }
   }
 </style>
 
@@ -193,10 +217,8 @@
     </header>
     <WordsList list={wordsPromoted} isOnStage={isOnStage} variant="promoted" />
 
-      <div>
-      <!-- TODO this -->
-      <a href="{SITE_URL}/writing" class="u-link cta">Check all articles</a>
-      <br/>
+    <div class="cta">
+      <a href="{SITE_URL}/writing" class="u-link">Check all articles</a>
     </div>
   </div>
 </section>

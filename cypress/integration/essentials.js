@@ -122,10 +122,10 @@ describe('Essentials', () => {
     cy.getByDT('words').within(() => {
       cy.log('::: Assert header');
       cy.get('header').within(() => {
-        cy.get('h2').should('contain', "I've been sharing");
+        cy.get('h2').should('contain', 'A casual writer');
         cy.get('p').should(
           'contain',
-          'As a self-taught developer, giving back to the community is a joy!'
+          'Solving problems is cool, but explaining the path to the solution is when the insights happen.'
         );
       });
 
@@ -135,23 +135,23 @@ describe('Essentials', () => {
         .should('have.length', 4)
         // assert just the first card.
         //there's a 99.9%% change all the rest is right because this is a loop.
-        .eq(0)
+        .eq(1)
         .within(() => {
-          cy.get('h3').should('contain', 'Remote Workshops');
+          cy.get('h3').should('contain', 'How front-end developers can empower designers’ work');
 
-          cy.get('.date').should('contain', 'Date: 2021');
+          cy.get('.date').should('contain', "Oct '19");
 
           // Assert links
           cy.get('ul > li')
             .should('have.length', 2)
-            .eq(0)
+            .eq(1)
             .within(() => {
-              cy.get('.placeType').should('contain', '9h workshop');
-              cy.get('.placeIcon').should('have.class', 'bulb');
+              cy.get('.placeType').should('contain', 'zine');
+              cy.get('.placeIcon').should('have.class', 'dev');
               cy.get('a')
-                .should('contain', 'Web Accessibility Fundamentals')
+                .should('contain', 'Dev.to')
                 .and('have.attr', 'href')
-                .and('contain', '/workshop-a11y-fundamentals');
+                .and('contain', '/dev.to/a_san');
             });
         });
     });
