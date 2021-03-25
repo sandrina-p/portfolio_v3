@@ -4,11 +4,9 @@
   import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
   import { strMotion, afterMotionUpdate } from '../stores/motion.js';
   import { getInLimit, scrollIntoView, sendGA } from '../utils';
-  import { EMAIL_URL, CODEPEN_URL, TWITTER_URL, SITE_URL } from '../data/misc.js';
+  import { EMAIL_URL, CODEPEN_URL, TWITTER_URL, SITE_URL, SMASHING_URL, CSSTRICKS_URL } from '../data/misc.js';
 
   const workshopUrl = '/workshop-a11y-fundamentals'
-  const smashingUrl = 'https://www.smashingmagazine.com/author/sandrina-pereira/'
-  const cssTricksUrl = 'https://css-tricks.com/author/sandrinapereira/'
   const speakUrl = 'https://medium.com/@a_sandrina_p/ive-spoken-at-jsconf-and-so-can-you-a9d92c1439a6'
   const mentorUrl = 'https://mentorcruise.com/mentor/SandrinaPereira/'
 
@@ -349,9 +347,9 @@
     </p>
     <p class="p">
       I'm an author of 
-      <a class="u-link" rel="noreferrer" target="_blank" href={cssTricksUrl} on:click={() => trackClick('csstricks_journey')}>CSS-Tricks</a> 
+      <a class="u-link" rel="noreferrer" target="_blank" href={CSSTRICKS_URL} on:click={() => trackClick('csstricks_journey')}>CSS-Tricks</a> 
       and
-      <a class="u-link" rel="noreferrer" href={smashingUrl} target="_blank" on:click={() => trackClick('smashing_journey')}>Smashing Magazine</a>
+      <a class="u-link" rel="noreferrer" href={SMASHING_URL} target="_blank" on:click={() => trackClick('smashing_journey')}>Smashing Magazine</a>
       where I write articles occasionally.
       I also explored the world of <a class="u-link" rel="noreferrer" href={speakUrl} target="_blank" on:click={() => trackClick('speakJSConf_journey')}>public speaking</a> a few times, pushing myself outside of my comfort zone.
     </p>

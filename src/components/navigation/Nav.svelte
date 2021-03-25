@@ -299,6 +299,7 @@
       padding: calc($spacer-S + $spacer-XS) $spacer-S;
       text-decoration: none;
       font-size: $font-L;
+      font-weight: 500;
 
       &::before {
         content: '';

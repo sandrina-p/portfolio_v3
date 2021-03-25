@@ -202,7 +202,7 @@
         height: 1.2em;
         background-color: var(--primary_1);
         border-radius: 3px;
-        opacity: 0.3;
+        opacity: 0.2;
         transform: scale(1, 0.2);
         transform-origin: 0 90%;
         z-index: -1;
