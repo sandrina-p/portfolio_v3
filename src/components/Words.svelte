@@ -1,8 +1,7 @@
 <script>
-  import { onMount, afterUpdate } from 'svelte';
   import words from '../data/words.js';
   import { sendGA } from '../utils';
-  import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
+  import { afterGeneralUpdate } from '../stores/general.js';
   import WordsList from './words/WordsList.svelte'
   import { SITE_URL } from '../data/misc.js';
   
@@ -22,6 +21,10 @@
       isOnStage = false;
     }
   });
+
+  function trackClick(action) {
+    sendGA('send', 'event', 'click', 'words', action)
+  }
 </script>
 
 <style lang="postcss">
@@ -218,7 +221,7 @@
     <WordsList list={wordsPromoted} isOnStage={isOnStage} variant="promoted" />
 
     <div class="cta">
-      <a href="{SITE_URL}/writing" class="u-link">Check all articles</a>
+      <a href="{SITE_URL}/writing" class="u-link" on:click={() => trackClick('articles_all')}>Check all articles</a>
     </div>
   </div>
 </section>
