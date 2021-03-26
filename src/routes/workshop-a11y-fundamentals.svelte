@@ -40,7 +40,7 @@
     {
       title: 'Screen readers',
       topics: [
-        'Exploring and solving',
+        'Using ARIA attributes',
         'Landmarks and forms',
         'Interactive UI Patterns',
       ],
@@ -65,7 +65,7 @@
   $ziHeader: 4;
   $ziIntro: 3;
   $ziLine: 2;
-  $width: 650px;
+  $width: 65rem;
 
   .header {
     position: fixed;
@@ -137,11 +137,12 @@
     }
 
     &Mantra {
-      color: var(--primary_1);
-      text-align: center;
-      font-size: $font-L2;
       max-width: 35rem;
-      line-height: 1.2;
+      font-size: $font-L2;
+      text-align: center;
+      line-height: 1.3;
+      color: var(--primary_1);
+      margin-top: $spacer-S;
     }
 
     &About {
@@ -244,11 +245,11 @@
   .t-separator {
     display: block;
     width: 100vw;
-    height: 170px;
+    height: 17rem;
     
     /* To match header pixel perfect */
     position: sticky;
-    top: -90px;
+    top: -9rem;
     z-index: $ziLine;
 
     background: linear-gradient(to top, rgba(var(--bg_1_rgb),1) 0%, rgba(var(--bg_1_rgb),0) 100%);
@@ -260,7 +261,7 @@
   .t-hook {
     font-size: $font-XL;
     font-weight: 500;
-    margin: 48px 0 48px;
+    margin: $spacer-LM 0 $spacer-L;
   }
 
   .t-p {
@@ -454,15 +455,24 @@
       margin-left: calc((100vw - 100%) / -2);
       padding: 0 $spacer-M;
     }
+
     &List {
       display: grid;
       gap: $spacer-M;
-      width: 950px;
+      width: 95rem;
       max-width: 100%;
       margin: auto;
       
       @media (--md) {
-        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(40rem, 1fr));
+      }
+
+      .t-list {
+        font-size: inherit;
+
+        li + li {
+          margin-top: 0;
+        }
       }
     }
 
@@ -477,6 +487,10 @@
     p {
       margin-bottom: $spacer-S;
     }
+  }
+
+  em {
+    font-style: italic;
   }
 </style>
 
@@ -578,8 +592,9 @@
 
   <span class="t-separator"></span>
 
-  <!-- <p class="t-p">
-    Let’s be honest, as web creators, we are still leaving accessibility as an afterthought. Learning how to create web apps using modern UI libraries sounds way more exciting, <i>I understand you...</i>
+  <p class="t-p">
+    Let’s be honest, as web creators, we are still leaving accessibility as an afterthought.
+    Learning how to create web apps using modern UI libraries sounds way more exciting. <em>I understand you</em>, but...
   </p>
 
   <h2 class="t-hook">
@@ -588,11 +603,7 @@
   
     
   <p class="t-p">
-    Perhaphs you already know that accessibility matters  and you are aware that color contrast is a thing.
-  </p>
-
-  <p class="t-p">
-    But... <i>what else?</i>
+    Perhaps you already know that accessibility matters and you are aware that color contrast is a thing. But... <i>what else?</i>
   </p>
 
   <p class="t-p">
@@ -602,31 +613,30 @@
     <a href="https://www.w3.org/TR/WCAG21" class="u-link">
     WCAG 2.1 guidelines.
     </a>
-  </p>
-
-  <p class="t-p">
-    But then you felt overwhelmed, lost,... and left it aside.
+    But then you felt overwhelmed, lost...and left it aside.
   </p>
 
   <h2 class="t-hook">
       Let me simplify it for you
   </h2>
-
   <p class="t-p">
-    Let me show you why accessibility is worthy of being part of your skillset foundations, and how it benefits way more people that you judge, including you and me.
+    I'll show you why accessibility is worthy of being part of your skillset foundations.
+    
+    You'll be aware of how accessibility benefits way more people than you imagine, including you and me.
+  </p>
+  <p class="t-p">
+    Accessibility does not limit your solutions or design skills, on contrary, it makes them more inclusive.
   </p>
 
-
-  <p class="t-p">
-    Let me teach you how accessibility does not limit your solutions,
-    on contrary, it makes them more inclusive.
-  </p> -->
+  <p>Ready to make the web a more inclusive place?</p>
 
   <h2 class="t-title asH2">
       The workshop
   </h2>
   <p class="t-p">
-    This workshop will be packed with little big discoveries! We will explore every common accessibility no-nos and how to make them inclusive for as many people as possible using a mouse or a keyboard.
+    This workshop will be packed with little big discoveries!
+    We will explore every common accessibility no-nos and how to make them more inclusive for 
+    as many people as possible using a mouse or a keyboard.
   </p>
   <p class="t-p">
     We'll cover multiple design patterns and development techniques that you can apply in your own projects right away.
@@ -664,7 +674,7 @@
   </h3>
   <ul class="t-list asCheck">
     <li>Realize how web accessibility benefits everyone</li>
-    <li>Understand WCAG principles and how is organized</li>
+    <li>Understand WCAG principles and how they're organized</li>
     <li>Know how to use accessibility audit tools</li>
     <li>Quickly identify common accessibility issues</li>
     <li>Integrate accessibility into your team workflow right away</li>
@@ -682,7 +692,7 @@
     In each challenge, I’ll introduce you to a new topic in a simplified way, along with <strong>detailed resources</strong>. 
   </p>
   <p class="t-p">
-    Then, you'll have a <strong>hands-on exercise</strong> for you to apply the concepts learned. You can solve it by yourself or by collaborating with a group of 2-3 people.
+    Then, there will be a <strong>hands-on exercise</strong> for you to apply the concepts learned. You can solve it by yourself or by collaborating with a group of 2-3 people.
   </p>
   <p class="t-p">
     Afterwards, we go through the <strong>solution</strong> together, and I’ll <strong>clarify the questions</strong> that you might have.
@@ -705,28 +715,30 @@
   </h3>
   <p class="t-p">
     Web developers are the main audience, but if you are a designer,
-    or a QA expert then this workshop will be valuable for you as well. 
+    or a QA expert, then this workshop will be valuable for you as well. 
   </p>
   <p class="t-p">
-    The topics will be explained with beginners in mind and it gets more advanced as we go through it.
+    The topics will be explained with beginners in mind, and they will get more advanced as we go through them.
   </p>
   <p class="t-p">
-    Even if you already have some experience into A11Y, you can look at this workshop as a way to solidify your knowledge and fill any existing gap.
+    Even if you already have some experience in A11Y, you can look at this
+    workshop as a way to solidify your knowledge and fill any existing gaps.
   </p>
 
   <h3 class="t-title asH3">
     Pre-requisites
   </h3>
   <ul class="t-list">
-    <li>Comfortable with HTML and CSS. Basics of JavaScript is a bonus;</li>
-    <li>A <strong>modern browser</strong> installed: Chrome or Firefox are recommended;</li>
+    <li>Comfortable with HTML and CSS. Knowing th basics of JavaScript is a bonus</li>
+    <li>A <strong>modern browser</strong> installed: Chrome or Firefox are recommended</li>
     <li>
       A <strong>good internet connection</strong> with
       <a class="u-link" href="http://zoom.com/" rel="noreferrer">Zoom</a>
       installed for the video call;
     </li>
     <li>
-      A webcam is optional. Although I highly appreacite seeing you while I’m speaking, I want to be respectful of your own space.
+      A webcam is optional. Although I highly appreacite seeing you while I’m speaking,
+      I want to be respectful of your boundaries.
     </li>
     <li>Be willing to learn something different!</li>
   </ul>
@@ -792,7 +804,7 @@
         <Accordion summary="What does A11Y mean?">
           A11Y stands for 'accessibility'.
           The irony about the word "accessibility" itself is that it's not very easy to pronounce.
-          So, it was created this abbreviation: A + 11 characters + Y, which has a more friendly homophone of "ally".
+          The abbreviation stands for A + 11 characters + Y, which is a more user-friendly homophone of "ally".
         </Accordion>
       </li>
 
@@ -807,15 +819,15 @@
         <Accordion summary="What materials are provided?">
          <ul class="t-list">
           <li>
-            The materials slides (+ 50 slides);
+            The materials' slides (+ 50 slides);
           </li>
           <li>
             Codebase with all the mentioned resources;
           </li>
           <li>
-            Exercises, including the solutions explained;
+            Exercises, including explained solutions;
           </li>
-         </ul>       <!-- TODO list -->
+         </ul>
         </Accordion>
       </li>
 
@@ -833,9 +845,7 @@
 
       <li>
         <Accordion summary="What screen reader will I use?">
-                        <!-- TODO list -->
-
-          You can use the one that suits you the best. I own a Mac, which means I’ll be using Voice Over.
+          You can use the one that suits you best. I own a Mac, which means I’ll be using Voice Over.
           During an online workshop it's not practical to help everyone using a SR (screen reader). For that reason, please take some minutes to practice in advance.
           <ul class="t-list">
             <li>
@@ -857,15 +867,17 @@
 
       <li>
         <Accordion summary="Is there any discounts available?">
-          The workshop will be in Early Bird price for a week. After that, there won’t be discounts available. I understand that the cost of this workshop can be too high for some people. If you are a student you can reach out to me.
+          The workshop will have an Early Bird price for a week.
+          After that, there won’t be more discounts available.
+          Regardless, I understand that the cost of this workshop can be too high for some people,
+          and if you are a student you can reach out to me.
         </Accordion>
       </li>
 
       <li>
-        <Accordion summary="Can I buy a ticket to my team?">
-          You can but keep it mind that 1 ticket is for 1 
-            <!-- TODO CLARIFY THIS -->
-          person/seat. Besides these public events, I also provide customised trainings. You can contact me to discuss private sessions options.
+        <Accordion summary="Can I buy a ticket for my team?">
+          You can but keep in mind that 1 ticket is for 1 person/seat.
+          Besides these public events, I also provide customised workshops. You can contact me to discuss private sessions options.
         </Accordion>
       </li>
 
@@ -877,7 +889,9 @@
 
       <li>
         <Accordion summary="Is there a Code of Conduct?">
-          Yes, mine is pretty simple: Be kind and treat each other with respect and understanding. There’s zero tolerance for unkind behavior.
+          We follow
+          <a class="u-link" rel="noreferrer" href="https://www.contributor-covenant.org/version/2/0/code_of_conduct/" on:click={() => trackClick('csstricks_journey')}>contributor-covenant</a>
+          code of conduct. A simple summary: be kind and treat each other with respect and understanding. There’s zero tolerance for unkind behavior.
         </Accordion>
       </li>
     </ul>

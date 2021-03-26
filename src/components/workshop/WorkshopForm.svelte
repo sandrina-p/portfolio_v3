@@ -207,11 +207,7 @@
     .field {
       margin: 0 $spacer-M;
       flex: 1;
-      min-width: 200px;
-
-      &:nth-child(2) {
-        flex: 2;
-      }
+      min-width: 20rem;
     }
   }
 
