@@ -42,14 +42,14 @@
       topics: [
         'Using ARIA attributes',
         'Landmarks and forms',
-        'Interactive UI Patterns',
+        'Interactive UI patterns',
       ],
     }
   ]
 
   const price = "000 EUR" // TODO DEFINE PRICE
 
-  const eventHour = '16:00 - 19:00'
+  const eventHour = '16:00 - 18:15'
   const eventTZ = 'UTC'
 
   onMount(async () => {
@@ -141,7 +141,7 @@
       font-size: $font-L2;
       text-align: center;
       line-height: 1.3;
-      color: var(--primary_1);
+      /* color: var(--primary_1); */
       margin-top: $spacer-S;
     }
 
@@ -593,39 +593,53 @@
   <span class="t-separator"></span>
 
   <p class="t-p">
-    Let’s be honest, as web creators, we are still leaving accessibility as an afterthought.
-    Learning how to create web apps using modern UI libraries sounds way more exciting. <em>I understand you</em>, but...
+    As web creators, unfortunately, many of us are still leaving accessibility as an afterthought.
+    Learning how to create web apps using modern UI libraries sounds way more exciting. <em>I understand you, but...</em>
   </p>
 
   <h2 class="t-hook">
-      A11Y doesn't need to be boring
+      Accessibility is our duty as web creators
   </h2>
-  
+  <p class="t-p">
+    It's our moral duty (and legal requirement in many countries) to ensure
+    that anyone who visits a website, can enjoy it as much as possible. 
+  </p>
     
   <p class="t-p">
-    Perhaps you already know that accessibility matters and you are aware that color contrast is a thing. But... <i>what else?</i>
+    Perhaps you already know that accessibility matters, and you are aware that color contrast is a thing. But... <i>what else?</i>
   </p>
-
   <p class="t-p">
-    In your solo journey into learning accessibility, you’ve might have visited the official 
+    In your solo journey into learning accessibility, you’ve might have visited the 
     <a href="https://www.w3.org/WAI/" class="u-link">W3C WAI</a>
     website and took a look at the
     <a href="https://www.w3.org/TR/WCAG21" class="u-link">
-    WCAG 2.1 guidelines.
-    </a>
-    But then you felt overwhelmed, lost...and left it aside.
+    WCAG 2.1
+    </a> technical requirements.
   </p>
-
+  <p class="t-p">
+    Yet, the content seemed way too complex, you may have felt overwhelmed, lost...and ended up leaving it aside.
+  </p>
   <h2 class="t-hook">
       Let me simplify it for you
   </h2>
   <p class="t-p">
-    I'll show you why accessibility is worthy of being part of your skillset foundations.
-    
-    You'll be aware of how accessibility benefits way more people than you imagine, including you and me.
+    Rather than focusing on theoretical rules, I will first show you real-world examples that contain accessibility obstacles.
   </p>
   <p class="t-p">
-    Accessibility does not limit your solutions or design skills, on contrary, it makes them more inclusive.
+    These scenarios will bring you awareness of the existing barriers out there, and you'll realize
+    why accessibility can really make the difference in someone's life... including you and me!
+  </p>
+  <!-- <p class="t-p">
+    It's your moral duty (and legal requirement) to ensure that anyone who visits your website, can enjoy it as much as possible. 
+  </p> -->
+  <p class="t-p">
+    Let me show you why accessibility is worthy of being part of your skillset foundations
+  <!-- </p>
+  <p class="t-p"> -->
+    and how it doesn't limit your solutions or design skills.
+  <!-- </p>
+  <p class="t-p"> -->
+    On in contrary, it will make them more inclusive!
   </p>
 
   <p>Ready to make the web a more inclusive place?</p>
@@ -689,7 +703,7 @@
     Workshop dynamics
   </h3>
   <p class="t-p">
-    In each challenge, I’ll introduce you to a new topic in a simplified way, along with <strong>detailed resources</strong>. 
+    The workshop is divided into multiple exercises. In each one, I’ll introduce you to a new topic in a simplified way, along with <strong>practical resources</strong>. 
   </p>
   <p class="t-p">
     Then, there will be a <strong>hands-on exercise</strong> for you to apply the concepts learned. You can solve it by yourself or by collaborating with a group of 2-3 people.
@@ -700,9 +714,9 @@
 
   <div class="t-card t-process">
     <ul class="t-processFlow">
-      <li class="t-processFlowIx">theory</li> 
+      <li class="t-processFlowIx">problem</li> 
       <li class="t-processFlowIx">practice</li> 
-      <li class="t-processFlowIx">review</li> 
+      <li class="t-processFlowIx">solution</li> 
       <li class="t-processFlowIx">clarify</li> 
       <li class="t-processFlowIx">repeat</li> 
     </ul>
@@ -729,7 +743,7 @@
     Pre-requisites
   </h3>
   <ul class="t-list">
-    <li>Comfortable with HTML and CSS. Knowing th basics of JavaScript is a bonus</li>
+    <li>Comfortable with HTML and CSS. Basics of JavaScript is a bonus</li>
     <li>A <strong>modern browser</strong> installed: Chrome or Firefox are recommended</li>
     <li>
       A <strong>good internet connection</strong> with
@@ -746,7 +760,7 @@
 
   <!-- <article class="t-card t-cta">
     <h2 class="t-ctaTitle">Join the online workshop!</h2>
-    <p class="t-ctaPitch">Get 9 hours, over 3 days, to refine your A11Y knowledge.</p>
+    <p class="t-ctaPitch">Get 9 hours, over 4 days, to refine your A11Y knowledge.</p>
 
     <dl class="t-ctaPoints">
       <dt>
@@ -771,7 +785,7 @@
 
   </article> -->
   <WorkshopForm formEndpoint={endpointA11Y}>
-    <p class="t-ctaPitch">Get 9 hours, over 3 days, to refine your A11Y knowledge.</p>
+    <p class="t-ctaPitch">Get 9 hours, over 4 days, to refine your A11Y knowledge.</p>
 
     <dl class="t-ctaPoints">
       <dt class="time-todo">
@@ -792,6 +806,7 @@
     </dl>
   </WorkshopForm>
 
+  <!-- <h2 class="t-title asH2">I'm Sandrina, your instructor</h2> -->
 
 
   <h2 class="t-title asH2">
@@ -849,16 +864,25 @@
           During an online workshop it's not practical to help everyone using a SR (screen reader). For that reason, please take some minutes to practice in advance.
           <ul class="t-list">
             <li>
-              Mac: You'll be using VoiceOver. Watch this VO introduction.
+              Mac: You'll be using VoiceOver.
+              <a class="u-link" href="https://www.youtube.com/watch?v=5R-6WvAihms" rel="noreferrer">Watch this VO introduction.</a>
             </li>
             <li>
-              Windows: Install NVDA and watch this NVDA introduction.
+              Windows: Install
+              <a class="u-link" href="https://www.nvaccess.org/" rel="noreferrer">NVDA</a>
+              and
+              <a class="u-link" href="https://www.youtube.com/watch?v=Jao3s_CwdRU" rel="noreferrer">watch this NVDA introduction.</a>
             </li>
             <li>
-              Linux: Install Orca and watch this Orca introduction.
+              Linux: Install
+              <a class="u-link" href="https://wiki.gnome.org/Projects/Orca" rel="noreferrer">Orca</a>
+              and
+              <a class="u-link" href="https://www.youtube.com/watch?v=8OWSztc3AtY" rel="noreferrer">watch this Orca introduction.</a>
             </li>
             <li>
-              SR keyboard shortcuts: VO and NVDA and Orca.
+              SR keyboard shortcuts:
+              <a class="u-link" href="VO and NVDA" rel="noreferrer">VO and NVDA</a>,
+              and <a class="u-link" href="VO and NVDA" rel="noreferrer">Orca</a>.
             </li>
           </ul>
           A few days before the workshop, I will send you these guides for you to practice.
