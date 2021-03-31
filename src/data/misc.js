@@ -7,3 +7,5 @@ export const SITE_REPO = 'https://github.com/sandrina-p/portfolio_v3';
 export const SITE_URL = 'https://sandrina-p.net';
 export const SMASHING_URL = 'https://www.smashingmagazine.com/author/sandrina-pereira/';
 export const CSSTRICKS_URL = 'https://css-tricks.com/author/sandrinapereira/';
+export const MENTOR_URL = 'https://mentorcruise.com/mentor/SandrinaPereira/';
+export const SPEAKER_URL = 'https://medium.com/@a_sandrina_p/ive-spoken-at-jsconf-and-so-can-you-a9d92c1439a6';

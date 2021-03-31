@@ -52,7 +52,7 @@
 
     &.jsMotionDefault {
       /* smooth transition between themes */
-      transition: color 0.2s ease-out, background-color 0.2s ease-out;
+      transition: color 100ms ease-out, background-color 100ms ease-out;
     }
     
     font-family: 'IBM Plex Sans', sans-serif;

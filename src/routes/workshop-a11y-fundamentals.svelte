@@ -8,7 +8,7 @@
   import { focusOnlyWhenNeeded } from '../utils';
   import Accordion from '../components/workshop/Accordion.svelte'
   import WorkshopForm from '../components/workshop/WorkshopForm.svelte';
-  import { TWITTER_URL, SITE_URL } from '../data/misc.js';
+  import { MENTOR_URL, TWITTER_URL, SITE_URL } from '../data/misc.js';
 
   const endpointA11Y = 'https://app.convertkit.com/forms/1318242/subscriptions';
 
@@ -101,6 +101,7 @@
   }
 
   .wrapper {
+    position: relative;
     margin: 0 auto;
     max-width: $width;
     padding: $spacer-L $spacer-M;
@@ -111,6 +112,7 @@
 
     strong {
       font-weight: 500;
+      color: var(--text_s);
     }
   }
 
@@ -245,6 +247,7 @@
   .t-separator {
     display: block;
     width: 100vw;
+    margin-left: calc((100vw - 100%) / -2);
     height: 17rem;
     
     /* To match header pixel perfect */
@@ -254,8 +257,120 @@
 
     background: linear-gradient(to top, rgba(var(--bg_1_rgb),1) 0%, rgba(var(--bg_1_rgb),0) 100%);
     margin-top: calc($spacer-LM * -2);
-    margin-left: calc((100vw - 100%) / -2);
     margin-bottom: $spacer-XL;
+  }
+
+  @keyframes gelly {
+    0%, 100% { border-radius: 65% 68% 77% 50% / 59% 76% 58% 75%; } 
+    20% { border-radius: 40% 58% 46% 54% / 50% 60% 41% 50%; } 
+    40% { border-radius: 40% 60% 46% 54% / 50% 60% 41% 50%; } 
+    60% { border-radius: 56% 44% 76% 30% / 56% 44% 60% 49%; } 
+    80% { border-radius: 51% 52% 68% 36% / 56% 43% 60% 47%; } 
+  }
+
+  .t-about {
+    position: relative;
+    width: 100vw;
+    margin-left: calc((100vw - 100%) / -2);
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      background-color: var(--bg_1);
+      width: 100vw;
+      height: 100%;
+      z-index: -1;
+      transform: skew(0deg, -2deg);
+    }
+
+    &Avatar {
+      /* top: 0;
+      right: 0;
+      position: absolute; */
+      float: right;
+      shape-outside: circle(50%);
+      margin-top: -100px;
+      margin-left: 50px;
+      width: 200px;
+      height: 200px;
+      background: var(--bg_1);
+      border-radius: 50%;
+      will-change: border-radius;
+      /* animation:
+        gelly 30s alternate-reverse infinite,
+        live 20s alternate-reverse infinite; */
+      /* animation-play-state: paused; */
+      /* animation-delay: -5s; */
+      box-shadow: 5px 5px 30px var(--primary_1_pair);
+    }
+  }
+
+  .t-feedback {
+    
+    @media (--lg) {
+      width: calc(100% + 200px);
+      transform: translateX(-100px);
+    }
+  }
+
+  .t-tweets {
+    display: flex;
+    flex-wrap: wrap;
+    min-height: 440px; /* desktop */
+    margin: 50px 0;
+
+    > * {
+      flex-basis: 33%;
+      flex-grow: 1;
+      min-width: 200px;
+
+      @media (--max-md) {
+        .t-hide {
+          display: none;
+        }
+      }
+    }
+
+    &Area {
+      margin: 8px 4px;
+    }
+
+    :global(.twitter-tweet:not(.twitter-tweet-rendered)) {
+      border: 1px solid;
+      background-color: var(--bg_0);
+      border-radius: 4px;
+      border: 1px dashed;
+      padding: 8px;
+      font-size: $font-M;
+      color: inherit;
+    }
+
+    :global(.twitter-tweet-rendered) {
+      display: block;
+      margin: 0 !important;
+    }
+  }
+
+  .t-quotes {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    margin-bottom: 80px;
+
+    quote {
+      flex-basis: 50%;
+      flex-grow: 1;
+      min-width: 200px;
+
+      margin: 16px 0;
+      display: block;
+      padding: 0 16px;
+      border-left: 1px solid var(--primary_1);
+      font-size: $font-M;
+      font-style: italic;
+    }
   }
 
   .t-hook {
@@ -442,8 +557,9 @@
 
     @media (max-width: 28em) {
       font-size: $font-S;
-      
-      &FlowIx:last-child {
+
+      &FlowIx:nth-child(4),
+      &FlowIx:nth-child(5) {
         display: none;
       }
     }
@@ -579,7 +695,7 @@
     <div class="t-heroAbout">
       <!-- <p>April 11-13 · {eventHour} {eventTZ}</p> -->
       <p class="t-heroCreator">with <img src="/sandrinap.jpg" alt=""  class="t-heroCreatorPic" />
-        <a class="u-link t-heroCreatorName" rel="noreferrer" href={TWITTER_URL} on:click={() => trackClick('csstricks_journey')}>
+        <a class="u-link t-heroCreatorName" rel="noreferrer" href={TWITTER_URL} on:click={() => trackClick('creator')}>
           Sandrina Pereira
         </a>
       </p>
@@ -594,7 +710,10 @@
 
   <p class="t-p">
     As web creators, unfortunately, many of us are still leaving accessibility as an afterthought.
-    Learning how to create web apps using modern UI libraries sounds way more exciting. <em>I understand you, but...</em>
+    Learning modern UI Libraries sounds way more exciting.
+  </p>  
+  <p class="t-p">
+    <em>I understand you, but...</em>
   </p>
 
   <h2 class="t-hook">
@@ -617,17 +736,19 @@
     </a> technical requirements.
   </p>
   <p class="t-p">
-    Yet, the content seemed way too complex, you may have felt overwhelmed, lost...and ended up leaving it aside.
+    Yet, the content seemed way too complex, you may have felt overwhelmed, lost... 
+    and ended up leaving it aside.
   </p>
   <h2 class="t-hook">
       Let me simplify it for you
   </h2>
   <p class="t-p">
-    Rather than focusing on theoretical rules, I will first show you real-world examples that contain accessibility obstacles.
+    Rather than focusing on theoretical rules, I will first show you real-world examples
+    that can be all but a joyful experience for many people.
   </p>
   <p class="t-p">
     These scenarios will bring you awareness of the existing barriers out there, and you'll realize
-    why accessibility can really make the difference in someone's life... including you and me!
+    why (the lack of) accessibility can really make the difference in someone's life... including you and me!
   </p>
   <!-- <p class="t-p">
     It's your moral duty (and legal requirement) to ensure that anyone who visits your website, can enjoy it as much as possible. 
@@ -639,7 +760,7 @@
     and how it doesn't limit your solutions or design skills.
   <!-- </p>
   <p class="t-p"> -->
-    On in contrary, it will make them more inclusive!
+    On the contrary, it will make them more inclusive!
   </p>
 
   <p>Ready to make the web a more inclusive place?</p>
@@ -716,7 +837,7 @@
     <ul class="t-processFlow">
       <li class="t-processFlowIx">problem</li> 
       <li class="t-processFlowIx">practice</li> 
-      <li class="t-processFlowIx">solution</li> 
+      <li class="t-processFlowIx">review</li> 
       <li class="t-processFlowIx">clarify</li> 
       <li class="t-processFlowIx">repeat</li> 
     </ul>
@@ -808,6 +929,119 @@
 
   <!-- <h2 class="t-title asH2">I'm Sandrina, your instructor</h2> -->
 
+  <div class="t-about">
+    <div class="wrapper">
+      <article>
+        <h2 class="t-hook">
+          Let me introduce myself,
+          I'm Sandrina!
+        </h2>
+        <!-- <div class="t-aboutAvatar"></div> -->
+        <p class="t-p">
+          I’m a UX Frontend Engineer who helps turn ideas into accessible experiences.
+        </p>
+        
+        <p class="t-p">
+          As a self-taught developer, I recognize the struggle of learning something by ourselves.
+          Through the years, I've been sharing my knowledge by
+          <a class="u-link" rel="noreferrer" target="_blank" href='/writing' on:click={() => trackClick('articles')}>writing articles</a> 
+          and
+          <a class="u-link" rel="noreferrer" target="_blank" href={MENTOR_URL} on:click={() => trackClick('mentor')}>mentoring online</a>, 
+          <!-- .
+        </p>
+        <p class="t-p"> -->
+          which allowed me to refine my approach to teaching
+          new topics in ways that are simple yet effective.
+        </p>
+        <p class="t-p">
+          My expertise area is within the React ecosystem around Design Systems and Accessibility.
+        <!-- </p>
+        <p class="t-p"> -->
+          Currently, besides my full-time job at Remote as Lead Frontend Enginer, I'm focused in creating awareness of why Web Accessibility
+          is part of our duties as web creators.
+        </p>
+        <p class="t-p">
+          Join me and let me show you that A11Y doesn't have to limit your solutions or skills.
+          On the contrary, it will make them more inclusive!
+        </p>
+        
+
+        <!-- <p class="t-p">
+        But don’t take my word for granted,
+        Here’s what people have said about me:
+        </p> -->
+      </article>
+      
+      <article class="t-feedback">    
+        <h3 class="sr-only">Public feedback</h3>
+        <div class="t-tweets">
+        
+          <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+          <div>
+            <!-- Nuno -->
+            <div class="t-tweetsArea">
+              <blockquote class="twitter-tweet" data-dnt="true" data-theme="dark"><p dir="ltr">Mind blowing accessibility workshop with <a class="u-link" rel="noreferrer" href="https://twitter.com/a_sandrina_p?ref_src=twsrc%5Etfw">@a_sandrina_p</a>!</p>— Nuno Pereira (@nunocpnpereira) <a class="u-link" rel="noreferrer" href="https://twitter.com/nunocpnpereira/status/1364178604935049216?ref_src=twsrc%5Etfw">February 23, 2021</a></blockquote>
+            </div>
+            <!-- Pearl -->
+            <div class="t-tweetsArea t-hide">
+              <blockquote class="twitter-tweet" data-dnt="true" data-theme="dark"><p dir="ltr">I'm learning a ton in <a class="u-link" rel="noreferrer" href="https://twitter.com/a_sandrina_p?ref_src=twsrc%5Etfw">@a_sandrina_p</a>'s accessibility workshop! <a class="u-link" rel="noreferrer" href="https://twitter.com/hashtag/a11y?src=hash&amp;ref_src=twsrc%5Etfw">#a11y</a></p>&mdash; Pearl Latteier (@pblatteier) <a class="u-link" rel="noreferrer" href="https://twitter.com/pblatteier/status/1252974017499275264?ref_src=twsrc%5Etfw">April 22, 2020</a></blockquote>
+            </div>
+          </div>
+          <div>
+            <!-- Sid -->
+            <div class="t-tweetsArea">
+              <blockquote class="twitter-tweet" data-dnt="true" data-theme="dark"><p dir="ltr">Something I learned from <a class="u-link" rel="noreferrer" href="https://twitter.com/a_sandrina_p?ref_src=twsrc%5Etfw">@a_sandrina_p</a>'s workshop last week<br><br>Never skip alt text for images. If the image is purely decorative, pass an empty string instead of skipping the tag altogether</p> &mdash; sid 🖤 (@siddharthkp) <a class="u-link" rel="noreferrer" href="https://twitter.com/siddharthkp/status/1256910965465141248?ref_src=twsrc%5Etfw">May 3, 2020</a></blockquote>
+            </div>
+          </div>
+          <div>
+            <!-- Andrew -->
+            <div class="t-tweetsArea">
+              <blockquote class="twitter-tweet" data-dnt="true" data-theme="dark"><p dir="ltr">Just finished up <a class="u-link" rel="noreferrer" href="https://twitter.com/a_sandrina_p?ref_src=twsrc%5Etfw">@a_sandrina_p</a>'s Web A11y Fundamentals workshop. Really pleasant and structured well! Helped to learn new tools and concepts considering a11y is a big gap in my knowledge as a web dev. <br><br>Definitely reach out to her for conferences, talks, workshops, etc!</p>&mdash; Andrew Chou (@_andrewchou) <a class="u-link" rel="noreferrer" href="https://twitter.com/_andrewchou/status/1253009155968962567?ref_src=twsrc%5Etfw">April 22, 2020</a></blockquote>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="sr-only">Anonymous feedback</h3>
+        <h4 class="sr-only">Best feedback</h4>
+        <div class="t-quotes">
+          <quote>
+            Really liked the format of the training, with briefings and exercises for each, making it not boring at all.
+            [...]
+            The quiz, in the end, was a nice and fun way to wrap up! Overall, really enjoying it, thanks!</quote>
+          <quote>
+            Congrats, the workshop was great<!-- on this first day-->, the introduction was one of the most brilliant
+            introductions to A11Y from a FE perspective, and the pace was balanced.
+          </quote>
+          <quote>
+            The content and the pace were good, also your knowledge on this topic is really remarkable, it was really an enjoyable moment.
+          </quote>
+          <quote>
+            Thanks so much for the training I really enjoy it, had a great time and learned a lot. I'm really excited to practice all the things had learned.
+          </quote>
+        </div>
+
+        <!-- TODO, still WIP -->
+        <!-- <h4 class="sr-only">Constructive feedback</h4>
+        <div>
+          <p>
+          Transparency and excellence is one of my core values,
+          So here's some of the worst constructive feedback that allowed me to refine
+          even more my workshops through the time:</p>
+
+          <quote>
+            I think the exercises could have been solved at a slower pace by having everyone participate in finding the solution instead of just presenting the solution.
+          </quote>
+          <quote>
+            Overall I loved the format and delivery, only thing I can think of were a few bugs here and there which is totally normal considering the scope.
+          </quote>
+          <quote>
+            Maybe add a little more energy and create a feeling of community amongst the people in the workshop? As it's remote and people are scattered all over, it's easy to feel disconnected to others learning 🤔
+          </quote>  
+        </div> -->
+      </article>
+    </div>
+  </div>
+
 
   <h2 class="t-title asH2">
     F.A.Q.
@@ -861,23 +1095,20 @@
       <li>
         <Accordion summary="What screen reader will I use?">
           You can use the one that suits you best. I own a Mac, which means I’ll be using Voice Over.
-          During an online workshop it's not practical to help everyone using a SR (screen reader). For that reason, please take some minutes to practice in advance.
+          During an online workshop it's not practical to help everyone using a SR (screen reader).
+          Because of that, a few days before the workshop, I will send you guides for you to practice
+          with one of the following screen readers.
           <ul class="t-list">
             <li>
               Mac: You'll be using VoiceOver.
-              <a class="u-link" href="https://www.youtube.com/watch?v=5R-6WvAihms" rel="noreferrer">Watch this VO introduction.</a>
             </li>
             <li>
-              Windows: Install
+              Windows: You'll need to install
               <a class="u-link" href="https://www.nvaccess.org/" rel="noreferrer">NVDA</a>
-              and
-              <a class="u-link" href="https://www.youtube.com/watch?v=Jao3s_CwdRU" rel="noreferrer">watch this NVDA introduction.</a>
-            </li>
+              </li>
             <li>
-              Linux: Install
+              Linux: You'll need to install
               <a class="u-link" href="https://wiki.gnome.org/Projects/Orca" rel="noreferrer">Orca</a>
-              and
-              <a class="u-link" href="https://www.youtube.com/watch?v=8OWSztc3AtY" rel="noreferrer">watch this Orca introduction.</a>
             </li>
             <li>
               SR keyboard shortcuts:
@@ -885,7 +1116,6 @@
               and <a class="u-link" href="VO and NVDA" rel="noreferrer">Orca</a>.
             </li>
           </ul>
-          A few days before the workshop, I will send you these guides for you to practice.
         </Accordion>
       </li>
 
@@ -915,7 +1145,7 @@
         <Accordion summary="Is there a Code of Conduct?">
           We follow
           <a class="u-link" rel="noreferrer" href="https://www.contributor-covenant.org/version/2/0/code_of_conduct/" on:click={() => trackClick('csstricks_journey')}>contributor-covenant</a>
-          code of conduct. A simple summary: be kind and treat each other with respect and understanding. There’s zero tolerance for unkind behavior.
+          code of conduct. A short summary: be kind and treat each other with respect and understanding. There’s zero tolerance for unkind behavior.
         </Accordion>
       </li>
     </ul>

@@ -4,11 +4,9 @@
   import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
   import { strMotion, afterMotionUpdate } from '../stores/motion.js';
   import { getInLimit, scrollIntoView, sendGA } from '../utils';
-  import { EMAIL_URL, CODEPEN_URL, TWITTER_URL, SITE_URL, SMASHING_URL, CSSTRICKS_URL } from '../data/misc.js';
+  import { MENTOR_URL, SPEAKER_URL, CODEPEN_URL, SMASHING_URL, CSSTRICKS_URL } from '../data/misc.js';
 
   const workshopUrl = '/workshop-a11y-fundamentals'
-  const speakUrl = 'https://medium.com/@a_sandrina_p/ive-spoken-at-jsconf-and-so-can-you-a9d92c1439a6'
-  const mentorUrl = 'https://mentorcruise.com/mentor/SandrinaPereira/'
 
   let elHeader;
   let progress = 0;
@@ -341,23 +339,23 @@
     </p>
     <p class="p">
       Giving back to the community has been a joy. I started by pushing pixels around on 
-      <a class="u-link" rel="noreferrer" target="_blank" href={CODEPEN_URL} on:click={() => trackClick('codepen_journey')}>Codepen</a>
+      <a class="u-link" rel="noreferrer" target="_blank" href={CODEPEN_URL} on:click={() => trackClick('codepen')}>Codepen</a>
       just for fun.
-      <!-- <a class="u-link" rel="noreferrer" target="_blank" href={TWITTER_URL} on:click={() => trackClick('twitter_journey')}>Twitter</a>. -->
+      <!-- <a class="u-link" rel="noreferrer" target="_blank" href={TWITTER_URL} on:click={() => trackClick('twitter')}>Twitter</a>. -->
     </p>
     <p class="p">
       Occasionally I 
-      <a class="u-link" rel="noreferrer" target="_blank" href='/writing' on:click={() => trackClick('csstricks_journey')}>write articles</a> 
+      <a class="u-link" rel="noreferrer" target="_blank" href='/writing' on:click={() => trackClick('csstricks')}>write articles</a> 
       and some of them were published at 
-      <a class="u-link" rel="noreferrer" target="_blank" href={CSSTRICKS_URL} on:click={() => trackClick('csstricks_journey')}>CSS-Tricks</a> 
+      <a class="u-link" rel="noreferrer" target="_blank" href={CSSTRICKS_URL} on:click={() => trackClick('csstricks')}>CSS-Tricks</a> 
       and
-      <a class="u-link" rel="noreferrer" href={SMASHING_URL} target="_blank" on:click={() => trackClick('smashing_journey')}>Smashing Magazine</a>.
-      I also explored the world of <a class="u-link" rel="noreferrer" href={speakUrl} target="_blank" on:click={() => trackClick('speakJSConf_journey')}>public speaking</a> a few times, pushing myself outside of my comfort zone.
+      <a class="u-link" rel="noreferrer" href={SMASHING_URL} target="_blank" on:click={() => trackClick('smashing')}>Smashing Magazine</a>.
+      I also explored the world of <a class="u-link" rel="noreferrer" href={SPEAKER_URL} target="_blank" on:click={() => trackClick('speakJSConf')}>public speaking</a> a few times, pushing myself outside of my comfort zone.
     </p>
     
     <p class="p">
       Solving problems is cool, but I enjoy even more to simplify existing solutions.
-      I've been <a class="u-link" rel="noreferrer" href={mentorUrl} target="_blank" on:click={() => trackClick('smashing_journey')}>mentoring online</a> developers across the globe,
+      I've been <a class="u-link" rel="noreferrer" href={MENTOR_URL} target="_blank" on:click={() => trackClick('smashing')}>mentoring online</a> developers across the globe,
       which allowed me to refine my approach to teaching new topics is a clear and effective way.  
     </p>
     
@@ -365,7 +363,7 @@
       All of these experiences lead me to find my sweet spot: 
       For the last 3 years I've been giving workshops about multiple topics. 
       Currently, I'm focused on creating awareness of why
-      <a class="u-link" rel="noreferrer" href={workshopUrl} target="_blank" on:click={() => trackClick('a11y_journey')}>Web Accessibility</a>
+      <a class="u-link" rel="noreferrer" href={workshopUrl} target="_blank" on:click={() => trackClick('a11y')}>Web Accessibility</a>
       is part of our duties as web creators.
     </p>
 
@@ -377,7 +375,7 @@
       <p class="p">
       In a few months,
       <strong class="f-bold">I'll be open to new challenges</strong> (remote!) where I can help people with lines of code.
-      If you believe we can excel together <a class="u-link" rel="noreferrer" target="_blank" href={ EMAIL_URL } on:click={() => trackClick('email_journey')}>get in touch</a>!
+      If you believe we can excel together <a class="u-link" rel="noreferrer" target="_blank" href={ EMAIL_URL } on:click={() => trackClick('email')}>get in touch</a>!
     </p> -->
   </div>
 </section>
