@@ -939,8 +939,9 @@
         I’m a UX Frontend Engineer who helps turn ideas <span class="u-nowrap">into accessible experiences.</span>
       </p>
       
+      <!-- TODO diff HIGHLIGHT color  -->
       <p class="t-p">
-        My focus area is around Design Systems and Accessibility within the React ecosystem.
+        My focus areas is around Design Systems and Accessibility within the React ecosystem.
         As a self-taught developer, I recognize the struggle of learning something by ourselves.
       </p>
       <p class="t-p">
@@ -968,8 +969,6 @@
       <article class="t-feedback">    
         <h3 class="sr-only">Public feedback</h3>
         <div class="t-tweets">
-        
-          <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
           <div>
             <!-- Nuno -->
             <div class="t-tweetsArea">
@@ -992,6 +991,7 @@
               <blockquote class="twitter-tweet" data-dnt="true" data-theme="dark"><p dir="ltr">Just finished up <a class="u-link" rel="noreferrer" href="https://twitter.com/a_sandrina_p?ref_src=twsrc%5Etfw">@a_sandrina_p</a>'s Web A11y Fundamentals workshop. Really pleasant and structured well! Helped to learn new tools and concepts considering a11y is a big gap in my knowledge as a web dev. <br><br>Definitely reach out to her for conferences, talks, workshops, etc!</p>&mdash; Andrew Chou (@_andrewchou) <a class="u-link" rel="noreferrer" href="https://twitter.com/_andrewchou/status/1253009155968962567?ref_src=twsrc%5Etfw">April 22, 2020</a></blockquote>
             </div>
           </div>
+          <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
         </div>
 
         <h3 class="sr-only">Anonymous feedback</h3>
