@@ -1,49 +1,34 @@
 <script>
-  import { onMount } from 'svelte';
+  import { onMount, afterUpdate } from 'svelte';
   import { _window, afterResponsiveUpdate } from '../stores/responsive.js';
   import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
   import { strMotion, afterMotionUpdate } from '../stores/motion.js';
   import { getInLimit, scrollIntoView, sendGA } from '../utils';
   import { MENTOR_URL, SPEAKER_URL, CODEPEN_URL, SMASHING_URL, CSSTRICKS_URL } from '../data/misc.js';
 
-  const workshopUrl = '/workshop-a11y-fundamentals'
+  export let isOnStage;
+  export let sectionName;
+  export let klass = '';
 
   let elHeader;
   let progress = 0;
   let animation;
-  let isSkillsVisible = false;
 
   $: wHeight = $_window && $_window.innerHeight;
   $: goal = wHeight / 2;
   $: isActive = progress === 1;
 
-  afterGeneralUpdate((prevState, state) => {
-    if (!prevState.isReady && state.isReady) {
+  afterUpdate(() => {
+    if (!animation && isOnStage) {
       if($strMotion.isReduced) {
         progress = 1;
       } else {
         animation = initAnimation();
       }
     }
-
-    if($strMotion.isReduced) { return }
-
-    const prevPageSection = prevState.pageCurrentSection;
-    const pageSection = state.pageCurrentSection;
-
-    if (prevPageSection !== pageSection && pageSection === 'journey') {
-      animation.verify();
-    }
-
-    if (prevState.isSkillsVisible !== state.isSkillsVisible) {
-      isSkillsVisible = state.isSkillsVisible
-    }
-  });
+  })
 
   afterMotionUpdate((prevState, state) => {
-    // Same as Skills.svelte. Maybe it could be abstracted
-    if(!$strGeneral.isReady) { return }
-
     if(!prevState.isReduced && state.isReduced) {
       animation && animation.remove();
     }
@@ -61,7 +46,7 @@
     if(!animation) { return }
     setTimeout(() => {
       animation.verify();
-      console.warn('Resize: journey updated');
+      console.warn('Resize: section skew updated');
     }, 0) // execute after svelte update.
   })
 
@@ -70,34 +55,29 @@
     let scrollPivot;
     let progressOffset = 0;
 
-    function handleJourneyScroll() {
-      console.log('scrolling journey...');
+    function handleScroll() {
+      console.log('scrolling sectionSkew...');
       const percentage = (window.scrollY - progressOffset - scrollPivot) / goal;
       progress = getInLimit(percentage, 0, 1);
-
-      if(progress === 1) {
-        isSkillsVisible = true
-      }
     }
 
     function removeAnimation() {
       console.debug('journey: Remove animation');
       isObserving = false;
-      window.removeEventListener('scroll', handleJourneyScroll);
+      window.removeEventListener('scroll', handleScroll);
       observer.disconnect();
       progress = 1;
-      isSkillsVisible = true;
     }
 
     const watchHeader = ([{ isIntersecting, boundingClientRect }]) => {
       scrollPivot = window.scrollY - ($_window.innerHeight - boundingClientRect.top);
       progressOffset = progressOffset || boundingClientRect.height / 2;
       
-      window.removeEventListener('scroll', handleJourneyScroll);
+      window.removeEventListener('scroll', handleScroll);
 
       if (isIntersecting) {
-        handleJourneyScroll()
-        window.addEventListener('scroll', handleJourneyScroll, { passive: true });
+        handleScroll()
+        window.addEventListener('scroll', handleScroll, { passive: true });
       }
     };
 
@@ -133,24 +113,35 @@
   }
 
   function trackClick(action) {
-    sendGA('send', 'event', 'click', 'contacts', action)
+    sendGA('send', 'event', 'click', sectionName, action)
   }
 </script>
 
 <style lang="postcss">
-  $textWidth: 50rem;
-  $textWidthEm: 31.25em;
   $headerHeight: 25rem; /* space for text even when rotated */
   $maskWidth: 120vw;
   $paddingTop: 25vh;
 
   .wrapperJn {
+    --section-pageBg: var(--bg_0);
+    --section-pageTxt: var(--text_0);
+    --section-contentBg: var(--bg_invert);
+    --section-contentTxt: var(--text_invert);
+    --section-contentWidth: 500px;
+    --section-title: var(--primary_1_inverted);
+
+    :global(.dark) & {
+      --section-contentBg: var(--bg_1);
+      --section-contentTxt: var(--text_0);
+    }
+
     position: relative;
-    padding-top: 0;
     --rotate: -4deg;
     max-width: 100%;
     overflow: hidden; /* for the rotating header */
     margin-top: -1px; /* hide semi-pixel of bg_0 on safari */
+    background-color: var(--section-contentBg);
+    color: var(--section-contentTxt);
   }
 
   .header {
@@ -167,38 +158,30 @@
       left: 0;
       height: $paddingTop;
       width: 100%;
-      background-color: var(--bg_invert);
+      background-color: var(--section-pageBg);
       opacity: 0;
-      /* Same speed as Skills. TODO reuse var or something */
+      /* OPTIMIZE: Same speed as Skills. TODO reuse var or something */
       transition: opacity 250ms cubic-bezier(0.19, 1, 0.22, 1);
 
       .uAppear & {
         transition: opacity 1000ms cubic-bezier(0.19, 1, 0.22, 1);
         opacity: 1;
       }
-
-      :global(.dark) & {
-        background-color: var(--bg_1);
-      }
     }
 
     &Slide,
     &Fixed {
-      width: $textWidth;
+      width: var(--section-contentWidth);
       max-width: calc(100vw - $layout-margin*2);
     }
 
     &Slide {
       display: block;
-      color: var(--text_invert);
+      color: var(--section-pageTxt);
       position: absolute;
       bottom: 0.2em;
       left: 0;
       transform: translate(calc($maskWidth/2 - 50%), calc(3em - 3em * var(--progress)));
-    
-      :global(.dark) & {
-        color: var(--text_0);
-      }
     }
 
     &Block {
@@ -210,7 +193,7 @@
       white-space: nowrap;
       top: calc($headerHeight/2 + 0.2em);
       left: 50%;
-      color: var(--primary_1);
+      color: var(--section-title);
       transform: translate(-50%, -2em) rotate(var(--rotate));
       transition: transform 300ms ease-out;
 
@@ -233,29 +216,31 @@
     &Rotate {
       display: block;
       position: absolute;
-      background-color: var(--bg_invert);
+      background-color: var(--section-pageBg);
       top: calc($headerHeight / -2); /* to cover the bg from the rotate */
       left: calc(($maskWidth - 100vw) / -2); /* to make it centered based on width */
       width: $maskWidth;
       height: 100%;
       transform-origin: 50% 100%;
+      /* Question: Why didn't I use skew instead?
+          5 min later: Because of the text inside!
+      */
       transform: rotate(calc(var(--rotate) * var(--progress)));
       overflow: hidden;
       z-index: 1; /* above 2nd line of text */
 
-      :global(.dark) & {
+      /* :global(.dark) & {
         background-color: var(--bg_1);
-      }
+      } */
     }
   }
 
   .text {
-    width: $textWidth;
+    width: var(--section-contentWidth);
     max-width: 100vw;
     padding: 0 $layout-margin;
     margin: 0 auto;
     line-height: 1.5;
-    color: var(--text_0);
     opacity: 0;
     transform: translateY(-3rem);
     transition: opacity 150ms ease-out, transform 150ms ease-out;
@@ -266,16 +251,6 @@
       transition:
         opacity 1000ms 300ms cubic-bezier(0.0, 0.0, 0.2, 1),
         transform 1000ms 300ms cubic-bezier(0.19, 1, 0.22, 1);
-    }
-  }
-
-  .p:not(:last-child) {
-    margin-bottom: $spacer-L;
-  }
-
-  @media (--only-tablet) {
-    .text {
-      padding: 0 5vw; /* REVIEW this and all text sizes */
     }
   }
 
@@ -302,80 +277,28 @@
   }
 </style>
 
-<section class="wrapperJn"
+<section class="wrapperJn {klass}"
   class:isActive
-  class:uAppear={isSkillsVisible}
+  class:uAppear={true}
+
   style="--progress: {progress}"
-  id="journey" tabindex="-1"
-  data-section-offset-v="45"
-  data-section-offset-h="15"
-  on:focusin={handleKeyboardFocus}
-  data-cy="journey">
+  tabindex="-1"
+  on:focusin={handleKeyboardFocus}>
   <h2 class="f-title header" bind:this={elHeader}>
     <span class="sliding">
       <span class="slidingRotate">
         <span class="headerSlide">
-          <span class="headerBlock">Uff,</span>
-          you came so far...
+          <span class="headerBlock">
+            <slot name="title_top" />
+          </span>
         </span>
       </span>
     </span>
-    <span class="headerFixed">Here's my journey</span>
+    <span class="headerFixed">
+      <slot name="title_bottom" />
+    </span>
   </h2>
   <div class="text">
-    <p class="p">
-      In 2020 I joined
-      <a class="u-link" rel="noreferrer" target="_blank" href="https://remote.com/">Remote</a> as Team Lead responsible for the technical foundations of our product.
-      <!-- Previously, I spent a year helping to bring an open source idea to life -
-      <axx class="u-link" rel="noreferrer" target="_blank" href="https://github.com/okTurtles/group-income-simple">Group Income</a>. -->
-      Back in office times, I was a Senior Frontend Developer at
-      <a class="u-link" rel="noreferrer" target="_blank" href="https://www.farfetch.com">Farfetch</a>
-      for a few years. There, I guided multiple teams to level up their knowledge within the React ecosystem, around accessibility, performance and, JS testing.
-    </p>
-
-    <p class="p">
-      Although I've been a developer my entire career, I proudly hold a degree in Communication Design and post-grad in Digital Experience Design.
-      During the process I found my way a self-taught frontend developer.
-    </p>
-    <p class="p">
-      Giving back to the community has been a joy. I started by pushing pixels around on 
-      <a class="u-link" rel="noreferrer" target="_blank" href={CODEPEN_URL} on:click={() => trackClick('codepen')}>Codepen</a>
-      just for fun.
-      <!-- <a class="u-link" rel="noreferrer" target="_blank" href={TWITTER_URL} on:click={() => trackClick('twitter')}>Twitter</a>. -->
-    </p>
-    <p class="p">
-      Occasionally I 
-      <a class="u-link" rel="noreferrer" target="_blank" href='/writing' on:click={() => trackClick('csstricks')}>write articles</a> 
-      and some of them were published at 
-      <a class="u-link" rel="noreferrer" target="_blank" href={CSSTRICKS_URL} on:click={() => trackClick('csstricks')}>CSS-Tricks</a> 
-      and
-      <a class="u-link" rel="noreferrer" href={SMASHING_URL} target="_blank" on:click={() => trackClick('smashing')}>Smashing Magazine</a>.
-      I also explored the world of <a class="u-link" rel="noreferrer" href={SPEAKER_URL} target="_blank" on:click={() => trackClick('speakJSConf')}>public speaking</a> a few times, pushing myself outside of my comfort zone.
-    </p>
-    
-    <p class="p">
-      Solving problems is cool, but I enjoy even more to simplify existing solutions.
-      I've been <a class="u-link" rel="noreferrer" href={MENTOR_URL} target="_blank" on:click={() => trackClick('smashing')}>mentoring online</a> developers across the globe,
-      which allowed me to refine my approach to teaching new topics is a clear and effective way.  
-    </p>
-    
-    <p class="p">
-      All of these experiences lead me to find my sweet spot: 
-      For the last 3 years I've been giving workshops about multiple topics. 
-      Currently, I'm focused on raising awareness of why
-      <a class="u-link" rel="noreferrer" href={workshopUrl} target="_blank" on:click={() => trackClick('a11y')}>Web Accessibility</a>
-      is part of our duties as web creators.
-    </p>
-
-    <p class="p">
-      Since I can remember, my meta-goal is to create humanly inclusive experiences within digital environments. And this has been my journey around it.
-    </p>
-    <!--
-      [May be useful in the future. I hope not.]
-      <p class="p">
-      In a few months,
-      <strong class="f-bold">I'll be open to new challenges</strong> (remote!) where I can help people with lines of code.
-      If you believe we can excel together <a class="u-link" rel="noreferrer" target="_blank" href={ EMAIL_URL } on:click={() => trackClick('email')}>get in touch</a>!
-    </p> -->
+    <slot />
   </div>
 </section>

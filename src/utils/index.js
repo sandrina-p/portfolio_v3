@@ -122,6 +122,7 @@ export function setRIC() {
 
 // Handle styling related to focus based on type of navigation (mouse vs keyboard)
 // Ref: https://medium.com/hackernoon/removing-that-ugly-focus-ring-and-keeping-it-too-6c8727fefcd2
+// TODO: Refactor to use focus-visible
 export function focusOnlyWhenNeeded() {
   function handleTabOnce(e) {
     if (e.keyCode === 9) {

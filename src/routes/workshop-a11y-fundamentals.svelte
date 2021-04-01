@@ -8,7 +8,9 @@
   import { focusOnlyWhenNeeded } from '../utils';
   import Accordion from '../components/workshop/Accordion.svelte'
   import WorkshopForm from '../components/workshop/WorkshopForm.svelte';
+  import SectionSkew from '../components/SectionSkew.svelte'
   import { MENTOR_URL, TWITTER_URL, SITE_URL } from '../data/misc.js';
+  import { initResponsive } from '../stores/responsive.js';
 
   const endpointA11Y = 'https://app.convertkit.com/forms/1318242/subscriptions';
 
@@ -53,6 +55,7 @@
   const eventTZ = 'UTC'
 
   onMount(async () => {
+    initResponsive();
     focusOnlyWhenNeeded();
   });
   
@@ -65,7 +68,7 @@
   $ziHeader: 4;
   $ziIntro: 3;
   $ziLine: 2;
-  $width: 65rem;
+  $width: 650px;
 
   .header {
     position: fixed;
@@ -268,24 +271,20 @@
     80% { border-radius: 51% 52% 68% 36% / 56% 43% 60% 47%; } 
   }
 
-  .t-about {
+  .t-blockwide {
     position: relative;
     width: 100vw;
     margin-left: calc((100vw - 100%) / -2);
+  }
 
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      background-color: var(--bg_1);
-      width: 100vw;
-      height: 100%;
-      z-index: -1;
-      transform: skew(0deg, -2deg);
+  :global(.k-about.k-about.k-about) {
+    --section-contentWidth: $width;
+
+    .text {
+      padding: 0 $spacer-M;
     }
-
-    &Avatar {
+  }
+    .Avatar {
       /* top: 0;
       right: 0;
       position: absolute; */
@@ -305,10 +304,9 @@
       /* animation-delay: -5s; */
       box-shadow: 5px 5px 30px var(--primary_1_pair);
     }
-  }
+  
 
   .t-feedback {
-    
     @media (--lg) {
       width: calc(100% + 200px);
       transform: translateX(-100px);
@@ -339,7 +337,7 @@
 
     :global(.twitter-tweet:not(.twitter-tweet-rendered)) {
       border: 1px solid;
-      background-color: var(--bg_0);
+      background-color: var(--bg_invert);
       border-radius: 4px;
       border: 1px dashed;
       padding: 8px;
@@ -608,6 +606,7 @@
   em {
     font-style: italic;
   }
+  
 </style>
 
 <HeadMeta
@@ -814,7 +813,7 @@
     <li>Quickly identify common accessibility issues</li>
     <li>Integrate accessibility into your team workflow right away</li>
     <li>
-      Find out that building inclusive websites isn’t as hard as it sounds
+      Realize that building inclusive websites isn’t as hard as it sounds
       <span aria-hidden="true">;)</span>
     </li>
   </ul>
@@ -927,51 +926,45 @@
     </dl>
   </WorkshopForm>
 
-  <!-- <h2 class="t-title asH2">I'm Sandrina, your instructor</h2> -->
-
-  <div class="t-about">
-    <div class="wrapper">
-      <article>
-        <h2 class="t-hook">
-          Let me introduce myself,
-          I'm Sandrina!
-        </h2>
-        <!-- <div class="t-aboutAvatar"></div> -->
-        <p class="t-p">
-          I’m a UX Frontend Engineer who helps turn ideas into accessible experiences.
-        </p>
-        
-        <p class="t-p">
-          As a self-taught developer, I recognize the struggle of learning something by ourselves.
-          Through the years, I've been sharing my knowledge by
-          <a class="u-link" rel="noreferrer" target="_blank" href='/writing' on:click={() => trackClick('articles')}>writing articles</a> 
-          and
-          <a class="u-link" rel="noreferrer" target="_blank" href={MENTOR_URL} on:click={() => trackClick('mentor')}>mentoring online</a>, 
-          <!-- .
-        </p>
-        <p class="t-p"> -->
-          which allowed me to refine my approach to teaching
-          new topics in ways that are simple yet effective.
-        </p>
-        <p class="t-p">
-          My expertise area is within the React ecosystem around Design Systems and Accessibility.
-        <!-- </p>
-        <p class="t-p"> -->
-          Currently, besides my full-time job at Remote as Lead Frontend Enginer, I'm focused in creating awareness of why Web Accessibility
-          is part of our duties as web creators.
-        </p>
-        <p class="t-p">
-          Join me and let me show you that A11Y doesn't have to limit your solutions or skills.
-          On the contrary, it will make them more inclusive!
-        </p>
-        
-
-        <!-- <p class="t-p">
-        But don’t take my word for granted,
-        Here’s what people have said about me:
-        </p> -->
-      </article>
+  <div class="t-blockwide">
+    <SectionSkew isOnStage sectionName="a11yAbout" klass="k-about">
+      <span slot="title_top">
+        By the way
+      </span>
+      <span slot="title_bottom">
+        I'm Sandrina
+      </span>
       
+      <p class="t-p">
+        I’m a UX Frontend Engineer who helps turn ideas <span class="u-nowrap">into accessible experiences.</span>
+      </p>
+      
+      <p class="t-p">
+        My focus area is around Design Systems and Accessibility within the React ecosystem.
+        As a self-taught developer, I recognize the struggle of learning something by ourselves.
+      </p>
+      <p class="t-p">
+        Through the years, I've been sharing my knowledge by
+        <a class="u-link" rel="noreferrer" target="_blank" href='/writing' on:click={() => trackClick('articles')}>writing articles</a> 
+        and
+        <a class="u-link" rel="noreferrer" target="_blank" href={MENTOR_URL} on:click={() => trackClick('mentor')}>mentoring online</a>, 
+        <!--
+      </p>
+      <p class="t-p"> -->
+        which allowed me to refine my approach to teaching
+        new topics in ways that are simple yet effective.
+      </p>
+      <p class="t-p">
+      <!-- </p>
+      <p class="t-p"> -->
+        Besides my full-time job at Remote as Lead Frontend Enginer, I'm focused in raising awareness of why Web Accessibility
+        is part of our duties as web creators.
+      </p>
+      <p class="t-p">
+        Join me and let me show you that A11Y doesn't have to limit your solutions or skills.
+        On the contrary, it will make them more inclusive!
+      </p>
+
       <article class="t-feedback">    
         <h3 class="sr-only">Public feedback</h3>
         <div class="t-tweets">
@@ -1038,10 +1031,9 @@
             Maybe add a little more energy and create a feeling of community amongst the people in the workshop? As it's remote and people are scattered all over, it's easy to feel disconnected to others learning 🤔
           </quote>  
         </div> -->
-      </article>
-    </div>
+      </article>  
+    </SectionSkew>
   </div>
-
 
   <h2 class="t-title asH2">
     F.A.Q.

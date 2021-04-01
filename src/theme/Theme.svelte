@@ -10,6 +10,7 @@
     --bg_invert_transparent: #2e2a2f00; /* for safari... */
 
     --primary_1: #8E38FF; /* #9b78de; */
+    --primary_1_inverted: #c272ff;
     --primary_1_smooth: #e9e1f8;
     --primary_1_highlight: #e9e1f8;
     --primary_1_stronger: #8c00ff;
@@ -31,7 +32,7 @@
     --bg_0: #3a383b;
     --bg_1: #2e2a2f;
     --bg_1_rgb: 46,42,47;
-    --primary_1: #c272ff;
+    --primary_1: var(--primary_1_inverted);
     --primary_1_smooth: #514371;
     --primary_1_highlight: #cb8eff45;
     --primary_1_pair: var(--primary_2);
