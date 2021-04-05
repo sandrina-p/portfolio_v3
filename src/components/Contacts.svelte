@@ -38,18 +38,20 @@
 
 <div class={$$props.class}>
   <h4 class="sr-only" id="a11y_sn">Social Stuff</h4>
-  <ul aria-labelledby="a11y_sn">
-    {#each contactsList as { name, link }, i}
-      <li class="item">
-        <a
-          href={link}
-          rel="noreferrer"
-          target="_blank"
-          class="u-link link"
-          on:click={() => sendGA('send', 'event', 'click', 'contacts', name)}>
-          {name}
-        </a>
-      </li>
-    {/each}
-  </ul>
+  <address>
+    <ul aria-labelledby="a11y_sn">
+      {#each contactsList as { name, link }, i}
+        <li class="item">
+          <a
+            href={link}
+            rel="noreferrer"
+            target="_blank"
+            class="u-link link"
+            on:click={() => sendGA('send', 'event', 'click', 'contacts', name)}>
+            {name}
+          </a>
+        </li>
+      {/each}
+    </ul>
+  </address>
 </div>
