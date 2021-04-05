@@ -9,6 +9,7 @@
   export let isOnStage;
   export let sectionName;
   export let klass = '';
+  export let motionReduced = false;
 
   let elHeader;
   let progress = 0;
@@ -20,7 +21,7 @@
 
   afterUpdate(() => {
     if (!animation && isOnStage) {
-      if($strMotion.isReduced) {
+      if($strMotion.isReduced || motionReduced) {
         progress = 1;
       } else {
         animation = initAnimation();
@@ -33,7 +34,7 @@
       animation && animation.remove();
     }
 
-    if(prevState.isReduced && !state.isReduced) {
+    if(prevState.isReduced && !state.isReduced && !motionReduced) {
       if (animation) {
         animation.verify()
       } else {
@@ -120,7 +121,7 @@
 <style lang="postcss">
   $headerHeight: 25rem; /* space for text even when rotated */
   $maskWidth: 120vw;
-  $paddingTop: 25vh;
+  $paddingTop: 100px;
 
   .wrapperJn {
     --section-pageBg: var(--bg_0);

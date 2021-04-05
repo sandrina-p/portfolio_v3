@@ -37,8 +37,8 @@
 </style>
 
 <div class={$$props.class}>
-  <h4 class="sr-only" id="a11y_sn">Social Stuff</h4>
   <address>
+    <p class="sr-only" id="a11y_sn">Social Stuff</p>
     <ul aria-labelledby="a11y_sn">
       {#each contactsList as { name, link }, i}
         <li class="item">

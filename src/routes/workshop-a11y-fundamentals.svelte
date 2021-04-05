@@ -18,9 +18,9 @@
     {
       title: 'Accessibility overview',
       topics: [
-        'Demystify accessibility myths.',
-        'Disability types spectrum.',
-        'WCAG principles, layers of guidance, and the law.'
+        'Demystify accessibility myths',
+        'Ableism, and Disability types spectrum',
+        'WCAG principles, layers of guidance, and the law'
       ],
     },
     {
@@ -42,11 +42,12 @@
     {
       title: 'Screen readers',
       topics: [
-        'Using ARIA attributes',
-        'Landmarks and forms',
+        'ARIA: What is it and when to use',
+        'Landmarks and language',
+        'Meaningful forms',
         'Interactive UI patterns',
       ],
-    }
+    },
   ]
 
   const price = "000 EUR" // TODO DEFINE PRICE
@@ -69,38 +70,21 @@
   $ziIntro: 3;
   $ziLine: 2;
   $width: 650px;
+  $widthRead: 550px;
 
   .header {
     position: fixed;
     top: 0;
     z-index: $ziHeader;
-    width: $width;
-    max-width: 100%;
+    width: $widthRead;
+    max-width: calc(100% - $spacer-M * 2);
     left: 50%;
     transform: translateX(-50%);
     z-index: $ziHeader;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: $spacer-M;
-  }
-
-  .logo {
-    font-size: 2.1rem;
-    text-decoration: none;
-    font-weight: 500;
-    color: var(--text_0);
-
-    &::before {
-      opacity: 0.5;
-      transform-origin: 0 90%;
-    }
-
-    &:hover, &:focus {
-      &::before {
-        opacity: 0.2;
-      }
-    }
+    padding: $spacer-M 0;
   }
 
   .wrapper {
@@ -187,27 +171,50 @@
   }
 
   .t-title {
-    font-size: 3.8rem;
+    --titleSize: 3.8rem;
+    font-size: var(--titleSize);
+    line-height: 1.2;
     font-weight: 500;
 
     @media (--max-xs) {
-      font-size: calc(4rem * 0.7);
+      font-size: calc(var(--titleSize) * 0.7);
     }
-
 
     :global(.dark) & {
       color: white;
     }
 
     &.asH2 {
-      font-size: 3.6rem;
+      --titleSize: 3.6rem;
       margin: $spacer-XL 0 $spacer-M;
     }
 
     &.asH3 {
-      font-size: $font-XL;
+      --titleSize: $font-XL;
       margin: $spacer-LM 0 $spacer-S;
     }
+
+    &.asHook {
+      --titleSize: $font-XL;
+      margin: $spacer-LM 0 $spacer-L;
+    }
+
+    &.asCenter {
+      text-align: center;
+    }
+  }
+
+  .t-p {
+    font-size: $font-M;
+    margin-bottom: $spacer-M;
+
+    @media (--md) {
+      font-size: 1.8rem;
+    }
+  }
+
+  .t-b {
+    font-weight: 500;
   }
 
   /* .cta-sticky {
@@ -271,6 +278,12 @@
     80% { border-radius: 51% 52% 68% 36% / 56% 43% 60% 47%; } 
   }
 
+  .t-read {
+    width: $widthRead;
+    max-width: 100%;
+    margin: auto;
+  }
+
   .t-blockwide {
     position: relative;
     width: 100vw;
@@ -280,7 +293,7 @@
   :global(.k-about.k-about.k-about) {
     --section-contentWidth: $width;
 
-    .text {
+    :global(.text) {
       padding: 0 $spacer-M;
     }
   }
@@ -307,32 +320,35 @@
   
 
   .t-feedback {
-    @media (--lg) {
+    @media (min-width: 820px) {
       width: calc(100% + 200px);
       transform: translateX(-100px);
     }
   }
 
   .t-tweets {
-    display: flex;
-    flex-wrap: wrap;
-    min-height: 440px; /* desktop */
-    margin: 50px 0;
+    @media (--lg) {
+      display: flex;
+      flex-wrap: wrap;
+      min-height: 440px; /* desktop */
+      margin: 50px 0;
 
-    > * {
-      flex-basis: 33%;
-      flex-grow: 1;
-      min-width: 200px;
+      > * {
+        flex-basis: 33%;
+        flex-grow: 1;
+        min-width: 200px;
+      }
 
-      @media (--max-md) {
-        .t-hide {
-          display: none;
-        }
+      &Area {
+        margin: $spacer-S $spacer-XS;
       }
     }
 
-    &Area {
-      margin: 8px 4px;
+    
+    @media (--max-lg) {
+      &Area {
+        margin: $spacer-S 0;
+      }
     }
 
     :global(.twitter-tweet:not(.twitter-tweet-rendered)) {
@@ -352,38 +368,47 @@
   }
 
   .t-quotes {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    margin-bottom: 80px;
-
-    quote {
-      flex-basis: 50%;
-      flex-grow: 1;
-      min-width: 200px;
-
-      margin: 16px 0;
+    margin: 40px 0;
+    
+    &-item {
       display: block;
-      padding: 0 16px;
+      padding: 0 24px 0 16px;
       border-left: 1px solid var(--primary_1);
       font-size: $font-M;
       font-style: italic;
     }
+
+    @media (--lg) {
+      margin: 80px 0;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+
+      &-item {
+        flex-basis: 50%;
+        flex-grow: 1;
+        min-width: 200px;
+
+        margin: 16px 0;
+      }
+    }
   }
 
-  .t-hook {
-    font-size: $font-XL;
-    font-weight: 500;
-    margin: $spacer-LM 0 $spacer-L;
-  }
+  @media (--max-lg) {
+    .u-carousel {
+      margin-left: calc($spacer-M * -1);
 
-  .t-p {
-    font-size: 1.8rem;
-    margin-bottom: $spacer-M;
-  }
+      .u-carousel-item {
+        width: 85%;
+        max-width: 300px;
+        padding: 0 $spacer-S;
+        align-self: flex-start;
 
-  .t-b {
-    font-weight: 500;
+        &:first-child {
+          margin-left: $spacer-M;
+        }
+      }
+    }
   }
 
   .t-list {
@@ -679,7 +704,7 @@
 </svelte:head>
 
 <header class="header">
-  <a href={SITE_URL} class="logo u-link">
+  <a href={SITE_URL} class="u-logo">
     Sandrina
   </a>
   <ToggleThemePage />
@@ -707,443 +732,439 @@
 
   <span class="t-separator"></span>
 
-  <p class="t-p">
-    As web creators, unfortunately, many of us are still leaving accessibility as an afterthought.
-    Learning modern UI Libraries sounds way more exciting.
-  </p>  
-  <p class="t-p">
-    <em>I understand you, but...</em>
-  </p>
+  <div class="t-read">
 
-  <h2 class="t-hook">
-      Accessibility is our duty as web creators
-  </h2>
-  <p class="t-p">
-    It's our moral duty (and legal requirement in many countries) to ensure
-    that anyone who visits a website, can enjoy it as much as possible. 
-  </p>
-    
-  <p class="t-p">
-    Perhaps you already know that accessibility matters, and you are aware that color contrast is a thing. But... <i>what else?</i>
-  </p>
-  <p class="t-p">
-    In your solo journey into learning accessibility, you’ve might have visited the 
-    <a href="https://www.w3.org/WAI/" class="u-link">W3C WAI</a>
-    website and took a look at the
-    <a href="https://www.w3.org/TR/WCAG21" class="u-link">
-    WCAG 2.1
-    </a> technical requirements.
-  </p>
-  <p class="t-p">
-    Yet, the content seemed way too complex, you may have felt overwhelmed, lost... 
-    and ended up leaving it aside.
-  </p>
-  <h2 class="t-hook">
-      Let me simplify it for you
-  </h2>
-  <p class="t-p">
-    Rather than focusing on theoretical rules, I will first show you real-world examples
-    that can be all but a joyful experience for many people.
-  </p>
-  <p class="t-p">
-    These scenarios will bring you awareness of the existing barriers out there, and you'll realize
-    why (the lack of) accessibility can really make the difference in someone's life... including you and me!
-  </p>
-  <!-- <p class="t-p">
-    It's your moral duty (and legal requirement) to ensure that anyone who visits your website, can enjoy it as much as possible. 
-  </p> -->
-  <p class="t-p">
-    Let me show you why accessibility is worthy of being part of your skillset foundations
-  <!-- </p>
-  <p class="t-p"> -->
-    and how it doesn't limit your solutions or design skills.
-  <!-- </p>
-  <p class="t-p"> -->
-    On the contrary, it will make them more inclusive!
-  </p>
+    <p class="t-p">
+      As web creators, unfortunately, many of us are still leaving accessibility as an afterthought.
+      Learning how to use modern UI Libraries sounds way more exciting.
+    </p>  
+    <p class="t-p">
+      <em>I understand you, but...</em>
+    </p>
 
-  <p>Ready to make the web a more inclusive place?</p>
+    <h2 class="t-title asHook">
+        Accessibility is our duty <span class="nowrap">as web creators</span>
+    </h2>
+    <p class="t-p">
+      It's our moral duty (and legal requirement in many countries) to ensure
+      that anyone who visits a website, can enjoy it as much as possible. 
+    </p>
+      
+    <p class="t-p">
+      Perhaps you already know that accessibility matters, and you are aware that color contrast is a thing. But... <i>what else?</i>
+    </p>
+    <p class="t-p">
+      In your solo journey into learning accessibility, you’ve might have visited the 
+      <a href="https://www.w3.org/WAI/" class="u-link">W3C WAI</a>
+      website and took a look at the
+      <a href="https://www.w3.org/TR/WCAG21" class="u-link">
+      WCAG 2.1
+      </a> technical requirements.
+    </p>
+    <p class="t-p">
+      Yet, the content seemed way too complex, you may have felt overwhelmed, lost... 
+      and ended up leaving it aside.
+    </p>
+    <h2 class="t-title asHook">
+        Let me simplify it for you
+    </h2>
+    <p class="t-p">
+      Rather than focusing on theoretical rules, I will first show you real-world examples
+      that can be all but a joyful experience for many people.
+    </p>
+    <p class="t-p">
+      These scenarios will bring you awareness of the existing barriers out there, and you'll realize
+      why (the lack of) accessibility can really make the difference in someone's life... including you and me!
+    </p>
+    <!-- <p class="t-p">
+      It's your moral duty (and legal requirement) to ensure that anyone who visits your website, can enjoy it as much as possible. 
+    </p> -->
+    <p class="t-p">
+      Let me show you why accessibility is worthy of being part of your skillset foundations
+    <!-- </p>
+    <p class="t-p"> -->
+      and how it doesn't limit your solutions or design skills.
+    <!-- </p>
+    <p class="t-p"> -->
+      On the contrary, it will make them more inclusive!
+    </p>
 
-  <h2 class="t-title asH2">
-      The workshop
-  </h2>
-  <p class="t-p">
-    This workshop will be packed with little big discoveries!
-    We will explore every common accessibility no-nos and how to make them more inclusive for 
-    as many people as possible using a mouse or a keyboard.
-  </p>
-  <p class="t-p">
-    We'll cover multiple design patterns and development techniques that you can apply in your own projects right away.
-  </p>
-  <p class="t-p">
-    You’ll also learn how screen readers are used, and I'll show you that there's no reason to be afraid of using one!
-  </p>
+    <p>Ready to make the web a more inclusive place?</p>
 
-  <h3 class="t-title asH3">
-    Topics
-  </h3>
-  <p class="t-p">
-    The workshop is divided into modules that complement each other:
-  </p>
-  <ul class="t-topics">
-    {#each modules as { title, topics }, index}
-      <li class="t-card">
-        <h4 class="t-hashtitle">
-          <span class="t-hashtitlePrefix" aria-hidden="true">#{index}</span>
-          {title}
-        </h4>
+    <h2 class="t-title asH2">
+        The workshop
+    </h2>
+    <p class="t-p">
+      This workshop will be packed with little big discoveries!
+      We will explore every common accessibility no-nos and how to make them more inclusive for 
+      as many people as possible using a mouse or a keyboard.
+    </p>
+    <p class="t-p">
+      We'll cover multiple design patterns and development techniques that you can apply in your own projects right away.
+    </p>
+    <p class="t-p">
+      You’ll also learn how screen readers are used, and I'll show you that there's no reason to be afraid of using one!
+    </p>
 
-        <ul class="t-list asCompact">
-          {#each topics as topic}
-            <li>{topic}</li>
-          {/each}
-        </ul>
-      </li>
-    {/each}
-  </ul>
+    <h3 class="t-title asH3">
+      Topics
+    </h3>
+    <p class="t-p">
+      The workshop is divided into modules that complement each other:
+    </p>
+    <ul class="t-topics">
+      {#each modules as { title, topics }, index}
+        <li class="t-card">
+          <h4 class="t-hashtitle">
+            <span class="t-hashtitlePrefix" aria-hidden="true">#{index}</span>
+            {title}
+          </h4>
 
-
-  <h3 class="t-title asH3">
-    By the end, you will:
-  </h3>
-  <ul class="t-list asCheck">
-    <li>Realize how web accessibility benefits everyone</li>
-    <li>Understand WCAG principles and how they're organized</li>
-    <li>Know how to use accessibility audit tools</li>
-    <li>Quickly identify common accessibility issues</li>
-    <li>Integrate accessibility into your team workflow right away</li>
-    <li>
-      Realize that building inclusive websites isn’t as hard as it sounds
-      <span aria-hidden="true">;)</span>
-    </li>
-  </ul>
-
-
-  <h3 class="t-title asH3">
-    Workshop dynamics
-  </h3>
-  <p class="t-p">
-    The workshop is divided into multiple exercises. In each one, I’ll introduce you to a new topic in a simplified way, along with <strong>practical resources</strong>. 
-  </p>
-  <p class="t-p">
-    Then, there will be a <strong>hands-on exercise</strong> for you to apply the concepts learned. You can solve it by yourself or by collaborating with a group of 2-3 people.
-  </p>
-  <p class="t-p">
-    Afterwards, we go through the <strong>solution</strong> together, and I’ll <strong>clarify the questions</strong> that you might have.
-  </p>
-
-  <div class="t-card t-process">
-    <ul class="t-processFlow">
-      <li class="t-processFlowIx">problem</li> 
-      <li class="t-processFlowIx">practice</li> 
-      <li class="t-processFlowIx">review</li> 
-      <li class="t-processFlowIx">clarify</li> 
-      <li class="t-processFlowIx">repeat</li> 
+          <ul class="t-list asCompact">
+            {#each topics as topic}
+              <li>{topic}</li>
+            {/each}
+          </ul>
+        </li>
+      {/each}
     </ul>
-    <p>An interactive way of learning together.</p>
-  </div>
 
 
-  <h3 class="t-title asH3">
-    Who is this workshop for?
-  </h3>
-  <p class="t-p">
-    Web developers are the main audience, but if you are a designer,
-    or a QA expert, then this workshop will be valuable for you as well. 
-  </p>
-  <p class="t-p">
-    The topics will be explained with beginners in mind, and they will get more advanced as we go through them.
-  </p>
-  <p class="t-p">
-    Even if you already have some experience in A11Y, you can look at this
-    workshop as a way to solidify your knowledge and fill any existing gaps.
-  </p>
-
-  <h3 class="t-title asH3">
-    Pre-requisites
-  </h3>
-  <ul class="t-list">
-    <li>Comfortable with HTML and CSS. Basics of JavaScript is a bonus</li>
-    <li>A <strong>modern browser</strong> installed: Chrome or Firefox are recommended</li>
-    <li>
-      A <strong>good internet connection</strong> with
-      <a class="u-link" href="http://zoom.com/" rel="noreferrer">Zoom</a>
-      installed for the video call;
-    </li>
-    <li>
-      A webcam is optional. Although I highly appreacite seeing you while I’m speaking,
-      I want to be respectful of your boundaries.
-    </li>
-    <li>Be willing to learn something different!</li>
-  </ul>
+    <h4 class="t-title asH3">
+      By the end, you will:
+    </h4>
+    <ul class="t-list asCheck">
+      <li>Realize how web accessibility benefits everyone</li>
+      <li>Understand WCAG principles and how they're organized</li>
+      <li>Know how to use accessibility audit tools</li>
+      <li>Quickly identify common accessibility issues</li>
+      <li>Integrate accessibility into your team workflow right away</li>
+      <li>
+        Realize that building inclusive websites isn’t as hard as it sounds
+        <span aria-hidden="true">;)</span>
+      </li>
+    </ul>
 
 
-  <!-- <article class="t-card t-cta">
-    <h2 class="t-ctaTitle">Join the online workshop!</h2>
-    <p class="t-ctaPitch">Get 9 hours, over 4 days, to refine your A11Y knowledge.</p>
+    <h3 class="t-title asH3">
+      Workshop dynamics
+    </h3>
+    <p class="t-p">
+      The workshop is divided into multiple exercises. In each one, I’ll introduce you to a new topic in a simplified way, along with <strong>practical resources</strong>. 
+    </p>
+    <p class="t-p">
+      Then, there will be a <strong>hands-on exercise</strong> for you to apply the concepts learned. You can solve it by yourself or by collaborating with a group of 2-3 people.
+    </p>
+    <p class="t-p">
+      Afterwards, we go through the <strong>solution</strong> together, and I’ll <strong>clarify the questions</strong> that you might have.
+    </p>
 
-    <dl class="t-ctaPoints">
-      <dt>
-        <svg aria-hidden="true" class="u-svg" style="display: none;">
-          <use xlink:href="#calendar" />
-        </svg>
-        <span class="sr-only">When:</span>
-      </dt>
-      <dd>To be defined (April?)</dd>
+    <div class="t-card t-process">
+      <ul class="t-processFlow">
+        <li class="t-processFlowIx">problem</li> 
+        <li class="t-processFlowIx">practice</li> 
+        <li class="t-processFlowIx">review</li> 
+        <li class="t-processFlowIx">clarify</li> 
+        <li class="t-processFlowIx">repeat</li> 
+      </ul>
+      <p>An interactive way of learning together.</p>
+    </div>
 
-      <dt>
-        <svg aria-hidden="true" class="u-svg" style="display: none;">
-          <use xlink:href="#clock" />
-        </svg>
-        <span class="sr-only">Hour:</span>
-      </dt>
-      <dd>{eventHour} <span class="tz">{eventTZ}</span></dd>
-    </dl>
 
-    <a href="" class="t-ctaBtn">Buy ticket for {price}</a>
-    <span class="t-ctaNote">Price is Early Bird</span>
+    <h3 class="t-title asH3">
+      Who is this workshop for?
+    </h3>
+    <p class="t-p">
+      Web developers are the main audience, but if you are a designer,
+      or a QA expert, then this workshop will be valuable for you as well. 
+    </p>
+    <p class="t-p">
+      The topics will be explained with beginners in mind, and they will get more advanced as we go through them.
+    </p>
+    <p class="t-p">
+      Even if you already have some experience in accessibility, you can look at this
+      workshop as a way to solidify your knowledge and fill any existing gaps.
+    </p>
 
-  </article> -->
-  <WorkshopForm formEndpoint={endpointA11Y}>
-    <p class="t-ctaPitch">Get 9 hours, over 4 days, to refine your A11Y knowledge.</p>
+    <h3 class="t-title asH3">
+      Pre-requisites
+    </h3>
+    <ul class="t-list">
+      <li>Comfortable with HTML and CSS. JavaScript is a bonus.</li>
+      <li>The browser Chrome or Firefox installed.</li>
+      <li>
+        A good internet with
+        <a class="u-link" href="http://zoom.com/" rel="noreferrer">Zoom</a>
+        installed for the video call;
+      </li>
+      <li>
+        A webcam is optional. Although I highly appreacite seeing you while I’m speaking,
+        I want to be respectful of your boundaries.
+      </li>
+      <li>Be willing to learn something different!</li>
+    </ul>
 
-    <dl class="t-ctaPoints">
-      <dt class="time-todo">
-        <svg aria-hidden="true" class="u-svg" style="display: none;">
-          <use xlink:href="#calendar" />
-        </svg>
-        <span class="sr-only">When:</span>
-      </dt>
-      <dd>Soon</dd>
 
-      <dt>
-        <svg aria-hidden="true" class="u-svg" style="display: none;">
-          <use xlink:href="#clock" />
-        </svg>
-        <span class="sr-only">Hour:</span>
-      </dt>
-      <dd>{eventHour} <span class="tz">{eventTZ}</span></dd>
-    </dl>
-  </WorkshopForm>
+    <!-- <article class="t-card t-cta">
+      <h2 class="t-ctaTitle">Join the online workshop!</h2>
+      <p class="t-ctaPitch">Get 9 hours, over 4 days, to refine your A11Y knowledge.</p>
 
-  <div class="t-blockwide">
-    <SectionSkew isOnStage sectionName="a11yAbout" klass="k-about">
-      <span slot="title_top">
-        By the way
-      </span>
-      <span slot="title_bottom">
-        I'm Sandrina
-      </span>
-      
-      <p class="t-p">
-        I’m a UX Frontend Engineer who helps turn ideas <span class="u-nowrap">into accessible experiences.</span>
-      </p>
-      
-      <!-- TODO diff HIGHLIGHT color  -->
-      <p class="t-p">
-        My focus areas is around Design Systems and Accessibility within the React ecosystem.
-        As a self-taught developer, I recognize the struggle of learning something by ourselves.
-      </p>
-      <p class="t-p">
-        Through the years, I've been sharing my knowledge by
-        <a class="u-link" rel="noreferrer" target="_blank" href='/writing' on:click={() => trackClick('articles')}>writing articles</a> 
-        and
-        <a class="u-link" rel="noreferrer" target="_blank" href={MENTOR_URL} on:click={() => trackClick('mentor')}>mentoring online</a>, 
-        <!--
-      </p>
-      <p class="t-p"> -->
-        which allowed me to refine my approach to teaching
-        new topics in ways that are simple yet effective.
-      </p>
-      <p class="t-p">
-      <!-- </p>
-      <p class="t-p"> -->
-        Besides my full-time job at Remote as Lead Frontend Enginer, I'm focused in raising awareness of why Web Accessibility
-        is part of our duties as web creators.
-      </p>
-      <p class="t-p">
-        Join me and let me show you that A11Y doesn't have to limit your solutions or skills.
-        On the contrary, it will make them more inclusive!
-      </p>
+      <dl class="t-ctaPoints">
+        <dt>
+          <svg aria-hidden="true" class="u-svg" style="display: none;">
+            <use xlink:href="#calendar" />
+          </svg>
+          <span class="sr-only">When:</span>
+        </dt>
+        <dd>To be defined (April?)</dd>
 
-      <article class="t-feedback">    
-        <h3 class="sr-only">Public feedback</h3>
-        <div class="t-tweets">
-          <div>
-            <!-- Nuno -->
-            <div class="t-tweetsArea">
-              <blockquote class="twitter-tweet" data-dnt="true" data-theme="dark"><p dir="ltr">Mind blowing accessibility workshop with <a class="u-link" rel="noreferrer" href="https://twitter.com/a_sandrina_p?ref_src=twsrc%5Etfw">@a_sandrina_p</a>!</p>— Nuno Pereira (@nunocpnpereira) <a class="u-link" rel="noreferrer" href="https://twitter.com/nunocpnpereira/status/1364178604935049216?ref_src=twsrc%5Etfw">February 23, 2021</a></blockquote>
+        <dt>
+          <svg aria-hidden="true" class="u-svg" style="display: none;">
+            <use xlink:href="#clock" />
+          </svg>
+          <span class="sr-only">Hour:</span>
+        </dt>
+        <dd>{eventHour} <span class="tz">{eventTZ}</span></dd>
+      </dl>
+
+      <a href="" class="t-ctaBtn">Buy ticket for {price}</a>
+      <span class="t-ctaNote">Price is Early Bird</span>
+
+    </article> -->
+    <WorkshopForm formEndpoint={endpointA11Y}>
+      <p class="t-ctaPitch">Get 9 hours, over 4 days, to refine your A11Y knowledge.</p>
+
+      <dl class="t-ctaPoints">
+        <dt class="time-todo">
+          <svg aria-hidden="true" class="u-svg" style="display: none;">
+            <use xlink:href="#calendar" />
+          </svg>
+          <span class="sr-only">When:</span>
+        </dt>
+        <dd>Soon</dd>
+
+        <dt>
+          <svg aria-hidden="true" class="u-svg" style="display: none;">
+            <use xlink:href="#clock" />
+          </svg>
+          <span class="sr-only">Hour:</span>
+        </dt>
+        <dd>{eventHour} <span class="tz">{eventTZ}</span></dd>
+      </dl>
+    </WorkshopForm>
+
+    <div class="t-blockwide">
+      <SectionSkew isOnStage sectionName="a11yAbout" klass="k-about" motionReduced={true}>
+        <span slot="title_top">
+          By the way,
+        </span>
+        <span slot="title_bottom">
+          I'm Sandrina
+        </span>
+        
+        <p class="t-p">
+          I’m a UX Frontend Engineer who helps turn ideas <span class="u-nowrap">into accessible experiences.</span>
+        </p>
+        
+        <!-- TODO diff HIGHLIGHT color -->
+        <p class="t-p">
+          My focus areas are around Design Systems and Accessibility within the React ecosystem.
+          As a self-taught developer, I recognize the struggle of learning something by ourselves.
+        </p>
+        <p class="t-p">
+          Through the years, I've been sharing my knowledge by
+          <a class="u-link" rel="noreferrer" target="_blank" href='/writing' on:click={() => trackClick('articles')}>writing articles</a> 
+          and
+          <a class="u-link" rel="noreferrer" target="_blank" href={MENTOR_URL} on:click={() => trackClick('mentor')}>mentoring online</a>, 
+          <!--
+        </p>
+        <p class="t-p"> -->
+          which allowed me to refine my approach to teaching
+          new topics in ways that are simple yet effective.
+        </p>
+        <p class="t-p">
+        <!-- </p>
+        <p class="t-p"> -->
+          Besides my full-time job at Remote as Lead Frontend Enginer, I'm raising awareness of why Web Accessibility
+          is part of our duties as web creators.
+        </p>
+        <p class="t-p">
+          Join me and let me show you that A11Y doesn't have to limit your solutions or skills.
+          On the contrary, it will make them more inclusive!
+        </p>
+
+        <section role="region" class="t-feedback" aria-labelledby="testimonials">    
+          <h2 class="sr-only" id="testimonials">Testemonials</h2>
+          <h3 class="sr-only">Public feedback</h3>
+          <div class="t-tweets u-carousel">
+            <div class="u-carousel-item">
+              <!-- Andrew -->
+              <div class="t-tweetsArea">
+                <blockquote class="twitter-tweet" data-dnt="true" data-theme="dark"><p dir="ltr">Just finished up <a class="u-link" rel="noreferrer" href="https://twitter.com/a_sandrina_p?ref_src=twsrc%5Etfw">@a_sandrina_p</a>'s Web A11y Fundamentals workshop. Really pleasant and structured well! Helped to learn new tools and concepts considering a11y is a big gap in my knowledge as a web dev. <br><br>Definitely reach out to her for conferences, talks, workshops, etc!</p>&mdash; Andrew Chou (@_andrewchou) <a class="u-link" rel="noreferrer" href="https://twitter.com/_andrewchou/status/1253009155968962567?ref_src=twsrc%5Etfw">April 22, 2020</a></blockquote>
+              </div>
             </div>
-            <!-- Pearl -->
-            <div class="t-tweetsArea t-hide">
-              <blockquote class="twitter-tweet" data-dnt="true" data-theme="dark"><p dir="ltr">I'm learning a ton in <a class="u-link" rel="noreferrer" href="https://twitter.com/a_sandrina_p?ref_src=twsrc%5Etfw">@a_sandrina_p</a>'s accessibility workshop! <a class="u-link" rel="noreferrer" href="https://twitter.com/hashtag/a11y?src=hash&amp;ref_src=twsrc%5Etfw">#a11y</a></p>&mdash; Pearl Latteier (@pblatteier) <a class="u-link" rel="noreferrer" href="https://twitter.com/pblatteier/status/1252974017499275264?ref_src=twsrc%5Etfw">April 22, 2020</a></blockquote>
+            <div class="u-carousel-item">
+              <!-- Sid -->
+              <div class="t-tweetsArea">
+                <blockquote class="twitter-tweet" data-dnt="true" data-theme="dark"><p dir="ltr">Something I learned from <a class="u-link" rel="noreferrer" href="https://twitter.com/a_sandrina_p?ref_src=twsrc%5Etfw">@a_sandrina_p</a>'s workshop last week<br><br>Never skip alt text for images. If the image is purely decorative, pass an empty string instead of skipping the tag altogether</p> &mdash; sid 🖤 (@siddharthkp) <a class="u-link" rel="noreferrer" href="https://twitter.com/siddharthkp/status/1256910965465141248?ref_src=twsrc%5Etfw">May 3, 2020</a></blockquote>
+              </div>
+            </div>
+            <div class="u-carousel-item">
+              <!-- Nuno -->
+              <div class="t-tweetsArea">
+                <blockquote class="twitter-tweet" data-dnt="true" data-theme="dark"><p dir="ltr">Mind blowing accessibility workshop with <a class="u-link" rel="noreferrer" href="https://twitter.com/a_sandrina_p?ref_src=twsrc%5Etfw">@a_sandrina_p</a>!</p>— Nuno Pereira (@nunocpnpereira) <a class="u-link" rel="noreferrer" href="https://twitter.com/nunocpnpereira/status/1364178604935049216?ref_src=twsrc%5Etfw">February 23, 2021</a></blockquote>
+              </div>
+              <!-- Pearl -->
+              <div class="t-tweetsArea t-hide">
+                <blockquote class="twitter-tweet" data-dnt="true" data-theme="dark"><p dir="ltr">I'm learning a ton in <a class="u-link" rel="noreferrer" href="https://twitter.com/a_sandrina_p?ref_src=twsrc%5Etfw">@a_sandrina_p</a>'s accessibility workshop! <a class="u-link" rel="noreferrer" href="https://twitter.com/hashtag/a11y?src=hash&amp;ref_src=twsrc%5Etfw">#a11y</a></p>&mdash; Pearl Latteier (@pblatteier) <a class="u-link" rel="noreferrer" href="https://twitter.com/pblatteier/status/1252974017499275264?ref_src=twsrc%5Etfw">April 22, 2020</a></blockquote>
+              </div>
             </div>
           </div>
-          <div>
-            <!-- Sid -->
-            <div class="t-tweetsArea">
-              <blockquote class="twitter-tweet" data-dnt="true" data-theme="dark"><p dir="ltr">Something I learned from <a class="u-link" rel="noreferrer" href="https://twitter.com/a_sandrina_p?ref_src=twsrc%5Etfw">@a_sandrina_p</a>'s workshop last week<br><br>Never skip alt text for images. If the image is purely decorative, pass an empty string instead of skipping the tag altogether</p> &mdash; sid 🖤 (@siddharthkp) <a class="u-link" rel="noreferrer" href="https://twitter.com/siddharthkp/status/1256910965465141248?ref_src=twsrc%5Etfw">May 3, 2020</a></blockquote>
-            </div>
+
+          <h3 class="sr-only">Anonymous feedback</h3>
+          <div class="t-quotes u-carousel">
+            <blockquote class="t-quotes-item u-carousel-item">
+              Really liked the format of the training, with briefings and exercises for each, making it not boring at all.
+              [...]
+              The quiz, in the end, was a nice and fun way to wrap up! Overall, really enjoying it, thanks!
+            </blockquote>
+            <blockquote class="t-quotes-item u-carousel-item">
+              Congrats, the workshop was great<!-- on this first day-->, the introduction was one of the most brilliant
+              introductions to A11Y from a FE perspective, and the pace was balanced.
+            </blockquote>
+            <blockquote class="t-quotes-item u-carousel-item">
+              The content and the pace were good, also your knowledge on this topic is really remarkable, it was really an enjoyable moment.
+            </blockquote>
+            <blockquote class="t-quotes-item u-carousel-item">
+              Thanks so much for the training I really enjoy it, had a great time and learned a lot. I'm really excited to practice all the things had learned.
+            </blockquote>
           </div>
+
+          <!-- TODO, still WIP -->
+          <!-- <h4 class="sr-only">Constructive feedback</h4>
           <div>
-            <!-- Andrew -->
-            <div class="t-tweetsArea">
-              <blockquote class="twitter-tweet" data-dnt="true" data-theme="dark"><p dir="ltr">Just finished up <a class="u-link" rel="noreferrer" href="https://twitter.com/a_sandrina_p?ref_src=twsrc%5Etfw">@a_sandrina_p</a>'s Web A11y Fundamentals workshop. Really pleasant and structured well! Helped to learn new tools and concepts considering a11y is a big gap in my knowledge as a web dev. <br><br>Definitely reach out to her for conferences, talks, workshops, etc!</p>&mdash; Andrew Chou (@_andrewchou) <a class="u-link" rel="noreferrer" href="https://twitter.com/_andrewchou/status/1253009155968962567?ref_src=twsrc%5Etfw">April 22, 2020</a></blockquote>
-            </div>
-          </div>
-          <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-        </div>
+            <p>
+            Transparency and excellence is one of my core values,
+            So here's some of the worst constructive feedback that allowed me to refine
+            even more my workshops through the time:</p>
 
-        <h3 class="sr-only">Anonymous feedback</h3>
-        <h4 class="sr-only">Best feedback</h4>
-        <div class="t-quotes">
-          <quote>
-            Really liked the format of the training, with briefings and exercises for each, making it not boring at all.
-            [...]
-            The quiz, in the end, was a nice and fun way to wrap up! Overall, really enjoying it, thanks!</quote>
-          <quote>
-            Congrats, the workshop was great<!-- on this first day-->, the introduction was one of the most brilliant
-            introductions to A11Y from a FE perspective, and the pace was balanced.
-          </quote>
-          <quote>
-            The content and the pace were good, also your knowledge on this topic is really remarkable, it was really an enjoyable moment.
-          </quote>
-          <quote>
-            Thanks so much for the training I really enjoy it, had a great time and learned a lot. I'm really excited to practice all the things had learned.
-          </quote>
-        </div>
+            <quote>
+              I think the exercises could have been solved at a slower pace by having everyone participate in finding the solution instead of just presenting the solution.
+            </quote>
+            <quote>
+              Overall I loved the format and delivery, only thing I can think of were a few bugs here and there which is totally normal considering the scope.
+            </quote>
+            <quote>
+              Maybe add a little more energy and create a feeling of community amongst the people in the workshop? As it's remote and people are scattered all over, it's easy to feel disconnected to others learning 🤔
+            </quote>  
+          </div> -->
+        </section>  
+      </SectionSkew>
+    </div>
 
-        <!-- TODO, still WIP -->
-        <!-- <h4 class="sr-only">Constructive feedback</h4>
-        <div>
-          <p>
-          Transparency and excellence is one of my core values,
-          So here's some of the worst constructive feedback that allowed me to refine
-          even more my workshops through the time:</p>
+    <section role="region" aria-labelledby="faq" class="faqArea">
+      <h2 class="t-title asH2 asCenter" id="faq">
+        F.A.Q.
+      </h2>
+      <ul class="faqList">
+        <li>
+          <Accordion summary="What does A11Y mean?">
+            A11Y stands for 'accessibility'.
+            The irony about the word "accessibility" itself is that it's not very easy to pronounce.
+            The abbreviation stands for A + 11 characters + Y, which is a more user-friendly homophone of "ally".
+          </Accordion>
+        </li>
 
-          <quote>
-            I think the exercises could have been solved at a slower pace by having everyone participate in finding the solution instead of just presenting the solution.
-          </quote>
-          <quote>
-            Overall I loved the format and delivery, only thing I can think of were a few bugs here and there which is totally normal considering the scope.
-          </quote>
-          <quote>
-            Maybe add a little more energy and create a feeling of community amongst the people in the workshop? As it's remote and people are scattered all over, it's easy to feel disconnected to others learning 🤔
-          </quote>  
-        </div> -->
-      </article>  
-    </SectionSkew>
-  </div>
-
-  <h2 class="t-title asH2">
-    F.A.Q.
-  </h2>
-
-  <div class="faqArea">
-    <ul class="faqList">
-    <li>
-        <Accordion summary="What does A11Y mean?">
-          A11Y stands for 'accessibility'.
-          The irony about the word "accessibility" itself is that it's not very easy to pronounce.
-          The abbreviation stands for A + 11 characters + Y, which is a more user-friendly homophone of "ally".
-        </Accordion>
-      </li>
-
-      <li>
-        <Accordion summary="Will the workshop be recorded?">
-          No, it won't be recorded, but you’ll have access to all the materials shared.
-        </Accordion>
-      </li>
+        <li>
+          <Accordion summary="Will the workshop be recorded?">
+            No, it won't be recorded, but you’ll have access to all the materials shared.
+          </Accordion>
+        </li>
 
 
-      <li>
-        <Accordion summary="What materials are provided?">
-         <ul class="t-list">
-          <li>
-            The materials' slides (+ 50 slides);
-          </li>
-          <li>
-            Codebase with all the mentioned resources;
-          </li>
-          <li>
-            Exercises, including explained solutions;
-          </li>
-         </ul>
-        </Accordion>
-      </li>
-
-      <li>
-        <Accordion summary="I know A11Y. Will I learn something new?">
-          Oh, yeah. Even me, every time I give this workshop I always learn something new. Unless you are an A11Y expert, I’m confident that you'll fill some gap.
-        </Accordion>
-      </li>
-
-      <li>
-        <Accordion summary="Is the workshop accessible?">
-          The video meeting can be captioned and the exercises briefings are fully accessible. If you have any accessibility concern, please reach out to me, and we can arrange it together.
-        </Accordion>
-      </li>
-
-      <li>
-        <Accordion summary="What screen reader will I use?">
-          You can use the one that suits you best. I own a Mac, which means I’ll be using Voice Over.
-          During an online workshop it's not practical to help everyone using a SR (screen reader).
-          Because of that, a few days before the workshop, I will send you guides for you to practice
-          with one of the following screen readers.
+        <li>
+          <Accordion summary="What materials are provided?">
           <ul class="t-list">
             <li>
-              Mac: You'll be using VoiceOver.
+              The materials' slides (+ 50 slides);
             </li>
             <li>
-              Windows: You'll need to install
-              <a class="u-link" href="https://www.nvaccess.org/" rel="noreferrer">NVDA</a>
-              </li>
-            <li>
-              Linux: You'll need to install
-              <a class="u-link" href="https://wiki.gnome.org/Projects/Orca" rel="noreferrer">Orca</a>
+              Codebase with all the mentioned resources;
             </li>
             <li>
-              SR keyboard shortcuts:
-              <a class="u-link" href="VO and NVDA" rel="noreferrer">VO and NVDA</a>,
-              and <a class="u-link" href="VO and NVDA" rel="noreferrer">Orca</a>.
+              Exercises, including explained solutions;
             </li>
           </ul>
-        </Accordion>
-      </li>
+          </Accordion>
+        </li>
 
-      <li>
-        <Accordion summary="Is there any discounts available?">
-          The workshop will have an Early Bird price for a week.
-          After that, there won’t be more discounts available.
-          Regardless, I understand that the cost of this workshop can be too high for some people,
-          and if you are a student you can reach out to me.
-        </Accordion>
-      </li>
+        <li>
+          <Accordion summary="I know A11Y. Will I learn something new?">
+            Oh, yeah. Even me, every time I give this workshop I always learn something new. Unless you are an A11Y expert, I’m confident that you'll fill some gap.
+          </Accordion>
+        </li>
 
-      <li>
-        <Accordion summary="Can I buy a ticket for my team?">
-          You can but keep in mind that 1 ticket is for 1 person/seat.
-          Besides these public events, I also provide customised workshops. You can contact me to discuss private sessions options.
-        </Accordion>
-      </li>
+        <li>
+          <Accordion summary="Is the workshop accessible?">
+            The video meeting can be captioned and the exercises briefings are fully accessible. If you have any accessibility concern, please reach out to me, and we can arrange it together.
+          </Accordion>
+        </li>
 
-      <li>
-        <Accordion summary="Can I ask you questions after the workshop?">
-          Of course! During the workshop, I'll invite to join a Discord community with other attendees to clarify any question.
-        </Accordion>
-      </li>
+        <li>
+          <Accordion summary="What screen reader will I use?">
+            You can use the one that suits you best. I own a Mac, which means I’ll be using Voice Over.
+            During an online workshop it's not practical to help everyone using a SR (screen reader).
+            Because of that, a few days before the workshop, I will send you guides for you to practice
+            with one of the following screen readers.
+            <ul class="t-list">
+              <li>
+                Mac: You'll be using VoiceOver.
+              </li>
+              <li>
+                Windows: You'll need to install
+                <a class="u-link" href="https://www.nvaccess.org/" rel="noreferrer">NVDA</a>
+                </li>
+              <li>
+                Linux: You'll need to install
+                <a class="u-link" href="https://wiki.gnome.org/Projects/Orca" rel="noreferrer">Orca</a>
+              </li>
+            </ul>
+          </Accordion>
+        </li>
 
-      <li>
-        <Accordion summary="Is there a Code of Conduct?">
-          We follow
-          <a class="u-link" rel="noreferrer" href="https://www.contributor-covenant.org/version/2/0/code_of_conduct/" on:click={() => trackClick('csstricks_journey')}>contributor-covenant</a>
-          code of conduct. A short summary: be kind and treat each other with respect and understanding. There’s zero tolerance for unkind behavior.
-        </Accordion>
-      </li>
-    </ul>
+        <li>
+          <Accordion summary="Is there any discounts available?">
+            The workshop will have an Early Bird price for a week.
+            After that, there won’t be more discounts available.
+            Regardless, I understand that the cost of this workshop can be too high for some people,
+            and if you are a student you can reach out to me.
+          </Accordion>
+        </li>
+
+        <li>
+          <Accordion summary="Can I buy a ticket for my team?">
+            You can, but keep in mind that 1 ticket is for 1 person/seat.
+            Besides these public events, I also provide customised workshops. You can contact me to discuss private sessions options.
+          </Accordion>
+        </li>
+
+        <li>
+          <Accordion summary="Can I ask you questions after the workshop?">
+            Of course! During the workshop, I'll invite to join a Discord community with other attendees to clarify any question.
+          </Accordion>
+        </li>
+
+        <li>
+          <Accordion summary="Is there a Code of Conduct?">
+            We follow
+            <a class="u-link" rel="noreferrer" href="https://www.contributor-covenant.org/version/2/0/code_of_conduct/" on:click={() => trackClick('csstricks_journey')}>contributor-covenant</a>
+            code of conduct. A short summary: be kind and treat each other with respect and understanding. There’s zero tolerance for unkind behavior.
+          </Accordion>
+        </li>
+      </ul>
+    </section>
   </div>
-  
-  <!-- TODO FAQ LIST -->
+  <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 </main>
 
 <footer class="footer">
@@ -1153,5 +1174,6 @@
   </p>
   <Contacts essentialOnly />
 </footer>
+
 
 <SvgSprite />

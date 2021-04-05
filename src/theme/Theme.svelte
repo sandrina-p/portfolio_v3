@@ -209,8 +209,53 @@
         z-index: -1;
 
         .jsMotionDefault & {
-          transition: transform 75ms ease-out;
+          transition: transform 175ms ease-out;
         }
+      }
+    }
+  }
+
+  .u-logo {
+    position: relative;
+    font-size: 2.1rem;
+    text-decoration: none;
+    font-weight: 500;
+    color: var(--text_0);
+
+    z-index: 0; /* so before gets behind but visible */
+
+    &:hover {
+      outline: none;
+    }
+  
+    .jsMotionDefault &:hover,
+    body.js-tabbing &:focus {
+        &::before {
+          transition-duration: 350ms ease-in-out;
+          transform: scale(1, 1);
+        }
+    }
+
+      body.js-tabbing &:focus {
+      outline: none !important;
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      bottom: 0.05em;
+      left: -0.1em;
+      width: calc(100% + 0.2em);
+      height: 1.2em;
+      background-color: var(--primary_1);
+      border-radius: 3px;
+      opacity: 0.5;
+      transform: scale(1, 0.2);
+      transform-origin: 0 90%;
+      z-index: -1;
+
+      .jsMotionDefault & {
+        transition: transform 175ms ease-out;
       }
     }
   }

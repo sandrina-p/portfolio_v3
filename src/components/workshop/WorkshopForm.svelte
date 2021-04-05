@@ -302,10 +302,6 @@
       outline: none;
       filter: saturate(2);
     }
-
-    :global(.dark) & {
-      color: white;
-    }
   }
 
   .u-danger {
@@ -342,7 +338,7 @@
       <input
         type="text"
         class="field-input"
-        aria-required
+        aria-required="true"
         aria-invalid={!!errors.name}
         on:keyup={e => handleChange(e, 'name')}
         on:blur={e => handleBlur(e, 'name')}
@@ -358,7 +354,7 @@
         type="text"
         inputmode="email"
         class="field-input"
-        aria-required
+        aria-required="true"
         aria-invalid={!!errors.email}
         on:keyup={e => handleChange(e, 'email')}
         on:blur={e => handleBlur(e, 'email')}

@@ -22,7 +22,6 @@
     overflow: hidden;
     transition: height 250ms ease-out;
     font-size: $font-M;
-    cursor: pointer;
   }
 
   :global(.gAccordion) {    
@@ -39,7 +38,7 @@
     padding: $spacer-M;
     font-weight: 500;
     pointer: cursor;
-    /* list-style-type: none; */
+    cursor: pointer;
 
     &:hover {
       color: var(--primary_1);
