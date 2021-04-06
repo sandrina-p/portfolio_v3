@@ -134,6 +134,7 @@
     :global(.dark) & {
       --section-contentBg: var(--bg_1);
       --section-contentTxt: var(--text_0);
+      --section-title: var(--primary_1);
     }
 
     position: relative;

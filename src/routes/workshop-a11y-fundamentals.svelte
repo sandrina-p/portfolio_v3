@@ -19,7 +19,7 @@
       title: 'Accessibility overview',
       topics: [
         'Demystify accessibility myths',
-        'Ableism, and Disability types spectrum',
+        'Ableism, and the disability types spectrum',
         'WCAG principles, layers of guidance, and the law'
       ],
     },
@@ -42,7 +42,7 @@
     {
       title: 'Screen readers',
       topics: [
-        'ARIA: What is it and when to use',
+        'ARIA: How and when to use',
         'Landmarks and language',
         'Meaningful forms',
         'Interactive UI patterns',
@@ -331,7 +331,7 @@
       display: flex;
       flex-wrap: wrap;
       min-height: 440px; /* desktop */
-      margin: 50px 0;
+      margin: 100px 0 50px;
 
       > * {
         flex-basis: 33%;
@@ -373,13 +373,13 @@
     &-item {
       display: block;
       padding: 0 24px 0 16px;
-      border-left: 1px solid var(--primary_1);
       font-size: $font-M;
       font-style: italic;
+      border-left: 2px solid var(--primary_1);
     }
 
     @media (--lg) {
-      margin: 80px 0;
+      margin: 50px 0 100px;
       display: flex;
       flex-wrap: wrap;
       align-items: flex-start;
@@ -618,14 +618,17 @@
   }
 
   .footer {
-    text-align: center;
-    padding: $spacer-L 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: $spacer-L calc((100vw - $widthRead) / 2);
     background: var(--bg_1);
     margin-top: $spacer-XL;
+  }
 
-    p {
-      margin-bottom: $spacer-S;
-    }
+  .t-credits {
+    font-size: $font-S;
+    color: var(--text_1);
   }
 
   em {
@@ -975,17 +978,19 @@
           Through the years, I've been sharing my knowledge by
           <a class="u-link" rel="noreferrer" target="_blank" href='/writing' on:click={() => trackClick('articles')}>writing articles</a> 
           and
-          <a class="u-link" rel="noreferrer" target="_blank" href={MENTOR_URL} on:click={() => trackClick('mentor')}>mentoring online</a>, 
+          <a class="u-link" rel="noreferrer" href={MENTOR_URL} on:click={() => trackClick('mentor')}>mentoring online</a>. 
           <!--
         </p>
         <p class="t-p"> -->
-          which allowed me to refine my approach to teaching
+          These allowed me to refine my approach to teaching
           new topics in ways that are simple yet effective.
         </p>
         <p class="t-p">
         <!-- </p>
         <p class="t-p"> -->
-          Besides my full-time job at Remote as Lead Frontend Enginer, I'm raising awareness of why Web Accessibility
+          Besides my full-time job at
+          <a class="u-link" rel="noreferrer" href='https://remote.com' on:click={() => trackClick('remote.com')}>Remote</a> 
+          as Lead Frontend Enginer, I'm focused on raising awareness of why Web Accessibility
           is part of our duties as web creators.
         </p>
         <p class="t-p">
@@ -1168,11 +1173,11 @@
 </main>
 
 <footer class="footer">
-  <p>
-    Made without coffee by
-    <a class="u-link" href={SITE_URL} rel="noreferrer">Sandrina Pereira</a>.
-  </p>
-  <Contacts essentialOnly />
+  <div>
+    <p>Made without coffee by <a class="u-link" href={ SITE_URL } rel="noreferrer">Sandrina Pereira</a>.</p>
+    <p class="t-credits">© 2021 Sandrina Pereira. All Rights Reserved.</p>
+  </div>
+  <Contacts isWorkshop essentialOnly />
 </footer>
 
 
