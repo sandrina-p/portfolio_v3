@@ -142,7 +142,7 @@
   $textWidthEm: 31.25em;
   $headerHeight: 25rem; /* space for text even when rotated */
   $maskWidth: 120vw;
-  $paddingTop: 25vh;
+  $paddingTop: 15vh;
 
   .wrapperJn {
     position: relative;
@@ -168,8 +168,9 @@
       height: $paddingTop;
       width: 100%;
       background-color: var(--bg_invert);
-      opacity: 0;
+      
       /* Same speed as Skills. TODO reuse var or something */
+      opacity: 0;
       transition: opacity 250ms cubic-bezier(0.19, 1, 0.22, 1);
 
       .uAppear & {
@@ -245,6 +246,15 @@
 
       :global(.dark) & {
         background-color: var(--bg_1);
+      }
+      
+      /* Same speed as Skills. TODO reuse var or something */
+      opacity: 0;
+      transition: opacity 250ms cubic-bezier(0.19, 1, 0.22, 1);
+
+      .uAppear & {
+        transition: opacity 1000ms cubic-bezier(0.19, 1, 0.22, 1);
+        opacity: 1;
       }
     }
   }
@@ -355,8 +365,8 @@
     
     <p class="p">
       Solving problems is cool, but I enjoy even more to simplify existing solutions.
-      I've been <a class="u-link" rel="noreferrer" href={MENTOR_URL} target="_blank" on:click={() => trackClick('smashing')}>mentoring online</a> developers across the globe,
-      which allowed me to refine my approach to teaching new topics is a clear and effective way.  
+      I've been <a class="u-link" rel="noreferrer" href={MENTOR_URL} target="_blank" on:click={() => trackClick('smashing')}>mentoring online</a> developers across the globe.
+      These allowed me to refine my approach to teaching new topics in ways that simple yet effective.  
     </p>
     
     <p class="p">
