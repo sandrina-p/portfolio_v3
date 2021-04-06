@@ -83,12 +83,11 @@
   .cta .u-link {
     display: inline-block;
     padding: $spacer-S $spacer-M;
-    background: var(--bg_1);
+    background: var(--primary_1);
     border-radius: 3px;
-    box-shadow: 0.2rem 0.2rem var(--primary_1_smooth);
     font-weight: 500;
     text-decoration: none;
-    color: var(--text_0);
+    color: var(--text_invert);
 
     &::before {
       transform: scale(0, 1);
@@ -186,11 +185,7 @@
     }
 
     .cta {
-      margin: $spacer-M 0;
-
-      @mixin motionReduced {
-        margin: $spacer-M 0;
-      }
+      margin: $spacer-M;
 
       .isOnStage & {
         @mixin motionDefault {
@@ -221,7 +216,7 @@
     <WordsList list={wordsPromoted} isOnStage={isOnStage} variant="promoted" />
 
     <div class="cta">
-      <a href="{SITE_URL}/writing" class="u-link" on:click={() => trackClick('articles_all')}>Check all articles</a>
+      <a href="{SITE_URL}/writing" class="u-link" on:click={() => trackClick('articles_all')}>View all articles</a>
     </div>
   </div>
 </section>
