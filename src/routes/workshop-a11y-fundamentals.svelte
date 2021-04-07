@@ -70,7 +70,7 @@
   $ziIntro: 3;
   $ziLine: 2;
   $width: 650px;
-  $widthRead: 550px;
+  $widthRead: 510px;
 
   .header {
     position: fixed;
@@ -217,6 +217,10 @@
     font-weight: 500;
   }
 
+  .t-i {
+    font-style: italic;
+  }
+
   /* .cta-sticky {
     position: sticky;
     top: 1.8rem;
@@ -270,15 +274,8 @@
     margin-bottom: $spacer-XL;
   }
 
-  @keyframes gelly {
-    0%, 100% { border-radius: 65% 68% 77% 50% / 59% 76% 58% 75%; } 
-    20% { border-radius: 40% 58% 46% 54% / 50% 60% 41% 50%; } 
-    40% { border-radius: 40% 60% 46% 54% / 50% 60% 41% 50%; } 
-    60% { border-radius: 56% 44% 76% 30% / 56% 44% 60% 49%; } 
-    80% { border-radius: 51% 52% 68% 36% / 56% 43% 60% 47%; } 
-  }
 
-  .t-read {
+  .t-blockread {
     width: $widthRead;
     max-width: 100%;
     margin: auto;
@@ -294,35 +291,15 @@
     --section-contentWidth: $width;
 
     :global(.text) {
+      width: calc($widthRead + $spacer-M * 2);
       padding: 0 $spacer-M;
     }
   }
-    .Avatar {
-      /* top: 0;
-      right: 0;
-      position: absolute; */
-      float: right;
-      shape-outside: circle(50%);
-      margin-top: -100px;
-      margin-left: 50px;
-      width: 200px;
-      height: 200px;
-      background: var(--bg_1);
-      border-radius: 50%;
-      will-change: border-radius;
-      /* animation:
-        gelly 30s alternate-reverse infinite,
-        live 20s alternate-reverse infinite; */
-      /* animation-play-state: paused; */
-      /* animation-delay: -5s; */
-      box-shadow: 5px 5px 30px var(--primary_1_pair);
-    }
   
-
   .t-feedback {
     @media (min-width: 820px) {
-      width: calc(100% + 200px);
-      transform: translateX(-100px);
+      width: calc(100% + 260px);
+      transform: translateX(-130px);
     }
   }
 
@@ -631,9 +608,6 @@
     color: var(--text_1);
   }
 
-  em {
-    font-style: italic;
-  }
   
 </style>
 
@@ -735,14 +709,14 @@
 
   <span class="t-separator"></span>
 
-  <div class="t-read">
+  <div class="t-blockread">
 
     <p class="t-p">
       As web creators, unfortunately, many of us are still leaving accessibility as an afterthought.
       Learning how to use modern UI Libraries sounds way more exciting.
     </p>  
     <p class="t-p">
-      <em>I understand you, but...</em>
+      <em class="t-i">I understand you, but...</em>
     </p>
 
     <h2 class="t-title asHook">
@@ -813,7 +787,7 @@
       Topics
     </h3>
     <p class="t-p">
-      The workshop is divided into modules that complement each other:
+      We'll go through the topics by modules that complement each other:
     </p>
     <ul class="t-topics">
       {#each modules as { title, topics }, index}
@@ -839,7 +813,7 @@
     <ul class="t-list asCheck">
       <li>Realize how web accessibility benefits everyone</li>
       <li>Understand WCAG principles and how they're organized</li>
-      <li>Know how to use accessibility audit tools</li>
+      <li>Know when to use accessibility audit tools</li>
       <li>Quickly identify common accessibility issues</li>
       <li>Integrate accessibility into your team workflow right away</li>
       <li>
@@ -882,7 +856,7 @@
       or a QA expert, then this workshop will be valuable for you as well. 
     </p>
     <p class="t-p">
-      The topics will be explained with beginners in mind, and they will get more advanced as we go through them.
+      The topics will be explained with beginners in mind, and it gets more advanced as we go through it.
     </p>
     <p class="t-p">
       Even if you already have some experience in accessibility, you can look at this
@@ -901,7 +875,7 @@
         installed for the video call;
       </li>
       <li>
-        A webcam is optional. Although I highly appreacite seeing you while I’m speaking,
+        A webcam is optional. Although I highly appreciate seeing you while I’m speaking,
         I want to be respectful of your boundaries.
       </li>
       <li>Be willing to learn something different!</li>
@@ -966,10 +940,9 @@
         </span>
         
         <p class="t-p">
-          I’m a UX Frontend Engineer who helps turn ideas <span class="u-nowrap">into accessible experiences.</span>
+          I’m a UX Frontend Engineer who helps turn ideas into<span class="u-nowrap">accessible experiences.</span>
         </p>
         
-        <!-- TODO diff HIGHLIGHT color -->
         <p class="t-p">
           My focus areas are around Design Systems and Accessibility within the React ecosystem.
           As a self-taught developer, I recognize the struggle of learning something by ourselves.
@@ -1141,8 +1114,8 @@
           <Accordion summary="Is there any discounts available?">
             The workshop will have an Early Bird price for a week.
             After that, there won’t be more discounts available.
-            Regardless, I understand that the cost of this workshop can be too high for some people,
-            and if you are a student you can reach out to me.
+            Regardless, I understand that the cost of this workshop can be too high for some people.
+            If you are a student you can reach out to me.
           </Accordion>
         </li>
 

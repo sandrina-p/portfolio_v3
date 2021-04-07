@@ -42,49 +42,62 @@
     width: 4.4rem;
     height: 4.4rem;
     padding: 0;
-    color: var(--text_1);
+    fill: var(--text_1);
     cursor: pointer;
+    opacity: 0;
+    animation: fadeInWithPause 500ms 1s forwards ease-out;
 
     &:hover {
-      color: var(--primary_1);
+      fill: var(--primary_1);
     }
 
     &:focus {
       outline: none;
     }
 
+
+    /* transition sun -> moon */
     &[aria-pressed="true"] {
       .sunCenter {
+        transition: transform 200ms ease-out, fill 200ms ease-out;
         transform: scale(2.5);
       }
       .sunMoon {
+        transition: transform 200ms ease-out 150ms, fill 200ms ease-out;
         transform: scale(0.8);
+      }
+
+      &Ray {
+        transition: height 150ms ease-out;
+        opacity: 0.5;
       }
     }
   }
 
+  /* transition moon -> sun */
   .sun {
     width: 80%;
     height: 80%;
 
     &Ray,
     &Center {
-      fill: currentColor;
+      fill: inherit;
       transition: transform 200ms ease-out, color 200ms ease-out;
     }
 
-    &Center,
-    &Moon {
+    &Center {
       transition: transform 200ms ease-out, fill 200ms ease-out;
       transform-origin: 50%;
     }
 
     &Moon {
+      transition: transform 200ms ease-out, fill 200ms ease-out;
       transform: scale(0);
+      transform-origin: 60% 40%;
     }
 
     &Ray {
-      transition: height 150ms ease-out;
+      transition: height 150ms ease-out 150ms;
       opacity: 0.5;
     }
   }
