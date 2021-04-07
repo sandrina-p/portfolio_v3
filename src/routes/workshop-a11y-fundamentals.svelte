@@ -289,10 +289,19 @@
 
   :global(.k-about.k-about.k-about) {
     --section-contentWidth: $width;
+    --aboutClr: var(--primary_1_inverted);
+    
+    :global(.dark) & {
+      --aboutClr: var(--primary_1);
+    }
 
     :global(.text) {
       width: calc($widthRead + $spacer-M * 2);
       padding: 0 $spacer-M;
+      
+      .u-link {
+        --linkClr: var(--aboutClr);
+      }
     }
   }
   
@@ -352,7 +361,7 @@
       padding: 0 24px 0 16px;
       font-size: $font-M;
       font-style: italic;
-      border-left: 2px solid var(--primary_1);
+      border-left: 2px solid var(--aboutClr);
     }
 
     @media (--lg) {
@@ -625,7 +634,7 @@
         '@context': 'http://schema.org',
         '@type': 'WebSite',
         url: 'https://sandrina-p.net/workshop-a11y-fundamentals',
-        name: 'Web Accessibility Fundamentals - Workshop',
+        name: 'Web Accessibility Fundamentals Workshop | Sandrina Pereira',
         alternateName: 'A11Y Fundamentals',
       },
       {
@@ -637,7 +646,7 @@
             position: 1,
             item: {
               '@id': 'https://sandrina-p.net/workshop-a11y-fundamentals',
-              name: 'Web Accessibility Fundamentals - Workshop',
+              name: 'Web Accessibility Fundamentals Workshop | Sandrina Pereira',
               image: 'https://sandrina-p.net/cover_a11y_tba.png',
             },
           },
@@ -650,7 +659,7 @@
           '@type': 'WebPage',
           '@id': 'https://sandrina-p.net/workshop-a11y-fundamentals',
         },
-        headline: 'Web Accessibility Fundamentals - Workshop',
+        headline: 'Web Accessibility Fundamentals Workshop | Sandrina Pereira',
         image: {
           '@type': 'ImageObject',
           url: 'https://sandrina-p.net/cover_a11y_tba.png',
@@ -724,7 +733,7 @@
     </h2>
     <p class="t-p">
       It's our moral duty (and legal requirement in many countries) to ensure
-      that anyone who visits a website, can enjoy it as much as possible. 
+      that anyone who visits a website, can enjoy it as much <span class="u-nowrap">as possible.</span> 
     </p>
       
     <p class="t-p">
@@ -753,9 +762,6 @@
       These scenarios will bring you awareness of the existing barriers out there, and you'll realize
       why (the lack of) accessibility can really make the difference in someone's life... including you and me!
     </p>
-    <!-- <p class="t-p">
-      It's your moral duty (and legal requirement) to ensure that anyone who visits your website, can enjoy it as much as possible. 
-    </p> -->
     <p class="t-p">
       Let me show you why accessibility is worthy of being part of your skillset foundations
     <!-- </p>
@@ -763,10 +769,10 @@
       and how it doesn't limit your solutions or design skills.
     <!-- </p>
     <p class="t-p"> -->
-      On the contrary, it will make them more inclusive!
+      On the contrary, it will make them <span class="u-nowrap">more inclusive!</span>
     </p>
 
-    <p>Ready to make the web a more inclusive place?</p>
+    <p>Ready to make the web a better place?</p>
 
     <h2 class="t-title asH2">
         The workshop
@@ -817,8 +823,8 @@
       <li>Quickly identify common accessibility issues</li>
       <li>Integrate accessibility into your team workflow right away</li>
       <li>
-        Realize that building inclusive websites isn’t as hard as it sounds
-        <span aria-hidden="true">;)</span>
+        Realize that creating websites isn’t as hard as <span class="u-nowrap">it sounds
+        <span aria-hidden="true">;)</span></span>
       </li>
     </ul>
 
@@ -876,7 +882,7 @@
       </li>
       <li>
         A webcam is optional. Although I highly appreciate seeing you while I’m speaking,
-        I want to be respectful of your boundaries.
+        I want to be respectful of <span class="u-nowrap">your boundaries.</span>
       </li>
       <li>Be willing to learn something different!</li>
     </ul>
@@ -968,7 +974,7 @@
         </p>
         <p class="t-p">
           Join me and let me show you that A11Y doesn't have to limit your solutions or skills.
-          On the contrary, it will make them more inclusive!
+          On the contrary, it will make <span class="u-nowrap">them more inclusive!</span>
         </p>
 
         <section role="region" class="t-feedback" aria-labelledby="testimonials">    
