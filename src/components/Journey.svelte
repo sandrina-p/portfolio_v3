@@ -340,12 +340,12 @@
       <axx class="u-link" rel="noreferrer" target="_blank" href="https://github.com/okTurtles/group-income-simple">Group Income</a>. -->
       Back in office times, I was a Senior Frontend Developer at
       <a class="u-link" rel="noreferrer" target="_blank" href="https://www.farfetch.com">Farfetch</a>
-      for a few years. There, I guided multiple teams to level up their knowledge within the React ecosystem, around accessibility, performance and, JS testing.
+      for a few years. There, I guided multiple teams to level up their knowledge within the React ecosystem, around accessibility, performance, and JS testing.
     </p>
 
     <p class="p">
       Although I've been a developer my entire career, I proudly hold a degree in Communication Design and post-grad in Digital Experience Design.
-      During the process I found my way a self-taught frontend developer.
+      During this path I found my way a self-taught frontend developer.
     </p>
     <p class="p">
       Giving back to the community has been a joy. I started by pushing pixels around on 
@@ -365,8 +365,8 @@
     
     <p class="p">
       Solving problems is cool, but I enjoy even more to simplify existing solutions.
-      I've been <a class="u-link" rel="noreferrer" href={MENTOR_URL} target="_blank" on:click={() => trackClick('smashing')}>mentoring online</a> developers across the globe.
-      These allowed me to refine my approach to teaching new topics in ways that simple yet effective.  
+      I've been <a class="u-link" rel="noreferrer" href={MENTOR_URL} target="_blank" on:click={() => trackClick('smashing')}>mentoring online</a> developers across the globe, 
+      which allowed me to refine my approach to teaching new topics in ways that simple yet effective.  
     </p>
     
     <p class="p">
