@@ -3,6 +3,7 @@
   :root {
     --text_0: #343434;
     --text_1: #6f6f6f;
+    --text_s: #343434; /* for bold text in dark mode only */
     --text_invert: #e2e2e2; /* similar to bg but lighter */
     --bg_0: #f8f3ef;
     --bg_1: #fff;
@@ -11,7 +12,7 @@
     --bg_invert_transparent: #2e2a2f00; /* for safari... */
 
 
-    --primary_1: #8E38FF; /* #9b78de; */
+    --primary_1: #8E38FF;
     --primary_1_smooth: #e9e1f8;
     --primary_1_highlight: #caa2ff59;
     --primary_1_inverted: hsl(266deg 100% 75%);
@@ -257,6 +258,62 @@
 
       .jsMotionDefault & {
         transition: transform 175ms ease-out;
+      }
+    }
+  }
+
+  .u-btnMain {
+    --linkClr: var(--primary_1);
+    display: inline-block;
+    position: relative;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    padding: $spacer-S $spacer-MS;
+    background-color: var(--primary_1);
+    border-radius: 4px;
+    border-color: var(--primary_1);
+    font-size: $font-L;
+    font-weight: 500;
+    white-space: nowrap;
+    text-decoration: none;
+    color: #fff;
+    min-width: 140px;
+    .dark & {
+      color: var(--text_invert);
+    }
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0em;
+      left: 0em;
+      width: 100%;
+      height: 100%;
+      background-color: var(--text_invert);
+      border-radius: 4px;
+      opacity: 0.2;
+      transform: scale(1, 0);
+      transform-origin: 0 100%;
+
+      .jsMotionDefault & {
+        transition: transform 175ms ease-out;
+      }
+    }
+
+    &:hover,
+    &:focus {
+      &::after {
+        transform: scale(1, 1);
+      }
+    }
+
+    .jsMotionDefault &:hover,
+    &:focus-visible {
+      &::after {
+        outline: none !important;
+        transition-duration: 350ms ease-in-out;
+        transform: scale(1, 1);
       }
     }
   }

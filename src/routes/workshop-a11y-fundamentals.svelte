@@ -132,12 +132,11 @@
       font-size: $font-L2;
       text-align: center;
       line-height: 1.3;
-      /* color: var(--primary_1); */
       margin-top: $spacer-S;
     }
 
     &About {
-      margin-top: $spacer-L;
+      margin-top: $spacer-LM;
       text-align: center;
     }
 
@@ -145,6 +144,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      margin-top: $spacer-XS;
       color: var(--text_1);
 
       &Pic {
@@ -224,56 +224,18 @@
   }
 
   .cta-sticky {
-    position: sticky;
-    top: 1.8rem;
-    z-index: $ziIntro;
     display: block;
+    position: relative;
     width: min-content;
     margin: $spacer-L auto 0;
     text-align: center;
+    z-index: $ziIntro;
 
-    .u-link {
-      cursor: pointer;
-      display: inline-block;
-      border: none;
-      padding: $spacer-S $spacer-MS;
-      background-color: var(--primary_1);
-      border-radius: 4px;
-      border-color: var(--primary_1);
-      font-weight: 500;
-      font-size: $font-L;
-      text-decoration: none;
-      color: #fff;
-
-      :global(.dark) & {
-        color: var(--text_invert);
-      }
-      
-      &::before {
-        transform: scale(1, 0);
-        bottom: 0em;
-        left: 0em;
-        width: 100%;
-        height: 100%;
-        transform-origin: 0 100%;
-        background-color: var(--text_invert);
-      }
-  
-      /* transition: transform 150ms, box-shadow 150ms; */
-
-      &:hover {
-        /* transform: scale(1.1); */
-        /* box-shadow: 0 0 3px 3px var(--primary_1_highlight); */
-      }
-
-      &:hover,
-      &:focus {
-        &::before {
-          transform: scale(1, 1);
-        }
-      }
+    @media (min-width: 31em) {
+      position: sticky;
+      top: 1.8rem;
+      z-index: $ziHeader;
     }
-
   }
 
   .t-separator {
@@ -436,6 +398,7 @@
       li:before {
         content: '✓';
         margin-right: $spacer-S;
+        color: var(--primary_1);
       }
     }
   }
@@ -459,16 +422,15 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: $spacer-XL 0;
+    text-align: center;
+    margin: $spacer-XL 0 $spacer-S;
 
     &Title {
       font-size: $font-XL;
       font-weight: 500;
-      margin: $spacer-M 0 $spacer-S;
-
-      :global(.dark) & {
-        color: white;
-      }
+      line-height: 1.2;
+      margin: $spacer-M 0 $spacer-XS;
+      color: var(--text_s);
     }
 
     &Pitch {
@@ -478,33 +440,39 @@
     }
 
     &Points {
-      display: flex;
-      align-items: center;
-      justify-content: center;
       margin: $spacer-M 0 $spacer-L; 
+      text-align: left;
 
       .u-svg {
         width: 1.6rem;
         height: 1.6rem;
         fill: var(--primary_1);
+        margin-right: $spacer-S;
       }
 
-      dt {
-        display: flex;
-
-        &:nth-of-type(2) {
-          margin-left: $spacer-L;
+        dt {
+          float: left;
+          margin-top: 0.2em;
         }
-      }
+  
+        dd {
+          font-weight: 500;
+          color: var(--text_0);
+          white-space: nowrap;
+  
+          .tz {
+            color: var(--text_1);
+            font-size: 0.8em;
+          }
+        }
 
-      dd {
-        font-weight: 500;
-        margin-left: $spacer-S;
-        color: var(--text_0);
+      @media (min-width: 31em) {
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
-        .tz {
-          color: var(--text_1);
-          font-size: 0.8em;
+        dt:nth-of-type(2) {
+          margin-left: $spacer-L;
         }
       }
     }
@@ -515,35 +483,10 @@
       } */
     }
 
-    &Btn {
-      position: relative;
-      font-size: innert;
-      font-weight: 500;
-      padding: $spacer-S $spacer-L;
-      border: none;
-      text-decoration: none;
-      cursor: pointer;
-      background: var(--primary_1);
-      color: var(--bg_1);
-      border-radius: 0.3rem;
-
-      margin: 0 0 $spacer-XS;
-
-      &:hover,
-      &:focus {
-        outline: none;
-        filter: saturate(2);
-      }
-
-      :global(.dark) & {
-        color: white;
-      }
-    }
-
     &Note {
       color: var(--text_1);
       font-size: $font-S;
-      margin-bottom: $spacer-M;
+      margin: $spacer-S 0 $spacer-M;
     }
   }
 
@@ -583,10 +526,7 @@
 
 
     @media (max-width: 28em) {
-      font-size: $font-S;
-
-      &FlowIx:nth-child(4),
-      &FlowIx:nth-child(5) {
+      &FlowIx:nth-child(4) {
         display: none;
       }
     }
@@ -633,9 +573,7 @@
   .t-credits {
     font-size: $font-S;
     color: var(--text_1);
-  }
-
-  
+  } 
 </style>
 
 <HeadMeta
@@ -721,17 +659,17 @@
     <p class="t-heroMantra">The web is awesome and everyone should be able to enjoy it.</p>
     <span class="t-heroKicker">Online Workshop</span>
     <div class="t-heroAbout">
-      <p>{eventDate} · {eventHour} {eventTZ}</p>
       <p class="t-heroCreator">with <img src="/sandrinap.jpg" alt=""  class="t-heroCreatorPic" />
         <a class="u-link t-heroCreatorName" rel="noreferrer" href={TWITTER_URL} on:click={() => trackClick('creator')}>
           Sandrina Pereira
         </a>
       </p>
+      <p>{eventDate} · {eventHour} {eventTZ}</p>
     </div>
   </header>
 
   <div class="cta-sticky">
-    <a href={ticketUrl} class="u-link">Join us!</a>
+    <a href={ticketUrl} class="u-btnMain" on:click={() => trackClick('cta_sticky')}>Get Early Bird Ticket</a>
   </div>
 
   <span class="t-separator"></span>
@@ -759,9 +697,9 @@
     </p>
     <p class="t-p">
       In your solo journey into learning accessibility, you’ve might have visited the 
-      <a href="https://www.w3.org/WAI/" class="u-link">W3C WAI</a>
+      <a href="https://www.w3.org/WAI/" on:click={() => trackClick('w3c')} class="u-link">W3C WAI</a>
       website and took a look at the
-      <a href="https://www.w3.org/TR/WCAG21" class="u-link">
+      <a href="https://www.w3.org/TR/WCAG21" on:click={() => trackClick('wcag')} class="u-link">
       WCAG 2.1
       </a> technical requirements.
     </p>
@@ -894,7 +832,7 @@
       <li>The browser Chrome or Firefox installed.</li>
       <li>
         A good internet with
-        <a class="u-link" href="http://zoom.com/" rel="noreferrer">Zoom</a>
+        <a class="u-link" href="http://zoom.com/" rel="noreferrer" on:click={() => trackClick('zoom')}>Zoom</a>
         installed for the video call;
       </li>
       <li>
@@ -907,7 +845,7 @@
 
     <article class="t-card t-cta">
       <h2 class="t-ctaTitle">Join the online workshop!</h2>
-      <p class="t-ctaPitch">Get 9 hours, over 4 days, to refine your A11Y knowledge.</p>
+      <p class="t-ctaPitch">Get 9 hours, over 4 days, to refine your <span class="u-nowrap">A11Y knowledge.</span></p>
 
       <dl class="t-ctaPoints">
         <dt>
@@ -917,7 +855,6 @@
           <span class="sr-only">When:</span>
         </dt>
         <dd>{eventDate}</dd>
-
         <dt>
           <svg aria-hidden="true" class="u-svg" style="display: none;">
             <use xlink:href="#clock" />
@@ -927,7 +864,7 @@
         <dd>{eventHour} <span class="tz">{eventTZ}</span></dd>
       </dl>
 
-      <a href={ticketUrl} class="t-ctaBtn">Buy ticket for {price}</a>
+      <a href={ticketUrl} class="u-btnMain" on:click={() => trackClick('cta_card')}>Get ticket for {price}</a>
       <span class="t-ctaNote">Price is Early Bird</span>
     </article>
 
@@ -1134,6 +1071,13 @@
         </li>
 
         <li>
+          <Accordion summary="Can I ask you questions after the workshop?">
+            Of course! During the workshop, I'll invite to join a Discord community with other attendees to clarify any question.
+          </Accordion>
+        </li>
+
+
+        <li>
           <Accordion summary="Is there any discounts available?">
             The workshop will have an Early Bird price for a week.
             After that, there won’t be more discounts available.
@@ -1142,10 +1086,22 @@
           </Accordion>
         </li>
 
+
         <li>
-          <Accordion summary="Can I buy a ticket for my team?">
-            You can, but keep in mind that 1 ticket is for 1 person/seat.
-            Besides these public events, I also provide customised workshops. You can contact me to discuss private sessions options.
+          <Accordion summary="How many attendes will be there?">
+            There are 12 seats opened. I aim to keep the group small, 
+            so that everyone feels comfortable in participating.
+            Besides that, then I have enough time to give you the attention
+            and care you need to clarify your questions through the sessions.
+          </Accordion>
+        </li>
+
+        <li>
+          <Accordion summary="How many times have you gave this workshop?">
+            I started giving full-day workshops in 2018, back at office times.
+            The first one about accessibility was in 2019.
+            In 2020 I rethought the contents entirely and adapt it to an online version.
+            This version I already gave in 3 times, and each one is constantly improved with new contents.
           </Accordion>
         </li>
 
@@ -1158,7 +1114,7 @@
         <li>
           <Accordion summary="Is there a Code of Conduct?">
             We follow
-            <a class="u-link" rel="noreferrer" href="https://www.contributor-covenant.org/version/2/0/code_of_conduct/" on:click={() => trackClick('csstricks_journey')}>contributor-covenant</a>
+            <a class="u-link" rel="noreferrer" href="https://www.contributor-covenant.org/version/2/0/code_of_conduct/" on:click={() => trackClick('coc')}>contributor-covenant</a>
             code of conduct. A short summary: be kind and treat each other with respect and understanding. There’s zero tolerance for unkind behavior.
           </Accordion>
         </li>
@@ -1170,7 +1126,7 @@
 
 <footer class="footer">
   <div>
-    <p>Made without coffee by <a class="u-link" href={ SITE_URL } rel="noreferrer">Sandrina Pereira</a>.</p>
+    <p>Made without coffee by <a class="u-link" href={ SITE_URL } rel="noreferrer" on:click={() => trackClick('footer_me')}>Sandrina Pereira</a>.</p>
     <p class="t-credits">© 2021 Sandrina Pereira. All Rights Reserved.</p>
   </div>
   <Contacts isWorkshop essentialOnly />
