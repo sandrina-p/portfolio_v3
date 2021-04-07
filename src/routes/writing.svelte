@@ -153,7 +153,7 @@
 </style>
 
 <HeadMeta
-  site={`${SITE_URL}/workshop-a11y-fundamentals`}
+  site={`${SITE_URL}/workshop-a11y`}
   title="Writing | Sandrina Pereira"
   description="Code explained through human words"
   coverUrl={`${SITE_URL}/cover_light-2.png`} />

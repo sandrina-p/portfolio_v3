@@ -122,7 +122,7 @@ export default [
   //       type: '9h workshop',
   //       where: 'Web Accessibility Fundamentals',
   //       svg: 'bulb',
-  //       link: `/workshop-a11y-fundamentals`,
+  //       link: `/workshop-a11y`,
   //     },
   //     {
   //       id: 'w_testing',

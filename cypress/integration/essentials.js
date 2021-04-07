@@ -209,7 +209,7 @@ describe('Essentials', () => {
 
         assertLink(cy.get('a').eq(3), 'write articles', '/writing'); // needed for page creation
 
-        assertLink(cy.get('a').eq(8), 'Web Accessibility', '/workshop-a11y-fundamentals');
+        assertLink(cy.get('a').eq(8), 'Web Accessibility', '/workshop-a11y');
 
         // assertLink(cy.get('a').eq(5), 'get in touch', 'mailto:');
       });

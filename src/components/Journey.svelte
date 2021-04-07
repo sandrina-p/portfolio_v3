@@ -6,7 +6,7 @@
   import { getInLimit, scrollIntoView, sendGA } from '../utils';
   import { MENTOR_URL, SPEAKER_URL, CODEPEN_URL, SMASHING_URL, CSSTRICKS_URL } from '../data/misc.js';
 
-  const workshopUrl = '/workshop-a11y-fundamentals'
+  const workshopUrl = '/workshop-a11y'
 
   let elHeader;
   let progress = 0;
