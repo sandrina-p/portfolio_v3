@@ -4,7 +4,6 @@
   import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
   import { strMotion, afterMotionUpdate } from '../stores/motion.js';
   import { getInLimit, scrollIntoView, sendGA } from '../utils';
-  import { MENTOR_URL, SPEAKER_URL, CODEPEN_URL, SMASHING_URL, CSSTRICKS_URL } from '../data/misc.js';
 
   export let isOnStage;
   export let sectionName;
@@ -12,12 +11,16 @@
   export let motionReduced = false;
 
   let elHeader;
-  let progress = 0;
+  let progress = 1;
   let animation;
 
   $: wHeight = $_window && $_window.innerHeight;
   $: goal = wHeight / 2;
   $: isActive = progress === 1;
+
+  onMount(() => {
+    progress = 0; // in case JS is not supported
+  })
 
   afterUpdate(() => {
     if (!animation && isOnStage) {

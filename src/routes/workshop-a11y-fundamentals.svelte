@@ -9,7 +9,7 @@
   import Accordion from '../components/workshop/Accordion.svelte'
   import WorkshopForm from '../components/workshop/WorkshopForm.svelte';
   import SectionSkew from '../components/SectionSkew.svelte'
-  import { MENTOR_URL, TWITTER_URL, SITE_URL } from '../data/misc.js';
+  import { MENTOR_URL, TWITTER_URL, SITE_URL, EMAIL_URL_WORKSHOP } from '../data/misc.js';
   import { initResponsive } from '../stores/responsive.js';
 
   const ticketUrl = 'https://ti.to/sandrina-p/a11y-workshop'
@@ -51,10 +51,9 @@
     },
   ]
 
-  const price = "200 USD" // TODO DEFINE PRICE
-
-  const eventDate = 'May 10th-13th'
-  const eventHour = '15:45 - 18:00'
+  const price = "200 USD" 
+  const eventDate = 'May 10th to 13th'
+  const eventHour = `<time>15:45</time> to <time>18:00</time>`
   const eventTZ = 'UTC'
 
   onMount(async () => {
@@ -213,6 +212,15 @@
     @media (--md) {
       font-size: 1.8rem;
     }
+  }
+
+  .t-t1 {
+    color: var(--text_1);
+  }
+
+  .t-sm {
+    color: var(--text_1);
+    font-size: 0.8em;
   }
 
   .t-b {
@@ -459,11 +467,6 @@
           font-weight: 500;
           color: var(--text_0);
           white-space: nowrap;
-  
-          .tz {
-            color: var(--text_1);
-            font-size: 0.8em;
-          }
         }
 
       @media (min-width: 31em) {
@@ -659,12 +662,12 @@
     <p class="t-heroMantra">The web is awesome and everyone should be able to enjoy it.</p>
     <span class="t-heroKicker">Online Workshop</span>
     <div class="t-heroAbout">
-      <p class="t-heroCreator">with <img src="/sandrinap.jpg" alt=""  class="t-heroCreatorPic" />
+      <p class="t-heroCreator">with <img src="/sandrinap.jpg" alt="" class="t-heroCreatorPic" />
         <a class="u-link t-heroCreatorName" rel="noreferrer" href={TWITTER_URL} on:click={() => trackClick('creator')}>
           Sandrina Pereira
         </a>
       </p>
-      <p>{eventDate} · {eventHour} {eventTZ}</p>
+      <p>{@html eventDate} <span class="t-t1">|</span> {@html eventHour} <span class="t-sm">{eventTZ}</span></p>
     </div>
   </header>
 
@@ -854,14 +857,14 @@
           </svg>
           <span class="sr-only">When:</span>
         </dt>
-        <dd>{eventDate}</dd>
+        <dd>{@html eventDate}</dd>
         <dt>
           <svg aria-hidden="true" class="u-svg" style="display: none;">
             <use xlink:href="#clock" />
           </svg>
           <span class="sr-only">Hour:</span>
         </dt>
-        <dd>{eventHour} <span class="tz">{eventTZ}</span></dd>
+        <dd>{@html eventHour} <span class="t-sm">{eventTZ}</span></dd>
       </dl>
 
       <a href={ticketUrl} class="u-btnMain" on:click={() => trackClick('cta_card')}>Get ticket for {price}</a>
@@ -1071,13 +1074,6 @@
         </li>
 
         <li>
-          <Accordion summary="Can I ask you questions after the workshop?">
-            Of course! During the workshop, I'll invite to join a Discord community with other attendees to clarify any question.
-          </Accordion>
-        </li>
-
-
-        <li>
           <Accordion summary="Is there any discounts available?">
             The workshop will have an Early Bird price for a week.
             After that, there won’t be more discounts available.
@@ -1086,28 +1082,40 @@
           </Accordion>
         </li>
 
+        <li>
+          <Accordion summary="Can I buy a ticket for my team?">
+            You can, but keep in mind that 1 ticket is for 1 person/seat.
+            Besides these public events, I also provide customised workshops. You can
+            <a class="u-link" href={ EMAIL_URL_WORKSHOP } rel="noreferrer" on:click={() => trackClick('email_private')}>contact me</a>
+            to discuss private sessions options.
+          </Accordion>
+        </li>
 
         <li>
           <Accordion summary="How many attendes will be there?">
-            There are 12 seats opened. I aim to keep the group small, 
-            so that everyone feels comfortable in participating.
-            Besides that, then I have enough time to give you the attention
-            and care you need to clarify your questions through the sessions.
+            There are 15 seats opened. I aim to keep the group small, 
+            so that people don't feel shy/intimidated in participating.
+            This also allows me to have the time to give you the attention
+            and care you deserve to clarify your questions.
+            Optionally, during the exercises, smaller groups of 3-4 people are created
+            for you to solve the exercises in collaboration, if you want to.
           </Accordion>
         </li>
 
         <li>
           <Accordion summary="How many times have you gave this workshop?">
-            I started giving full-day workshops in 2018, back at office times.
+            I started giving full-day workshops in 2018, back to office times.
             The first one about accessibility was in 2019.
-            In 2020 I rethought the contents entirely and adapt it to an online version.
-            This version I already gave in 3 times, and each one is constantly improved with new contents.
+            In 2020 I rethought the contents entirely and adapt it to a remote version,
+            which I already gave 3 times. One of the things I care the most is
+            to make sure everyone has a good time and we are all "present"
+            even during a virtual event.
           </Accordion>
         </li>
 
         <li>
           <Accordion summary="Can I ask you questions after the workshop?">
-            Of course! During the workshop, I'll invite to join a Discord community with other attendees to clarify any question.
+            Of course! During the workshop, I'll invite you to join a Discord community with other attendees to talk about accessibility.
           </Accordion>
         </li>
 

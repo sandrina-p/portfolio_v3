@@ -1,4 +1,5 @@
 <style global>
+
   /* OPTIMIZE: convert all colors to hsl */
   :root {
     --text_0: #343434;
@@ -232,13 +233,14 @@
   
     .jsMotionDefault &:hover,
     body.js-tabbing &:focus {
-        &::before {
-          transition-duration: 350ms ease-in-out;
-          transform: scale(1, 1);
-        }
+      &::before {
+        transition-duration: 350ms ease-in-out;
+        transform: scale(1, 1);
+        opacity: 0.3;
+      }
     }
 
-      body.js-tabbing &:focus {
+    body.js-tabbing &:focus {
       outline: none !important;
     }
 
@@ -253,7 +255,7 @@
       border-radius: 3px;
       opacity: 0.5;
       transform: scale(1, 0.2);
-      transform-origin: 0 90%;
+      transform-origin: 0 85%;
       z-index: -1;
 
       .jsMotionDefault & {
@@ -266,6 +268,7 @@
     --linkClr: var(--primary_1);
     display: inline-block;
     position: relative;
+    min-width: 140px;
     text-decoration: none;
     cursor: pointer;
     border: none;
@@ -278,7 +281,7 @@
     white-space: nowrap;
     text-decoration: none;
     color: #fff;
-    min-width: 140px;
+
     .dark & {
       color: var(--text_invert);
     }
@@ -380,3 +383,18 @@
     }
   }
 </style>
+
+<noscript>
+  <style>
+    .toggleTheme{
+      display :none!important;
+    }
+
+    a:focus-visible,
+    button:focus-visible {
+      outline: none;
+      border-radius: 3px;
+      box-shadow: var(--bg_0) 0 0 0 2px, var(--primary_1_pair) 0 0 0 4px;
+    }
+  </style>
+</noscript>
