@@ -70,7 +70,7 @@
   $ziIntro: 3;
   $ziLine: 2;
   $width: 650px;
-  $widthRead: 510px;
+  $widthRead: 530px;
 
   .header {
     position: fixed;
@@ -713,7 +713,7 @@
 
     <p class="t-p">
       As web creators, unfortunately, many of us are still leaving accessibility as an afterthought.
-      Learning how to use modern UI Libraries sounds way more exciting.
+      Learning how to use modern <span class="u-nowrap">UI Libraries</span> sounds way more exciting.
     </p>  
     <p class="t-p">
       <em class="t-i">I understand you, but...</em>
@@ -747,7 +747,7 @@
     </h2>
     <p class="t-p">
       Rather than focusing on theoretical rules, I will first show you real-world examples
-      that can be all but a joyful experience for many people.
+      that can be everything but a joyful experience for many people. <em class="t-i">(ouch!)</em>
     </p>
     <p class="t-p">
       These scenarios will bring you awareness of the existing barriers out there, and you'll realize
@@ -787,7 +787,7 @@
       Topics
     </h3>
     <p class="t-p">
-      We'll go through the topics by modules that complement each other:
+      These are the modules that we'll go through together:
     </p>
     <ul class="t-topics">
       {#each modules as { title, topics }, index}
@@ -940,7 +940,7 @@
         </span>
         
         <p class="t-p">
-          I’m a UX Frontend Engineer who helps turn ideas into<span class="u-nowrap">accessible experiences.</span>
+          I’m a UX Frontend Engineer who helps turn ideas into <span class="u-nowrap">accessible experiences.</span>
         </p>
         
         <p class="t-p">
