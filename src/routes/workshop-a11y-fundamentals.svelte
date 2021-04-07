@@ -12,6 +12,7 @@
   import { MENTOR_URL, TWITTER_URL, SITE_URL } from '../data/misc.js';
   import { initResponsive } from '../stores/responsive.js';
 
+  const ticketUrl = 'https://ti.to/sandrina-p/a11y-workshop'
   const endpointA11Y = 'https://app.convertkit.com/forms/1318242/subscriptions';
 
   const modules = [
@@ -50,9 +51,10 @@
     },
   ]
 
-  const price = "000 EUR" // TODO DEFINE PRICE
+  const price = "200 USD" // TODO DEFINE PRICE
 
-  const eventHour = '16:00 - 18:15'
+  const eventDate = 'May 10th-13th'
+  const eventHour = '15:45 - 18:00'
   const eventTZ = 'UTC'
 
   onMount(async () => {
@@ -221,24 +223,31 @@
     font-style: italic;
   }
 
-  /* .cta-sticky {
+  .cta-sticky {
     position: sticky;
     top: 1.8rem;
     z-index: $ziIntro;
     display: block;
     width: min-content;
-    margin: 0 auto;
+    margin: $spacer-L auto 0;
     text-align: center;
 
     .u-link {
+      cursor: pointer;
       display: inline-block;
-      padding: $spacer-S $spacer-M;
-      background-color: var(--bg_1);
-      border-radius: 3px;
-      box-shadow: 0.2rem 0.2rem var(--primary_1_smooth);
+      border: none;
+      padding: $spacer-S $spacer-MS;
+      background-color: var(--primary_1);
+      border-radius: 4px;
+      border-color: var(--primary_1);
       font-weight: 500;
+      font-size: $font-L;
       text-decoration: none;
-      color: var(--text_0);
+      color: #fff;
+
+      :global(.dark) & {
+        color: var(--text_invert);
+      }
       
       &::before {
         transform: scale(1, 0);
@@ -247,16 +256,25 @@
         width: 100%;
         height: 100%;
         transform-origin: 0 100%;
+        background-color: var(--text_invert);
       }
   
+      /* transition: transform 150ms, box-shadow 150ms; */
+
       &:hover {
+        /* transform: scale(1.1); */
+        /* box-shadow: 0 0 3px 3px var(--primary_1_highlight); */
+      }
+
+      &:hover,
+      &:focus {
         &::before {
           transform: scale(1, 1);
         }
       }
     }
 
-  } */
+  }
 
   .t-separator {
     display: block;
@@ -703,7 +721,7 @@
     <p class="t-heroMantra">The web is awesome and everyone should be able to enjoy it.</p>
     <span class="t-heroKicker">Online Workshop</span>
     <div class="t-heroAbout">
-      <!-- <p>April 11-13 · {eventHour} {eventTZ}</p> -->
+      <p>{eventDate} · {eventHour} {eventTZ}</p>
       <p class="t-heroCreator">with <img src="/sandrinap.jpg" alt=""  class="t-heroCreatorPic" />
         <a class="u-link t-heroCreatorName" rel="noreferrer" href={TWITTER_URL} on:click={() => trackClick('creator')}>
           Sandrina Pereira
@@ -713,7 +731,7 @@
   </header>
 
   <div class="cta-sticky">
-    <!-- <button class="u-link">Coming soon!</button> -->
+    <a href={ticketUrl} class="u-link">Join us!</a>
   </div>
 
   <span class="t-separator"></span>
@@ -845,8 +863,7 @@
     <div class="t-card t-process">
       <ul class="t-processFlow">
         <li class="t-processFlowIx">problem</li> 
-        <li class="t-processFlowIx">practice</li> 
-        <li class="t-processFlowIx">review</li> 
+        <li class="t-processFlowIx">explore</li> 
         <li class="t-processFlowIx">clarify</li> 
         <li class="t-processFlowIx">repeat</li> 
       </ul>
@@ -888,7 +905,7 @@
     </ul>
 
 
-    <!-- <article class="t-card t-cta">
+    <article class="t-card t-cta">
       <h2 class="t-ctaTitle">Join the online workshop!</h2>
       <p class="t-ctaPitch">Get 9 hours, over 4 days, to refine your A11Y knowledge.</p>
 
@@ -899,7 +916,7 @@
           </svg>
           <span class="sr-only">When:</span>
         </dt>
-        <dd>To be defined (April?)</dd>
+        <dd>{eventDate}</dd>
 
         <dt>
           <svg aria-hidden="true" class="u-svg" style="display: none;">
@@ -910,11 +927,11 @@
         <dd>{eventHour} <span class="tz">{eventTZ}</span></dd>
       </dl>
 
-      <a href="" class="t-ctaBtn">Buy ticket for {price}</a>
+      <a href={ticketUrl} class="t-ctaBtn">Buy ticket for {price}</a>
       <span class="t-ctaNote">Price is Early Bird</span>
+    </article>
 
-    </article> -->
-    <WorkshopForm formEndpoint={endpointA11Y}>
+    <!-- <WorkshopForm formEndpoint={endpointA11Y}>
       <p class="t-ctaPitch">Get 9 hours, over 4 days, to refine your A11Y knowledge.</p>
 
       <dl class="t-ctaPoints">
@@ -934,7 +951,7 @@
         </dt>
         <dd>{eventHour} <span class="tz">{eventTZ}</span></dd>
       </dl>
-    </WorkshopForm>
+    </WorkshopForm> -->
 
     <div class="t-blockwide">
       <SectionSkew isOnStage sectionName="a11yAbout" klass="k-about" motionReduced={true}>

@@ -99,6 +99,8 @@
     }
 
     &:hover {
+      filter: contrast(1.4);
+
       &::before {
         transform: scale(1, 1);
       }

@@ -12,9 +12,9 @@
 
 
     --primary_1: #8E38FF; /* #9b78de; */
-    --primary_1_inverted: hsl(266deg 100% 75%);
     --primary_1_smooth: #e9e1f8;
-    --primary_1_highlight: #e9e1f8;
+    --primary_1_highlight: #caa2ff59;
+    --primary_1_inverted: hsl(266deg 100% 75%);
     --morph_color: rgba(172, 105, 255, 0.24);
     --morph_total: #c28ffc; /* visual effect when all circles are overlapping */
     --primary_1_pair: #ff7d1e;
