@@ -1,4 +1,5 @@
 <style global>
+  /* OPTIMIZE: convert all colors to hsl */
   :root {
     --text_0: #343434;
     --text_1: #6f6f6f;
@@ -9,8 +10,9 @@
     --bg_invert: #2e2a2f; /* #same as .dark bg_1; */
     --bg_invert_transparent: #2e2a2f00; /* for safari... */
 
+
     --primary_1: #8E38FF; /* #9b78de; */
-    --primary_1_inverted: hsl(180deg 100% 45%);
+    --primary_1_inverted: hsl(266deg 100% 75%);
     --primary_1_smooth: #e9e1f8;
     --primary_1_highlight: #e9e1f8;
     --morph_color: rgba(172, 105, 255, 0.24);
@@ -30,7 +32,7 @@
     --bg_0: #3a383b;
     --bg_1: #2e2a2f;
     --bg_1_rgb: 46,42,47;
-    --primary_1: var(--primary_1_inverted);
+    --primary_1: hsl(180deg 100% 45%);
     --primary_1_smooth: hsl(180deg 100% 19%);
     --primary_1_highlight: hsl(180deg 100% 40% / 40%);
     --primary_1_pair: hsl(35deg 77% 60%);
@@ -156,10 +158,11 @@
   }
 
   .u-link {
+    --linkClr: var(--primary_1);
     position: relative;
 
     text-decoration: underline;
-    text-decoration-color: var(--primary_1);
+    text-decoration-color: var(--linkClr);
     color: inherit;
     z-index: 0; /* so before gets behind but visible */
 
@@ -169,7 +172,7 @@
   
     @media (--max-lg) {
       &:hover {
-        color: var(--primary_1);
+        color: var(--linkClr);
       }
   
       body.js-tabbing &:focus {
@@ -199,7 +202,7 @@
         left: -0.1em;
         width: calc(100% + 0.2em);
         height: 1.2em;
-        background-color: var(--primary_1);
+        background-color: var(--linkClr);
         border-radius: 3px;
         opacity: 0.2;
         transform: scale(1, 0.2);
