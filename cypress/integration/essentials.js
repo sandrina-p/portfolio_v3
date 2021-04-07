@@ -237,10 +237,10 @@ describe('Essentials', () => {
 
         cy.get('a').should('have.length', 5);
 
-        assertLink(cy.get('a').eq(0), 'dev.to', 'dev.to');
-        assertLink(cy.get('a').eq(1), 'codepen', 'codepen.io');
-        assertLink(cy.get('a').eq(2), 'twitter', 'twitter.com');
-        assertLink(cy.get('a').eq(3), 'e-mail', 'mailto:');
+        assertLink(cy.get('a').eq(0), 'twitter', 'twitter.com');
+        assertLink(cy.get('a').eq(1), 'e-mail', 'mailto:');
+        assertLink(cy.get('a').eq(2), 'codepen', 'codepen.io');
+        assertLink(cy.get('a').eq(3), 'dev.to', 'dev.to');
         assertLink(cy.get('a').eq(4), 'Code', 'portfolio_v3');
 
         cy.get('.credits')
