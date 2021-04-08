@@ -581,9 +581,8 @@
 
 <HeadMeta
   site={`${SITE_URL}/workshop-a11y`}
-  title="Web Accessibility Fundamentals - Workshop"
-  description="In this workshop we'll explore every common accessibility no-nos and learn how to
-  make them work properly for everyone using a mouse or a keyboard."
+  title="Web Accessibility Fundamentals Workshop | Sandrina Pereira"
+  description="In this workshop we'll explore how accessibility doesn't have to limit our solutions or skills. On the contrary, it will make them more inclusive!"
   coverUrl={`${SITE_URL}/cover_a11y_tba.png`} />
 
 <svelte:head>
@@ -642,7 +641,7 @@
           },
         },
         description:
-          "In this workshop we'll explore every common web accessibility no-nos and learn how to make them work properly for everyone using a mouse or a keyboard.",
+          "In this workshop we'll explore how accessibility doesn't have to limit our solutions or skills. On the contrary, it will make them more inclusive!",
       },
     ];
   </script>
