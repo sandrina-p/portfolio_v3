@@ -47,24 +47,6 @@
     padding: $spacer-M;
   }
 
-  .logo {
-    font-size: 2.1rem;
-    text-decoration: none;
-    font-weight: 500;
-    color: var(--text_0);
-
-    &::before {
-      opacity: 0.5;
-      transform-origin: 0 90%;
-    }
-
-    &:hover, &:focus {
-      &::before {
-        opacity: 0.2;
-      }
-    }
-  }
-
   .wrapper {
     margin: 0 auto;
     max-width: $width;
@@ -159,7 +141,7 @@
   coverUrl={`${SITE_URL}/cover_light-2.png`} />
 
 <header class="header">
-  <a href={SITE_URL} class="logo u-link">
+  <a href={SITE_URL} class="u-logo">
     Sandrina
   </a>
   <ToggleTheme klass="toggleTheme" />
