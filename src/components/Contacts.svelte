@@ -47,7 +47,7 @@
       display: block;
       
       &:not(:last-child) {
-        margin-bottom: $spacer-XS;
+        margin-bottom: $spacer-S;
       }
     }
   }

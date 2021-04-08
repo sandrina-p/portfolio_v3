@@ -52,7 +52,7 @@
   ]
 
   const price = "200 USD" 
-  const eventDate = 'May 10th to 13th'
+  const eventDate = 'May 10-13'
   const eventHour = `<time>15:45</time> to <time>18:00</time>`
   const eventTZ = 'UTC'
 
@@ -480,12 +480,6 @@
       }
     }
 
-    @media (--max-md) {
-      /* .time-todo {
-        display: none;
-      } */
-    }
-
     &Note {
       color: var(--text_1);
       font-size: $font-S;
@@ -565,18 +559,40 @@
   }
 
   .footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: $spacer-L calc((100vw - $widthRead) / 2);
     background: var(--bg_1);
     margin-top: $spacer-XL;
+    padding: $spacer-L $spacer-M;
+    line-height: 1.2;
+    
+
+    &Area {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      width: calc($widthRead + $spacer-M * 2);
+      max-width: 100%;
+      margin: auto;
+
+      > *:first-child {
+        margin-right: $spacer-M;
+      }
+    }
   }
 
   .t-credits {
     font-size: $font-S;
     color: var(--text_1);
+    margin-top: $spacer-XS;
   } 
+
+  .sr-area {
+    position: relative;
+
+    .sr-only {
+      width: 100%; height: 100%;
+      top: 0; left: 0;
+    }
+  }
 </style>
 
 <HeadMeta
@@ -666,7 +682,13 @@
           Sandrina Pereira
         </a>
       </p>
-      <p>{@html eventDate} <span class="t-t1">|</span> {@html eventHour} <span class="t-sm">{eventTZ}</span></p>
+      <p>
+        {@html eventDate} <span class="t-t1">|</span> 
+        <span class="sr-area">
+          <span aria-hidden="true">9 hours <span class="t-sm">(2:15h × 4 days)</span></span>
+          <span class="sr-only">9 hours total - 2 hours and 15 minutes across 4 days</span>
+        </span>
+      </p>
     </div>
   </header>
 
@@ -847,7 +869,7 @@
 
     <article class="t-card t-cta">
       <h2 class="t-ctaTitle">Join the online workshop!</h2>
-      <p class="t-ctaPitch">Get 9 hours, over 4 days, to refine your <span class="u-nowrap">A11Y knowledge.</span></p>
+      <p class="t-ctaPitch">Get 9 hours over 4 days of hands-on exploration.</p>
 
       <dl class="t-ctaPoints">
         <dt>
@@ -925,7 +947,7 @@
         <p class="t-p"> -->
           Besides my full-time job at
           <a class="u-link" rel="noreferrer" href='https://remote.com' on:click={() => trackClick('remote.com')}>Remote</a> 
-          as Lead Frontend Enginer, I'm focused on raising awareness of why Web Accessibility
+          as Lead Frontend Engineer, I'm focused on raising awareness of why Web Accessibility
           is part of our duties as web creators.
         </p>
         <p class="t-p">
@@ -1132,11 +1154,13 @@
 </main>
 
 <footer class="footer">
-  <div>
-    <p>Made without coffee by <a class="u-link" href={ SITE_URL } rel="noreferrer" on:click={() => trackClick('footer_me')}>Sandrina Pereira</a>.</p>
-    <p class="t-credits">© 2021 Sandrina Pereira. All Rights Reserved.</p>
+  <div class="footerArea">
+    <div>
+      <p>Made without coffee by <span class="u-nowrap"><a class="u-link" href={ SITE_URL } rel="noreferrer" on:click={() => trackClick('footer_me')}>Sandrina Pereira</a>.</span></p>
+      <p class="t-credits">© 2020. All Rights Reserved.</p>
+    </div>
+    <Contacts isWorkshop essentialOnly />
   </div>
-  <Contacts isWorkshop essentialOnly />
 </footer>
 
 
