@@ -17,6 +17,8 @@
   import { matchMq, initResponsive, afterResponsiveUpdate } from '../stores/responsive.js';
   import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
 
+  const workshopUrlOld = '/workshop-a11y-fundamentals'
+
   let scrollY = 0;
   let scrollSpeedCached = 0;
   let scrollSpeedCurrent = 0;
@@ -129,4 +131,8 @@
 <Skills />
 <Journey />
 <Footer />
+
+
+<!-- Just for Sapper build purposes -->
+<a hidden href={workshopUrlOld}>Web Accessibility</a>
 </main>
