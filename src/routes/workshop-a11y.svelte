@@ -1093,7 +1093,7 @@
 
         <li>
           <Accordion summary="How many attendes will be there?">
-            There are 15 seats opened. I aim to keep the group small, 
+            There are 15 seats available. I aim to keep the group small, 
             so that people don't feel shy/intimidated in participating.
             This also allows me to have the time to give you the attention
             and care you deserve to clarify your questions.
