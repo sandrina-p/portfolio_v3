@@ -102,6 +102,32 @@
     }
   </script>
 
+  <!-- CSS NAKED DAY CODE -->
+  <div align="center" id="cssNakedMsg"></div>
+  <script>
+    function isApril9() {
+      var now = new Date()
+      // Note: In JS months starts at zero, so April is 3, not 4.
+      return now.getMonth() === 3 && now.getDate() === 9
+    }
+    function removeCSS() {
+      for (var style in styles = document.styleSheets) {
+        styles[style].disabled = true;
+      }
+    }
+    var isURLNakedEnabled = window.location.search.includes('cssnaked=true')
+    var isURLNakedDisabled = window.location.search.includes('cssnaked=false')
+    var urlOff = `${window.location.origin}${window.location.pathname}?cssnaked=false`
+
+    if (!isURLNakedDisabled && (isURLNakedEnabled || isApril9())) {
+      removeCSS()
+      document.getElementById('cssNakedMsg').innerHTML = `
+        Today, April 9th, is the <a href="https://css-naked-day.github.io/">CSS Naked Day</a>!
+        <!-- TIL: Target _self overrides SPA routing behavior from UI frameworks (eg svelte, react, etc...) -->
+        You can <a href="${urlOff}" target="_self">turn it off</a>.`
+    }
+  </script>
+
   <div id="sapper">
     %sapper.html%
   </div>
