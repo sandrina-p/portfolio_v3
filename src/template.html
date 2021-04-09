@@ -119,7 +119,7 @@
     var isURLNakedDisabled = window.location.search.includes('cssnaked=false')
     var urlOff = `${window.location.origin}${window.location.pathname}?cssnaked=false`
 
-    if (!isURLNakedDisabled && (isURLNakedEnabled || isApril9())) {
+    if (!window.Cypress && !isURLNakedDisabled && (isURLNakedEnabled || isApril9())) {
       removeCSS()
       document.getElementById('cssNakedMsg').innerHTML = `
         Today, April 9th, is the <a href="https://css-naked-day.github.io/">CSS Naked Day</a>!
