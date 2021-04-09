@@ -11,7 +11,7 @@
   const workshopUrl = '/workshop-a11y'
 
   const dispatch = createEventDispatcher();
-  const sectionsId = $strGeneral.pageSectionsId || {};
+  // const sectionsId = $strGeneral.pageSectionsId || {};
   $: currentSection = $strGeneral.pageCurrentSection;
   let pageSections = $strGeneral.pageSections;
   let navPivots = $strGeneral.pageSections.map(section => ({ name: section }));
@@ -21,19 +21,25 @@
   let isRICScheduled = false;
   let isMenuOpen = false;
   let navPath = '' // navigation path to send to GA
+  let sectionCount = 0
 
-  // avoid too much events when navigating through menu or people "playing" with transitions.
+  // avoid too much events when navigating through menu,
+  // or users "playing" with transitions back and forward.
   const trackNavPath = debounce((section, isFromMenu) => {
-    const newPath = navPath + '_' + sectionsId[section] + (isFromMenu ? '-menu' : '');
-    navPath = newPath;
-    sendGA('send', 'event', 'navigation', 'section', newPath)
+    sendGA('send', 'event', 'navigation', 'sectionCount', sectionCount++)
+    sendGA('send', 'event', 'navigation', 'sectionName', `${navPath}_${section}${isFromMenu ? '_menu' : ''}`)
+
+    // Removed this because it's noisy in the metrics
+    // const newPath = navPath + '_' + sectionsId[section] + (isFromMenu ? '-menu' : '');
+    // navPath = newPath;
+    // sendGA('send', 'event', 'navigation', 'section', newPath)
   }, 1000);
 
   afterGeneralUpdate((prevState, state) => {
     if (!prevState.isReady && state.isReady) {
       setNavigationData();
       window.addEventListener('scroll', handleNavScroll);
-      navPath = `${$matchMq.lg ? 'desktop' : 'mobile'}_0`
+      navPath = `${$matchMq.lg ? 'desktop' : 'mobile'}`
     }
 
     const prevPageSection = prevState.pageCurrentSection;
