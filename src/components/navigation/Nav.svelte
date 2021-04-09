@@ -8,6 +8,8 @@
   import ToggleMotion from './ToggleMotion.svelte';
   import { TIMEOUTS, sendGA } from '../../utils';
 
+  const workshopUrl = '/workshop-a11y'
+
   const dispatch = createEventDispatcher();
   const sectionsId = $strGeneral.pageSectionsId || {};
   $: currentSection = $strGeneral.pageCurrentSection;
@@ -212,6 +214,10 @@
     isMenuOpen = !isMenuOpen
   }
 
+  function trackClick(action) {
+    sendGA('send', 'event', 'click', 'nav', action)
+  }
+
   export let horizonSpace;
 </script>
 
@@ -240,6 +246,11 @@
       transition:
         opacity 1000ms $introDelay cubic-bezier(0.0, 0.0, 0.2, 1),
         transform 1000ms $introDelay cubic-bezier(0.19, 1, 0.22, 1);
+    }
+
+    :global(.u-btnMain) {
+      margin-right: $spacer-M;
+      align-self: center;
     }
   }
 
@@ -490,6 +501,7 @@
 
 <nav class="nav" class:isReady={isCalculated}>
   <span class="bubble" class:wasSelected={wasSelected}></span>
+  <a class="u-btnMain asSm" href={workshopUrl} target="_self" on:click={() => trackClick('a11y')} >Join A11Y workshop</a>
   <ToggleTheme klass='btnTheme' />
   <div class="menu" class:isOpen={isMenuOpen}>
 

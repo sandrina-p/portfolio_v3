@@ -319,6 +319,11 @@
         transform: scale(1, 1);
       }
     }
+
+    &.asSm {
+      padding: $spacer-XS $spacer-S;
+      font-size: $font-M;
+    }
   }
   
   .u-carousel {
