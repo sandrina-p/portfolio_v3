@@ -20,14 +20,14 @@
       title: 'Accessibility overview',
       topics: [
         'Demystify accessibility myths',
-        'Ableism, and the disability types spectrum',
+        'Ableism and the disability types spectrum',
         'WCAG principles, layers of guidance, and the law'
       ],
     },
     {
       title: 'Accessible by default',
       topics: [
-        'Appearance: color, proportions and motion',
+        'Appearance: color, proportions, and motion',
         'Semantics: Headings, images, order of content',
         'Accessibility audit tools',
       ],
@@ -262,7 +262,6 @@
     margin-bottom: $spacer-XL;
   }
 
-
   .t-blockread {
     width: $widthRead;
     max-width: 100%;
@@ -277,19 +276,10 @@
 
   :global(.k-about.k-about.k-about) {
     --section-contentWidth: $width;
-    --aboutClr: var(--primary_1_inverted);
     
-    :global(.dark) & {
-      --aboutClr: var(--primary_1);
-    }
-
     :global(.text) {
       width: calc($widthRead + $spacer-M * 2);
       padding: 0 $spacer-M;
-      
-      .u-link {
-        --linkClr: var(--aboutClr);
-      }
     }
   }
   
@@ -349,7 +339,7 @@
       padding: 0 24px 0 16px;
       font-size: $font-M;
       font-style: italic;
-      border-left: 2px solid var(--aboutClr);
+      border-left: 2px solid var(--primary_1);
     }
 
     @media (--lg) {
@@ -736,7 +726,7 @@
     </h2>
     <p class="t-p">
       Rather than focusing on theoretical rules, I will first show you real-world examples
-      that can be everything but a joyful experience for many people. <em class="t-i">(ouch!)</em>
+      that can be everything but a joyful experience for many. <em class="t-i">(ouch!)</em>
     </p>
     <p class="t-p">
       These scenarios will bring you awareness of the existing barriers out there, and you'll realize
@@ -759,7 +749,7 @@
     </h2>
     <p class="t-p">
       This workshop will be packed with little big discoveries!
-      We will explore every common accessibility no-nos and how to make them more inclusive for 
+      We will explore every common accessibility no-nos, and how to make them more inclusive for 
       as many people as possible using a mouse or a keyboard.
     </p>
     <p class="t-p">
@@ -837,7 +827,7 @@
       Who is this workshop for?
     </h3>
     <p class="t-p">
-      Web developers are the main audience, but if you are a designer,
+      Web developers are the main audience but if you are a designer
       or a QA expert, then this workshop will be valuable for you as well. 
     </p>
     <p class="t-p">
@@ -867,7 +857,7 @@
     </ul>
 
 
-    <article class="t-card t-cta">
+    <article class="t-card t-cta" role="region" aria-label="Buy ticket">
       <h2 class="t-ctaTitle">Join the online workshop!</h2>
       <p class="t-ctaPitch">Get 9 hours over 4 days of hands-on exploration.</p>
 
@@ -951,7 +941,7 @@
           is part of our duties as web creators.
         </p>
         <p class="t-p">
-          Join me and let me show you that A11Y doesn't have to limit your solutions or skills.
+          Join me and let me show you how accessibility doesn't limit your solutions or skills.
           On the contrary, it will make <span class="u-nowrap">them more inclusive!</span>
         </p>
 
@@ -1077,7 +1067,7 @@
             You can use the one that suits you best. I own a Mac, which means I’ll be using Voice Over.
             During an online workshop it's not practical to help everyone using a SR (screen reader).
             Because of that, a few days before the workshop, I will send you guides for you to practice
-            with one of the following screen readers.
+            with one of the following screen readers:
             <ul class="t-list">
               <li>
                 Mac: You'll be using VoiceOver.
@@ -1125,12 +1115,13 @@
 
         <li>
           <Accordion summary="How many times have you gave this workshop?">
+            This remote version I already gave 3 times.
             I started giving full-day workshops in 2018, back to office times.
             The first one about accessibility was in 2019.
-            In 2020 I rethought the contents entirely and adapt it to a remote version,
-            which I already gave 3 times. One of the things I care the most is
-            to make sure everyone has a good time and we are all "present"
-            even during a virtual event.
+            In 2020 I rethought the contents entirely and adapt it to a remote version.
+            Besides the technical contents, one of the things I care the most
+            is to make sure everyone has a good time, and that
+            we are all "present" even during a virtual event.
           </Accordion>
         </li>
 

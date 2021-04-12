@@ -129,10 +129,10 @@
   .wrapperJn {
     --section-pageBg: var(--bg_0);
     --section-pageTxt: var(--text_0);
-    --section-contentBg: var(--bg_invert);
-    --section-contentTxt: var(--text_invert);
+    --section-contentBg: var(--primary_1_smooth);
+    --section-contentTxt: var(--text_0);
     --section-contentWidth: 500px;
-    --section-title: var(--primary_1_inverted);
+    --section-title: var(--primary_1);
 
     :global(.dark) & {
       --section-contentBg: var(--bg_1);
