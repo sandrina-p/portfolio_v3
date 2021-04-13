@@ -51,7 +51,7 @@
     },
   ]
 
-  const price = "200 USD" 
+  const price = "$200 USD" 
   const eventDate = 'May 10-13'
   const eventHour = `<time>15:45</time> to <time>18:00</time>`
   const eventTZ = 'UTC'
@@ -475,6 +475,25 @@
       font-size: $font-S;
       margin: $spacer-S 0 $spacer-M;
     }
+
+    &.asTiny {
+      .t-ctaTitle {
+        margin-top: 0;
+        font-size: $font-L;
+      }
+
+      @media (max-width: 31em) {
+        .u-btnMain {
+          margin-top: $spacer-M;
+        }
+      }
+
+      @media (min-width: 31em) {
+        flex-direction: row;
+        justify-content: space-between;
+        text-align: left;
+      }
+    }
   }
 
   .t-hashtitle {
@@ -559,7 +578,7 @@
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      width: calc($widthRead + $spacer-M * 2);
+      width: $widthRead;
       max-width: 100%;
       margin: auto;
 
@@ -686,10 +705,10 @@
     <a href={ticketUrl} class="u-btnMain" on:click={() => trackClick('cta_sticky')}>Get Early Bird Ticket</a>
   </div>
 
+  <!-- REVIEW HR? -->
   <span class="t-separator"></span>
 
   <div class="t-blockread">
-
     <p class="t-p">
       As web creators, unfortunately, many of us are still leaving accessibility as an afterthought.
       Learning how to use modern <span class="u-nowrap">UI Libraries</span> sounds way more exciting.
@@ -856,10 +875,9 @@
       <li>Be willing to learn something different!</li>
     </ul>
 
-
     <article class="t-card t-cta" role="region" aria-label="Buy ticket">
-      <h2 class="t-ctaTitle">Join the online workshop!</h2>
-      <p class="t-ctaPitch">Get 9 hours over 4 days of hands-on exploration.</p>
+      <h2 class="t-ctaTitle">Join the workshop!</h2>
+      <p class="t-ctaPitch">Get 9 hours over 4 days <span class="u-nowrap">of hands-on exploration.</span></p>
 
       <dl class="t-ctaPoints">
         <dt>
@@ -1086,8 +1104,8 @@
 
         <li>
           <Accordion summary="Is there any discounts available?">
-            The workshop will have an Early Bird price for a week.
-            After that, there won’t be more discounts available.
+            The workshop will have an Early Bird price until May 19.
+            After that, I don't plan to do more discounts available.
             Regardless, I understand that the cost of this workshop can be too high for some people.
             If you are a student you can reach out to me.
           </Accordion>
@@ -1140,6 +1158,20 @@
         </li>
       </ul>
     </section>
+
+    <article class="t-card t-cta asTiny" role="region" aria-label="Buy ticket">
+      <div>
+        <p class="t-ctaTitle">Ready to join us on {@html eventDate}?</p>
+        <p>
+          {@html eventHour}
+          <span class="sr-area">
+            <span aria-hidden="true"><span class="t-sm">(2:15h × 4 days)</span></span>
+            <span class="sr-only">2 hours and 15 minutes across 4 days</span>
+          </span>
+        </p>
+      </div>
+      <a href={ticketUrl} class="u-btnMain" on:click={() => trackClick('cta_card_mini')}>Get ticket</a>
+    </article>
   </div>
   <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 </main>
