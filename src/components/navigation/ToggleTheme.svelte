@@ -44,8 +44,6 @@
     padding: 0;
     fill: var(--text_1);
     cursor: pointer;
-    opacity: 0;
-    animation: fadeInWithPause 500ms 1s forwards ease-out;
 
     &:hover {
       fill: var(--primary_1);
