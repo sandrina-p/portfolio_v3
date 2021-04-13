@@ -1179,13 +1179,12 @@
 
         <li>
           <Accordion summary="How many times have you gave this workshop?">
-            This remote version I already gave 3 times.
+            This remote version is the 4th edition.
             I started giving full-day workshops in 2018, back to office times.
             The first one about accessibility was in 2019.
             In 2020 I rethought the contents entirely and adapt it to a remote version.
-            Besides the technical contents, one of the things I care the most
-            is to make sure everyone has a good time, and that
-            we are all "present" even during a virtual event.
+            One of the things I care the most is to make sure everyone follows
+            along and feel "present", even during a virtual event.
           </Accordion>
         </li>
 
