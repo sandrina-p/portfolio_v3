@@ -72,6 +72,7 @@
   $ziLine: 2;
   $width: 650px;
   $widthRead: 530px;
+  $widthFAQ: 95rem;
 
   .header {
     position: fixed;
@@ -156,7 +157,7 @@
 
       &Name {
         color: var(--primary_1);
-        text-decoration: none;
+        text-echosation: none;
 
         &::before {
           height: 1.4em;
@@ -548,7 +549,7 @@
     &List {
       display: grid;
       gap: $spacer-M;
-      width: 95rem;
+      width: $widthFAQ;
       max-width: 100%;
       margin: auto;
       
@@ -568,11 +569,11 @@
   }
 
   .footer {
+    position: relative;
     background: var(--bg_1);
     margin-top: $spacer-XL;
     padding: $spacer-L $spacer-M;
     line-height: 1.2;
-    
 
     &Area {
       display: flex;
@@ -600,6 +601,51 @@
     .sr-only {
       width: 100%; height: 100%;
       top: 0; left: 0;
+    }
+  }
+
+  .t-echos {
+    position: absolute;
+    bottom: 100%;
+    left: calc(50vw + $widthFAQ / 2 - 80px);
+    width: 80px;
+    height: 100px;
+    background: linear-gradient(180deg, rgba(255, 63, 51, 0.21) 0%, rgba(255, 255, 255, 0) 100%);
+
+    :global(.dark) & {
+      background: linear-gradient(180deg, rgba(221, 141, 141, 0.33), rgba(255, 255, 255, 0) 100%); 
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 110px;
+      left: -50px;
+      top: -45px;
+      background: linear-gradient(180deg, rgba(113, 168, 255, 0.28) 0%, rgba(255, 255, 255, 0) 100%);
+      
+      :global(.dark) & {
+        background: linear-gradient(180deg, rgba(113, 168, 255, 0.28), rgba(255, 255, 255, 0) 100%);
+      }
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 150px;
+      left: -20px;
+      top: -100px;
+      background: linear-gradient(180deg, rgba(0, 16, 255, 0.07) 0%, rgba(255, 255, 255, 0) 100%);
+    
+      :global(.dark) & {
+        background: linear-gradient(180deg, rgb(189 102 255 / 17%) -15%, rgba(255, 255, 255, 0) 100%);
+      }
+    }
+
+    @media (--max-md) {
+      display: none;
     }
   }
 </style>
@@ -1161,7 +1207,7 @@
 
     <article class="t-card t-cta asTiny" role="region" aria-label="Buy ticket">
       <div>
-        <p class="t-ctaTitle">Ready to join us on {@html eventDate}?</p>
+        <p class="t-ctaTitle">Ready to join us <span class="u-nowrap">on {@html eventDate}?</span></p>
         <p>
           {@html eventHour}
           <span class="sr-area">
@@ -1177,6 +1223,7 @@
 </main>
 
 <footer class="footer">
+  <span class="t-echos"></span>
   <div class="footerArea">
     <div>
       <p>Made without coffee by <span class="u-nowrap"><a class="u-link" href={ SITE_URL } rel="noreferrer" on:click={() => trackClick('footer_me')}>Sandrina Pereira</a>.</span></p>
