@@ -281,6 +281,7 @@
     white-space: nowrap;
     text-decoration: none;
     color: #fff;
+    text-align: center;
 
     .dark & {
       color: var(--text_invert);
