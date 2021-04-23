@@ -51,7 +51,7 @@
     },
   ]
 
-  const price = "$200 USD" 
+  const price = "$350 USD" 
   const eventDate = 'May 10-13'
   const eventHour = `<time>15:45</time> to <time>18:00</time>`
   const eventTZ = 'UTC'
@@ -748,7 +748,7 @@
   </header>
 
   <div class="cta-sticky">
-    <a href={ticketUrl} class="u-btnMain" on:click={() => trackClick('cta_sticky')}>Get Early Bird Ticket</a>
+    <a href={ticketUrl} class="u-btnMain" on:click={() => trackClick('cta_sticky')}>Get Ticket</a>
   </div>
 
   <!-- REVIEW HR? -->
@@ -943,7 +943,7 @@
       </dl>
 
       <a href={ticketUrl} class="u-btnMain" on:click={() => trackClick('cta_card')}>Get ticket for {price}</a>
-      <span class="t-ctaNote">Price is Early Bird</span>
+      <!-- <span class="t-ctaNote">Price is Early Bird</span> -->
     </article>
 
     <!-- <WorkshopForm formEndpoint={endpointA11Y}>
@@ -1150,8 +1150,8 @@
 
         <li>
           <Accordion summary="Is there any discounts available?">
-            The workshop will have an Early Bird price until May 19.
-            After that, I don't plan to do more discounts available.
+            The workshop will have an Early Bird price until April 25.
+            After that, I don't plan to do more discounts.
             Regardless, I understand that the cost of this workshop can be too high for some people.
             If you are a student you can reach out to me.
           </Accordion>
