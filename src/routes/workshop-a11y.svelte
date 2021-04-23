@@ -858,7 +858,7 @@
       <li>Quickly identify common accessibility issues</li>
       <li>Integrate accessibility into your team workflow right away</li>
       <li>
-        Realize that creating websites isn’t as hard as <span class="u-nowrap">it sounds
+        Realize that creating accessible websites isn’t as hard <span class="u-nowrap">as it sounds
         <span aria-hidden="true">;)</span></span>
       </li>
     </ul>
