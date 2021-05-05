@@ -942,7 +942,7 @@
         <dd>{@html eventHour} <span class="t-sm">{eventTZ}</span></dd>
       </dl>
 
-      <a href={ticketUrl} class="u-btnMain" on:click={() => trackClick('cta_card')}>Get ticket for {price}</a>
+      <a href={ticketUrl} class="u-btnMain" on:click={() => trackClick('cta_card')}>Buy ticket</a>
       <!-- <span class="t-ctaNote">Price is Early Bird</span> -->
     </article>
 
