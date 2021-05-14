@@ -52,7 +52,7 @@
   ]
 
   const price = "$350 USD" 
-  const eventDate = 'May 10-13'
+  const eventDate = 'Late 2021'
   const eventHour = `<time>15:45</time> to <time>18:00</time>`
   const eventTZ = 'UTC'
 
@@ -748,10 +748,9 @@
   </header>
 
   <div class="cta-sticky">
-    <a href={ticketUrl} class="u-btnMain" on:click={() => trackClick('cta_sticky')}>Get Ticket</a>
+    <a href="#ticketArea" class="u-btnMain" on:click={() => trackClick('cta_sticky')}>Join the list</a>
   </div>
 
-  <!-- REVIEW HR? -->
   <span class="t-separator"></span>
 
   <div class="t-blockread">
@@ -920,8 +919,8 @@
       </li>
       <li>Be willing to learn something different!</li>
     </ul>
-
-    <article class="t-card t-cta" role="region" aria-label="Buy ticket">
+  
+    <!-- <article class="t-card t-cta" role="region" aria-label="Buy ticket">
       <h2 class="t-ctaTitle">Join the workshop!</h2>
       <p class="t-ctaPitch">Get 9 hours over 4 days <span class="u-nowrap">of hands-on exploration.</span></p>
 
@@ -943,10 +942,10 @@
       </dl>
 
       <a href={ticketUrl} class="u-btnMain" on:click={() => trackClick('cta_card')}>Buy ticket</a>
-      <!-- <span class="t-ctaNote">Price is Early Bird</span> -->
-    </article>
+      <span class="t-ctaNote">Price is Early Bird</span>
+    </article> -->
 
-    <!-- <WorkshopForm formEndpoint={endpointA11Y}>
+    <WorkshopForm formEndpoint={endpointA11Y}>
       <p class="t-ctaPitch">Get 9 hours, over 4 days, to refine your A11Y knowledge.</p>
 
       <dl class="t-ctaPoints">
@@ -956,7 +955,7 @@
           </svg>
           <span class="sr-only">When:</span>
         </dt>
-        <dd>Soon</dd>
+        <dd>Late 2021</dd>
 
         <dt>
           <svg aria-hidden="true" class="u-svg" style="display: none;">
@@ -964,9 +963,9 @@
           </svg>
           <span class="sr-only">Hour:</span>
         </dt>
-        <dd>{eventHour} <span class="tz">{eventTZ}</span></dd>
+        <dd>{@html eventHour} <span class="tz">{eventTZ}</span></dd>
       </dl>
-    </WorkshopForm> -->
+    </WorkshopForm>
 
     <div class="t-blockwide">
       <SectionSkew isOnStage sectionName="a11yAbout" klass="k-about" motionReduced={true}>
