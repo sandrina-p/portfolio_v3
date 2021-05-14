@@ -14,6 +14,7 @@
 
   const ticketUrl = 'https://ti.to/sandrina-p/a11y-workshop'
   const endpointA11Y = 'https://app.convertkit.com/forms/1318242/subscriptions';
+  const urlHash = 'workshop-a11y/#wsForm' // svelte isn't cool with hashes...
 
   const modules = [
     {
@@ -63,6 +64,10 @@
   
   function trackClick(action) {
     sendGA('send', 'event', 'click', 'workshop', action)
+  }
+
+  function handleJoinListClick() {
+    trackClick('cta_sticky')
   }
 </script>
 
@@ -748,7 +753,7 @@
   </header>
 
   <div class="cta-sticky">
-    <a href="#ticketArea" class="u-btnMain" on:click={() => trackClick('cta_sticky')}>Join the list</a>
+    <a href={urlHash} class="u-btnMain" on:click={handleJoinListClick}>Join the list</a>
   </div>
 
   <span class="t-separator"></span>
@@ -902,7 +907,7 @@
       workshop as a way to solidify your knowledge and fill any existing gaps.
     </p>
 
-    <h3 class="t-title asH3">
+    <h3 class="t-title asH3" id="wsForm">
       Pre-requisites
     </h3>
     <ul class="t-list">
@@ -1203,7 +1208,7 @@
       </ul>
     </section>
 
-    <article class="t-card t-cta asTiny" role="region" aria-label="Buy ticket">
+    <!-- <article class="t-card t-cta asTiny" role="region" aria-label="Buy ticket">
       <div>
         <p class="t-ctaTitle">Ready to join us <span class="u-nowrap">on {@html eventDate}?</span></p>
         <p>
@@ -1215,7 +1220,7 @@
         </p>
       </div>
       <a href={ticketUrl} class="u-btnMain" on:click={() => trackClick('cta_card_mini')}>Get ticket</a>
-    </article>
+    </article> -->
   </div>
   <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 </main>

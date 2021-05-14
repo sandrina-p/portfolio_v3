@@ -68,7 +68,7 @@
     switch (field) {
       case 'name':
         if (!value) {
-          errors.name = 'Your name is required.';
+          errors.name = 'Your first name is required.';
         }
         break;
       case 'email':
@@ -94,7 +94,7 @@
     hasInlineError = false;
 
     if (!first_name) {
-      errors.name = 'Your name is required.';
+      errors.name = 'Your first name is required.';
       hasInlineError = true;
     }
 
@@ -334,7 +334,7 @@
 
   <div class="fields-combo">
     <label class="field" class:error={errors.name}>
-      <span class="field-label">Your name</span>
+      <span class="field-label">Your first name</span>
       <input
         type="text"
         class="field-input"
