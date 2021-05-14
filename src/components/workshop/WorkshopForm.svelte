@@ -428,7 +428,7 @@
 
       <p class="p feedbackTip">
         Didn't receive an e-mail? Reach me
-        <a class="u-link" href={MAIL_TO} target="_blank">hi@asandrinap.com</a>.
+        <a class="u-link" href={MAIL_TO} target="_blank">a.sandrina.p+w@gmail.com</a>.
       </p>
     {:else}
       <h2 class="f-title card-title">
@@ -438,7 +438,7 @@
       <p class="p feedbackMsg">Error: {formErrorMsg}</p>
       <p class="p feedbackTip">
         Please send me an e-mail directly at
-        <a class="u-link" href={MAIL_TO} target="_blank">hi@asandrinap.com</a>
+        <a class="u-link" href={MAIL_TO} target="_blank">a.sandrina.p+w@gmail.com</a>
         reporting the above error and I'll reserve your spot!
       </p>
     {/if}
