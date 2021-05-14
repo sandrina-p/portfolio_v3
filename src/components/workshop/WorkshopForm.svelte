@@ -311,10 +311,17 @@
   .u-primary {
     color: var(--primary_1);
   }
+
+  #wsForm {
+    margin-top: -150px;
+    padding-bottom: 150px;
+    display: block;
+  }
 </style>
 
 {#if !isFormSubmitted}
   <form class:card={!excludeBox} on:submit|preventDefault={handleSubmit}>
+    <span id="wsForm"></span>
     <h3 class="f-title card-title">
       Want to join?
       <span class="u-primary">Mark your spot!</span>

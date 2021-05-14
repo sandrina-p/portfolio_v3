@@ -907,7 +907,7 @@
       workshop as a way to solidify your knowledge and fill any existing gaps.
     </p>
 
-    <h3 class="t-title asH3" id="wsForm">
+    <h3 class="t-title asH3">
       Pre-requisites
     </h3>
     <ul class="t-list">
