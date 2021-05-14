@@ -659,7 +659,7 @@
   site={`${SITE_URL}/workshop-a11y`}
   title="Web Accessibility Fundamentals Workshop | Sandrina Pereira"
   description="In this workshop we'll explore how accessibility doesn't have to limit our solutions or skills. On the contrary, it will make them more inclusive!"
-  coverUrl={`${SITE_URL}/cover_a11y_tba.png`} />
+  coverUrl={`${SITE_URL}/cover_a11y_late2021.png`} />
 
 <svelte:head>
   <script type="application/ld+json">
@@ -681,7 +681,7 @@
             item: {
               '@id': 'https://sandrina-p.net/workshop-a11y',
               name: 'Web Accessibility Fundamentals Workshop | Sandrina Pereira',
-              image: 'https://sandrina-p.net/cover_a11y_tba.png',
+              image: 'https://sandrina-p.net/cover_a11y_late2021.png',
             },
           },
         ],
@@ -696,7 +696,7 @@
         headline: 'Web Accessibility Fundamentals Workshop | Sandrina Pereira',
         image: {
           '@type': 'ImageObject',
-          url: 'https://sandrina-p.net/cover_a11y_tba.png',
+          url: 'https://sandrina-p.net/cover_a11y_late2021.png',
           height: 1280,
           width: 640,
         },
