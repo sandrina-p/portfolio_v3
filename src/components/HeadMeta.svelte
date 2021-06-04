@@ -31,9 +31,8 @@
   <meta property="og:site_name" content={ title }>
   <meta name="twitter:image:alt" content="website cover">
 
-  <script async src="https://www.google-analytics.com/analytics.js"></script>
+  <!-- <script data-respect-dnt src="https://cdn.splitbee.io/sb.js"></script> -->
   <script>
-    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-    ga('create', '__GA_ID__', 'auto'); // Key at rollup.config.js
+  
   </script>
 </svelte:head>

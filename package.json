@@ -15,6 +15,7 @@
     "test": "run-p --race dev cy:run"
   },
   "dependencies": {
+    "@splitbee/web": "^0.2.4",
     "compression": "^1.7.1",
     "cypress": "^6.5.0",
     "polka": "next",

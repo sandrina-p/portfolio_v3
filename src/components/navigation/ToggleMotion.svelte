@@ -1,6 +1,6 @@
 <script>
   import { onMount } from 'svelte';
-  import { sendGA } from '../../utils';
+  import { sendTrack } from '../../utils/analytics';
   import { updateMotion } from '../../stores/motion.js';
 
   let isReduced = false;
@@ -14,7 +14,6 @@
   function setReduced (bool) {
     isReduced = bool;
     updateMotion({ isReduced })
-    sendGA('send', 'event', 'settings', 'toggle_reduced_motion', isReduced);
   }
 
   function toggleMotion() {
@@ -29,6 +28,7 @@
     document.body.classList.remove('jsMotionInitial');
 
     setReduced(isNowReduced);
+    sendTrack('reduced_motion_toggle', isNowReduced);
   }
 
   export let klass = '';

@@ -1,5 +1,5 @@
 <script>
-  import { sendGA } from '../../utils';
+  import { sendTrack } from '../../utils/analytics';
 
   export let list;
   export let isOnStage;
@@ -300,7 +300,7 @@
               </svg>
               <a href={link} rel="noreferrer" target="_blank"
                 class="u-link"
-                on:click={() => sendGA('send', 'event', 'click' , 'words', id)}>
+                on:click={() => sendTrack('click_words', id)}>
                 <span class="placeLinkWhere">{where}</span>
               </a>
             </div>

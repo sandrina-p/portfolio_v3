@@ -6,7 +6,8 @@
   import { afterMotionUpdate } from '../../stores/motion.js';
   import ToggleTheme from './ToggleTheme.svelte';
   import ToggleMotion from './ToggleMotion.svelte';
-  import { TIMEOUTS, sendGA } from '../../utils';
+  import { TIMEOUTS } from '../../utils';
+  import { sendTrack } from '../../utils/analytics';
 
   const workshopUrl = '/workshop-a11y'
 
@@ -20,26 +21,21 @@
   let wasSelected = null; // when the link is clicked, trigger the fancyTransition
   let isRICScheduled = false;
   let isMenuOpen = false;
-  let navPath = '' // navigation path to send to GA
+  let deviceType = '' // desktop or mobile
   let sectionCount = 0
 
   // avoid too much events when navigating through menu,
   // or users "playing" with transitions back and forward.
   const trackNavPath = debounce((section, isFromMenu) => {
-    sendGA('send', 'event', 'navigation', 'sectionCount', sectionCount++)
-    sendGA('send', 'event', 'navigation', 'sectionName', `${navPath}_${section}${isFromMenu ? '_menu' : ''}`)
-
-    // Removed this because it's noisy in the metrics
-    // const newPath = navPath + '_' + sectionsId[section] + (isFromMenu ? '-menu' : '');
-    // navPath = newPath;
-    // sendGA('send', 'event', 'navigation', 'section', newPath)
+    sendTrack('navigation_count', sectionCount++)
+    sendTrack('navigation_name', `${deviceType}_${section}${isFromMenu ? '_menu' : ''}`)
   }, 1000);
 
   afterGeneralUpdate((prevState, state) => {
     if (!prevState.isReady && state.isReady) {
       setNavigationData();
       window.addEventListener('scroll', handleNavScroll);
-      navPath = `${$matchMq.lg ? 'desktop' : 'mobile'}`
+      deviceType = `${$matchMq.lg ? 'desktop' : 'mobile'}`
     }
 
     const prevPageSection = prevState.pageCurrentSection;
@@ -76,16 +72,12 @@
       // TODO/OPTIMIZE. [*CODE_SHAME*]
       console.warn('The page changed between mobile/desktop. Reloading...')
       // Okay... this is the part I'm less proud off.
-      sendGA('send', 'event', 'ups', 'reload', {
-        hitCallback: function() {
-          location.reload(); 
-        }
-      });
+      sendTrack('ups_reload')
       // in case ga doesn't fire fast enough.
       setTimeout(() => { location.reload() }, 1000)
     } else {
       setNavigationData();
-      sendGA('send', 'event', 'resize', 'desktop_from_to', `${prevState.matchMq.lg}_${state.matchMq.lg}`);
+      sendTrack('resize', `${prevState.matchMq.lg}_${state.matchMq.lg}`);
     }
   })
 
@@ -221,7 +213,7 @@
   }
 
   function trackClick(action) {
-    sendGA('send', 'event', 'click', 'nav', action)
+    sendTrack('click_nav', action)
   }
 
   export let horizonSpace;

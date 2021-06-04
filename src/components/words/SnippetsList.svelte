@@ -1,5 +1,5 @@
 <script>
-  import { sendGA } from '../../utils';
+  import { sendTrack } from '../../utils/analytics';
 
   export let list;
 </script>
@@ -27,7 +27,7 @@
       <h3 class="f-title title">
         <a href={link} rel="noreferrer" target="_blank"
           class="u-link"
-          on:click={() => sendGA('send', 'event', 'click' , 'words', id)}>
+          on:click={() => sendTrack('click_snippets', id)}>
           {title}
         </a>
       </h3>

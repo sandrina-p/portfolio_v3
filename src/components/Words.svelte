@@ -1,6 +1,6 @@
 <script>
   import words from '../data/words.js';
-  import { sendGA } from '../utils';
+  import { sendTrack } from '../utils/analytics';
   import { afterGeneralUpdate } from '../stores/general.js';
   import WordsList from './words/WordsList.svelte'
   import { SITE_URL } from '../data/misc.js';
@@ -23,7 +23,7 @@
   });
 
   function trackClick(action) {
-    sendGA('send', 'event', 'click', 'words', action)
+    sendTrack('click_words', action)
   }
 </script>
 

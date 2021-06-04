@@ -1,6 +1,6 @@
 <script>
   import { onMount } from 'svelte';
-  import { sendGA } from '../../utils';
+  import { sendTrack } from '../../utils/analytics';
 
   let isDark = false;
   let sunH = 4;
@@ -13,12 +13,12 @@
   function setDark (isNowDark) {
     sunH = isNowDark ? 0 : 4;
     isDark = isNowDark;
-    sendGA('send', 'event', 'settings', 'toggle_dark_theme', isNowDark);
   }
 
   function toggleTheme() {
     const isDarkNext = !isDark;
     setDark(isDarkNext);
+    sendTrack('dark_theme_toggle', isDarkNext);
 
     // Don't use .toggle() to avoid possible desync when clicking toooo fast.
     const action = isDarkNext ? 'add' : 'remove';

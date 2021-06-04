@@ -4,7 +4,7 @@
   import throttle from 'lodash/throttle';
   import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
   import { strMotion, afterMotionUpdate } from '../stores/motion.js';
-  import { getInLimit, scrollIntoView, sendGA } from '../utils';
+  import { getInLimit, scrollIntoView } from '../utils';
   import { EMAIL_URL } from '../data/misc.js';
   import Contacts from './Contacts.svelte';
   import TimeLoad from './TimeLoad.svelte';

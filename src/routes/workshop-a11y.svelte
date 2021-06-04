@@ -63,7 +63,7 @@
   });
   
   function trackClick(action) {
-    sendGA('send', 'event', 'click', 'workshop', action)
+    sendTrack('click_workshop', action)
   }
 
   function handleJoinListClick() {
@@ -162,7 +162,7 @@
 
       &Name {
         color: var(--primary_1);
-        text-echosation: none;
+        text-decoration: none;
 
         &::before {
           height: 1.4em;
@@ -612,10 +612,11 @@
   .t-echos {
     position: absolute;
     bottom: 100%;
-    left: calc(50vw + $widthFAQ / 2 - 80px);
+    left: calc(50vw + $widthFAQ / 2 + 25px);
     width: 80px;
     height: 100px;
     background: linear-gradient(180deg, rgba(255, 63, 51, 0.21) 0%, rgba(255, 255, 255, 0) 100%);
+    z-index: -1;
 
     :global(.dark) & {
       background: linear-gradient(180deg, rgba(221, 141, 141, 0.33), rgba(255, 255, 255, 0) 100%); 
@@ -1183,7 +1184,7 @@
 
         <li>
           <Accordion summary="How many times have you gave this workshop?">
-            This remote version is the 4th edition.
+            This remote version will be the 7th edition.
             I started giving full-day workshops in 2018, back to office times.
             The first one about accessibility was in 2019.
             In 2020 I rethought the contents entirely and adapt it to a remote version.

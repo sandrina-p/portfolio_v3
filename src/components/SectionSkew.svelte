@@ -3,7 +3,7 @@
   import { _window, afterResponsiveUpdate } from '../stores/responsive.js';
   import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
   import { strMotion, afterMotionUpdate } from '../stores/motion.js';
-  import { getInLimit, scrollIntoView, sendGA } from '../utils';
+  import { getInLimit, scrollIntoView } from '../utils';
 
   export let isOnStage;
   export let sectionName;
@@ -114,10 +114,6 @@
       value: $_window.innerHeight * -0.25 + 32 // $paddingTop + visual margin.
     })
     animation.verify();
-  }
-
-  function trackClick(action) {
-    sendGA('send', 'event', 'click', sectionName, action)
   }
 </script>
 

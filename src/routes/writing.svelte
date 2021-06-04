@@ -14,7 +14,7 @@
   import words from '../data/words.js';
   import snippets from '../data/snippets.js';
 
-  import { sendGA } from '../utils';
+  import { sendTrack } from '../utils/analytics';
 
   onMount(async () => {
     initResponsive();
@@ -22,7 +22,7 @@
   });
 
   function trackClick(action) {
-    sendGA('send', 'event', 'click', 'writing', action)
+    sendTrack('click_writing', action)
   }
 </script>
 

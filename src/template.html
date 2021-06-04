@@ -71,7 +71,9 @@
         ? 'jsMotionReduced'
         : 'jsMotionDefault';
     document.body.classList.add(motionClass, 'jsMotionInitial');
-    ga('send', 'event', 'settings', 'default', theme + '_' + motionClass);
+    var splitbee_track_default = theme + '_' + motionClass;
+    // Track on mount to ensure splitbee is defined
+    // splitbee.track('settings_default', theme + '_' + motionClass);
       /*[3]*/ (function sb() {
       var bs = {
         jsChrome: /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor),
@@ -98,7 +100,7 @@
         'Wow, your browser seems ancient and this website might not work as expected.' +
         '<br/>' +
         'Fear not, you can still reach me by <a href="mailto:a.sandrina.p+w@gmail.com" class="u-link">e-mail</a>!';
-      ga('send', 'event', 'settings', 'default', 'isOld!');
+      // splitbee.track('settings_browser_old!');
     }
   </script>
 

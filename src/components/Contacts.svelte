@@ -1,6 +1,6 @@
 <script>
   import { EMAIL_URL, EMAIL_URL_WORKSHOP } from '../data/misc.js';
-  import { sendGA } from '../utils';
+  import { sendTrack } from '../utils/analytics';
 
   export let essentialOnly;
   export let isWorkshop;
@@ -64,7 +64,7 @@
             rel="noreferrer"
             target="_blank"
             class="u-link link"
-            on:click={() => sendGA('send', 'event', 'click', 'contacts', name)}>
+            on:click={() => sendTrack('click_contacts', name)}>
             {name}
           </a>
         </li>

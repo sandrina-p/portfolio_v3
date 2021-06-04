@@ -22,7 +22,7 @@ const preprocess = sveltePreprocess({
   preserve: ['ld+json'], // for schema on <head>
 });
 
-const ga_id = { __GA_ID__: dev ? false : 'UA-70069700-4' };
+// const ga_id = { __GA_ID__: dev ? false : 'UA-70069700-4' };
 
 export default {
   client: {
@@ -30,7 +30,7 @@ export default {
     output: config.client.output(),
     plugins: [
       replace({
-        ...ga_id,
+        // ...ga_id,
         'process.browser': true,
         'process.env.NODE_ENV': JSON.stringify(mode),
       }),
@@ -87,7 +87,7 @@ export default {
     output: config.server.output(),
     plugins: [
       replace({
-        ...ga_id,
+        // ...ga_id,
         'process.browser': false,
         'process.env.NODE_ENV': JSON.stringify(mode),
       }),

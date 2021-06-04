@@ -3,7 +3,8 @@
   import { _window, afterResponsiveUpdate } from '../stores/responsive.js';
   import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
   import { strMotion, afterMotionUpdate } from '../stores/motion.js';
-  import { getInLimit, scrollIntoView, sendGA } from '../utils';
+  import { getInLimit, scrollIntoView } from '../utils';
+  import { sendTrack } from '../utils/analytics';
   import { MENTOR_URL, SPEAKER_URL, CODEPEN_URL, SMASHING_URL, CSSTRICKS_URL } from '../data/misc.js';
 
   const workshopUrl = '/workshop-a11y'
@@ -133,7 +134,7 @@
   }
 
   function trackClick(action) {
-    sendGA('send', 'event', 'click', 'contacts', action)
+    sendTrack('click_contacts', action)
   }
 </script>
 
