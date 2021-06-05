@@ -96,6 +96,7 @@ function initResponsive(options) {
   window.addEventListener('resize', debounceResize);
   console.log('initResponsive started');
   console.log('hum', _windowState);
+  sendTrack('settings_default', splitbee_track_default); // defined in template
   trackUser({ resolution: `${_windowState.innerWidth}x${_windowState.innerHeight}` });
 }
 

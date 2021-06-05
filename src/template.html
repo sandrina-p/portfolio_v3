@@ -71,8 +71,8 @@
         ? 'jsMotionReduced'
         : 'jsMotionDefault';
     document.body.classList.add(motionClass, 'jsMotionInitial');
+    // To be tracked later on mount to ensure splitbee is defined
     var splitbee_track_default = theme + '_' + motionClass;
-    // Track on mount to ensure splitbee is defined
     // splitbee.track('settings_default', theme + '_' + motionClass);
       /*[3]*/ (function sb() {
       var bs = {
