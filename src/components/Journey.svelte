@@ -346,7 +346,7 @@
 
     <p class="p">
       Although I've been a developer my entire career, I proudly hold a degree in Communication Design and post-grad in Digital Experience Design.
-      During this path I found my way a self-taught frontend developer.
+      During this path I found my way as a self-taught frontend developer.
     </p>
     <p class="p">
       Giving back to the community has been a joy. I started by pushing pixels around on 
