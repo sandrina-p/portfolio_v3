@@ -54,7 +54,7 @@
 
   const price = "$350 USD" 
   const eventDate = 'Late 2021'
-  const eventHour = `<time>15:45</time> to <time>18:00</time>`
+  const eventHour = `<time>15:30</time> to <time>18:00</time>`
   const eventTZ = 'UTC'
 
   onMount(async () => {
@@ -746,8 +746,8 @@
       <p>
         {@html eventDate} <span class="t-t1">|</span> 
         <span class="sr-area">
-          <span aria-hidden="true">9 hours <span class="t-sm">(2:15h × 4 days)</span></span>
-          <span class="sr-only">9 hours total - 2 hours and 15 minutes across 4 days</span>
+          <span aria-hidden="true">10 hours <span class="t-sm">(2:30h × 4 days)</span></span>
+          <span class="sr-only">10 hours total - 2 hours and 30 minutes across 4 days</span>
         </span>
       </p>
     </div>
@@ -928,7 +928,7 @@
   
     <!-- <article class="t-card t-cta" role="region" aria-label="Buy ticket">
       <h2 class="t-ctaTitle">Join the workshop!</h2>
-      <p class="t-ctaPitch">Get 9 hours over 4 days <span class="u-nowrap">of hands-on exploration.</span></p>
+      <p class="t-ctaPitch">Get 10 hours over 4 days <span class="u-nowrap">of hands-on exploration.</span></p>
 
       <dl class="t-ctaPoints">
         <dt>
@@ -952,7 +952,7 @@
     </article> -->
 
     <WorkshopForm formEndpoint={endpointA11Y}>
-      <p class="t-ctaPitch">Get 9 hours, over 4 days, to refine your A11Y knowledge.</p>
+      <p class="t-ctaPitch">Get 10 hours, over 4 days, to refine your A11Y knowledge.</p>
 
       <dl class="t-ctaPoints">
         <dt class="time-todo">
