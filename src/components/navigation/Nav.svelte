@@ -6,6 +6,7 @@
   import { afterMotionUpdate } from '../../stores/motion.js';
   import ToggleTheme from './ToggleTheme.svelte';
   import ToggleMotion from './ToggleMotion.svelte';
+  import ToggleContrast from './ToggleContrast.svelte';
   import { TIMEOUTS } from '../../utils';
   import { sendTrack } from '../../utils/analytics';
 
@@ -349,7 +350,7 @@
 
   .linksAnchor,
   .line,
-  :global(.btnMotion) {
+  :global(.btnToggle) {
     visibility: hidden;
     pointer-events: none;
     opacity: 0;
@@ -386,7 +387,7 @@
   }
 
   .line,
-  :global(.btnMotion) {
+  :global(.btnToggle) {
     --time: 300ms;
     --delay: calc($openDelay*1);
 
@@ -394,6 +395,12 @@
       --time: 1000ms;
       --delay: calc($openDelay*6);
     }
+  }
+
+  .toggles {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
   }
 
   .burger {
@@ -529,7 +536,10 @@
         {/each}
       </ul>
       <span class="line"></span>
-      <ToggleMotion klass='btnMotion'/>
+      <div class="toggles">
+        <ToggleMotion klass='btnToggle' />
+        <!-- <ToggleContrast klass='btnToggle' /> -->
+      </div>
     </div>
   </div>
 </nav>

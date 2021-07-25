@@ -43,7 +43,8 @@
     // 
     // [1] - Set the default theme. Remaining logic at ToggleTheme.svelte
     // [2] - Set the default motion. Tablet is always reduced just in case. Remaining logic at ToggleMotion.svelte
-    // [3] - Detect current browser. Needed for some CSS animations otimizations.
+    // [3] - Set the default color contrast.
+    // [4] - Detect current browser. Needed for some CSS animations otimizations.
     // DO NOT modify any DOM element inside #sapper! Otherwise Svelte hydratation won't work properly.
     var isOld = !window.fetch || !window.matchMedia;
     /*[1]*/
@@ -71,10 +72,15 @@
         ? 'jsMotionReduced'
         : 'jsMotionDefault';
     document.body.classList.add(motionClass, 'jsMotionInitial');
+    /*[3] - contrast - Note July 2021: Not supported in any browser yet */
+    var contractClass = isOld || !window.matchMedia('(prefers-contrast: more)').matches
+      ? 'jsContrastDefault'
+      : 'jsContrastMore';
+    document.body.classList.add(contractClass);
     // To be tracked later on mount to ensure splitbee is defined
     var splitbee_track_default = theme + '_' + motionClass;
     // splitbee.track('settings_default', theme + '_' + motionClass);
-      /*[3]*/ (function sb() {
+    /*[4]*/ (function currBrowser() {
       var bs = {
         jsChrome: /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor),
         jsSafari: !!navigator.userAgent.match(/Version\/[\d\.]+.*Safari/),

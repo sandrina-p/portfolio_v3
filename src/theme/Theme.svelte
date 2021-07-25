@@ -26,6 +26,23 @@
     --error: #d52424;
   }
 
+  /* WIP Still disabled */
+  body.jsContrastMore {
+    --text_0: #000;
+    --text_1: #343434;
+    --text_s: #000000; /* for bold text in dark mode only */
+    --text_invert: #fff; /* similar to bg but lighter */
+    --bg_0: #ffe4cf;
+    --bg_1: #fff;
+
+    --primary_1: #751aec;
+    --primary_1_smooth: #8E38FF;
+    --primary_1_highlight: #751aec;
+    /* --primary_1_inverted: hsl(266deg 100% 75%); */
+    --morph_color: rgb(129 28 255 / 41%);
+    --morph_total: #751aec; /* visual effect when all circles are overlapping */
+  }
+
   body.dark {
     --text_0: #e2e2e2; /* same as --text_invert */
     --text_1: #adadad;
