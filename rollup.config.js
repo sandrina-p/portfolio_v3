@@ -71,6 +71,9 @@ export default {
           ],
           plugins: [
             '@babel/plugin-syntax-dynamic-import',
+            // SyntaxError importMeta inject_styles.js 3:35
+            // var href = new URL(file, import.meta.url);
+            '@babel/plugin-syntax-import-meta',
             [
               '@babel/plugin-transform-runtime',
               {
