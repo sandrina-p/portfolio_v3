@@ -1,5 +1,19 @@
 export default [
   {
+    isPromoted: true,
+    title: 'Making disabled buttons more inclusive',
+    date: "May '21",
+    places: [
+      {
+        id: 'disabled_btns',
+        type: 'article',
+        where: 'Dev.CSS-Tricks',
+        svg: 'css',
+        link: 'https://css-tricks.com/making-disabled-buttons-more-inclusive',
+      },
+    ],
+  },
+  {
     title: 'Breaking text on a specific word and Screen Readers implications',
     date: "Sep '20",
     places: [
@@ -64,7 +78,6 @@ export default [
     ],
   },
   {
-    isPromoted: true,
     title: 'Using CSS variables to wrangle variations in keyframe animations',
     date: "Sep '19",
     places: [
