@@ -51,7 +51,6 @@
 
   :global(body.js-tabbing) {
      .summary:focus {
-       outline: none;
        opacity: 0.1;
        border-radius: 3px;
        box-shadow: inset var(--bg_0) 0 0 0 2px, inset var(--primary_1_pair) 0 0 0 4px;

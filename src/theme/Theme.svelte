@@ -97,7 +97,6 @@
   body.js-tabbing {
     a:focus,
     button:focus {
-      outline: none;
       border-radius: 3px;
       box-shadow: var(--bg_0) 0 0 0 2px, var(--primary_1_pair) 0 0 0 4px;
       outline: var(--focus_outline);
@@ -419,7 +418,6 @@
 
     a:focus-visible,
     button:focus-visible {
-      outline: none;
       border-radius: 3px;
       box-shadow: var(--bg_0) 0 0 0 2px, var(--primary_1_pair) 0 0 0 4px;
       outline: var(--focus_outline);
