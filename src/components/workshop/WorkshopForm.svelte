@@ -253,6 +253,7 @@
       &:focus {
         outline: none;
         box-shadow: 0 0 0 2px var(--primary_1);
+        outline: var(--focus_outline);
       }
     }
 

@@ -24,6 +24,9 @@
     --primary_3: #dfb948;
     --primary_4: #ff9d9d;
     --error: #d52424;
+
+    /* Fallback for Windows high contrast: https://blogs.windows.com/msedgedev/2020/09/17/styling-for-windows-high-contrast-with-new-standards-for-forced-colors/ */
+    --focus_outline: 2px solid transparent;
   }
 
   /* WIP Still disabled */
@@ -97,6 +100,7 @@
       outline: none;
       border-radius: 3px;
       box-shadow: var(--bg_0) 0 0 0 2px, var(--primary_1_pair) 0 0 0 4px;
+      outline: var(--focus_outline);
     }
   }
 
@@ -418,6 +422,7 @@
       outline: none;
       border-radius: 3px;
       box-shadow: var(--bg_0) 0 0 0 2px, var(--primary_1_pair) 0 0 0 4px;
+      outline: var(--focus_outline);
     }
   </style>
 </noscript>
