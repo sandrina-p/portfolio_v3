@@ -7,6 +7,7 @@
   const MAIL_TO =
     'mailto:a.sandrina.p@gmail.com?subject=Workshop%20-%20Accessibility%20Fundamentals&body=So,%20I%20was%20checking%20your%20"Accessibility%20Fundamentals"%20workshop%20and...';
 
+  let refFormFeedback = null;
   let isFormSubmitting = false;
   let isFormSubmitted = false;
   let formErrorMsg = '';
@@ -15,21 +16,15 @@
 
   let first_name = '';
   let email_address = '';
-  // let formReason = '';
-  let form_time = [];
 
-  let warnings = {};
   let errors = {
     name: null,
     email: null,
-    // reason: null,
     time: null,
   };
 
   let slots = $$props.$$slots;
 
-
-  // TODO - DRY these validations... on a next workshop maybe!
 
   function handleChange(e, field) {
     const value = e.target.value;
@@ -44,19 +39,6 @@
           errors.email = '';
         }
         break;
-      // case 'reason':
-      //   if (errors.reason && !!value) {
-      //     errors.reason = ''
-      //   }
-      //   if (value.length >= 350) {
-      //     warnings.reason = "That's enough Shakespeare 🧐"
-      //   }
-      //   break;
-      // case 'time':
-      //   if (errors.time) {
-      //     errors.time = '';
-      //   }
-      //   break;
       default:
         break;
     }
@@ -76,11 +58,6 @@
           errors.email = 'Your e-mail is required.';
         }
         break;
-      // case 'reason':
-      //   if (value.length < 15) {
-      //     errors.reason = "Don't be shy, tell me more."
-      //   }
-      //   break;
       default:
         break;
     }
@@ -106,20 +83,6 @@
       hasInlineError = true;
     }
 
-    // if (formReason.length < 15) {
-    //   errors.reason = "Don't be shy, tell me more.";
-    //   hasInlineError = true;
-    // }
-
-    // if (!form_time.length) {
-    //   errors.time = 'Select a time slot.';
-    //   hasInlineError = true;
-    // } else if (form_time.length > 1 && form_time.includes('none')) {
-    //   errors.time =
-    //     'You seem undecided... You can either pick "None" or a time slot, but not both.';
-    //   hasInlineError = true;
-    // }
-
     if (hasInlineError) {
       return;
     }
@@ -141,6 +104,11 @@
     }
     isFormSubmitting = false;
     isFormSubmitted = true;
+  }
+
+  $: if(isFormSubmitted && refFormFeedback) {
+    const formFeedback = document.getElementById('formFeedback')
+    if(formFeedback) formFeedback.focus()
   }
 </script>
 
@@ -257,11 +225,6 @@
       }
     }
 
-    /* &-textarea {
-      max-width: none;
-      height: auto;
-      resize: vertical;
-    } */
 
     &-error {
       display: block;
@@ -271,11 +234,6 @@
     &-error {
       color: var(--error);
     }
-
-    /* &-info {
-      color: var(--text_0);
-      font-style: italic;
-    } */
 
     &-checkbox {
       display: block;
@@ -340,89 +298,61 @@
         </p>
     {/if}
 
-  <div class="fields-combo">
-    <label class="field" class:error={errors.name}>
-      <span class="field-label">Your first name</span>
-      <input
-        type="text"
-        class="field-input"
-        aria-required="true"
-        aria-invalid={!!errors.name}
-        on:keyup={e => handleChange(e, 'name')}
-        on:blur={e => handleBlur(e, 'name')}
-        bind:value={first_name} />
-      {#if errors.name}
-        <span class="field-error">{errors.name}</span>
-      {/if}
-    </label>
-
-    <label class="field" class:error={errors.email}>
-      <span class="field-label">Your e-mail</span>
-      <input
-        type="text"
-        inputmode="email"
-        class="field-input"
-        aria-required="true"
-        aria-invalid={!!errors.email}
-        on:keyup={e => handleChange(e, 'email')}
-        on:blur={e => handleBlur(e, 'email')}
-        bind:value={email_address} />
-      {#if errors.email}
-        <span class="field-error">{errors.email}</span>
-      {/if}
-    </label>
-  </div>
-
-    <!-- <fieldset class="field">
-      <legend class="field-label">What time slots work the best for you?</legend>
-      <span class="field-tip">
-        This will help me to decide what's the best schedule for most of the people.
-      </span>
-
-      <label class="field-checkbox">
+    <div class="fields-combo">
+      <label class="field" class:error={errors.name}>
+        <span class="field-label">Your first name</span>
         <input
-          type="checkbox"
-          name="slot"
-          value="morning"
-          on:change={e => handleChange(e, 'time')}
-          bind:group={form_time} />
-        9 AM - 1 PM UTC
+          type="text"
+          class="field-input"
+          aria-required="true"
+          aria-invalid={!!errors.name}
+          aria-describedby="field-name-error"
+          on:keyup={e => handleChange(e, 'name')}
+          on:blur={e => handleBlur(e, 'name')}
+          bind:value={first_name} />
+        {#if errors.name}
+          <span id="field-name-error" class="field-error" aria-live="assertive">{errors.name}</span>
+        {/if}
       </label>
 
-      <label class="field-checkbox">
+      <label class="field" class:error={errors.email}>
+        <span class="field-label">Your e-mail</span>
         <input
-          type="checkbox"
-          name="slot"
-          value="afternoon"
-          on:change={e => handleChange(e, 'time')}
-          bind:group={form_time} />
-        2 PM - 6 PM UTC
+          type="text"
+          inputmode="email"
+          class="field-input"
+          aria-required="true"
+          aria-invalid={!!errors.email}
+          aria-describedby="field-email-error"
+          on:keyup={e => handleChange(e, 'email')}
+          on:blur={e => handleBlur(e, 'email')}
+          bind:value={email_address} />
+        {#if errors.email}
+          <span id="field-email-error" class="field-error" aria-live="assertive">{errors.email}</span>
+        {/if}
       </label>
+    </div>
 
-      <label class="field-checkbox">
-        <input
-          type="checkbox"
-          name="slot"
-          value="none"
-          on:change={e => handleChange(e, 'time')}
-          bind:group={form_time} />
-        None 😭
-      </label>
-      {#if errors.time}
-        <span class="field-error">{errors.time}</span>
+    {#if hasInlineError}
+      <span class="sr-only" aria-live="assertive">Submit failed. The form is invalid. Please review the name and e-mail fields</span>
+    {/if}
+
+
+    <button type="submit" aria-disabled={isFormSubmitting} class="btn-submit" aria-label="Subscribe">
+      {!isFormSubmitting ? 'Subscribe' : 'Sending...'}
+      {#if isFormSubmitting}
+        <span class="sr-only" aria-live="assertive">Sending...</span>
       {/if}
-    </fieldset> -->
-
-    <button type="submit" aria-disabled={isFormSubmitting} class="btn-submit">
-      {!isFormSubmitting ? 'Reserve your spot' : 'Sending...'}
     </button>
     <p class="card-txt field-tip">
       Be the first to know when it's scheduled with Early Bird price
     </p>
   </form>
 {:else}
-  <div class="card">
+  <div class="card" bind:this={refFormFeedback}>
     {#if !formErrorMsg}
+      <span class="sr-only" tabindex="-1" id="formFeedback">Form submitted with success!</span>
+
       <h2 class="f-title card-title">
         <span class="u-primary">Cool!</span>
         One last thing...
@@ -436,9 +366,11 @@
 
       <p class="p feedbackTip">
         Didn't receive an e-mail? Reach me
-        <a class="u-link" href={MAIL_TO} target="_blank">a.sandrina.p+w@gmail.com</a>.
+        <a class="u-link" href={MAIL_TO} target="_blank">a.sandrina.p@gmail.com</a>.
       </p>
     {:else}
+      <span class="sr-only" tabindex="-1" id="formFeedback">Form failed!</span>
+
       <h2 class="f-title card-title">
         <span class="u-danger">Ups!</span>
         Something went wrong...
@@ -446,7 +378,7 @@
       <p class="p feedbackMsg">Error: {formErrorMsg}</p>
       <p class="p feedbackTip">
         Please send me an e-mail directly at
-        <a class="u-link" href={MAIL_TO} target="_blank">a.sandrina.p+w@gmail.com</a>
+        <a class="u-link" href={MAIL_TO} target="_blank">a.sandrina.p@gmail.com</a>
         reporting the above error and I'll reserve your spot!
       </p>
     {/if}
