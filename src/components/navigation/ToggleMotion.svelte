@@ -42,6 +42,6 @@
 
 </style>
 
-<BtnToggle isActive={isReduced} on:change={toggle} klass={klass}>
+<BtnToggle isActive={isReduced} on:change={toggle} klass={`${klass} toggleMotion`}>
   Reduced motion
 </BtnToggle>

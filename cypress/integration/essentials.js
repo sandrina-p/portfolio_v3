@@ -135,7 +135,7 @@ describe('Essentials', () => {
         .should('have.length', 4)
         // assert just the first card.
         //there's a 99.9%% change all the rest is right because this is a loop.
-        .eq(1)
+        .eq(2)
         .within(() => {
           cy.get('h3').should('contain', 'How front-end developers can empower designers’ work');
 
