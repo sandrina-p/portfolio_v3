@@ -187,10 +187,6 @@
     text-decoration-color: var(--linkClr);
     color: inherit;
     z-index: 0; /* so before gets behind but visible */
-
-    &:hover {
-      outline: none;
-    }
   
     @media (--max-lg) {
       &:hover {
@@ -205,16 +201,15 @@
     @media (--lg) { /* keep lg so long links work on "words" section */
       white-space: nowrap;
 
-      .jsMotionDefault &:hover,
-      body.js-tabbing &:focus {
+      .jsMotionDefault &:hover {
           &::before {
             transition-duration: 350ms ease-in-out;
             transform: scale(1, 1);
           }
       }
 
-       body.js-tabbing &:focus {
-        outline: none !important;
+      body.js-tabbing &:focus {
+        outline: var(--focus_outline) !important;
       }
 
       &::before {
@@ -261,7 +256,7 @@
     }
 
     body.js-tabbing &:focus {
-      outline: none !important;
+      outline: var(--focus_outline);
     }
 
     &::before {
@@ -332,10 +327,8 @@
       }
     }
 
-    .jsMotionDefault &:hover,
-    &:focus-visible {
+    .jsMotionDefault &:hover {
       &::after {
-        outline: none !important;
         transition-duration: 350ms ease-in-out;
         transform: scale(1, 1);
       }
