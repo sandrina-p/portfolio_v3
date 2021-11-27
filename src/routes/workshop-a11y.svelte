@@ -53,7 +53,7 @@
   ]
 
   const price = "$350 USD" 
-  const eventDate = 'Late 2021'
+  const eventDate = 'Earlier 2022'
   const eventHour = `<time>15:30</time> to <time>18:00</time>`
   const eventTZ = 'UTC'
 
@@ -952,6 +952,7 @@
     </article> -->
 
     <WorkshopForm formEndpoint={endpointA11Y}>
+      <!--<span class="t-ctaPoints"></span>-->
       <p class="t-ctaPitch">Get 10 hours, over 4 days, to refine your A11Y knowledge.</p>
 
       <dl class="t-ctaPoints">
@@ -961,7 +962,7 @@
           </svg>
           <span class="sr-only">When:</span>
         </dt>
-        <dd>Late 2021</dd>
+        <dd>Earlier 2022</dd>
 
         <dt>
           <svg aria-hidden="true" class="u-svg" style="display: none;">
