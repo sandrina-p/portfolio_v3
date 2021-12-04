@@ -336,7 +336,7 @@
   <div class="text">
     <p class="p">
       In 2020 I joined
-      <a class="u-link" rel="noreferrer" target="_blank" href="https://remote.com/">Remote</a> as Team Lead responsible for the technical foundations of our product.
+      <a class="u-link" rel="noreferrer" target="_blank" href="https://remote.com/">Remote</a>, today I'm a Team Leader responsible for the technical foundations of our product.
       <!-- Previously, I spent a year helping to bring an open source idea to life -
       <axx class="u-link" rel="noreferrer" target="_blank" href="https://github.com/okTurtles/group-income-simple">Group Income</a>. -->
       Back in office times, I was a Senior Frontend Developer at
@@ -361,21 +361,21 @@
       <a class="u-link" rel="noreferrer" target="_blank" href={CSSTRICKS_URL} on:click={() => trackClick('csstricks')}>CSS-Tricks</a> 
       and
       <a class="u-link" rel="noreferrer" href={SMASHING_URL} target="_blank" on:click={() => trackClick('smashing')}>Smashing Magazine</a>.
-      I also explored the world of <a class="u-link" rel="noreferrer" href={SPEAKER_URL} target="_blank" on:click={() => trackClick('speakJSConf')}>public speaking</a> a few times, pushing myself outside of my comfort zone.
+      Exploring the world of <a class="u-link" rel="noreferrer" href={SPEAKER_URL} target="_blank" on:click={() => trackClick('speakJSConf')}>public speaking</a> also made part of my adventure.
     </p>
     
     <p class="p">
       Solving problems is cool, but I enjoy even more to simplify existing solutions.
       I've been <a class="u-link" rel="noreferrer" href={MENTOR_URL} target="_blank" on:click={() => trackClick('smashing')}>mentoring online</a> developers across the globe, 
-      which allowed me to refine my approach to teaching new topics in ways that simple yet effective.  
+      which allowed me to refine my approach to teaching new topics that are simple yet effective.  
     </p>
     
     <p class="p">
-      All of these experiences lead me to find my sweet spot: 
-      For the last 3 years I've been giving workshops about multiple topics. 
-      Currently, I'm focused on raising awareness of why
-      <a class="u-link" rel="noreferrer" href={workshopUrl} target="_blank" on:click={() => trackClick('a11y')}>Web Accessibility</a>
-      is part of our duties as web creators.
+      All of these experiences lead me to find my sweet spot – giving
+      workshops — it has been one of my biggest joys since 2018. 
+      Nowadays, I'm focused on my
+      <a class="u-link" rel="noreferrer" href={workshopUrl} target="_blank" on:click={() => trackClick('a11y')}>A11Y workshop</a> as a way to raise awareness of why
+      web accessibility is part of our duties as web creators.
     </p>
 
     <p class="p">
