@@ -12,7 +12,7 @@
   import { MENTOR_URL, TWITTER_URL, SITE_URL, EMAIL_URL_WORKSHOP } from '../data/misc.js';
   import { initResponsive } from '../stores/responsive.js';
 
-  const ticketUrl = 'https://ti.to/sandrina-p/a11y-workshop'
+  const ticketUrl = 'https://ti.to/sandrina-p/a11y-workshop-2022-02'
   const endpointA11Y = 'https://app.convertkit.com/forms/1318242/subscriptions';
   const urlHash = 'workshop-a11y/#wsForm' // svelte isn't cool with hashes...
 
@@ -763,7 +763,7 @@
   </header>
 
   <div class="cta-sticky">
-    <a href="#ticketArea" class="u-btnMain" on:click={handleJoinListClick}>Get Ticket</a>
+    <a href={ticketUrl} class="u-btnMain" on:click={handleJoinListClick}>Get Ticket</a>
   </div>
 
   <span class="t-separator"></span>
