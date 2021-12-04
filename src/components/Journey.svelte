@@ -366,7 +366,7 @@
     
     <p class="p">
       Solving problems is cool, but I enjoy even more to simplify existing solutions.
-      I've been <a class="u-link" rel="noreferrer" href={MENTOR_URL} target="_blank" on:click={() => trackClick('smashing')}>mentoring online</a> developers across the globe, 
+      I've been <a class="u-link" rel="noreferrer" href={MENTOR_URL} target="_blank" on:click={() => trackClick('mentor')}>mentoring online</a> developers across the globe, 
       which allowed me to refine my approach to teaching new topics that are simple yet effective.  
     </p>
     
