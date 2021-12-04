@@ -53,7 +53,7 @@
   ]
 
   const price = "199€" 
-  const eventDate = '8-11 January 2022'
+  const eventDate = '8-11 February 2022'
   const eventHour = `<time>15:30</time> to <time>18:00</time>`
   const eventTZ = 'UTC'
 
@@ -278,6 +278,15 @@
     position: relative;
     width: 100vw;
     margin-left: calc((100vw - 100%) / -2);
+  }
+
+  .t-me960 {
+    position: relative;
+    width: 20rem;
+    margin-right: -2.4rem;
+    margin-top: -15rem;
+    float: right;
+    box-shadow: 2px 2px 0 var(--primary_1);
   }
 
   :global(.k-about.k-about.k-about) {
@@ -660,7 +669,7 @@
   site={`${SITE_URL}/workshop-a11y`}
   title="Web Accessibility Fundamentals Workshop | Sandrina Pereira"
   description="In this workshop we'll explore how accessibility doesn't have to limit our solutions or skills. On the contrary, it will make them more inclusive!"
-  coverUrl={`${SITE_URL}/cover_a11y_late2021_10h.png`} />
+  coverUrl={`${SITE_URL}/cover_a11y_fev2022.png`} />
 
 <svelte:head>
   <script type="application/ld+json">
@@ -682,7 +691,7 @@
             item: {
               '@id': 'https://sandrina-p.net/workshop-a11y',
               name: 'Web Accessibility Fundamentals Workshop | Sandrina Pereira',
-              image: 'https://sandrina-p.net/cover_a11y_late2021_10h.png',
+              image: 'https://sandrina-p.net/cover_a11y_fev2022.png',
             },
           },
         ],
@@ -697,7 +706,7 @@
         headline: 'Web Accessibility Fundamentals Workshop | Sandrina Pereira',
         image: {
           '@type': 'ImageObject',
-          url: 'https://sandrina-p.net/cover_a11y_late2021_10h.png',
+          url: 'https://sandrina-p.net/cover_a11y_fev2022.png',
           height: 1280,
           width: 640,
         },
@@ -885,9 +894,9 @@
     <div class="t-card t-process">
     <div class="circle"></div>
       <ul class="t-processFlow">
-        <li class="t-processFlowIx">problem</li> 
         <li class="t-processFlowIx">explore</li> 
-        <li class="t-processFlowIx">clarify</li> 
+        <li class="t-processFlowIx">struggle</li> 
+        <li class="t-processFlowIx">emerge</li> 
         <li class="t-processFlowIx">repeat</li> 
       </ul>
       <p>An interactive way of learning together.</p>
@@ -982,7 +991,9 @@
         <span slot="title_bottom">
           I'm Sandrina
         </span>
-        
+
+        <img src="/sandrinap960.jpg" alt="" class="t-me960" />
+
         <p class="t-p">
           I’m a UX Frontend Engineer who helps turn ideas into <span class="u-nowrap">accessible experiences.</span>
         </p>
@@ -995,7 +1006,7 @@
           Through the years, I've been sharing my knowledge by
           <a class="u-link" rel="noreferrer" target="_blank" href='/writing' on:click={() => trackClick('articles')}>writing articles</a> 
           and
-          <a class="u-link" rel="noreferrer" href={MENTOR_URL} on:click={() => trackClick('mentor')}>mentoring online</a>. 
+          <a class="u-link" rel="noreferrer" href={MENTOR_URL} on:click={() => trackClick('mentor')}>online mentoring</a>. 
           <!--
         </p>
         <p class="t-p"> -->
@@ -1046,20 +1057,47 @@
           <h3 class="sr-only">Anonymous feedback</h3>
           <div class="t-quotes u-carousel">
             <blockquote class="t-quotes-item u-carousel-item">
-              Really liked the format of the training, with briefings and exercises for each, making it not boring at all.
+              Really liked the format of the training, with briefings and exercises for each, <strong>making it not boring at all</strong>.
               [...]
               The quiz, in the end, was a nice and fun way to wrap up! Overall, really enjoying it, thanks!
             </blockquote>
+            <!-- <blockquote class="t-quotes-item u-carousel-item">
+              The content and the pace were good, also your knowledge on this topic is really remarkable, it was really an <strong>enjoyable moment</strong>.
+            </blockquote> -->
             <blockquote class="t-quotes-item u-carousel-item">
-              Congrats, the workshop was great<!-- on this first day-->, the introduction was one of the most brilliant
-              introductions to A11Y from a FE perspective, and the pace was balanced.
+              I admit I had some misgivings about asking my company to invest in this workshop, because of the time and money, but <strong>it was totally worth it</strong> — I feel like I've taken a clear step forward on this topic.
             </blockquote>
             <blockquote class="t-quotes-item u-carousel-item">
-              The content and the pace were good, also your knowledge on this topic is really remarkable, it was really an enjoyable moment.
+              The resources were top notch, having live examples and the briefings were just <strong>perfect on the amount of information</strong> passed to us.
             </blockquote>
             <blockquote class="t-quotes-item u-carousel-item">
-              Thanks so much for the training I really enjoy it, had a great time and learned a lot. I'm really excited to practice all the things had learned.
+              Your knowledge of this huge topic is clear, the way you answered all the questions <strong>greatly enriched the experience.</strong>
             </blockquote>
+
+            <blockquote class="t-quotes-item u-carousel-item">
+              Thanks so much for the training I really enjoy it, had a great time and learned a lot. The small groups per room where pretty cool too! I'm <strong>really excited to practice</strong> all the things I've learned.
+            </blockquote>
+            <blockquote class="t-quotes-item u-carousel-item">
+              Congrats, the workshop was great<!-- on this first day-->, the introduction was one of the <strong>most brilliant
+              introductions</strong> to A11Y from a FE perspective, and the pace was balanced.
+            </blockquote>
+
+            <!--component
+            TODO Candid feedback:
+            
+            The only thing I would suggest is to have at least one break per session (2:30h). 
+            > Now every session has a 10 min session for you to grab some water.
+            
+            One thing I felt was that in some exercises the tips were too easy to follow but I understand that since the timing is limited, what is not direct related to a11y can and should be omitted (like required JS code to add / remove attributes). 
+            > Now tips are devided into 2 ways: Inline "instructions" and "toggable advanced hints" so that everyone can manage the exercises on their own pace
+            without spoiling the solution too much. 
+
+            I'd like to have explored more about the connection of accessibility with design
+            > Designers play a big role in A11Y too. Now in each topic I also mention multiple take ways related with design.
+            -->
+
+
+
           </div>
 
           <!-- TODO, still WIP -->
@@ -1122,7 +1160,7 @@
 
         <li>
           <Accordion summary="I know A11Y. Will I learn something new?">
-            Oh, yeah. Even me, every time I give this workshop I always learn something new. Unless you are an A11Y expert, I’m confident that you'll fill some gap.
+            Oh, yeah. Even me, every time I give this workshop I always learn something new. Unless you are an A11Y expert, I’m confident that you'll fill some A11Y gap.
           </Accordion>
         </li>
 
@@ -1174,7 +1212,7 @@
 
         <li>
           <Accordion summary="How many attendes will be there?">
-            There are 12 seats available. I aim to keep the group small, 
+            There are 14 seats available. I aim to keep the group small, 
             so that people don't feel shy/intimidated in participating.
             This also allows me to have the time to give you the attention
             and care you deserve to clarify your questions.
