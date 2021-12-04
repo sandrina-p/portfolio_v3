@@ -3,7 +3,7 @@ import { SITE_REPO } from './misc.js';
 export default {
   lists: {
     '0': 'rocking at',
-    '1': 'had fun',
+    '1': 'old friends',
     '2': 'wanna learn',
     '3': 'this site',
   },
@@ -28,15 +28,15 @@ export default {
 
     {
       name: 'PostCSS',
-      list: ['0', '3'],
+      list: ['1', '3'],
     },
     {
       name: 'SCSS',
-      list: ['0'],
+      list: ['1'],
     },
     {
       name: 'CSS-in-JS',
-      list: ['1'],
+      list: ['0'],
     },
 
     {

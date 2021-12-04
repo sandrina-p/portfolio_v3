@@ -472,13 +472,13 @@
       @mixin coord Vue, 70rem, 23rem;
       @mixin coord Svelte, 4rem, 3rem;
 
-      @mixin coord PostCSS, 65rem, -1rem;
+      @mixin coord CSS-in-JS, 65rem, -1rem;
       @mixin coord SCSS, 26rem, 17rem;
-      @mixin coord CSS-in-JS, 24rem, 3rem;
+      @mixin coord PostCSS, 24rem, 3rem;
 
       @mixin coord React Native, 57rem, 5rem;
       @mixin coord WebGL, 3rem, 22rem;
-      @mixin coord NodeJS, 68rem, 13rem;
+      @mixin coord ThreeJS, 68rem, 13rem;
       @mixin coord TypeScript, 20rem, 10rem;
 
       @mixin coord Jest, 10rem, 12rem;
