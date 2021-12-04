@@ -7,7 +7,7 @@ export default [
       {
         id: 'disabled_btns',
         type: 'article',
-        where: 'Dev.CSS-Tricks',
+        where: 'CSS-Tricks',
         svg: 'css',
         link: 'https://css-tricks.com/making-disabled-buttons-more-inclusive',
       },
