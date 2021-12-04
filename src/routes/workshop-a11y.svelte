@@ -52,8 +52,8 @@
     },
   ]
 
-  const price = "$350 USD" 
-  const eventDate = 'Earlier 2022'
+  const price = "199€" 
+  const eventDate = '8-11 January 2022'
   const eventHour = `<time>15:30</time> to <time>18:00</time>`
   const eventTZ = 'UTC'
 
@@ -754,7 +754,7 @@
   </header>
 
   <div class="cta-sticky">
-    <a href={urlHash} class="u-btnMain" on:click={handleJoinListClick}>Join the list</a>
+    <a href="#ticketArea" class="u-btnMain" on:click={handleJoinListClick}>Get Ticket</a>
   </div>
 
   <span class="t-separator"></span>
@@ -788,7 +788,7 @@
       </a> technical requirements.
     </p>
     <p class="t-p">
-      Yet, the content seemed way too complex, you may have felt overwhelmed, lost... 
+      Yet, the content seemed way too complex, you may have felt overwhelmed... 
       and ended up leaving it aside.
     </p>
     <h2 class="t-title asHook">
@@ -800,7 +800,7 @@
     </p>
     <p class="t-p">
       These scenarios will bring you awareness of the existing barriers out there, and you'll realize
-      why (the lack of) accessibility can really make the difference in someone's life... including you and me!
+      why accessibility (the lack of it) can really make the difference in someone's life... including you and me!
     </p>
     <p class="t-p">
       Let me show you why accessibility is worthy of being part of your skillset foundations
@@ -873,16 +873,17 @@
       Workshop dynamics
     </h3>
     <p class="t-p">
-      The workshop is divided into multiple exercises. In each one, I’ll introduce you to a new topic in a simplified way, along with <strong>practical resources</strong>. 
+      The workshop is divided into multiple exercises. In each one, I’ll introduce you to a new topic in a realistic way, along with <strong>practical resources</strong>. 
     </p>
     <p class="t-p">
-      Then, there will be a <strong>hands-on exercise</strong> for you to apply the concepts learned. You can solve it by yourself or by collaborating with a group of 2-3 people.
+      Then, there will be a <strong>hands-on exercise</strong> for you to apply the concepts learned. You can solve it by yourself or by collaborating with a group of 3-4 people.
     </p>
     <p class="t-p">
       Afterwards, we go through the <strong>solution</strong> together, and I’ll <strong>clarify the questions</strong> that you might have.
     </p>
 
     <div class="t-card t-process">
+    <div class="circle"></div>
       <ul class="t-processFlow">
         <li class="t-processFlowIx">problem</li> 
         <li class="t-processFlowIx">explore</li> 
@@ -897,11 +898,11 @@
       Who is this workshop for?
     </h3>
     <p class="t-p">
-      Web developers are the main audience but if you are a designer
+      Frontend developers are the main audience but if you are a designer
       or a QA expert, then this workshop will be valuable for you as well. 
     </p>
     <p class="t-p">
-      The topics will be explained with beginners in mind, and it gets more advanced as we go through it.
+      The topics will be explained with beginners in mind, and get more advanced as we go through it.
     </p>
     <p class="t-p">
       Even if you already have some experience in accessibility, you can look at this
@@ -926,7 +927,7 @@
       <li>Be willing to learn something different!</li>
     </ul>
   
-    <!-- <article class="t-card t-cta" role="region" aria-label="Buy ticket">
+    <article class="t-card t-cta" role="region" aria-label="Buy ticket">
       <h2 class="t-ctaTitle">Join the workshop!</h2>
       <p class="t-ctaPitch">Get 10 hours over 4 days <span class="u-nowrap">of hands-on exploration.</span></p>
 
@@ -947,12 +948,11 @@
         <dd>{@html eventHour} <span class="t-sm">{eventTZ}</span></dd>
       </dl>
 
-      <a href={ticketUrl} class="u-btnMain" on:click={() => trackClick('cta_card')}>Buy ticket</a>
-      <span class="t-ctaNote">Price is Early Bird</span>
-    </article> -->
+      <a href={ticketUrl} class="u-btnMain" on:click={() => trackClick('cta_card')}>Buy ticket for {price}</a>
+      <span class="t-ctaNote">Price is Early Bird. Original is 349€</span>
+    </article>
 
-    <WorkshopForm formEndpoint={endpointA11Y}>
-      <!--<span class="t-ctaPoints"></span>-->
+    <!-- <WorkshopForm formEndpoint={endpointA11Y}>
       <p class="t-ctaPitch">Get 10 hours, over 4 days, to refine your A11Y knowledge.</p>
 
       <dl class="t-ctaPoints">
@@ -972,7 +972,7 @@
         </dt>
         <dd>{@html eventHour} <span class="tz">{eventTZ}</span></dd>
       </dl>
-    </WorkshopForm>
+    </WorkshopForm> -->
 
     <div class="t-blockwide">
       <SectionSkew isOnStage sectionName="a11yAbout" klass="k-about" motionReduced={true}>
@@ -1156,7 +1156,7 @@
 
         <li>
           <Accordion summary="Is there any discounts available?">
-            The workshop will have an Early Bird price until April 25.
+            The workshop will have an Early Bird price until 3 January 2022.
             After that, I don't plan to do more discounts.
             Regardless, I understand that the cost of this workshop can be too high for some people.
             If you are a student you can reach out to me.
