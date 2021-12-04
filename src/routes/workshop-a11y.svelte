@@ -53,7 +53,7 @@
   ]
 
   const price = "199€" 
-  const eventDate = '8-11 February 2022'
+  const eventDate = '8-11 February'
   const eventHour = `<time>15:30</time> to <time>18:00</time>`
   const eventTZ = 'UTC'
 
@@ -75,8 +75,8 @@
   $ziHeader: 4;
   $ziIntro: 3;
   $ziLine: 2;
-  $width: 650px;
-  $widthRead: 530px;
+  $width: 65rem;
+  $widthRead: 53rem;
   $widthFAQ: 95rem;
 
   .header {
@@ -282,11 +282,29 @@
 
   .t-me960 {
     position: relative;
-    width: 20rem;
-    margin-right: -2.4rem;
-    margin-top: -15rem;
     float: right;
     box-shadow: 2px 2px 0 var(--primary_1);
+
+    width: calc(40% - 2rem);
+    /* the bigger the zoom, the smaller it gets */
+    max-width: 22rem; /*calc(220px - 2rem);*/ 
+    margin-top: -10.5rem;
+    margin-left: 0.5rem;
+    margin-bottom: 0.5rem;
+
+    @media (--max-xs) {
+      width: calc(34% - 2rem);
+    }
+
+    @media (--md) {
+      margin-right: -1.6rem;
+      margin-top: -15rem;    
+    }
+
+    @media (max-width: 17rem) { 
+      /* phones with large text */
+      display: none;
+    }
   }
 
   :global(.k-about.k-about.k-about) {
@@ -384,7 +402,7 @@
         align-self: flex-start;
 
         &:first-child {
-          margin-left: $spacer-M;
+          margin-left: $spacer-S;
         }
       }
     }
