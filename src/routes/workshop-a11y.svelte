@@ -52,6 +52,37 @@
     },
   ]
 
+  // const reviews = [
+  //   {
+  //     name: 'Andrew Chou',
+  //     handle: '@_andrewchou',
+  //     avatar: 'avatars/twitter__andrewchou.jpeg',
+  //     text: "Just finished up @a_sandrina_p's Web A11y Fundamentals workshop. Really pleasant and structured well! Helped to learn new tools and concepts considering a11y is a big gap in my knowledge as a web dev. Definitely reach out to her for conferences, talks, workshops, etc!",
+  //     url: 'https://twitter.com/_andrewchou/status/1253009155968962567',
+  //   },
+  //   {
+  //     name: 'sid 🖤',
+  //     handle: '@siddharthkp',
+  //     avatar: 'avatars/twitter_siddharthkp.jpeg',
+  //     text: "Something I learned from @a_sandrina_p's workshop last week: Never skip alt text for images. If the image is purely decorative, pass an empty string instead of skipping the tag altogether",
+  //     url: 'https://twitter.com/siddharthkp/status/1256910965465141248'
+  //   },
+  //   {
+  //     name: 'Nuno Pereira',
+  //     handle: '@nunocpnpereira',
+  //     avatar: 'avatars/twitter_nunocpnpereira.jpeg',
+  //     text: 'Mind blowing accessibility workshop with @a_sandrina_p!',
+  //     url: 'https://twitter.com/nunocpnpereira/status/1364178604935049216'
+  //   },
+  //   {
+  //     name: 'Pearl Latteier',
+  //     handle: '@pblatteier',
+  //     avatar: 'avatars/twitter_pblatteier.jpeg',
+  //     text: "I'm learning a ton in @a_sandrina_p's accessibility workshop!",
+  //     url: 'https://twitter.com/pblatteier/status/1252974017499275264'
+  //   },
+  // ]
+
   const price = "199€" 
   const eventDate = '8-11 February'
   const eventHour = `<time>15:30</time> to <time>18:00</time>`
@@ -318,17 +349,21 @@
   
   .t-feedback {
     @media (min-width: 820px) {
-      width: calc(100% + 260px);
-      transform: translateX(-130px);
+      width: calc(100% + 29rem);
+      transform: translateX(-14.5rem);
     }
   }
 
   .t-tweets {
+    @media (--max-lg) {
+      margin-left: calc($spacer-L * -1);
+      margin: 0 0 40px;
+    }
+
     @media (--lg) {
       display: flex;
       flex-wrap: wrap;
-      min-height: 440px; /* desktop */
-      margin: 100px 0 50px;
+      margin: 100px 0 40px;
 
       > * {
         flex-basis: 33%;
@@ -348,35 +383,61 @@
       }
     }
 
-    :global(.twitter-tweet:not(.twitter-tweet-rendered)) {
-      border: 1px solid;
+    .twitter-tweet {
       background-color: var(--bg_invert);
-      border-radius: 4px;
-      border: 1px dashed;
-      padding: 8px;
+      border-radius: 6px;
+      padding: 16px;
       font-size: $font-M;
-      color: inherit;
+      color: var(--text_invert); 
     }
 
-    :global(.twitter-tweet-rendered) {
-      display: block;
-      margin: 0 !important;
+    .twitter-tweet-header {
+      display: flex;
+      margin-bottom: 8px;
+      justify-content: space-between;
+      margin-left: 4px;
+      font-weight: 600;
+      color: inherit;
+      text-decoration: none;
+
+      span {
+        flex-grow: 1;
+      }
+
+      img {
+        width: 48px;
+        height: 48px;
+        flex-shrink: 0;
+        border-radius: 50%;
+        margin-right: 8px;
+      }
+
+      &:focus .twitter-tweet-logo,
+      &:hover .twitter-tweet-logo {
+        fill: #1d9bf0;
+      }
+    }
+
+    .twitter-tweet-logo {
+      display: block !important;
+      fill: var(--text_invert);
+      width: 24px;
+      height: 24px;
     }
   }
 
   .t-quotes {
-    margin: 40px 0;
+    margin: 0 0 40px;
     
     &-item {
       display: block;
-      padding: 0 24px 0 16px;
       font-size: $font-M;
       font-style: italic;
       border-left: 2px solid var(--primary_1);
     }
 
     @media (--lg) {
-      margin: 50px 0 100px;
+      margin: 0 0 100px;
       display: flex;
       flex-wrap: wrap;
       align-items: flex-start;
@@ -385,8 +446,8 @@
         flex-basis: 50%;
         flex-grow: 1;
         min-width: 200px;
-
         margin: 16px 0;
+        padding: 0 $spacer-M 0 $spacer-S;
       }
     }
   }
@@ -913,7 +974,7 @@
     <div class="circle"></div>
       <ul class="t-processFlow">
         <li class="t-processFlowIx">explore</li> 
-        <li class="t-processFlowIx">struggle</li> 
+        <li class="t-processFlowIx">learn</li> 
         <li class="t-processFlowIx">emerge</li> 
         <li class="t-processFlowIx">repeat</li> 
       </ul>
@@ -1047,27 +1108,75 @@
         <section role="region" class="t-feedback" aria-labelledby="testimonials">    
           <h2 class="sr-only" id="testimonials">Testemonials</h2>
           <h3 class="sr-only">Public feedback</h3>
+          <!-- <div class="t-tweets u-carousel">
+            {#each reviews as { name, handle, avatar, text, url }, index}
+            <div class="u-carousel-item">
+              <div class="t-tweetsArea">
+                <blockquote class="twitter-tweet">
+                  <div class="twitter-tweet-header">
+                  <img src="{avatar}" alt=""/>
+                  <a rel="noreferrer" href="{url}">
+                    <span>{name} <br/>{handle}</span>
+                  </a>
+                  <svg aria-hidden="true" class="twitter-tweet-logo" style="display: none;">
+                    <use xlink:href="#twitter" />
+                  </svg>
+                  </div>
+                  <p>{text}</p>
+                </blockquote>
+              </div>
+              </div>
+            {/each}
+          </div> -->
           <div class="t-tweets u-carousel">
             <div class="u-carousel-item">
               <!-- Andrew -->
               <div class="t-tweetsArea">
-                <blockquote class="twitter-tweet" data-dnt="true" data-theme="dark"><p dir="ltr">Just finished up <a class="u-link" rel="noreferrer" href="https://twitter.com/a_sandrina_p?ref_src=twsrc%5Etfw">@a_sandrina_p</a>'s Web A11y Fundamentals workshop. Really pleasant and structured well! Helped to learn new tools and concepts considering a11y is a big gap in my knowledge as a web dev. <br><br>Definitely reach out to her for conferences, talks, workshops, etc!</p>&mdash; Andrew Chou (@_andrewchou) <a class="u-link" rel="noreferrer" href="https://twitter.com/_andrewchou/status/1253009155968962567?ref_src=twsrc%5Etfw">April 22, 2020</a></blockquote>
+                <blockquote class="twitter-tweet">
+                  <a class="twitter-tweet-header" rel="noreferrer" href="https://twitter.com/_andrewchou/status/1253009155968962567">
+                    <img src="avatars/twitter__andrewchou.jpeg" alt=""/>
+                    <span>Andrew Chou<br/>@_andrewchou</span>
+                    <svg aria-hidden="true" class="twitter-tweet-logo" style="display: none;"><use xlink:href="#twitter" /></svg>
+                  </a>
+                  <p>Just finished up @a_sandrina_p's Web A11y Fundamentals workshop. Really pleasant and structured well! Helped to learn new tools and concepts considering a11y is a big gap in my knowledge as a web dev. <br><br>Definitely reach out to her for conferences, talks, workshops, etc!</p>
+                </blockquote>
               </div>
             </div>
             <div class="u-carousel-item">
               <!-- Sid -->
               <div class="t-tweetsArea">
-                <blockquote class="twitter-tweet" data-dnt="true" data-theme="dark"><p dir="ltr">Something I learned from <a class="u-link" rel="noreferrer" href="https://twitter.com/a_sandrina_p?ref_src=twsrc%5Etfw">@a_sandrina_p</a>'s workshop last week<br><br>Never skip alt text for images. If the image is purely decorative, pass an empty string instead of skipping the tag altogether</p> &mdash; sid 🖤 (@siddharthkp) <a class="u-link" rel="noreferrer" href="https://twitter.com/siddharthkp/status/1256910965465141248?ref_src=twsrc%5Etfw">May 3, 2020</a></blockquote>
+                <blockquote class="twitter-tweet">
+                  <a class="twitter-tweet-header" rel="noreferrer" href="https://twitter.com/siddharthkp/status/1256910965465141248">
+                    <img src="avatars/twitter_siddharthkp.jpeg" alt=""/>
+                    <span>sid 🖤<br/>@siddharthkp</span>
+                    <svg aria-hidden="true" class="twitter-tweet-logo" style="display: none;"><use xlink:href="#twitter" /></svg>
+                  </a>
+                  <p>Something I learned from @a_sandrina_p's workshop last week: Never skip alt text for images. If the image is purely decorative, pass an empty string instead of skipping the tag altogether</p>
+                </blockquote>
               </div>
             </div>
             <div class="u-carousel-item">
               <!-- Nuno -->
               <div class="t-tweetsArea">
-                <blockquote class="twitter-tweet" data-dnt="true" data-theme="dark"><p dir="ltr">Mind blowing accessibility workshop with <a class="u-link" rel="noreferrer" href="https://twitter.com/a_sandrina_p?ref_src=twsrc%5Etfw">@a_sandrina_p</a>!</p>— Nuno Pereira (@nunocpnpereira) <a class="u-link" rel="noreferrer" href="https://twitter.com/nunocpnpereira/status/1364178604935049216?ref_src=twsrc%5Etfw">February 23, 2021</a></blockquote>
+                <blockquote class="twitter-tweet">
+                  <a class="twitter-tweet-header" rel="noreferrer" href="https://twitter.com/nunocpnpereira/status/1364178604935049216">
+                    <img src="avatars/twitter_nunocpnpereira.jpeg" alt=""/>
+                    <span>Nuno Pereira<br/>@nunocpnpereira</span>
+                    <svg aria-hidden="true" class="twitter-tweet-logo" style="display: none;"><use xlink:href="#twitter" /></svg>
+                  </a>
+                  <p>Mind blowing accessibility workshop with @a_sandrina_p!</p>
+                </blockquote>
               </div>
               <!-- Pearl -->
               <div class="t-tweetsArea t-hide">
-                <blockquote class="twitter-tweet" data-dnt="true" data-theme="dark"><p dir="ltr">I'm learning a ton in <a class="u-link" rel="noreferrer" href="https://twitter.com/a_sandrina_p?ref_src=twsrc%5Etfw">@a_sandrina_p</a>'s accessibility workshop! <a class="u-link" rel="noreferrer" href="https://twitter.com/hashtag/a11y?src=hash&amp;ref_src=twsrc%5Etfw">#a11y</a></p>&mdash; Pearl Latteier (@pblatteier) <a class="u-link" rel="noreferrer" href="https://twitter.com/pblatteier/status/1252974017499275264?ref_src=twsrc%5Etfw">April 22, 2020</a></blockquote>
+                <blockquote class="twitter-tweet">
+                  <a class="twitter-tweet-header" rel="noreferrer" href="https://twitter.com/pblatteier/status/1252974017499275264">
+                    <img src="avatars/twitter_pblatteier.jpeg" alt=""/>
+                    <span>Pearl Latteier<br/>@pblatteier</span>
+                    <svg aria-hidden="true" class="twitter-tweet-logo" style="display: none;"><use xlink:href="#twitter" /></svg>
+                  </a>
+                  <p>I'm learning a ton in @a_sandrina_p's accessibility workshop!</p>
+                </blockquote>
               </div>
             </div>
           </div>
@@ -1278,7 +1387,7 @@
       <a href={ticketUrl} class="u-btnMain" on:click={() => trackClick('cta_card_mini')}>Get ticket</a>
     </article> -->
   </div>
-  <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+  <!-- <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> -->
 </main>
 
 <footer class="footer">
@@ -1286,7 +1395,7 @@
   <div class="footerArea">
     <div>
       <p>Made without coffee by <span class="u-nowrap"><a class="u-link" href={ SITE_URL } rel="noreferrer" on:click={() => trackClick('footer_me')}>Sandrina Pereira</a>.</span></p>
-      <p class="t-credits">© 2020. All Rights Reserved.</p>
+      <p class="t-credits">© 2021. All Rights Reserved.</p>
     </div>
     <Contacts isWorkshop essentialOnly />
   </div>
