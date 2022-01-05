@@ -83,7 +83,7 @@
   //   },
   // ]
 
-  const price = "199€" 
+  const price = '349€' // early bird: 199€ 
   const eventDate = '8-11 February'
   const eventHour = `<time>15:30</time> to <time>18:00</time>`
   const eventTZ = 'UTC'
@@ -1037,7 +1037,7 @@
       </dl>
 
       <a href={ticketUrl} class="u-btnMain" on:click={() => trackClick('cta_card')}>Buy ticket for {price}</a>
-      <span class="t-ctaNote">Price is Early Bird. Original is 349€</span>
+      <!-- <span class="t-ctaNote">Price is Early Bird. Original is 349€</span> -->
     </article>
 
     <!-- <WorkshopForm formEndpoint={endpointA11Y}>
