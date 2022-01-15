@@ -1146,6 +1146,20 @@
               <!-- Sid -->
               <div class="t-tweetsArea">
                 <blockquote class="twitter-tweet">
+                  <a class="twitter-tweet-header" rel="noreferrer" href="https://twitter.com/siddharthkp/status/1472885645995560967">
+                    <img src="avatars/twitter_siddharthkp.jpeg" alt=""/>
+                    <span>sid 🖤<br/>@siddharthkp</span>
+                    <svg aria-hidden="true" class="twitter-tweet-logo" style="display: none;"><use xlink:href="#twitter" /></svg>
+                  </a>
+                  <p>
+                    I took an early version of this workshop and it is designed really well, the flow and exercises are really good!
+                    <br/>
+                    I learned a lot, @a_sandrina_p is a great instructor. ❤️
+                  </p>
+                </blockquote>
+              </div>
+              <!-- <div class="t-tweetsArea">
+                <blockquote class="twitter-tweet">
                   <a class="twitter-tweet-header" rel="noreferrer" href="https://twitter.com/siddharthkp/status/1256910965465141248">
                     <img src="avatars/twitter_siddharthkp.jpeg" alt=""/>
                     <span>sid 🖤<br/>@siddharthkp</span>
@@ -1153,7 +1167,7 @@
                   </a>
                   <p>Something I learned from @a_sandrina_p's workshop last week: Never skip alt text for images. If the image is purely decorative, pass an empty string instead of skipping the tag altogether</p>
                 </blockquote>
-              </div>
+              </div> -->
             </div>
             <div class="u-carousel-item">
               <!-- Nuno -->
