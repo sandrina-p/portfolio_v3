@@ -396,12 +396,17 @@
       margin-bottom: 8px;
       justify-content: space-between;
       margin-left: 4px;
-      font-weight: 600;
       color: inherit;
       text-decoration: none;
 
       span {
         flex-grow: 1;
+        font-weight: 600;
+
+        span { 
+          /* twitter handle */
+          font-weight: 300;
+        }
       }
 
       img {
@@ -1135,7 +1140,7 @@
                 <blockquote class="twitter-tweet">
                   <a class="twitter-tweet-header" rel="noreferrer" href="https://twitter.com/_andrewchou/status/1253009155968962567">
                     <img src="avatars/twitter__andrewchou.jpeg" alt=""/>
-                    <span>Andrew Chou<br/>@_andrewchou</span>
+                    <span>Andrew Chou<br/><span>@_andrewchou</span></span>
                     <svg aria-hidden="true" class="twitter-tweet-logo" style="display: none;"><use xlink:href="#twitter" /></svg>
                   </a>
                   <p>Just finished up @a_sandrina_p's Web A11y Fundamentals workshop. Really pleasant and structured well! Helped to learn new tools and concepts considering a11y is a big gap in my knowledge as a web dev. <br><br>Definitely reach out to her for conferences, talks, workshops, etc!</p>
@@ -1148,7 +1153,7 @@
                 <blockquote class="twitter-tweet">
                   <a class="twitter-tweet-header" rel="noreferrer" href="https://twitter.com/siddharthkp/status/1472885645995560967">
                     <img src="avatars/twitter_siddharthkp.jpeg" alt=""/>
-                    <span>sid 🖤<br/>@siddharthkp</span>
+                    <span>sid 🖤<br/><span>@siddharthkp</span></span>
                     <svg aria-hidden="true" class="twitter-tweet-logo" style="display: none;"><use xlink:href="#twitter" /></svg>
                   </a>
                   <p>
@@ -1162,7 +1167,7 @@
                 <blockquote class="twitter-tweet">
                   <a class="twitter-tweet-header" rel="noreferrer" href="https://twitter.com/siddharthkp/status/1256910965465141248">
                     <img src="avatars/twitter_siddharthkp.jpeg" alt=""/>
-                    <span>sid 🖤<br/>@siddharthkp</span>
+                    <span>sid 🖤<br/><span>@siddharthkp</span></span>
                     <svg aria-hidden="true" class="twitter-tweet-logo" style="display: none;"><use xlink:href="#twitter" /></svg>
                   </a>
                   <p>Something I learned from @a_sandrina_p's workshop last week: Never skip alt text for images. If the image is purely decorative, pass an empty string instead of skipping the tag altogether</p>
@@ -1175,7 +1180,7 @@
                 <blockquote class="twitter-tweet">
                   <a class="twitter-tweet-header" rel="noreferrer" href="https://twitter.com/nunocpnpereira/status/1364178604935049216">
                     <img src="avatars/twitter_nunocpnpereira.jpeg" alt=""/>
-                    <span>Nuno Pereira<br/>@nunocpnpereira</span>
+                    <span>Nuno Pereira<br/><span>@nunocpnpereira</span></span>
                     <svg aria-hidden="true" class="twitter-tweet-logo" style="display: none;"><use xlink:href="#twitter" /></svg>
                   </a>
                   <p>Mind blowing accessibility workshop with @a_sandrina_p!</p>
@@ -1186,7 +1191,7 @@
                 <blockquote class="twitter-tweet">
                   <a class="twitter-tweet-header" rel="noreferrer" href="https://twitter.com/pblatteier/status/1252974017499275264">
                     <img src="avatars/twitter_pblatteier.jpeg" alt=""/>
-                    <span>Pearl Latteier<br/>@pblatteier</span>
+                    <span>Pearl Latteier<br/><span>@pblatteier</span></span>
                     <svg aria-hidden="true" class="twitter-tweet-logo" style="display: none;"><use xlink:href="#twitter" /></svg>
                   </a>
                   <p>I'm learning a ton in @a_sandrina_p's accessibility workshop!</p>
