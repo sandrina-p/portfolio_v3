@@ -35,6 +35,7 @@
     --text_1: #343434;
     --text_s: #000000; /* for bold text in dark mode only */
     --text_invert: #fff; /* similar to bg but lighter */
+    --bg_invert: #fff; /* #same as .dark bg_1; */
     --bg_0: #ffe4cf;
     --bg_1: #fff;
 
@@ -54,6 +55,7 @@
     --bg_0: #3a383b;
     --bg_1: #2e2a2f;
     --bg_1_rgb: 46,42,47;
+    --bg_invert: #e2e2e2;
     --primary_1: hsl(180deg 100% 45%);
     --primary_1_smooth: hsl(180deg 100% 19%);
     --primary_1_highlight: hsl(180deg 100% 40% / 40%);
