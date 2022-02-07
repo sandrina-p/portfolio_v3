@@ -37,7 +37,6 @@
   .summary { 
     padding: $spacer-M;
     font-weight: 500;
-    pointer: cursor;
     cursor: pointer;
 
     &:hover {
