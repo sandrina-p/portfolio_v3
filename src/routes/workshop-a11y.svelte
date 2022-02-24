@@ -1370,7 +1370,7 @@
 
         <li>
           <Accordion summary="How many times have you gave this workshop?">
-            I've given workshops about accessibility almost 10 times now.
+            I've given workshops on accessibility about 10 times now.
             I started giving full-day workshops in 2018, back to office times.
             The first one about accessibility was in 2019. In earlier 2020 I rethought the contents entirely and adapt it to a remote version.
             In this practical workshop my priority is that you learn by doing, and to make everyone feel "present", even during a virtual event.
