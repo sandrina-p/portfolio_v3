@@ -293,7 +293,7 @@
       {/if}
     {:else}
         <p class="card-txt field-tip">
-          Be the first to know when it's scheduled with Early Bird price
+          Be the first to know when it's scheduled with Early Bird price.
         </p>
     {/if}
 
@@ -344,7 +344,7 @@
       {/if}
     </button>
     <p class="card-txt field-tip">
-      Be the first to know when it's scheduled with Early Bird price
+      Be the first to know when it's scheduled with Early Bird price.
     </p>
   </form>
 {:else}
