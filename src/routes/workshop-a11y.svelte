@@ -84,7 +84,7 @@
   // ]
 
   const price = '349€' // early bird: 199€w 
-  const eventDate = '8-11 February'
+  const eventDate = 'Late 2022'
   const eventHour = `<time>15:30</time> to <time>18:00</time>`
   const eventTZ = 'UTC'
 
@@ -847,7 +847,8 @@
   </header>
 
   <div class="cta-sticky">
-    <a href={ticketUrl} class="u-btnMain" on:click={handleJoinListClick}>Get Ticket</a>
+    <a href={urlHash} class="u-btnMain" on:click={handleJoinListClick}>Join the list</a>
+    <!-- <a href={ticketUrl} class="u-btnMain" on:click={handleJoinListClick}>Get Ticket</a> -->
   </div>
 
   <span class="t-separator"></span>
@@ -1020,7 +1021,7 @@
       <li>Be willing to learn something different!</li>
     </ul>
   
-    <article class="t-card t-cta" role="region" aria-label="Buy ticket">
+    <!-- <article class="t-card t-cta" role="region" aria-label="Buy ticket">
       <h2 class="t-ctaTitle">Join the workshop!</h2>
       <p class="t-ctaPitch">Get 10 hours over 4 days <span class="u-nowrap">of hands-on exploration.</span></p>
 
@@ -1042,10 +1043,10 @@
       </dl>
 
       <a href={ticketUrl} class="u-btnMain" on:click={() => trackClick('cta_card')}>Buy ticket for {price}</a>
-      <!-- <span class="t-ctaNote">Price is Early Bird. Original is 349€</span> -->
-    </article>
+       <span class="t-ctaNote">Price is Early Bird. Original is 349€</span>
+    </article> -->
 
-    <!-- <WorkshopForm formEndpoint={endpointA11Y}>
+    <WorkshopForm formEndpoint={endpointA11Y}>
       <p class="t-ctaPitch">Get 10 hours, over 4 days, to refine your A11Y knowledge.</p>
 
       <dl class="t-ctaPoints">
@@ -1055,7 +1056,7 @@
           </svg>
           <span class="sr-only">When:</span>
         </dt>
-        <dd>Earlier 2022</dd>
+        <dd>{@html eventDate}</dd>
 
         <dt>
           <svg aria-hidden="true" class="u-svg" style="display: none;">
@@ -1065,7 +1066,7 @@
         </dt>
         <dd>{@html eventHour} <span class="tz">{eventTZ}</span></dd>
       </dl>
-    </WorkshopForm> -->
+    </WorkshopForm>
 
     <div class="t-blockwide">
       <SectionSkew isOnStage sectionName="a11yAbout" klass="k-about" motionReduced={true}>
