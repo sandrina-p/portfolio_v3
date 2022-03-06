@@ -138,7 +138,7 @@
   site={`${SITE_URL}/workshop-a11y`}
   title="Writing | Sandrina Pereira"
   description="Code explained through human words"
-  coverUrl={`${SITE_URL}/cover_light-3.png`} />
+  coverUrl={`${SITE_URL}/cover_light-4.png`} />
 
 <header class="header">
   <a href={SITE_URL} class="u-logo">
