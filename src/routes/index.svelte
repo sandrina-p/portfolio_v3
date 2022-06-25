@@ -18,6 +18,7 @@
   import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
 
   const workshopUrlOld = '/workshop-a11y-fundamentals'
+  const workshopA11YinJS = '/a11y-in-js'
 
   let scrollY = 0;
   let scrollSpeedCached = 0;
@@ -135,4 +136,5 @@
 
 <!-- Just for Sapper build purposes -->
 <a hidden href={workshopUrlOld}>Web Accessibility</a>
+<a hidden href={workshopA11YinJS}>Web Accessibility</a>
 </main>
