@@ -336,7 +336,7 @@
   <div class="text">
     <p class="p">
       In 2020 I joined
-      <a class="u-link" rel="noreferrer" target="_blank" href="https://remote.com/">Remote</a>, today I'm a Team Leader responsible for the technical foundations of our product.
+      <a class="u-link" rel="noreferrer" target="_blank" href="https://remote.com/">Remote</a>, where nowdays I'm a Staff Engineer helping building the foundations of the Platform.
       <!-- Previously, I spent a year helping to bring an open source idea to life -
       <axx class="u-link" rel="noreferrer" target="_blank" href="https://github.com/okTurtles/group-income-simple">Group Income</a>. -->
       Back in office times, I was a Senior Frontend Developer at
