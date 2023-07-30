@@ -5,7 +5,7 @@
   import NoScriptMsg from './NoScriptMsg.svelte';
   import { TIMEOUTS } from '../utils';
 
-  const intro = `Hi, it's Sandrina`;
+  const intro = `Selam, ben Ali Can Aslan`;
   let hasntScrollYet = true
 
   onMount(() => {
@@ -142,7 +142,7 @@
       {/each}
     </h1>
     <p class="text">
-      I'm a Staff Frontend Engineer <span class="u-nowrap">who helps</span> to turn ideas into accessible experiences.
+      Web & Grafik Tasarımcısı<span class="u-nowrap">Merhaba, ben Ali Can Aslan. Web ve grafik tasarımı konusunda uzmanlaşmış, Giresun merkezli bir tasarımcıyım.
     </p>
     <NoScriptMsg />
   </div>
