@@ -4,18 +4,19 @@ export default {
   lists: {
     '0': 'rocking at',
     '1': 'old friends',
-    '2': 'wanna learn',
+    '2': 'to solidify',
     '3': 'this site',
   },
+  // The ones commented are too old frinds
   tools: [
     {
       name: 'React',
       list: ['0'],
     },
-    {
-      name: 'Redux',
-      list: ['1'],
-    },
+    // {
+    //   name: 'Redux',
+    //   list: ['1'],
+    // },
 
     {
       name: 'Vue',
@@ -25,11 +26,10 @@ export default {
       name: 'Svelte',
       list: ['1', '3'],
     },
-
-    {
-      name: 'PostCSS',
-      list: ['1', '3'],
-    },
+    // {
+    //   name: 'PostCSS',
+    //   list: ['1', '3'],
+    // },
     {
       name: 'SCSS',
       list: ['1'],
@@ -56,14 +56,10 @@ export default {
       list: ['2'],
     },
 
-    {
-      name: 'Jest',
-      list: ['0'],
-    },
-    {
-      name: 'Enzyme',
-      list: ['1'],
-    },
+    // {
+    //   name: 'Jest',
+    //   list: ['0'],
+    // },
     {
       name: 'Cypress',
       list: ['1', '3'],
@@ -76,43 +72,52 @@ export default {
       name: 'Git',
       list: ['0'],
     },
-    {
-      name: 'Netlify',
-      list: ['3'],
-    },
+    // {
+    //   name: 'Netlify',
+    //   list: ['3'],
+    // },
 
-    {
-      name: 'Parcel',
-      list: ['3'],
-    },
+    // {
+    //   name: 'Parcel',
+    //   list: ['3'],
+    // },
     {
       name: `I'm on Github!`,
       list: ['3'],
       url: SITE_REPO,
     },
 
-    {
-      name: 'Webpack',
-      list: ['1'],
-    },
-    {
-      name: 'Gulp',
-      list: ['1'],
-    },
-    {
-      name: 'SEO',
-      list: ['0'],
-    },
-    {
-      name: 'Figma',
-      list: ['1', '3'],
-    },
+    // Too old LOL
+    // {
+    //   name: 'Webpack',
+    //   list: ['1'],
+    // },
+    // {
+    //   name: 'Gulp',
+    //   list: ['1'],
+    // },
+    // {
+    //   name: 'SEO',
+    //   list: ['0'],
+    // },
+    // {
+    //   name: 'Figma',
+    //   list: ['1', '3'],
+    // },
 
     // This one is tricky. This isn't a tool/skill.
     // It's a requirement... Uhh a new tweet for today!
+    {
+      name: 'Accessibility',
+      list: ['0', '3'],
+    },
     // {
-    //   name: 'Accessibility',
-    //   list: ['0', '3'],
+    //   name: 'Formik',
+    //   list: ['1'],
     // },
+    {
+      name: 'ReactQuery',
+      list: ['0'],
+    },
   ],
 };

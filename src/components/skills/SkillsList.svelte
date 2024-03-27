@@ -473,27 +473,31 @@
       @mixin coord Svelte, 4rem, 3rem;
 
       @mixin coord CSS-in-JS, 65rem, -1rem;
-      @mixin coord SCSS, 26rem, 17rem;
+      @mixin coord SCSS, 59rem, 18rem;
       @mixin coord PostCSS, 24rem, 3rem;
 
       @mixin coord React Native, 57rem, 5rem;
-      @mixin coord WebGL, 3rem, 22rem;
+      @mixin coord WebGL, 70rem, 14rem;
       @mixin coord ThreeJS, 68rem, 13rem;
-      @mixin coord TypeScript, 20rem, 10rem;
+      @mixin coord TypeScript, 20rem, 8rem;
 
-      @mixin coord Jest, 10rem, 12rem;
+      /* @mixin coord Jest, 10rem, 12rem; */
       @mixin coord Testing Library, -5rem, 7rem;
       @mixin coord Cypress, -1rem, 15rem;
-      @mixin coord Enzyme, 75rem, 2.5rem;
+      @mixin coord NodeJS, 8rem, 9rem;
 
       @mixin coord Git, 15rem, -1rem;
-      @mixin coord Netlify, 56rem, 18rem;
-      @mixin coord Parcel, 18rem, 22rem;
+      /* @mixin coord Netlify, 56rem, 18rem; */
+      /* @mixin coord Parcel, 18rem, 22rem; */
 
-      @mixin ignore Webpack;
-      @mixin ignore Gulp;
-      @mixin ignore SEO;
-      @mixin ignore Figma;
+      /* @mixin ignore Webpack; */
+      /* @mixin ignore Gulp; */
+      /* @mixin ignore SEO; */
+      /* @mixin ignore Figma; */
+
+      @mixin coord Accessibility, 11rem, 18.5rem;
+      @mixin coord Formik, 75rem, 2.5rem;
+      @mixin coord ReactQuery, 62rem, 10.5rem;
     }
   }
 
@@ -541,7 +545,7 @@
       <button
         class="tabBtn"
         class:isVisible={id !== '3' || hadClickInAll}
-        tabIndex={id !== '3' || hadClickInAll ? '0' : '-1' }
+        inert={id !== '3' || hadClickInAll ? undefined : ''}
         style="--colorType: {colorTypes[id]}"
         aria-expanded={lvlActive === id}
         on:click={() => updateSkill(id)}>
@@ -554,7 +558,7 @@
       <li class='skillsLvl u-carousel-item'
         data-level={skills.lists[lvlIndex]}
         style="--colorType: {colorTypes[lvlIndex]}"
-        aria-hidden={lvlIndex != lvlActive}
+        inert={lvlIndex == lvlActive ? undefined : ''}
       >
         <h3 class="f-title skillsTitle" id={`skill-${lvlIndex}`}>
           {skills.lists[lvlIndex]}
