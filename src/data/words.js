@@ -1,6 +1,20 @@
 export default [
   {
     isPromoted: true,
+    title: 'A Guide To Accessible Form Validation',
+    date: "Feb '23",
+    places: [
+      {
+        id: 'form_validations',
+        type: 'article',
+        where: 'Smashing Magazine',
+        svg: 'smash',
+        link: 'https://www.smashingmagazine.com/2023/02/guide-accessible-form-validation/',
+      },
+    ],
+  },
+  {
+    isPromoted: true,
     title: 'Making disabled buttons more inclusive',
     date: "May '21",
     places: [
@@ -105,7 +119,7 @@ export default [
     ],
   },
   {
-    isPromoted: true,
+    // isPromoted: true,
     title: 'Bringing a healthy code review mindset to your team',
     date: "Jun '19",
     places: [
