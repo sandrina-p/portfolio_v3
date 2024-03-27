@@ -225,7 +225,7 @@
   @define-mixin motionReduced { :global(.jsMotionReduced) & { @mixin-content; } }
 
   $itemW: 6rem;
-  $openDelay: 75ms;
+  $openDelay: 30ms;
   $introDelay: 250ms; /* IntroTip fadeout time * 2 */
 
   .nav {
@@ -281,22 +281,22 @@
       --timeBg: calc($openDelay*3);
       content: '';
       width: calc(100% + $spacer-S*5);
-      height: calc(100% + $spacer-M*5);
+      height: calc(100% + $spacer-M*6);
       display: block;
       position: absolute;
       background: var(--bg_1);
       border-bottom-left-radius: 3px;
-      top: calc($spacer-M * -4);
+      top: calc($spacer-M * -5);
       right: calc($spacer-M * -1);
       z-index: -1;
-      transform: translateY(-100%);
+      transform: translateY(-100%) skew(0, 0);
       transition: transform 200ms 200ms ease-out;
 
       @mixin motionReduced { transition: none !important; }
 
       .isOpen & {
         transition: transform 500ms cubic-bezier(0.0, 0.0, 0.2, 1);
-        transform: translateY(0);
+        transform: translateY(0) skew(0, 10deg);
       }
     }
   }
@@ -328,12 +328,16 @@
         }
       }
 
-      &[aria-current="true"] {
+      &[aria-current="location"] {
         --scale: 1;
         color: var(--primary_1);
       }
 
+        clip-path: polygon(0 0, 100% 0, 100% -2%, 0 -120%);
+
       .isOpen & {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+      
         &:hover,
         &:focus {
           outline: none;
@@ -354,7 +358,9 @@
     opacity: 0;
 
     @mixin motionDefault {
-      transition: opacity var(--time, 1000ms) var(--delay, $openDelay) cubic-bezier(0.0, 0.0, 0.2, 1);
+      transition: 
+      opacity var(--time, 400ms) var(--delay, $openDelay) cubic-bezier(0.0, 0.0, 0.2, 1),
+      clip-path var(--time, 400ms) var(--delay, $openDelay) cubic-bezier(0.0, 0.0, 0.2, 1);
     }
 
     .isOpen & {
@@ -371,8 +377,8 @@
     &:nth-child(5) { --delay: calc($openDelay*1); }
 
     .isOpen & {
-      --time: 1000ms;
-      &:nth-child(1) { --delay: calc($openDelay*1); }
+      --time: 400ms;
+      &:nth-child(1) { --delay: calc($openDelay*0); }
       &:nth-child(2) { --delay: calc($openDelay*2); }
       &:nth-child(3) { --delay: calc($openDelay*3); }
       &:nth-child(4) { --delay: calc($openDelay*4); }
@@ -383,11 +389,11 @@
   .line,
   :global(.btnToggle) {
     --time: 300ms;
-    --delay: calc($openDelay*1);
+    --delay: calc($openDelay*0.5);
 
     .isOpen & {
       --time: 1000ms;
-      --delay: calc($openDelay*6);
+      --delay: calc($openDelay*7);
     }
   }
 
@@ -501,7 +507,7 @@
 <nav class="nav" class:isReady={isCalculated} aria-label="Main">
   <span class="bubble" class:wasSelected={wasSelected}></span>
   <a class="u-btnMain asSm" href={workshopUrl} target="_self" on:click={() => trackClick('a11y')} >Join A11Y workshop</a>
-  <ToggleTheme klass='btnTheme' />
+  <ToggleTheme klass='btnTheme' /> 
   <div class="menu" class:isOpen={isMenuOpen}>
 
     <button class="burgerBtn" aria-expanded={isMenuOpen} aria-controls="nav" on:click={handleMenuBtnClick}>
@@ -522,7 +528,7 @@
             <a
               href="#{name}"
               class="linksAnchor"
-              aria-current={currentSection === name}
+              aria-current={currentSection === name ? 'location' : undefined}
               on:click={e => goToSection(e, name)}>
               {name}
             </a>
