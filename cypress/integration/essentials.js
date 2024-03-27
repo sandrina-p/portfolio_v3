@@ -137,21 +137,24 @@ describe('Essentials', () => {
         //there's a 99.9%% change all the rest is right because this is a loop.
         .eq(2)
         .within(() => {
-          cy.get('h3').should('contain', 'How front-end developers can empower designers’ work');
+          cy.get('h3').should(
+            'contain',
+            'Striking a Balance Between Native and Custom Select Elements'
+          );
 
-          cy.get('.date').should('contain', "Oct '19");
+          cy.get('.date').should('contain', "Jun '20");
 
           // Assert links
           cy.get('ul > li')
-            .should('have.length', 2)
-            .eq(1)
+            .should('have.length', 1)
+            .eq(0)
             .within(() => {
-              cy.get('.placeType').should('contain', 'zine');
-              cy.get('.placeIcon').should('have.class', 'dev');
+              cy.get('.placeType').should('contain', 'article');
+              cy.get('.placeIcon').should('have.class', 'css');
               cy.get('a')
-                .should('contain', 'Dev.to')
+                .should('contain', 'CSS-Tricks')
                 .and('have.attr', 'href')
-                .and('contain', '/dev.to/a_san');
+                .and('contain', 'css-tricks.com/stri');
             });
         });
     });
