@@ -5,7 +5,6 @@
   import ToggleThemePage from '../components/navigation/ToggleThemePage.svelte';
   import SvgSprite from '../components/SvgSprite.svelte';
   import Contacts from '../components/Contacts.svelte';
-  import { focusOnlyWhenNeeded } from '../utils';
   import Accordion from '../components/workshop/Accordion.svelte'
   import WorkshopForm from '../components/workshop/WorkshopForm.svelte';
   import SectionSkew from '../components/SectionSkew.svelte'
@@ -90,7 +89,6 @@
 
   onMount(async () => {
     initResponsive();
-    focusOnlyWhenNeeded();
   });
   
   function trackClick(action) {

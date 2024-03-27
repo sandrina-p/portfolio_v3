@@ -96,14 +96,12 @@
     * { box-sizing: inherit; }
   }
 
-  body.js-tabbing {
-    a:focus,
-    button:focus {
+    a:focus-visible,
+    button:focus-visible {
       border-radius: 3px;
       box-shadow: var(--bg_0) 0 0 0 2px, var(--primary_1_pair) 0 0 0 4px;
       outline: var(--focus_outline);
     }
-  }
 
   [tabindex="-1"]:focus {
     outline: none; /* it doesn't affect negatively Screen Readers */
@@ -195,7 +193,7 @@
         color: var(--linkClr);
       }
   
-      body.js-tabbing &:focus {
+      &:focus-visible {
         border-radius: 3px;
       }
     }
@@ -210,7 +208,7 @@
           }
       }
 
-      body.js-tabbing &:focus {
+      &:focus-visible {
         outline: var(--focus_outline) !important;
       }
 
@@ -249,7 +247,7 @@
     }
   
     .jsMotionDefault &:hover,
-    body.js-tabbing &:focus {
+    &:focus-visible {
       &::before {
         transition-duration: 350ms ease-in-out;
         transform: scale(1, 1);
@@ -257,7 +255,7 @@
       }
     }
 
-    body.js-tabbing &:focus {
+    &:focus-visible {
       outline: var(--focus_outline);
     }
 

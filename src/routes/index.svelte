@@ -13,7 +13,7 @@
   import Footer from '../components/Footer.svelte';
   
   import { SITE_URL } from '../data/misc';
-  import { getInLimit, setRIC, focusOnlyWhenNeeded } from '../utils';
+  import { getInLimit, setRIC } from '../utils';
   import { matchMq, initResponsive, afterResponsiveUpdate } from '../stores/responsive.js';
   import { strGeneral, updateGeneral, afterGeneralUpdate } from '../stores/general.js';
 
@@ -34,7 +34,6 @@
     setRIC();
     initResponsive();
     smoothscroll.polyfill();
-    focusOnlyWhenNeeded();
 
     if ($matchMq.lg) {
       await loadValuesHorizon();

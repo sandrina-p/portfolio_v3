@@ -112,26 +112,3 @@ export function setRIC() {
       clearTimeout(id);
     };
 }
-
-// Handle styling related to focus based on type of navigation (mouse vs keyboard)
-// Ref: https://medium.com/hackernoon/removing-that-ugly-focus-ring-and-keeping-it-too-6c8727fefcd2
-// TODO: Refactor to use focus-visible
-export function focusOnlyWhenNeeded() {
-  function handleTabOnce(e) {
-    if (e.keyCode === 9) {
-      document.body.classList.add('js-tabbing');
-
-      window.removeEventListener('keydown', handleTabOnce);
-      window.addEventListener('mousedown', handleMouseDownOnce);
-    }
-  }
-
-  function handleMouseDownOnce() {
-    document.body.classList.remove('js-tabbing');
-
-    window.removeEventListener('mousedown', handleMouseDownOnce);
-    window.addEventListener('keydown', handleTabOnce);
-  }
-
-  window.addEventListener('keydown', handleTabOnce);
-}
