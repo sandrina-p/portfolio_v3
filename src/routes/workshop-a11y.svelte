@@ -84,7 +84,7 @@
   // ]
 
   const price = '349€' // early bird: 199€w 
-  const eventDate = 'Late 2022'
+  const eventDate = 'Later 2024'
   const eventHour = `<time>15:30</time> to <time>18:00</time>`
   const eventTZ = 'UTC'
 
@@ -1341,7 +1341,7 @@
 
         <li>
           <Accordion summary="Is there any discounts available?">
-            The workshop will have an Early Bird price until 3 January 2022.
+            The workshop will have an Early Bird price in the first week.
             After that, I don't plan to do more discounts.
             Regardless, I understand that the cost of this workshop can be too high for some people.
             If you are a student you can reach out to me.
@@ -1415,7 +1415,7 @@
   <div class="footerArea">
     <div>
       <p>Made without coffee by <span class="u-nowrap"><a class="u-link" href={ SITE_URL } rel="noreferrer" on:click={() => trackClick('footer_me')}>Sandrina Pereira</a>.</span></p>
-      <p class="t-credits">© 2021. All Rights Reserved.</p>
+      <p class="t-credits">© 2024. All Rights Reserved.</p>
     </div>
     <Contacts isWorkshop essentialOnly />
   </div>
