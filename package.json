@@ -6,7 +6,7 @@
   "repository": "https://github.com/sandrina-p/portfolio_v3",
   "license": "MIT",
   "scripts": {
-    "dev": "sapper dev",
+    "dev": "sapper dev --port 3111",
     "build": "sapper build --legacy",
     "export": "sapper export --legacy",
     "start": "node __sapper__/build",
