@@ -9,5 +9,5 @@ publish = "__sapper__/export"
   #TERM variable for terminal output
   TERM = "xterm"
 
-[[plugins]]
-  package = "netlify-plugin-cypress"
+# [[plugins]]
+#  package = "netlify-plugin-cypress"
