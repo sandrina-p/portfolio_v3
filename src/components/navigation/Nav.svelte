@@ -351,20 +351,14 @@
   .linksAnchor,
   .line,
   :global(.btnToggle) {
-    visibility: hidden;
-    pointer-events: none;
     opacity: 0;
 
     @mixin motionDefault {
-      transition: opacity var(--time, 1000ms) var(--delay, $openDelay) cubic-bezier(0.0, 0.0, 0.2, 1),
-        visibility 1ms var(--delayVis, 500ms);
+      transition: opacity var(--time, 1000ms) var(--delay, $openDelay) cubic-bezier(0.0, 0.0, 0.2, 1);
     }
 
     .isOpen & {
       opacity: 1;
-      pointer-events: auto;
-      visibility: visible;
-      --delayVis: 0ms;
     }
   }
 
@@ -413,14 +407,14 @@
       color: var(--text_1);
       cursor: pointer;
 
-      &[aria-pressed="true"],
+      &[aria-expanded="true"],
       &:focus,
       &:hover {
         outline: none;
         color: var(--primary_1);
       }
 
-      &[aria-pressed="true"] {
+      &[aria-expanded="true"] {
         .burgerSvgTop {
           transform: rotate(-45deg) translate(0.1rem, 0.8rem);
         }
@@ -504,14 +498,14 @@
   }
 </style>
 
-<nav class="nav" class:isReady={isCalculated}>
+<nav class="nav" class:isReady={isCalculated} aria-label="Main">
   <span class="bubble" class:wasSelected={wasSelected}></span>
   <a class="u-btnMain asSm" href={workshopUrl} target="_self" on:click={() => trackClick('a11y')} >Join A11Y workshop</a>
   <ToggleTheme klass='btnTheme' />
   <div class="menu" class:isOpen={isMenuOpen}>
 
-    <button class="burgerBtn" aria-pressed={isMenuOpen} on:click={handleMenuBtnClick}>
-      <span class="sr-only">Navigation</span>
+    <button class="burgerBtn" aria-expanded={isMenuOpen} aria-controls="nav" on:click={handleMenuBtnClick}>
+      <span class="sr-only">Toggle navigation</span>
       <svg class="burgerSvg u-svg" style="display: none;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 16">
         <rect x="0" y="0" width="20" height="2" rx="1" class="burgerSvgTop" />
         <rect x="5" y="7" width="15" height="2" rx="1" class="burgerSvgMid" />
@@ -519,7 +513,7 @@
       </svg>
     </button>
 
-    <div class="drawer">
+    <div class="drawer" inert={isMenuOpen ? undefined : ''} id="mainNav">
       <ul class="links">
         {#each pageSections as name}
           <li
