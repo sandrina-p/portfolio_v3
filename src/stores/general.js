@@ -1,7 +1,7 @@
 import { createStore } from './storeFactory.js';
 
 const [strGeneral, updateGeneral, afterGeneralUpdate] = createStore({
-  pageSections: ['intro', 'words', 'skills', 'journey', 'contact'],
+  pageSections: ['intro', 'words', 'journey', 'contact'],
   pageSectionsId: { intro: 0, words: 1, skills: 2, journey: 3, contact: 4 },
   pageCurrentSection: 'intro',
 

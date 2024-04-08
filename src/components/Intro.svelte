@@ -25,7 +25,7 @@
 
   .intro {
     padding: calc($layout-margin*3) $layout-margin 0;
-    min-height: 100vh;
+    min-height: 90vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -44,7 +44,7 @@
     margin-bottom: $spacer-M;
 
     @media(--max-xs) {
-      font-size: calc($font-heading_2 * 0.7);
+      font-size: calc($font-heading_2 * 0.6);
     }
 
     @media(--lg) {
@@ -74,6 +74,7 @@
     }
 
     &-char {
+     /*  animation-delay: -99s !important; /* reduced forced; */
       @mixin motionReduced {
         animation-delay: -99s !important;
       }
@@ -85,6 +86,7 @@
     max-width: 31rem;
     opacity: 0;
     animation: laserOn 750ms calc($titleTempo + 50ms * $titleChars) steps(8) forwards;
+     /* animation-delay: -9s; /* reduced forced. */
 
     @mixin motionReduced { animation-delay: -9s; }
   }
@@ -94,7 +96,7 @@
     position: relative;
     opacity: 0;
     animation: fadeIn 1000ms calc($titleTempo + 50ms * ($titleChars+15)) forwards;
-    
+    /*  animation-delay: -9s; reduced forced. */
     @mixin motionReduced { animation-delay: -9s; }
   }
 
@@ -111,7 +113,7 @@
     }
 
     .content {
-      width: calc(50vw - $layout-margin);
+      width: calc(60vw - $layout-margin);
       margin-bottom: 15vh;
       flex-grow: 0;
     }
@@ -142,10 +144,10 @@
       {/each}
     </h1>
     <p class="text">
-      I'm a Staff Frontend Engineer <span class="u-nowrap">who helps</span> to turn ideas into accessible experiences.
+      I like animations.
     </p>
     <NoScriptMsg />
-  </div>
+  </div> 
   <div class="animation">
     <CircleComposition />
   </div>

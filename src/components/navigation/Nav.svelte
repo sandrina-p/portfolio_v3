@@ -1,4 +1,5 @@
 <script>
+  import { onMount } from 'svelte';
   import { createEventDispatcher } from 'svelte';
   import debounce from 'lodash/debounce';
   import { _window, matchMq, afterResponsiveUpdate } from '../../stores/responsive.js';
@@ -51,6 +52,17 @@
       }
     }
   });
+
+  onMount(() => {
+    document.addEventListener("keydown", (event) => {
+      if (event.keyCode === 81) { // Q -> coffee
+        document.getElementsByClassName('burgerBtn')[0].focus()
+      }
+      if (event.keyCode === 87) { // W -> button
+        document.getElementsByClassName('jCoffee')[0].focus()
+      }
+    });
+  })
 
   afterMotionUpdate((prevState, state) => {
     if($strGeneral.isReady && (prevState.isReduced !== state.isReduced)) {
@@ -226,7 +238,7 @@
 
   $itemW: 6rem;
   $openDelay: 30ms;
-  $introDelay: 250ms; /* IntroTip fadeout time * 2 */
+  $introDelay: 1ms; /* IntroTip fadeout time * 2 */
 
   .nav {
     position: fixed;
@@ -238,6 +250,11 @@
  
     opacity: 0;
     pointer-events: none;
+
+    /* why: clcking at the top of the page, makes next Tab to be the button */
+    width: 100vw;
+    display: flex;
+    justify-content: flex-end;
 
     &.isReady {
       opacity: 1;
@@ -306,7 +323,7 @@
       position: relative;
       display: inline-block;
       color: inherit;
-      padding: calc($spacer-S + $spacer-XS) $spacer-S;
+      padding: $spacer-S $spacer-S;
       text-decoration: none;
       font-size: $font-L;
       font-weight: 500;
@@ -333,10 +350,11 @@
         color: var(--primary_1);
       }
 
-        clip-path: polygon(0 0, 100% 0, 100% -2%, 0 -120%);
+      /* 5px and 105% is to be an offset so that the focus ring is visible */
+      clip-path: polygon(-5px -5px, 110% -5px, 110% -2%, -5px -130%);
 
       .isOpen & {
-        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        clip-path: polygon(-5px -5px, 110% -5px, 110% 110%, -5px 110%);
       
         &:hover,
         &:focus {
@@ -363,26 +381,35 @@
       clip-path var(--time, 400ms) var(--delay, $openDelay) cubic-bezier(0.0, 0.0, 0.2, 1);
     }
 
+    @mixin motionReduced {
+      transition: 
+      opacity var(--time, 400ms) var(--delay, $openDelay) cubic-bezier(0.0, 0.0, 0.2, 1);
+    }
+
     .isOpen & {
       opacity: 1;
     }
   }
 
   .linksItem {
-    --time: 300ms;
-    &:nth-child(1) { --delay: calc($openDelay*3); }
-    &:nth-child(2) { --delay: calc($openDelay*2.5); }
-    &:nth-child(3) { --delay: calc($openDelay*2); }
-    &:nth-child(4) { --delay: calc($openDelay*1.5); }
-    &:nth-child(5) { --delay: calc($openDelay*1); }
+      --time: 300ms;
+      &:nth-child(1) { --delay: calc($openDelay*3); }
+      &:nth-child(2) { --delay: calc($openDelay*2.5); }
+      &:nth-child(3) { --delay: calc($openDelay*2); }
+      &:nth-child(4) { --delay: calc($openDelay*1.5); }
+      &:nth-child(5) { --delay: calc($openDelay*1); }
 
-    .isOpen & {
-      --time: 400ms;
-      &:nth-child(1) { --delay: calc($openDelay*0); }
-      &:nth-child(2) { --delay: calc($openDelay*2); }
-      &:nth-child(3) { --delay: calc($openDelay*3); }
-      &:nth-child(4) { --delay: calc($openDelay*4); }
-      &:nth-child(5) { --delay: calc($openDelay*5); }
+      .isOpen & {
+        --time: 400ms;
+        &:nth-child(1) { --delay: calc($openDelay*0); }
+        &:nth-child(2) { --delay: calc($openDelay*2); }
+        &:nth-child(3) { --delay: calc($openDelay*3); }
+        &:nth-child(4) { --delay: calc($openDelay*4); }
+        &:nth-child(5) { --delay: calc($openDelay*5); }
+      }
+    
+    @mixin motionReduced {
+      --delay: $openDelay !important;
     }
   }
 
@@ -394,6 +421,10 @@
     .isOpen & {
       --time: 1000ms;
       --delay: calc($openDelay*7);
+    }
+
+    @mixin motionReduced {
+      --delay: $openDelay !important;
     }
   }
 
@@ -506,8 +537,8 @@
 
 <nav class="nav" class:isReady={isCalculated} aria-label="Main">
   <span class="bubble" class:wasSelected={wasSelected}></span>
-  <a class="u-btnMain asSm" href={workshopUrl} target="_self" on:click={() => trackClick('a11y')} >Join A11Y workshop</a>
-  <ToggleTheme klass='btnTheme' /> 
+  <!-- <a class="u-btnMain asSm" href={workshopUrl} target="_self" on:click={() => trackClick('a11y')} >Join A11Y workshop</a>
+ <ToggleTheme klass='btnTheme' />  -->
   <div class="menu" class:isOpen={isMenuOpen}>
 
     <button class="burgerBtn" aria-expanded={isMenuOpen} aria-controls="nav" on:click={handleMenuBtnClick}>
@@ -519,7 +550,7 @@
       </svg>
     </button>
 
-    <div class="drawer" inert={isMenuOpen ? undefined : ''} id="mainNav">
+    <div class="drawer" id="mainNav">
       <ul class="links">
         {#each pageSections as name}
           <li
@@ -542,4 +573,6 @@
       </div>
     </div>
   </div>
+
+  <p style="position: absolute; right: 16px; top: calc(100vh - 100%); min-width: max-content;">Made <a class="u-link jCoffee" href="#">without coffee.</a> ♥</p>
 </nav>

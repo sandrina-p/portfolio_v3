@@ -570,7 +570,7 @@
   }
 </style>
 
-<footer
+<footer inert
   class="footer"
   class:isOnStage
   class:isVisible

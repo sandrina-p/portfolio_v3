@@ -13,7 +13,7 @@
   }
 
   .container {
-    --size: 17rem;
+    --size: 13rem;
     --speed: 4.5s;
     --delay: 200ms;
     --delay-1stframe: 500ms;
@@ -55,6 +55,8 @@
       .circle:nth-child(6) {
         visibility: hidden; /* Save memory */
       }
+
+      margin-left: -80px;
     }
 
     @media (--lg) {

@@ -81,7 +81,7 @@ export function scrollIntoView(
 // All of them have an explanation:
 export const TIMEOUTS = {
   // approximately the time of CSS intro animations.
-  INTRO_ANIMATED: 2000,
+  INTRO_ANIMATED: 0,
   // Nav animation on click has an animation. Wait when it's
   // "fullscreen" animated (~middle), to hide the manual scroll behind.
   NAV_ANIMATING: 700,

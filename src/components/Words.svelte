@@ -199,6 +199,7 @@
 </style>
 
 <section class="wrapperW"
+  inert
   class:isOnStage
   id="words" tabindex="-1"
   data-section-offset-v="40"

@@ -313,7 +313,7 @@
   }
 </style>
 
-<section class="wrapperJn"
+<section class="wrapperJn" inert
   class:isActive
   class:uAppear={isSkillsVisible}
   style="--progress: {progress}"

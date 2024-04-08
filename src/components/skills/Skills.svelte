@@ -253,6 +253,7 @@
 </style>
 
 <section
+  inert
   class="wrapperSk"
   class:uAppear={isVisible}
   class:uAppearSoon={!isVisible}

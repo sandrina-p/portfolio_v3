@@ -9,6 +9,7 @@
     }
   })
 
+
   export let hasScrolled;
 </script>
 
@@ -126,11 +127,11 @@
 <span class="tip" aria-hidden="true"
   class:isHidden={hasScrolled || ($strGeneral.isReady && !$matchMq.lg)}>
   <span class="tipText">
-    <span class="tipTextStatus asLoading" class:isActive={!$strGeneral.isReady}>
+    <!-- <span class="tipTextStatus asLoading" class:isActive={!$strGeneral.isReady}>
       Loading...
-    </span>
-    <span class="tipTextStatus" class:isActive={$strGeneral.isReady}>
+    </span> -->
+    <!-- <span class="tipTextStatus" class:isActive={$strGeneral.isReady}>
       Start scrolling
-    </span>
+    </span> -->
   </span>
 </span>

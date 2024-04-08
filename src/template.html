@@ -49,7 +49,7 @@
     var isOld = !window.fetch || !window.matchMedia;
     /*[1]*/
     var theme = 'light';
-    var themeStored = window.localStorage.getItem('theme')
+    var themeStored = 'light' // window.localStorage.getItem('theme')
 
     if (themeStored) {
       theme = themeStored
@@ -69,8 +69,8 @@
       isOld ||
         window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
         window.matchMedia('(min-width: 48em) and (max-width: 64em)').matches
-        ? 'jsMotionReduced'
-        : 'jsMotionDefault';
+        ? 'jsMotionDefault'
+        : 'jsMotionDefault'; // jsMotionReduced
     document.body.classList.add(motionClass, 'jsMotionInitial');
     /*[3] - contrast - Note July 2021: Not supported in any browser yet */
     var contractClass = isOld || !window.matchMedia('(prefers-contrast: more)').matches

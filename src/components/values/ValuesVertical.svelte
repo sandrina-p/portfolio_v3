@@ -281,7 +281,7 @@
 </style>
 
 <!-- OPTIMIZE - Markup is very similar to ValuesHorizontal. Maybe merge both? -->
-<section
+<section inert
   class="container"
   class:isOnStage
   style={styleContainer}
