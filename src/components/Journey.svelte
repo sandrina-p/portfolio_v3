@@ -352,7 +352,6 @@
       Giving back to the community has been a joy. I started by pushing pixels around on 
       <a class="u-link" rel="noreferrer" target="_blank" href={CODEPEN_URL} on:click={() => trackClick('codepen')}>Codepen</a>
       just for fun.
-      <!-- <a class="u-link" rel="noreferrer" target="_blank" href={TWITTER_URL} on:click={() => trackClick('twitter')}>Twitter</a>. -->
     </p>
     <p class="p">
       Occasionally I 

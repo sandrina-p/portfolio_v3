@@ -8,7 +8,7 @@
   import Accordion from '../components/workshop/Accordion.svelte'
   import WorkshopForm from '../components/workshop/WorkshopForm.svelte';
   import SectionSkew from '../components/SectionSkew.svelte'
-  import { MENTOR_URL, TWITTER_URL, SITE_URL, EMAIL_URL_WORKSHOP } from '../data/misc.js';
+  import { MENTOR_URL, BSKY_URL, SITE_URL, EMAIL_URL_WORKSHOP } from '../data/misc.js';
   import { initResponsive } from '../stores/responsive.js';
 
   const ticketUrl = 'https://ti.to/sandrina-p/a11y-workshop-2022-02'
@@ -830,7 +830,7 @@
     <span class="t-heroKicker">Online Workshop</span>
     <div class="t-heroAbout">
       <p class="t-heroCreator">with <img src="/sandrinap.jpg" alt="" class="t-heroCreatorPic" />
-        <a class="u-link t-heroCreatorName" rel="noreferrer" href={TWITTER_URL} on:click={() => trackClick('creator')}>
+        <a class="u-link t-heroCreatorName" rel="noreferrer" href={BSKY_URL} on:click={() => trackClick('creator')}>
           Sandrina Pereira
         </a>
       </p>

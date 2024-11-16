@@ -11,7 +11,6 @@ export default [
     short: 'The first prototype of the animation to my website intro (the motions of circles).',
     category: 'CSS',
     id: 'id_circlemotion',
-    // https://twitter.com/a_sandrina_p/status/1218157444439912448?s=20},
     link: 'https://codepen.io/sandrina-p/pen/wvvrPYM',
   },
   {

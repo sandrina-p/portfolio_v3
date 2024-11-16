@@ -4,6 +4,7 @@ export const EMAIL_URL_WORKSHOP =
   'mailto:a.sandrina.p+w@gmail.com?subject=Hi%20there!&body=So,%20I%20just%20saw%20your%20workshop%20and...';
 export const GITHUB_URL = 'http://github.com/sandrina-p';
 export const CODEPEN_URL = 'https://codepen.io/sandrina-p';
+export const BSKY_URL = 'https://bsky.app/profile/sandrinap.dev';
 export const TWITTER_URL = 'https://twitter.com/a_sandrina_p';
 export const SITE_REPO = 'https://github.com/sandrina-p/portfolio_v3';
 export const SITE_URL = 'https://sandrina-p.net';

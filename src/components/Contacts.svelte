@@ -7,6 +7,10 @@
 
   const contacts = [
     {
+      name: 'blue sky',
+      link: 'https://bsky.app/profile/sandrinap.dev',
+    },
+    {
       name: 'twitter',
       link: 'http://twitter.com/a_sandrina_p',
     },

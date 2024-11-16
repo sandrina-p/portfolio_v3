@@ -3,7 +3,7 @@
   import ToggleTheme from '../components/navigation/ToggleTheme.svelte';
   import Nav from '../components/navigation/Nav.svelte';
   import Contacts from '../components/Contacts.svelte';
-  import { TWITTER_URL, SITE_URL } from '../data/misc.js';
+  import { BSKY_URL, SITE_URL } from '../data/misc.js';
   import WorkshopForm from '../components/workshop/WorkshopForm.svelte';
 
   const endpointTesting = 'https://app.convertkit.com/forms/2045201/subscriptions'
