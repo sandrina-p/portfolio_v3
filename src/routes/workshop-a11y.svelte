@@ -829,7 +829,7 @@
     <p class="t-heroMantra">The web is awesome and everyone should be able to enjoy it.</p>
     <span class="t-heroKicker">Online Workshop</span>
     <div class="t-heroAbout">
-      <p class="t-heroCreator">with <img src="/sandrinap.jpg" alt="" class="t-heroCreatorPic" />
+      <p class="t-heroCreator">with <img src="/sandrina64.jpg" alt="" class="t-heroCreatorPic" />
         <a class="u-link t-heroCreatorName" rel="noreferrer" href={BSKY_URL} on:click={() => trackClick('creator')}>
           Sandrina Pereira
         </a>
@@ -1075,7 +1075,7 @@
           I'm Sandrina
         </span>
 
-        <img src="/sandrinap960.jpg" alt="" class="t-me960" />
+        <img src="/sandrina960.jpg" alt="" class="t-me960" />
 
         <p class="t-p">
           I’m a Staff Frontend Engineer helping turn ideas into <span class="u-nowrap">accessible experiences.</span>

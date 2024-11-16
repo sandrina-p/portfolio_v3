@@ -106,7 +106,7 @@
   site={ SITE_URL }
   title='Sandrina Pereira - Staff Frontend Engineer'
   description={`I'm a Staff Frontend Engineer helping turn ideas into accessible experiences.`}
-  coverUrl={`${SITE_URL}/cover_light-4.png`}
+  coverUrl={`${SITE_URL}/cover_light_2024.png`}
 />
 <svelte:head>
   <script type="application/ld+json">
