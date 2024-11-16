@@ -42,7 +42,7 @@ describe('Essentials', () => {
       cy.get('h1').should('contain', "Hi, it's Sandrina");
       cy.get('p').should(
         'contain',
-        "I'm a Staff Frontend Engineer who helps to turn ideas into accessible experiences."
+        "I'm a Staff Frontend Engineer helping turn ideas into accessible experiences."
       );
     });
 
@@ -240,7 +240,7 @@ describe('Essentials', () => {
 
         cy.get('a').should('have.length', 5);
 
-        assertLink(cy.get('a').eq(0), 'twitter', 'twitter.com');
+        assertLink(cy.get('a').eq(0), 'Blue Sky', 'bsky.app');
         assertLink(cy.get('a').eq(1), 'e-mail', 'mailto:');
         assertLink(cy.get('a').eq(2), 'codepen', 'codepen.io');
         assertLink(cy.get('a').eq(3), 'dev.to', 'dev.to');

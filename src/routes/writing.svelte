@@ -9,7 +9,7 @@
   import Footer from '../components/Footer.svelte';
 
   import { initResponsive } from '../stores/responsive.js';
-  import { TWITTER_URL, SITE_URL, SMASHING_URL, CSSTRICKS_URL } from '../data/misc.js';
+  import { SITE_URL, SMASHING_URL, CSSTRICKS_URL } from '../data/misc.js';
   import words from '../data/words.js';
   import snippets from '../data/snippets.js';
 

@@ -79,7 +79,9 @@
     document.body.classList.add(contractClass);
     // To be tracked later on mount to ensure splitbee is defined
     var splitbee_track_default = theme + '_' + motionClass;
-    // splitbee.track('settings_default', theme + '_' + motionClass);
+    if (process.env.NODE_ENV === 'production') {
+      splitbee.track('settings_default', theme + '_' + motionClass);
+    }
     /*[4]*/ (function currBrowser() {
       var bs = {
         jsChrome: /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor),
@@ -106,7 +108,9 @@
         'Wow, your browser seems ancient and this website might not work as expected.' +
         '<br/>' +
         'Fear not, you can still reach me by <a href="mailto:a.sandrina.p+w@gmail.com" class="u-link">e-mail</a>!';
-      // splitbee.track('settings_browser_old!');
+      if (process.env.NODE_ENV === 'production') {
+        splitbee.track('settings_browser_old!');
+      }
     }
   </script>
 
@@ -145,7 +149,7 @@
   <script>
     console.log('%c👋 Oh, hi there, web lover!', 'color:#8e66dc; font-size: 1.5em;');
     console.log(
-      '%c✨ Like what you see? We could work together! \n🐛 Found a bug? Please, let me know by e-mail, twitter, github issue... \n🛠 Btw, this is open-source: https://github.com/sandrina-p/portfolio_v3. \n\nLet the debug begin!',
+      '%c✨ Like what you see? We could work together! \n🐛 Found a bug? Please, let me know by e-mail, github, etc... \n🛠 Btw, this is open-source: https://github.com/sandrina-p/portfolio_v3. \n\nLet the debug begin!',
       'font-size: 1.2em; line-height: 1.5'
     );
   </script>
