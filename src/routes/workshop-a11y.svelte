@@ -1078,7 +1078,7 @@
         <img src="/sandrinap960.jpg" alt="" class="t-me960" />
 
         <p class="t-p">
-          I’m a UX Frontend Engineer who helps turn ideas into <span class="u-nowrap">accessible experiences.</span>
+          I’m a Staff Frontend Engineer helping turn ideas into <span class="u-nowrap">accessible experiences.</span>
         </p>
         
         <p class="t-p">

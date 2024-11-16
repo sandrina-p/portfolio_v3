@@ -142,7 +142,7 @@
       {/each}
     </h1>
     <p class="text">
-      I'm a Staff Frontend Engineer <span class="u-nowrap">who helps</span> to turn ideas into accessible experiences.
+      I'm a Staff Frontend Engineer <span class="u-nowrap">helping</span> turn ideas into accessible experiences.
     </p>
     <NoScriptMsg />
   </div>
