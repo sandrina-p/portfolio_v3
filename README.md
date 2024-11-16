@@ -4,7 +4,7 @@ I'm a Staff Frontend Engineer helping turn ideas into accessible experiences.
 
 ---
 
-This is the source code of my personal website built back in 2020. It was a fun ride that took me around 5 months on and off during my free time. During the journey I took notes of some of my major technical [Learnings](LEARNINGS.md).
+This is the source code of my personal website. It was a fun ride that took me around 5 months on and off during my free time. During the journey I took notes of some of my major technical [Learnings](LEARNINGS.md).
 
 Some funny facts about it:
 
@@ -16,7 +16,7 @@ Some funny facts about it:
 
 ### Pre-requisites
 
-I built this in 2020 and I haven't updated any dependency since then. Last time I ran the project successfully in Nov 2024, I had to:
+I built this in 2019 and I haven't updated any dependency since then. Last time I ran the project successfully in Nov 2024, I had to:
 - Use Node v18.20.5 (use `nvm` or `asdf` to install it)
 - If you have MacOS M1/M2/M3, you'll need to solve [chromium binary issues](https://stackoverflow.com/a/66044814).
 

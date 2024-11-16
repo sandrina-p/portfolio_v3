@@ -13,6 +13,7 @@ import config from 'sapper/config/rollup.js';
 import pkg from './package.json';
 
 const mode = process.env.NODE_ENV;
+const ENVIRONMENT = process.env.ENVIRONMENT;
 const dev = mode === 'development';
 const legacy = !!process.env.SAPPER_LEGACY_BUILD;
 
@@ -26,7 +27,10 @@ const preprocess = sveltePreprocess({
   preserve: ['ld+json'], // for schema on <head>
 });
 
-// const ga_id = { __GA_ID__: dev ? false : 'UA-70069700-4' };
+const envVars = {
+  'process.env.NODE_ENV': JSON.stringify(mode),
+  'process.env.ENVIRONMENT': JSON.stringify(ENVIRONMENT),
+};
 
 export default {
   client: {
@@ -35,9 +39,8 @@ export default {
     plugins: [
       replace({
         preventAssignment: true,
-        // ...ga_id,
         'process.browser': true,
-        'process.env.NODE_ENV': JSON.stringify(mode),
+        ...envVars,
       }),
       svelte({
         compilerOptions: {
@@ -101,10 +104,9 @@ export default {
     output: config.server.output(),
     plugins: [
       replace({
-        // ...ga_id,
         preventAssignment: true,
         'process.browser': false,
-        'process.env.NODE_ENV': JSON.stringify(mode),
+        ...envVars,
       }),
       svelte({
         compilerOptions: {
@@ -139,8 +141,8 @@ export default {
         preventAssignment: true,
         values: {
           'process.browser': true,
-          'process.env.NODE_ENV': JSON.stringify(mode),
-        }
+          envVars,
+        },
       }),
       commonjs(),
       !dev && terser(),

@@ -79,7 +79,7 @@
     document.body.classList.add(contractClass);
     // To be tracked later on mount to ensure splitbee is defined
     var splitbee_track_default = theme + '_' + motionClass;
-    if (process.env.NODE_ENV === 'production') {
+    if (process.env.ENVIRONMENT === 'production') {
       splitbee.track('settings_default', theme + '_' + motionClass);
     }
     /*[4]*/ (function currBrowser() {
@@ -108,7 +108,7 @@
         'Wow, your browser seems ancient and this website might not work as expected.' +
         '<br/>' +
         'Fear not, you can still reach me by <a href="mailto:a.sandrina.p+w@gmail.com" class="u-link">e-mail</a>!';
-      if (process.env.NODE_ENV === 'production') {
+      if (process.env.ENVIRONMENT === 'production') {
         splitbee.track('settings_browser_old!');
       }
     }
