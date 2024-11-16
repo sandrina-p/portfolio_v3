@@ -15,12 +15,12 @@ Some funny facts about it:
 ## Run it locally
 
 ### Pre-requisites
-I built this in 2020 and I haven't updated any dependency since then.
 
-Last time I ran the project successfully in Nov 2024. I had to:
-- Use Node v18.20.5 (use nvm or asdf)
+I built this in 2020 and I haven't updated any dependency since then. Last time I ran the project successfully in Nov 2024, I had to:
+- Use Node v18.20.5 (use `nvm` or `asdf` to install it)
 - If you have MacOS M1/M2/M3, you'll need to solve [chromium binary issues](https://stackoverflow.com/a/66044814).
 
+Then you are ready to:
 
 ```bash
 # Install dependencies
